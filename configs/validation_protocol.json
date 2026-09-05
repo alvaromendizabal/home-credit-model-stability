@@ -1,0 +1,109 @@
+{
+  "data_lock": {
+    "audit_git_commit": "0dd3e3c51465f002f70bfb216c3dd853050f6d9b",
+    "manifest_sha256": "e1e1786b263537e75a906ec835395ae35acbf7abd8e4ad601b3c78c5320a5b33",
+    "manifest_uri": "s3://sagemaker-us-west-2-560403859723/home-credit-model-stability/manifests/kaggle-to-s3-20260905T003805Z.jsonl",
+    "test_base_sha256": "2309d8803ff24d1d5e9f0a13887d9e64a237fcac2be303bc58f823226c3b462e",
+    "train_base_sha256": "29d94662545eece908f20e44e6592336c9c40916dcfdad7735de92b8e9edf908"
+  },
+  "inner_temporal_cv": {
+    "case_id_column": "case_id",
+    "folds": [
+      {
+        "fold": 1,
+        "train_week_max": 32,
+        "train_week_min": 0,
+        "validation_week_max": 40,
+        "validation_week_min": 33
+      },
+      {
+        "fold": 2,
+        "train_week_max": 40,
+        "train_week_min": 0,
+        "validation_week_max": 48,
+        "validation_week_min": 41
+      },
+      {
+        "fold": 3,
+        "train_week_max": 48,
+        "train_week_min": 0,
+        "validation_week_max": 56,
+        "validation_week_min": 49
+      },
+      {
+        "fold": 4,
+        "train_week_max": 56,
+        "train_week_min": 0,
+        "validation_week_max": 64,
+        "validation_week_min": 57
+      },
+      {
+        "fold": 5,
+        "train_week_max": 64,
+        "train_week_min": 0,
+        "validation_week_max": 72,
+        "validation_week_min": 65
+      }
+    ],
+    "group_column": "WEEK_NUM",
+    "n_splits": 5,
+    "shuffle": false,
+    "strategy": "expanding_window",
+    "target_column": "target",
+    "validation_window_weeks": 8
+  },
+  "metric": {
+    "name": "home_credit_stability",
+    "require_both_classes_per_week": true,
+    "residual_penalty": 0.5,
+    "slope_penalty": 88.0,
+    "weekly_statistic": "normalized_gini"
+  },
+  "name": "home_credit_temporal_validation",
+  "observed_temporal_structure": {
+    "case_id_overlap": 0,
+    "test_week_max": 100,
+    "test_week_min": 100,
+    "train_positive_rate": 0.03143727577671242,
+    "train_rows": 1526659,
+    "train_week_max": 91,
+    "train_week_min": 0,
+    "train_weeks": 92
+  },
+  "outer_holdout": {
+    "candidate": "tail_20pct_weeks",
+    "development_positive_rate": 0.03290602230460798,
+    "development_rows": 1323314,
+    "development_week_max": 72,
+    "development_week_min": 0,
+    "development_weeks": 73,
+    "locked": true,
+    "metric_eligible_weeks": 19,
+    "min_negatives_per_week": 5046,
+    "min_positives_per_week": 112,
+    "strategy": "contiguous_trailing_weeks",
+    "target_rate_shift": -0.011026949792375073,
+    "validation_positive_rate": 0.021879072512232905,
+    "validation_row_fraction": 0.1331960837357917,
+    "validation_rows": 203345,
+    "validation_week_max": 91,
+    "validation_week_min": 73,
+    "validation_weeks": 19
+  },
+  "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+  "rationale": "The 20% trailing-week candidate provides 19 fully metric-eligible future weeks while retaining 73 weeks for development. Five deterministic expanding-window folds cover the final 40 development weeks in 8-week validation blocks without future-to-past leakage.",
+  "schema_version": 1,
+  "seed": 20260905,
+  "selection_policy": {
+    "outer_holdout_reuse_for_tuning": false,
+    "outer_holdout_usage": "single locked evaluation after model-family and tuning decisions",
+    "primary_model_selection": "mean_inner_stability_score",
+    "secondary_model_selection": [
+      "worst_fold_stability_score",
+      "mean_weekly_gini",
+      "temporal_slope",
+      "residual_std",
+      "brier_score"
+    ]
+  }
+}
