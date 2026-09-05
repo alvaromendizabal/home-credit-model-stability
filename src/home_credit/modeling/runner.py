@@ -64,6 +64,7 @@ class BenchmarkRunner:
         output_dir: Path,
         logs_dir: Path,
         smoke: bool,
+        max_new_checkpoints: int | None = None,
     ) -> None:
         self.feature_dir = feature_dir
         self.expected_feature_manifest_sha256 = expected_feature_manifest_sha256
@@ -74,6 +75,7 @@ class BenchmarkRunner:
         self.output_dir = output_dir
         self.logs_dir = logs_dir
         self.smoke = smoke
+        self.max_new_checkpoints = _validate_checkpoint_budget(max_new_checkpoints)
         self.logger = RunLogger("model-benchmark", logs_dir)
 
     def run(self) -> dict[str, Any]:
@@ -85,6 +87,7 @@ class BenchmarkRunner:
             feature_dir=self.feature_dir,
             output_dir=self.output_dir,
             smoke=self.smoke,
+            max_new_checkpoints=self.max_new_checkpoints,
         )
 
         try:
@@ -158,14 +161,54 @@ class BenchmarkRunner:
                 folds=len(folds),
             )
 
+            new_checkpoints = 0
             for fold in folds:
-                self._run_fold(
+                remaining = _remaining_checkpoint_budget(
+                    self.max_new_checkpoints,
+                    completed=new_checkpoints,
+                )
+                if remaining == 0:
+                    break
+                new_checkpoints += self._run_fold(
                     fold,
                     snapshot=snapshot,
                     selected_features=selected_features,
                     config=config,
                     state=state,
+                    max_new_checkpoints=remaining,
                 )
+
+            completed_model_folds = _verified_model_fold_count(
+                state,
+                folds=folds,
+                model_names=config.enabled_model_names,
+                output_root=self.output_dir,
+            )
+            total_model_folds = len(config.enabled_model_names) * len(folds)
+            if completed_model_folds < total_model_folds:
+                elapsed = round(time.monotonic() - started, 3)
+                self.logger.event(
+                    "model_benchmark_checkpoint_yielded",
+                    completed_model_folds=completed_model_folds,
+                    total_model_folds=total_model_folds,
+                    new_checkpoints=new_checkpoints,
+                    total_elapsed_seconds=elapsed,
+                )
+                return {
+                    "schema_version": 1,
+                    "partial": True,
+                    "smoke": self.smoke,
+                    "git_commit": git_commit,
+                    "feature_manifest_sha256": snapshot.manifest_sha256,
+                    "validation_protocol_sha256": self.expected_protocol_sha256,
+                    "benchmark_config_sha256": config_sha256,
+                    "feature_screen_sha256": feature_screen_sha256,
+                    "outer_holdout_touched": False,
+                    "selected_features": len(selected_features),
+                    "completed_model_folds": completed_model_folds,
+                    "total_model_folds": total_model_folds,
+                    "new_checkpoints": new_checkpoints,
+                }
 
             with StageTimer(self.logger, "benchmark_aggregate"):
                 summary = _aggregate_benchmark(
@@ -307,7 +350,8 @@ class BenchmarkRunner:
         selected_features: tuple[FeatureRef, ...],
         config: BenchmarkConfig,
         state: BenchmarkStateStore,
-    ) -> None:
+        max_new_checkpoints: int | None,
+    ) -> int:
         fold_number = fold["fold"]
         pending = [
             model
@@ -316,7 +360,12 @@ class BenchmarkRunner:
         ]
         if not pending:
             self.logger.event("benchmark_fold_resumed", fold=fold_number, models="all")
-            return
+            return 0
+
+        pending = _limit_pending_models(
+            pending,
+            max_new_checkpoints=max_new_checkpoints,
+        )
 
         self.logger.event(
             "benchmark_fold_started",
@@ -422,7 +471,22 @@ class BenchmarkRunner:
 
         del train, validation
         gc.collect()
-        self.logger.event("benchmark_fold_completed", fold=fold_number)
+
+        remaining_models = [
+            model
+            for model in config.enabled_model_names
+            if state.receipt(model, fold_number, output_root=self.output_dir) is None
+        ]
+        if remaining_models:
+            self.logger.event(
+                "benchmark_fold_checkpoint_yielded",
+                fold=fold_number,
+                completed_models=pending,
+                remaining_models=remaining_models,
+            )
+        else:
+            self.logger.event("benchmark_fold_completed", fold=fold_number)
+        return len(pending)
 
     def _run_numeric_model(
         self,
@@ -601,6 +665,53 @@ class BenchmarkRunner:
             brier_score=round(float(metrics["brier_score"]), 6),
             best_iteration=fit.best_iteration,
         )
+
+
+def _verified_model_fold_count(
+    state: BenchmarkStateStore,
+    *,
+    folds: tuple[dict[str, int], ...],
+    model_names: tuple[str, ...],
+    output_root: Path,
+) -> int:
+    count = 0
+    for fold in folds:
+        fold_number = fold["fold"]
+        for model_name in model_names:
+            if state.receipt(model_name, fold_number, output_root=output_root) is not None:
+                count += 1
+    return count
+
+
+def _validate_checkpoint_budget(value: int | None) -> int | None:
+    if value is None:
+        return None
+    if value < 1:
+        raise ValueError("max_new_checkpoints must be positive")
+    return value
+
+
+def _remaining_checkpoint_budget(
+    budget: int | None,
+    *,
+    completed: int,
+) -> int | None:
+    if completed < 0:
+        raise ValueError("completed checkpoints cannot be negative")
+    if budget is None:
+        return None
+    return max(0, budget - completed)
+
+
+def _limit_pending_models(
+    pending: list[str],
+    *,
+    max_new_checkpoints: int | None,
+) -> list[str]:
+    budget = _validate_checkpoint_budget(max_new_checkpoints)
+    if budget is None:
+        return list(pending)
+    return list(pending[:budget])
 
 
 def _load_protocol(

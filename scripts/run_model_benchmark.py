@@ -59,6 +59,15 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Run one capped fold with reduced boosting rounds.",
     )
+    parser.add_argument(
+        "--max-new-checkpoints",
+        type=int,
+        default=None,
+        help=(
+            "Stop cleanly after this many newly completed model-fold checkpoints. "
+            "Use 1 to isolate each native model fit in a fresh Python process."
+        ),
+    )
     return parser
 
 
@@ -98,9 +107,25 @@ def main() -> int:
         output_dir=_required_path(args, "output_dir"),
         logs_dir=_required_path(args, "logs_dir"),
         smoke=bool(args.smoke),
+        max_new_checkpoints=args.max_new_checkpoints,
     )
     summary = runner.run()
     output_dir = _required_path(args, "output_dir")
+    if summary.get("partial") is True:
+        print(f"BENCHMARK_SMOKE={bool(summary['smoke'])}")
+        print("BENCHMARK_PARTIAL=True")
+        print(
+            "COMPLETED_MODEL_FOLDS="
+            f"{int(summary['completed_model_folds'])}/"
+            f"{int(summary['total_model_folds'])}"
+        )
+        print(f"NEW_CHECKPOINTS={int(summary['new_checkpoints'])}")
+        print(f"SELECTED_FEATURES={int(summary['selected_features'])}")
+        print(f"OUTER_HOLDOUT_TOUCHED={bool(summary['outer_holdout_touched'])}")
+        print(f"BENCHMARK_LOG={runner.logger.jsonl_path}")
+        print("MODEL_BENCHMARK_CHECKPOINT_YIELDED")
+        return 0
+
     summary_path = output_dir / "benchmark_summary.json"
     ranking_raw = summary.get("models")
     if not isinstance(ranking_raw, list):
