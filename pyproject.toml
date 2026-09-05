@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "home-credit-model-stability"
+version = "0.1.0"
+description = "Research-grade temporal credit-risk modeling and model-stability benchmark."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "numpy==2.5.2",
+  "scipy==1.18.1",
+  "pandas==3.0.5",
+  "polars==1.44.1",
+  "pyarrow==25.0.1",
+  "scikit-learn==1.9.0",
+  "lightgbm==4.7.0",
+  "catboost==1.2.10",
+  "xgboost-cpu==3.4.1",
+  "optuna==4.8.0",
+  "shap==0.52.0",
+  "psutil==7.2.2",
+  "pydantic==2.13.4",
+  "pydantic-settings==2.15.0",
+  "pyyaml==6.0.3",
+  "typer==0.27.2",
+  "boto3==1.43.88",
+  "kaggle==2.2.4",
+]
+
+[dependency-groups]
+dev = [
+  "mypy>=1.17,<2",
+  "pandas-stubs==3.0.5.260730",
+  "types-psutil==7.2.2.20260827",
+  "pre-commit>=4.3,<5",
+  "pytest>=8.4,<9",
+  "pytest-cov>=6.2,<8",
+  "ruff>=0.12.11,<1",
+]
+
+[project.scripts]
+home-credit = "home_credit.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/home_credit"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --strict-config"
+testpaths = ["tests"]
+markers = [
+  "integration: integration tests",
+  "slow: tests that intentionally take longer",
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+exclude = ["^tests/"]
+
+[[tool.mypy.overrides]]
+module = [
+  "catboost.*",
+  "lightgbm.*",
+  "xgboost.*",
+  "shap.*",
+  "pyarrow.*",
+  "sklearn.*",
+]
+ignore_missing_imports = true

@@ -1,0 +1,29 @@
+project:
+  seed: 20260904
+  timezone: UTC
+  heartbeat_seconds: 30
+  logs_dir: logs
+  artifacts_dir: artifacts
+
+data:
+  competition: home-credit-credit-risk-model-stability
+  local_download_dir: data/downloads
+  local_raw_dir: data/raw
+  local_processed_dir: data/processed
+  raw_s3_uri: null
+  processed_s3_uri: null
+validation:
+  primary: expanding_window
+  n_splits: 5
+  embargo_weeks: 0
+  ban_direct_week_num_feature: true
+models:
+  classical:
+    - logistic_regression
+    - lightgbm
+    - catboost
+    - xgboost
+  neural_challenger:
+    - tabm
+tracking:
+  mlflow_tracking_arn: null
