@@ -68,3 +68,43 @@ def test_feature_names_are_collision_resistant() -> None:
         )
         == "person__d1__applicant__income_1A__max"
     )
+
+
+def test_semantic_resolution_harmonizes_mixed_shard_types() -> None:
+    from home_credit.features.semantics import (
+        resolve_semantic_columns,
+    )
+
+    resolved = resolve_semantic_columns(
+        (
+            SemanticColumns(
+                numeric=(
+                    "amount_1A",
+                    "status_1L",
+                ),
+                categorical=("category_1M",),
+                date=("event_1D",),
+                unsupported=("blob",),
+            ),
+            SemanticColumns(
+                numeric=(),
+                categorical=(
+                    "amount_1A",
+                    "status_1L",
+                ),
+                date=("event_1D",),
+                unsupported=("blob",),
+            ),
+        )
+    )
+
+    assert resolved.numeric == ("amount_1A",)
+
+    assert resolved.categorical == (
+        "category_1M",
+        "status_1L",
+    )
+
+    assert resolved.date == ("event_1D",)
+
+    assert resolved.unsupported == ("blob",)

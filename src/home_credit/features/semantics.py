@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Literal
 
@@ -136,6 +137,64 @@ def classify_columns(fields: tuple[tuple[str, str], ...]) -> SemanticColumns:
         categorical=tuple(sorted(groups["categorical"])),
         date=tuple(sorted(groups["date"])),
         unsupported=tuple(sorted(groups["unsupported"])),
+    )
+
+
+def resolve_semantic_columns(
+    observations: Sequence[SemanticColumns],
+) -> SemanticColumns:
+    """Resolve one stable modeling semantic across shards and splits.
+
+    A logical Home Credit predictor can have different physical Arrow
+    representations across shards or between train and test. The feature
+    engine must choose exactly one modeling semantic before concatenation.
+
+    Date and documented suffix semantics take precedence. For ambiguous
+    mixed physical representations, categorical wins over numeric so raw
+    values are retained without invalid arithmetic coercion.
+    """
+    numeric: set[str] = set()
+    categorical: set[str] = set()
+    dates: set[str] = set()
+    unsupported: set[str] = set()
+
+    for semantic in observations:
+        numeric.update(semantic.numeric)
+        categorical.update(semantic.categorical)
+        dates.update(semantic.date)
+        unsupported.update(semantic.unsupported)
+
+    all_names = numeric | categorical | dates | unsupported
+
+    resolved_numeric: set[str] = set()
+    resolved_categorical: set[str] = set()
+    resolved_dates: set[str] = set()
+    resolved_unsupported: set[str] = set()
+
+    for name in sorted(all_names):
+        if name in dates or is_date_feature(name):
+            resolved_dates.add(name)
+
+        elif name.endswith("M"):
+            resolved_categorical.add(name)
+
+        elif name.endswith(("A", "P")) and name in numeric:
+            resolved_numeric.add(name)
+
+        elif name in categorical:
+            resolved_categorical.add(name)
+
+        elif name in numeric:
+            resolved_numeric.add(name)
+
+        else:
+            resolved_unsupported.add(name)
+
+    return SemanticColumns(
+        numeric=tuple(sorted(resolved_numeric)),
+        categorical=tuple(sorted(resolved_categorical)),
+        date=tuple(sorted(resolved_dates)),
+        unsupported=tuple(sorted(resolved_unsupported)),
     )
 
 

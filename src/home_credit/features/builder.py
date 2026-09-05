@@ -33,6 +33,7 @@ from home_credit.features.semantics import (
     assert_no_target_leakage,
     classify_columns,
     feature_prefix,
+    resolve_semantic_columns,
 )
 from home_credit.observability.logging import RunLogger
 from home_credit.observability.runtime import StageTimer
@@ -283,88 +284,264 @@ def _date_days_expression(name: str, type_name: str) -> pl.Expr:
     return pl.lit(None, dtype=pl.Float32).alias(name)
 
 
+def _resolved_semantic_for_source(
+    source: LogicalSource,
+    *,
+    all_sources: Sequence[LogicalSource],
+    store: S3RawStore,
+) -> SemanticColumns:
+    """Resolve one semantic schema across all shards and both splits."""
+    observations: list[SemanticColumns] = []
+
+    related = [
+        candidate
+        for candidate in all_sources
+        if (candidate.family == source.family and candidate.depth == source.depth)
+    ]
+
+    for candidate in related:
+        for record in candidate.records:
+            dataset = _dataset_for_record(
+                record,
+                store,
+            )
+
+            observations.append(classify_columns(_field_pairs(dataset.schema)))
+
+    if not observations:
+        raise ValueError(f"no schema observations found for {source.logical_name}")
+
+    return resolve_semantic_columns(observations)
+
+
 def _normalized_scan(
     source: LogicalSource,
     *,
     store: S3RawStore,
     decision_frame: pl.LazyFrame | None,
     recipe: FeatureRecipe,
-) -> tuple[pl.LazyFrame, SemanticColumns]:
-    """Scan shards separately, normalize semantic dtypes, then concatenate lazily."""
-    frames: list[pl.LazyFrame] = []
-    all_numeric: set[str] = set()
-    all_categorical: set[str] = set()
-    all_dates: set[str] = set()
-    all_unsupported: set[str] = set()
+    semantic: SemanticColumns | None = None,
+) -> tuple[
+    pl.LazyFrame,
+    SemanticColumns,
+]:
+    """Normalize shards to one schema and the base scoring population.
+
+    The case identifier is normalized before joins so an empty official
+    Parquet whose physical key type is Arrow null remains compatible with
+    the Int64 base population. When a base decision frame is supplied, an
+    inner join also guarantees that no non-base source can introduce cases
+    outside the split's scoring population.
+    """
+    inputs: list[
+        tuple[
+            Any,
+            tuple[
+                tuple[str, str],
+                ...,
+            ],
+        ]
+    ] = []
+
+    observations: list[SemanticColumns] = []
 
     for record in source.records:
-        dataset = _dataset_for_record(record, store)
-        fields = _field_pairs(dataset.schema)
-        semantic = classify_columns(fields)
-        all_numeric.update(semantic.numeric)
-        all_categorical.update(semantic.categorical)
-        all_dates.update(semantic.date)
-        all_unsupported.update(semantic.unsupported)
-
-        names = {name for name, _ in fields}
-        assert_no_target_leakage(
-            tuple(sorted(names)) if source.family != "base" else (),
-            context=source.logical_name,
+        dataset = _dataset_for_record(
+            record,
+            store,
         )
 
-        frame = pl.scan_pyarrow_dataset(
-            dataset,
-            allow_pyarrow_filter=True,
-            batch_size=recipe.scan_batch_rows,
+        fields = _field_pairs(dataset.schema)
+
+        observations.append(classify_columns(fields))
+
+        inputs.append(
+            (
+                dataset,
+                fields,
+            )
+        )
+
+    if not inputs:
+        raise ValueError(f"logical source has no shards: {source.logical_name}")
+
+    resolved = semantic or resolve_semantic_columns(observations)
+
+    frames: list[pl.LazyFrame] = []
+
+    for record, (
+        dataset,
+        fields,
+    ) in zip(
+        source.records,
+        inputs,
+        strict=True,
+    ):
+        names = {name for name, _ in fields}
+
+        assert_no_target_leakage(
+            (tuple(sorted(names)) if source.family != "base" else ()),
+            context=source.logical_name,
         )
 
         if CASE_ID not in names:
             raise ValueError(f"raw source is missing case_id: {record.file}")
 
+        frame = pl.scan_pyarrow_dataset(
+            dataset,
+            allow_pyarrow_filter=True,
+            batch_size=(recipe.scan_batch_rows),
+        )
+
         select_columns = [CASE_ID]
-        for structural in (NUM_GROUP1, NUM_GROUP2):
+
+        for structural in (
+            NUM_GROUP1,
+            NUM_GROUP2,
+        ):
             if structural in names:
                 select_columns.append(structural)
-        select_columns.extend(semantic.predictors)
+
+        select_columns.extend(column for column in resolved.predictors if column in names)
 
         frame = frame.select(select_columns)
 
-        if decision_frame is not None and semantic.date:
-            frame = frame.join(decision_frame, on=CASE_ID, how="left", validate="m:1")
+        # This must happen before any join. An official empty Parquet can
+        # physically expose case_id as Arrow null even though case_id is
+        # semantically an Int64 identifier.
+        frame = frame.with_columns(
+            pl.col(CASE_ID).cast(
+                pl.Int64,
+                strict=False,
+            )
+        )
+
+        present_dates = tuple(column for column in resolved.date if column in names)
+
+        # Restrict every non-base source to the actual scoring population.
+        # The same join also supplies _decision_date for transformed dates.
+        if decision_frame is not None:
+            frame = frame.join(
+                decision_frame,
+                on=CASE_ID,
+                how="inner",
+                validate="m:1",
+            )
 
         type_by_name = dict(fields)
-        normalizers: list[pl.Expr] = [pl.col(CASE_ID).cast(pl.Int64, strict=False)]
 
-        for structural in (NUM_GROUP1, NUM_GROUP2):
+        normalizers: list[pl.Expr] = [
+            pl.col(CASE_ID).cast(
+                pl.Int64,
+                strict=False,
+            )
+        ]
+
+        for structural in (
+            NUM_GROUP1,
+            NUM_GROUP2,
+        ):
             if structural in select_columns:
-                normalizers.append(pl.col(structural).cast(pl.Int64, strict=False))
+                normalizers.append(
+                    pl.col(structural).cast(
+                        pl.Int64,
+                        strict=False,
+                    )
+                )
 
         normalizers.extend(
-            pl.col(column).cast(pl.Float64, strict=False).alias(column)
-            for column in semantic.numeric
+            pl.col(column)
+            .cast(
+                pl.Float64,
+                strict=False,
+            )
+            .alias(column)
+            for column in resolved.numeric
+            if column in names
         )
+
         normalizers.extend(
-            pl.col(column).cast(pl.String, strict=False).alias(column)
-            for column in semantic.categorical
+            pl.col(column)
+            .cast(
+                pl.String,
+                strict=False,
+            )
+            .alias(column)
+            for column in resolved.categorical
+            if column in names
         )
+
         normalizers.extend(
-            _date_days_expression(column, type_by_name[column]) for column in semantic.date
+            _date_days_expression(
+                column,
+                type_by_name[column],
+            )
+            for column in present_dates
         )
 
         frame = frame.select(normalizers)
+
         frames.append(frame)
 
-    if not frames:
-        raise ValueError(f"logical source has no shards: {source.logical_name}")
-
-    combined = pl.concat(frames, how="diagonal_relaxed", rechunk=False)
-    semantic = SemanticColumns(
-        numeric=tuple(sorted(all_numeric - all_dates)),
-        categorical=tuple(sorted(all_categorical - all_dates)),
-        date=tuple(sorted(all_dates)),
-        unsupported=tuple(sorted(all_unsupported)),
+    combined = pl.concat(
+        frames,
+        how="diagonal_relaxed",
+        rechunk=False,
     )
-    return combined, semantic
+
+    combined_names = set(combined.collect_schema().names())
+
+    fillers: list[pl.Expr] = []
+
+    fillers.extend(
+        pl.lit(
+            None,
+            dtype=pl.Float64,
+        ).alias(column)
+        for column in resolved.numeric
+        if column not in combined_names
+    )
+
+    fillers.extend(
+        pl.lit(
+            None,
+            dtype=pl.String,
+        ).alias(column)
+        for column in resolved.categorical
+        if column not in combined_names
+    )
+
+    fillers.extend(
+        pl.lit(
+            None,
+            dtype=pl.Float32,
+        ).alias(column)
+        for column in resolved.date
+        if column not in combined_names
+    )
+
+    if fillers:
+        combined = combined.with_columns(fillers)
+
+    final_names = set(combined.collect_schema().names())
+
+    ordered = [CASE_ID]
+
+    ordered.extend(
+        structural
+        for structural in (
+            NUM_GROUP1,
+            NUM_GROUP2,
+        )
+        if structural in final_names
+    )
+
+    ordered.extend(resolved.predictors)
+
+    return (
+        combined.select(ordered),
+        resolved,
+    )
 
 
 def _base_source(sources: Sequence[LogicalSource], split: Split) -> LogicalSource:
@@ -559,11 +736,18 @@ def _source_feature_block(
         block = _base_block(base_frame, split=source.split)
     else:
         decision_frame = _decision_frame(base_frame)
+        semantic = _resolved_semantic_for_source(
+            source,
+            all_sources=all_sources,
+            store=store,
+        )
+
         frame, semantic = _normalized_scan(
             source,
             store=store,
             decision_frame=decision_frame,
             recipe=recipe,
+            semantic=semantic,
         )
         block = (
             _depth_zero_block(frame, semantic, source=source)

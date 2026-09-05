@@ -115,3 +115,364 @@ def test_validation_protocol_requires_expected_fingerprint(tmp_path: Path) -> No
 
     with pytest.raises(ValueError, match="mismatch"):
         load_validation_protocol(path, expected_sha256="0" * 64)
+
+
+def test_normalized_scan_harmonizes_cross_shard_dtype_drift(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import polars as pl
+    import pyarrow as pa
+    import pyarrow.dataset as ds
+
+    import home_credit.features.builder as builder
+    from home_credit.features.aggregation import (
+        aggregate_case_history,
+    )
+
+    datasets = {
+        "raw/shard_0.parquet": (
+            ds.dataset(
+                pa.table(
+                    {
+                        "case_id": [1],
+                        "num_group1": [0],
+                        "amount_1A": [10.0],
+                        "status_1L": [1.0],
+                    }
+                )
+            )
+        ),
+        "raw/shard_1.parquet": (
+            ds.dataset(
+                pa.table(
+                    {
+                        "case_id": [2],
+                        "num_group1": [0],
+                        "amount_1A": [20.0],
+                        "status_1L": ["active"],
+                    }
+                )
+            )
+        ),
+    }
+
+    monkeypatch.setattr(
+        builder,
+        "_dataset_for_record",
+        lambda record, store: datasets[record.s3_key],
+    )
+
+    source = builder.LogicalSource(
+        split="test",
+        family="demo",
+        depth=1,
+        records=(
+            _record(
+                ("parquet_files/test/test_demo_1_0.parquet"),
+                "raw/shard_0.parquet",
+            ),
+            _record(
+                ("parquet_files/test/test_demo_1_1.parquet"),
+                "raw/shard_1.parquet",
+            ),
+        ),
+    )
+
+    recipe = FeatureRecipe(
+        schema_version=1,
+        name="competition_core",
+        engine="polars_streaming",
+        compression="zstd",
+        scan_batch_rows=1024,
+        time_windows_days=(30,),
+        person_subgroups=("all",),
+        numeric_aggregations=("min",),
+        date_aggregations=("min",),
+        categorical_aggregations=("n_unique",),
+        global_frequency_encoding=("deferred_to_fold_fit"),
+        quantiles=("deferred_to_extended_ablation"),
+        notes="test",
+    )
+
+    frame, semantic = builder._normalized_scan(
+        source,
+        store=object(),
+        decision_frame=None,
+        recipe=recipe,
+    )
+
+    schema = frame.collect_schema()
+
+    assert semantic.numeric == ("amount_1A",)
+
+    assert semantic.categorical == ("status_1L",)
+
+    assert schema["amount_1A"] == pl.Float64
+
+    assert schema["status_1L"] == pl.String
+
+    result = aggregate_case_history(
+        frame,
+        family="demo",
+        depth=1,
+        numeric_columns=(semantic.numeric),
+        categorical_columns=(semantic.categorical),
+        date_columns=(semantic.date),
+        time_windows_days=(30,),
+    ).collect()
+
+    assert result.height == 2
+
+    assert "demo__d1__amount_1A__sum" in result.columns
+
+    assert "demo__d1__status_1L__n_unique" in result.columns
+
+
+def _runtime_feature_recipe() -> FeatureRecipe:
+    return FeatureRecipe(
+        schema_version=1,
+        name="competition_core",
+        engine="polars_streaming",
+        compression="zstd",
+        scan_batch_rows=1024,
+        time_windows_days=(30,),
+        person_subgroups=("all",),
+        numeric_aggregations=("min",),
+        date_aggregations=("min",),
+        categorical_aggregations=("n_unique",),
+        global_frequency_encoding=("deferred_to_fold_fit"),
+        quantiles=("deferred_to_extended_ablation"),
+        notes="test",
+    )
+
+
+def test_normalized_scan_handles_empty_null_case_id(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from datetime import date
+
+    import polars as pl
+    import pyarrow as pa
+    import pyarrow.dataset as ds
+
+    import home_credit.features.builder as builder
+    from home_credit.features.aggregation import (
+        aggregate_case_history,
+    )
+
+    empty_dataset = ds.dataset(
+        pa.table(
+            {
+                "case_id": pa.array(
+                    [],
+                    type=pa.null(),
+                ),
+                "num_group1": pa.array(
+                    [],
+                    type=pa.null(),
+                ),
+                "amount_1A": pa.array(
+                    [],
+                    type=pa.null(),
+                ),
+                "event_1D": pa.array(
+                    [],
+                    type=pa.null(),
+                ),
+            }
+        )
+    )
+
+    monkeypatch.setattr(
+        builder,
+        "_dataset_for_record",
+        lambda record, store: empty_dataset,
+    )
+
+    source = builder.LogicalSource(
+        split="test",
+        family="tax_registry_c",
+        depth=1,
+        records=(
+            _record(
+                ("parquet_files/test/test_tax_registry_c_1.parquet"),
+                "raw/test_tax_registry_c_1.parquet",
+            ),
+        ),
+    )
+
+    decision_frame = pl.DataFrame(
+        {
+            "case_id": [1],
+            "_decision_date": [date(2020, 1, 1)],
+        }
+    ).lazy()
+
+    frame, semantic = builder._normalized_scan(
+        source,
+        store=object(),
+        decision_frame=(decision_frame),
+        recipe=(_runtime_feature_recipe()),
+    )
+
+    schema = frame.collect_schema()
+
+    assert schema["case_id"] == pl.Int64
+
+    assert frame.collect().height == 0
+
+    aggregated = aggregate_case_history(
+        frame,
+        family=source.family,
+        depth=source.depth,
+        numeric_columns=(semantic.numeric),
+        categorical_columns=(semantic.categorical),
+        date_columns=(semantic.date),
+        time_windows_days=(30,),
+    ).collect()
+
+    assert aggregated.height == 0
+    assert aggregated.schema["case_id"] == pl.Int64
+
+
+def test_normalized_scan_restricts_rows_to_base_population(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from datetime import date
+
+    import polars as pl
+    import pyarrow as pa
+    import pyarrow.dataset as ds
+
+    import home_credit.features.builder as builder
+
+    dataset = ds.dataset(
+        pa.table(
+            {
+                "case_id": [
+                    1,
+                    999,
+                ],
+                "num_group1": [
+                    0,
+                    0,
+                ],
+                "amount_1A": [
+                    10.0,
+                    20.0,
+                ],
+            }
+        )
+    )
+
+    monkeypatch.setattr(
+        builder,
+        "_dataset_for_record",
+        lambda record, store: dataset,
+    )
+
+    source = builder.LogicalSource(
+        split="test",
+        family="demo",
+        depth=1,
+        records=(
+            _record(
+                ("parquet_files/test/test_demo_1.parquet"),
+                "raw/test_demo_1.parquet",
+            ),
+        ),
+    )
+
+    decision_frame = pl.DataFrame(
+        {
+            "case_id": [1],
+            "_decision_date": [date(2020, 1, 1)],
+        }
+    ).lazy()
+
+    frame, _ = builder._normalized_scan(
+        source,
+        store=object(),
+        decision_frame=(decision_frame),
+        recipe=(_runtime_feature_recipe()),
+    )
+
+    result = frame.select("case_id").collect()
+
+    assert result["case_id"].to_list() == [1]
+
+
+def test_normalized_scan_allows_zero_overlap_with_base_population(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from datetime import date
+
+    import polars as pl
+    import pyarrow as pa
+    import pyarrow.dataset as ds
+
+    import home_credit.features.builder as builder
+
+    dataset = ds.dataset(
+        pa.table(
+            {
+                "case_id": [
+                    999,
+                    1000,
+                ],
+                "num_group1": [
+                    0,
+                    1,
+                ],
+                "amount_1A": [
+                    10.0,
+                    20.0,
+                ],
+            }
+        )
+    )
+
+    monkeypatch.setattr(
+        builder,
+        "_dataset_for_record",
+        lambda record, store: dataset,
+    )
+
+    source = builder.LogicalSource(
+        split="test",
+        family="demo",
+        depth=1,
+        records=(
+            _record(
+                ("parquet_files/test/test_demo_1.parquet"),
+                "raw/test_demo_1.parquet",
+            ),
+        ),
+    )
+
+    decision_frame = pl.DataFrame(
+        {
+            "case_id": [
+                1,
+                2,
+            ],
+            "_decision_date": [
+                date(2020, 1, 1),
+                date(2020, 1, 2),
+            ],
+        }
+    ).lazy()
+
+    frame, semantic = builder._normalized_scan(
+        source,
+        store=object(),
+        decision_frame=(decision_frame),
+        recipe=(_runtime_feature_recipe()),
+    )
+
+    result = frame.collect()
+
+    assert result.height == 0
+    assert result.schema["case_id"] == pl.Int64
+
+    assert semantic.numeric == ("amount_1A",)
