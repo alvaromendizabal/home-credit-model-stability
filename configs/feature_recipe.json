@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "name": "competition_core",
+  "engine": "polars_streaming",
+  "compression": "zstd",
+  "scan_batch_rows": 131072,
+  "time_windows_days": [30, 180, 365, 730, 1825],
+  "person_subgroups": ["all", "applicant", "related"],
+  "numeric_aggregations": ["min", "max", "mean", "std", "sum", "first", "last"],
+  "date_aggregations": ["min", "max", "mean", "std", "first", "last"],
+  "categorical_aggregations": ["non_null_count", "n_unique", "diversity_ratio", "first", "last"],
+  "global_frequency_encoding": "deferred_to_fold_fit",
+  "quantiles": "deferred_to_extended_ablation",
+  "notes": "Case-local transforms only. Global encoders are intentionally deferred to fold-fitted model preprocessing to avoid validation leakage."
+}
