@@ -10,6 +10,8 @@ import subprocess
 import time
 from pathlib import Path
 
+import polars as pl
+
 from home_credit.data.loader import load_s3_manifest
 from home_credit.features.builder import (
     FeatureRecipe,
@@ -20,6 +22,7 @@ from home_credit.features.builder import (
     select_sources,
     write_feature_manifest,
 )
+from home_credit.features.execution import FeatureExecutionPolicy
 from home_credit.observability.logging import RunLogger
 from home_credit.observability.runtime import Heartbeat, StageTimer
 
@@ -40,6 +43,12 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("configs/feature_recipe.json"),
     )
+    parser.add_argument(
+        "--execution-policy",
+        type=Path,
+        default=Path("configs/feature_execution.json"),
+    )
+    parser.add_argument("--expected-execution-sha256", required=True)
     parser.add_argument("--region", default="us-west-2")
     parser.add_argument(
         "--output-dir",
@@ -119,6 +128,30 @@ def main() -> int:
         with StageTimer(logger, "recipe_load"):
             recipe, recipe_sha256 = FeatureRecipe.load(args.recipe)
 
+        with StageTimer(logger, "execution_policy_load"):
+            execution_policy, execution_sha256 = FeatureExecutionPolicy.load(args.execution_policy)
+            if execution_sha256 != args.expected_execution_sha256:
+                raise ValueError(
+                    "feature execution SHA-256 mismatch: "
+                    f"expected={args.expected_execution_sha256} "
+                    f"actual={execution_sha256}"
+                )
+            actual_threads = pl.thread_pool_size()
+            if actual_threads > execution_policy.max_threads:
+                raise ValueError(
+                    "Polars thread pool exceeds the bounded-memory policy: "
+                    f"actual={actual_threads} max={execution_policy.max_threads}. "
+                    "Set POLARS_MAX_THREADS before starting Python."
+                )
+            logger.event(
+                "feature_execution_runtime",
+                polars_threads=actual_threads,
+                partition_rows=execution_policy.partition_rows,
+                partition_threshold_rows=execution_policy.partition_threshold_rows,
+                partition_min_source_bytes=execution_policy.partition_min_source_bytes,
+                resume=execution_policy.resume,
+            )
+
         with StageTimer(logger, "protocol_load"):
             protocol = load_validation_protocol(
                 args.validation_protocol,
@@ -167,6 +200,9 @@ def main() -> int:
             recipe=recipe,
             recipe_sha256=recipe_sha256,
             protocol_sha256=protocol_sha256,
+            raw_manifest_sha256=manifest_sha256,
+            execution_policy=execution_policy,
+            execution_sha256=execution_sha256,
             output_dir=args.output_dir,
             logger=logger,
             heartbeat_seconds=args.heartbeat_seconds,
@@ -183,6 +219,7 @@ def main() -> int:
                 manifest_sha256=manifest_sha256,
                 protocol_sha256=protocol_sha256,
                 recipe_sha256=recipe_sha256,
+                execution_sha256=execution_sha256,
             )
 
             totals = block_totals(blocks)
@@ -194,6 +231,10 @@ def main() -> int:
                 "validation_protocol_sha256": protocol_sha256,
                 "feature_recipe": recipe.name,
                 "feature_recipe_sha256": recipe_sha256,
+                "feature_execution_policy": execution_policy.mode,
+                "feature_execution_sha256": execution_sha256,
+                "partition_rows": execution_policy.partition_rows,
+                "polars_threads": pl.thread_pool_size(),
                 "splits": sorted(splits),
                 "families": "all" if families is None else sorted(families),
                 "blocks": totals["blocks"],
@@ -217,6 +258,7 @@ def main() -> int:
     print(f"FEATURE_COLUMNS={totals['feature_columns']}")
     print(f"FEATURE_OUTPUT_BYTES={totals['output_bytes']}")
     print(f"FEATURE_RECIPE_SHA256={recipe_sha256}")
+    print(f"FEATURE_EXECUTION_SHA256={execution_sha256}")
     print(f"VALIDATION_PROTOCOL_SHA256={protocol_sha256}")
     print("FEATURE_BUILD_COMPLETED")
     return 0

@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import gc
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import time
 from collections import defaultdict
@@ -14,6 +16,7 @@ from pathlib import Path
 from typing import Any, cast
 
 import polars as pl
+import psutil
 import pyarrow.dataset as ds
 import pyarrow.parquet as pq
 
@@ -21,6 +24,15 @@ from home_credit.data.loader import RawManifestRecord, S3RawStore
 from home_credit.data.manifest import sha256_file
 from home_credit.data.schema import Split, parse_table_identity
 from home_credit.features.aggregation import aggregate_case_history, build_person_subgroups
+from home_credit.features.execution import (
+    BuildIdentity,
+    BuildStateStore,
+    CasePartition,
+    FeatureExecutionPolicy,
+    PartitionReceipt,
+    plan_case_partitions,
+    should_partition_source,
+)
 from home_credit.features.semantics import (
     CASE_ID,
     DATE_DECISION,
@@ -141,6 +153,7 @@ class FeatureBlock:
     output_sha256: str
     recipe_sha256: str
     protocol_sha256: str
+    execution_sha256: str
     unsupported_columns: tuple[str, ...]
 
 
@@ -296,16 +309,12 @@ def _resolved_semantic_for_source(
     related = [
         candidate
         for candidate in all_sources
-        if (candidate.family == source.family and candidate.depth == source.depth)
+        if candidate.family == source.family and candidate.depth == source.depth
     ]
 
     for candidate in related:
         for record in candidate.records:
-            dataset = _dataset_for_record(
-                record,
-                store,
-            )
-
+            dataset = _dataset_for_record(record, store)
             observations.append(classify_columns(_field_pairs(dataset.schema)))
 
     if not observations:
@@ -321,105 +330,81 @@ def _normalized_scan(
     decision_frame: pl.LazyFrame | None,
     recipe: FeatureRecipe,
     semantic: SemanticColumns | None = None,
-) -> tuple[
-    pl.LazyFrame,
-    SemanticColumns,
-]:
+    case_id_bounds: tuple[int, int] | None = None,
+) -> tuple[pl.LazyFrame, SemanticColumns]:
     """Normalize shards to one schema and the base scoring population.
 
-    The case identifier is normalized before joins so an empty official
-    Parquet whose physical key type is Arrow null remains compatible with
-    the Int64 base population. When a base decision frame is supplied, an
-    inner join also guarantees that no non-base source can introduce cases
-    outside the split's scoring population.
+    Case identifiers are normalized before relational operations. When
+    ``case_id_bounds`` is supplied, a simple raw case-id predicate is applied
+    before expensive transforms whenever the physical key is numeric so
+    PyArrow can push it into the dataset scan. The base-population join remains
+    the authoritative membership guard.
     """
-    inputs: list[
-        tuple[
-            Any,
-            tuple[
-                tuple[str, str],
-                ...,
-            ],
-        ]
-    ] = []
-
+    inputs: list[tuple[Any, tuple[tuple[str, str], ...]]] = []
     observations: list[SemanticColumns] = []
 
     for record in source.records:
-        dataset = _dataset_for_record(
-            record,
-            store,
-        )
-
+        dataset = _dataset_for_record(record, store)
         fields = _field_pairs(dataset.schema)
-
         observations.append(classify_columns(fields))
-
-        inputs.append(
-            (
-                dataset,
-                fields,
-            )
-        )
+        inputs.append((dataset, fields))
 
     if not inputs:
         raise ValueError(f"logical source has no shards: {source.logical_name}")
 
     resolved = semantic or resolve_semantic_columns(observations)
-
     frames: list[pl.LazyFrame] = []
 
-    for record, (
-        dataset,
-        fields,
-    ) in zip(
-        source.records,
-        inputs,
-        strict=True,
-    ):
+    for record, (dataset, fields) in zip(source.records, inputs, strict=True):
         names = {name for name, _ in fields}
 
         assert_no_target_leakage(
-            (tuple(sorted(names)) if source.family != "base" else ()),
+            tuple(sorted(names)) if source.family != "base" else (),
             context=source.logical_name,
         )
 
         if CASE_ID not in names:
             raise ValueError(f"raw source is missing case_id: {record.file}")
 
+        type_by_name = dict(fields)
         frame = pl.scan_pyarrow_dataset(
             dataset,
             allow_pyarrow_filter=True,
-            batch_size=(recipe.scan_batch_rows),
+            batch_size=recipe.scan_batch_rows,
         )
 
         select_columns = [CASE_ID]
-
-        for structural in (
-            NUM_GROUP1,
-            NUM_GROUP2,
-        ):
+        for structural in (NUM_GROUP1, NUM_GROUP2):
             if structural in names:
                 select_columns.append(structural)
 
         select_columns.extend(column for column in resolved.predictors if column in names)
-
         frame = frame.select(select_columns)
 
-        # This must happen before any join. An official empty Parquet can
-        # physically expose case_id as Arrow null even though case_id is
-        # semantically an Int64 identifier.
-        frame = frame.with_columns(
-            pl.col(CASE_ID).cast(
-                pl.Int64,
-                strict=False,
+        if case_id_bounds is not None and _is_numeric_arrow_type(type_by_name[CASE_ID]):
+            lower, upper = case_id_bounds
+            frame = frame.filter(
+                pl.col(CASE_ID).is_between(
+                    lower,
+                    upper,
+                    closed="both",
+                )
             )
-        )
+
+        frame = frame.with_columns(pl.col(CASE_ID).cast(pl.Int64, strict=False))
+
+        if case_id_bounds is not None and not _is_numeric_arrow_type(type_by_name[CASE_ID]):
+            lower, upper = case_id_bounds
+            frame = frame.filter(
+                pl.col(CASE_ID).is_between(
+                    lower,
+                    upper,
+                    closed="both",
+                )
+            )
 
         present_dates = tuple(column for column in resolved.date if column in names)
 
-        # Restrict every non-base source to the actual scoring population.
-        # The same join also supplies _decision_date for transformed dates.
         if decision_frame is not None:
             frame = frame.join(
                 decision_frame,
@@ -428,59 +413,27 @@ def _normalized_scan(
                 validate="m:1",
             )
 
-        type_by_name = dict(fields)
+        normalizers: list[pl.Expr] = [pl.col(CASE_ID).cast(pl.Int64, strict=False)]
 
-        normalizers: list[pl.Expr] = [
-            pl.col(CASE_ID).cast(
-                pl.Int64,
-                strict=False,
-            )
-        ]
-
-        for structural in (
-            NUM_GROUP1,
-            NUM_GROUP2,
-        ):
+        for structural in (NUM_GROUP1, NUM_GROUP2):
             if structural in select_columns:
-                normalizers.append(
-                    pl.col(structural).cast(
-                        pl.Int64,
-                        strict=False,
-                    )
-                )
+                normalizers.append(pl.col(structural).cast(pl.Int64, strict=False))
 
         normalizers.extend(
-            pl.col(column)
-            .cast(
-                pl.Float64,
-                strict=False,
-            )
-            .alias(column)
+            pl.col(column).cast(pl.Float64, strict=False).alias(column)
             for column in resolved.numeric
             if column in names
         )
-
         normalizers.extend(
-            pl.col(column)
-            .cast(
-                pl.String,
-                strict=False,
-            )
-            .alias(column)
+            pl.col(column).cast(pl.String, strict=False).alias(column)
             for column in resolved.categorical
             if column in names
         )
-
         normalizers.extend(
-            _date_days_expression(
-                column,
-                type_by_name[column],
-            )
-            for column in present_dates
+            _date_days_expression(column, type_by_name[column]) for column in present_dates
         )
 
         frame = frame.select(normalizers)
-
         frames.append(frame)
 
     combined = pl.concat(
@@ -490,32 +443,19 @@ def _normalized_scan(
     )
 
     combined_names = set(combined.collect_schema().names())
-
     fillers: list[pl.Expr] = []
-
     fillers.extend(
-        pl.lit(
-            None,
-            dtype=pl.Float64,
-        ).alias(column)
+        pl.lit(None, dtype=pl.Float64).alias(column)
         for column in resolved.numeric
         if column not in combined_names
     )
-
     fillers.extend(
-        pl.lit(
-            None,
-            dtype=pl.String,
-        ).alias(column)
+        pl.lit(None, dtype=pl.String).alias(column)
         for column in resolved.categorical
         if column not in combined_names
     )
-
     fillers.extend(
-        pl.lit(
-            None,
-            dtype=pl.Float32,
-        ).alias(column)
+        pl.lit(None, dtype=pl.Float32).alias(column)
         for column in resolved.date
         if column not in combined_names
     )
@@ -524,24 +464,13 @@ def _normalized_scan(
         combined = combined.with_columns(fillers)
 
     final_names = set(combined.collect_schema().names())
-
     ordered = [CASE_ID]
-
     ordered.extend(
-        structural
-        for structural in (
-            NUM_GROUP1,
-            NUM_GROUP2,
-        )
-        if structural in final_names
+        structural for structural in (NUM_GROUP1, NUM_GROUP2) if structural in final_names
     )
-
     ordered.extend(resolved.predictors)
 
-    return (
-        combined.select(ordered),
-        resolved,
-    )
+    return combined.select(ordered), resolved
 
 
 def _base_source(sources: Sequence[LogicalSource], split: Split) -> LogicalSource:
@@ -716,6 +645,116 @@ def _block_contract(output: Path) -> tuple[int, int]:
     return rows, columns
 
 
+def _base_case_partitions(
+    base: pl.LazyFrame,
+    *,
+    policy: FeatureExecutionPolicy,
+) -> tuple[CasePartition, ...]:
+    """Plan exact disjoint case ranges from the split base population."""
+    values = (
+        base.select(pl.col(CASE_ID).cast(pl.Int64, strict=False))
+        .sort(CASE_ID)
+        .collect(engine="streaming")
+        .get_column(CASE_ID)
+    )
+    if values.null_count() != 0:
+        raise ValueError("base population contains null case_id")
+    case_ids = tuple(int(value) for value in values.to_list())
+    return plan_case_partitions(
+        case_ids,
+        partition_rows=policy.partition_rows,
+    )
+
+
+def _partition_contract(
+    output: Path,
+    *,
+    partition: CasePartition,
+) -> tuple[int, int]:
+    """Validate one case-range output before it becomes resumable state."""
+    rows, columns = _block_contract(output)
+    if rows > partition.expected_base_cases:
+        raise ValueError(
+            "partition output exceeds its base population: "
+            f"{output} rows={rows} "
+            f"expected_base_cases={partition.expected_base_cases}"
+        )
+    if rows == 0:
+        return rows, columns
+
+    bounds = (
+        pl.scan_parquet(output)
+        .select(
+            pl.col(CASE_ID).min().alias("case_id_min"),
+            pl.col(CASE_ID).max().alias("case_id_max"),
+        )
+        .collect(engine="streaming")
+        .row(0, named=True)
+    )
+    minimum = int(bounds["case_id_min"])
+    maximum = int(bounds["case_id_max"])
+    if minimum < partition.case_id_min or maximum > partition.case_id_max:
+        raise ValueError(
+            "partition output escaped its case range: "
+            f"{output} observed={minimum}-{maximum} "
+            f"expected={partition.case_id_min}-{partition.case_id_max}"
+        )
+    return rows, columns
+
+
+def _feature_block_from_mapping(
+    payload: Mapping[str, Any],
+    *,
+    output_root: Path,
+) -> FeatureBlock:
+    """Restore one typed feature block from verified checkpoint state."""
+    stored_output = Path(str(payload["output"]))
+    resolved_output = stored_output if stored_output.is_absolute() else output_root / stored_output
+    return FeatureBlock(
+        split=cast(Split, str(payload["split"])),
+        family=str(payload["family"]),
+        depth=int(payload["depth"]),
+        output=resolved_output.as_posix(),
+        source_files=tuple(cast(Sequence[str], payload["source_files"])),
+        source_sha256=tuple(cast(Sequence[str], payload["source_sha256"])),
+        rows=int(payload["rows"]),
+        columns=int(payload["columns"]),
+        feature_columns=int(payload["feature_columns"]),
+        output_bytes=int(payload["output_bytes"]),
+        output_sha256=str(payload["output_sha256"]),
+        recipe_sha256=str(payload["recipe_sha256"]),
+        protocol_sha256=str(payload["protocol_sha256"]),
+        execution_sha256=str(payload["execution_sha256"]),
+        unsupported_columns=tuple(cast(Sequence[str], payload["unsupported_columns"])),
+    )
+
+
+def _feature_block_state_payload(
+    block: FeatureBlock,
+    *,
+    output_root: Path,
+) -> dict[str, Any]:
+    """Serialize a feature block with an output-root-relative checkpoint path."""
+    payload = asdict(block)
+    output = Path(block.output)
+    try:
+        relative = output.resolve().relative_to(output_root.resolve())
+    except ValueError as exc:
+        raise ValueError(f"feature block output escaped output root: {output}") from exc
+    payload["output"] = relative.as_posix()
+    return payload
+
+
+def _release_partition_memory() -> None:
+    """Release Python references between bounded case partitions."""
+    gc.collect()
+
+
+def _rss_mb() -> float:
+    """Return current process RSS for partition-level telemetry."""
+    return round(psutil.Process().memory_info().rss / (1024 * 1024), 1)
+
+
 def _source_feature_block(
     source: LogicalSource,
     *,
@@ -724,47 +763,303 @@ def _source_feature_block(
     recipe: FeatureRecipe,
     recipe_sha256: str,
     protocol_sha256: str,
+    execution_sha256: str,
+    execution_policy: FeatureExecutionPolicy,
     output_dir: Path,
     logger: RunLogger,
     heartbeat_seconds: float,
+    state: BuildStateStore,
+    partition_plan: tuple[CasePartition, ...] | None,
 ) -> FeatureBlock:
+    """Build or resume one final feature block with bounded memory."""
+    resumed = state.feature_block_payload(
+        source.logical_name,
+        output_root=output_dir,
+        validate_hash=execution_policy.validate_intermediate_hashes,
+    )
+    if resumed is not None:
+        result = _feature_block_from_mapping(
+            resumed,
+            output_root=output_dir,
+        )
+        rows, columns = _block_contract(Path(result.output))
+        if rows != result.rows or columns != result.columns:
+            raise ValueError(f"resumed feature-block contract changed: {source.logical_name}")
+        logger.event(
+            "feature_block_resumed",
+            split=result.split,
+            family=result.family,
+            depth=result.depth,
+            rows=result.rows,
+            output=result.output,
+        )
+        return result
+
     base_source = _base_source(all_sources, source.split)
     base_frame = _scan_base(base_source, store, recipe)
+    output = output_dir / "blocks" / source.split / f"{source.family}_depth{source.depth}.parquet"
 
-    if source.family == "base":
-        semantic = SemanticColumns((), (), (), ())
-        block = _base_block(base_frame, split=source.split)
-    else:
-        decision_frame = _decision_frame(base_frame)
-        semantic = _resolved_semantic_for_source(
-            source,
-            all_sources=all_sources,
-            store=store,
+    if source.family == "base" or partition_plan is None:
+        if source.family == "base":
+            semantic = SemanticColumns((), (), (), ())
+            block = _base_block(base_frame, split=source.split)
+        else:
+            decision_frame = _decision_frame(base_frame)
+            semantic = _resolved_semantic_for_source(
+                source,
+                all_sources=all_sources,
+                store=store,
+            )
+            frame, semantic = _normalized_scan(
+                source,
+                store=store,
+                decision_frame=decision_frame,
+                recipe=recipe,
+                semantic=semantic,
+            )
+            block = (
+                _depth_zero_block(frame, semantic, source=source)
+                if source.depth == 0
+                else _history_block(
+                    frame,
+                    semantic,
+                    source=source,
+                    recipe=recipe,
+                )
+            )
+
+        if execution_policy.sort_partitions_by_case_id:
+            block = block.sort(CASE_ID)
+
+        with StageTimer(
+            logger,
+            f"materialize_{source.logical_name}",
+            heartbeat_seconds=heartbeat_seconds,
+        ):
+            _materialize(block, output, recipe=recipe)
+
+        with StageTimer(logger, f"validate_{source.logical_name}"):
+            rows, columns = _block_contract(output)
+            digest = sha256_file(output)
+
+        result = FeatureBlock(
+            split=source.split,
+            family=source.family,
+            depth=source.depth,
+            output=output.as_posix(),
+            source_files=tuple(record.file for record in source.records),
+            source_sha256=tuple(record.sha256 for record in source.records),
+            rows=rows,
+            columns=columns,
+            feature_columns=max(columns - 1, 0),
+            output_bytes=output.stat().st_size,
+            output_sha256=digest,
+            recipe_sha256=recipe_sha256,
+            protocol_sha256=protocol_sha256,
+            execution_sha256=execution_sha256,
+            unsupported_columns=semantic.unsupported,
+        )
+        state.record_feature_block(
+            source.logical_name,
+            _feature_block_state_payload(result, output_root=output_dir),
+        )
+        logger.event(
+            "feature_block_completed",
+            split=result.split,
+            family=result.family,
+            depth=result.depth,
+            rows=result.rows,
+            columns=result.columns,
+            feature_columns=result.feature_columns,
+            output_bytes=result.output_bytes,
+            execution_mode="direct",
+            output=result.output,
+        )
+        return result
+
+    semantic = _resolved_semantic_for_source(
+        source,
+        all_sources=all_sources,
+        store=store,
+    )
+    decision_frame = _decision_frame(base_frame)
+    work_root = (
+        output_dir
+        / execution_policy.work_directory_name
+        / source.split
+        / f"{source.family}_depth{source.depth}"
+    )
+    part_paths: list[Path] = []
+    resumed_partitions = 0
+    block_started = time.monotonic()
+
+    logger.event(
+        "partitioned_feature_block_started",
+        split=source.split,
+        family=source.family,
+        depth=source.depth,
+        partitions=len(partition_plan),
+        partition_rows=execution_policy.partition_rows,
+        rss_mb=_rss_mb(),
+    )
+
+    for partition_index, partition in enumerate(partition_plan, start=1):
+        part_output = work_root / f"{partition.name}.parquet"
+        receipt = state.partition_receipt(
+            source.logical_name,
+            partition,
+            output_root=output_dir,
+            validate_hash=execution_policy.validate_intermediate_hashes,
+        )
+        if receipt is not None:
+            candidate = output_dir / receipt.output
+            try:
+                rows, columns = _partition_contract(
+                    candidate,
+                    partition=partition,
+                )
+            except (OSError, ValueError):
+                receipt = None
+            else:
+                if rows != receipt.rows or columns != receipt.columns:
+                    receipt = None
+
+        if receipt is not None:
+            resumed_partitions += 1
+            part_paths.append(output_dir / receipt.output)
+            logger.event(
+                "feature_partition_resumed",
+                split=source.split,
+                family=source.family,
+                depth=source.depth,
+                partition=partition.name,
+                index=partition_index,
+                total=len(partition_plan),
+                case_id_min=partition.case_id_min,
+                case_id_max=partition.case_id_max,
+                rows=receipt.rows,
+                rss_mb=_rss_mb(),
+            )
+            continue
+
+        logger.event(
+            "feature_partition_started",
+            split=source.split,
+            family=source.family,
+            depth=source.depth,
+            partition=partition.name,
+            index=partition_index,
+            total=len(partition_plan),
+            case_id_min=partition.case_id_min,
+            case_id_max=partition.case_id_max,
+            expected_base_cases=partition.expected_base_cases,
+            block_elapsed_seconds=round(time.monotonic() - block_started, 3),
+            rss_mb=_rss_mb(),
         )
 
-        frame, semantic = _normalized_scan(
+        lower = partition.case_id_min
+        upper = partition.case_id_max
+        partition_decision = decision_frame.filter(
+            pl.col(CASE_ID).is_between(lower, upper, closed="both")
+        )
+        frame, _ = _normalized_scan(
             source,
             store=store,
-            decision_frame=decision_frame,
+            decision_frame=partition_decision,
             recipe=recipe,
             semantic=semantic,
+            case_id_bounds=(lower, upper),
         )
-        block = (
+        partition_block = (
             _depth_zero_block(frame, semantic, source=source)
             if source.depth == 0
-            else _history_block(frame, semantic, source=source, recipe=recipe)
+            else _history_block(
+                frame,
+                semantic,
+                source=source,
+                recipe=recipe,
+            )
         )
+        if execution_policy.sort_partitions_by_case_id:
+            partition_block = partition_block.sort(CASE_ID)
 
-    output = output_dir / "blocks" / source.split / f"{source.family}_depth{source.depth}.parquet"
+        with StageTimer(
+            logger,
+            f"materialize_{source.logical_name}_{partition.name}",
+            heartbeat_seconds=heartbeat_seconds,
+        ):
+            _materialize(partition_block, part_output, recipe=recipe)
+
+        with StageTimer(
+            logger,
+            f"validate_{source.logical_name}_{partition.name}",
+        ):
+            rows, columns = _partition_contract(
+                part_output,
+                partition=partition,
+            )
+            digest = sha256_file(part_output)
+
+        relative_output = part_output.relative_to(output_dir).as_posix()
+        receipt = PartitionReceipt(
+            index=partition.index,
+            case_id_min=partition.case_id_min,
+            case_id_max=partition.case_id_max,
+            expected_base_cases=partition.expected_base_cases,
+            rows=rows,
+            columns=columns,
+            output=relative_output,
+            output_bytes=part_output.stat().st_size,
+            output_sha256=digest,
+        )
+        state.record_partition(source.logical_name, receipt)
+        part_paths.append(part_output)
+        logger.event(
+            "feature_partition_completed",
+            split=source.split,
+            family=source.family,
+            depth=source.depth,
+            partition=partition.name,
+            index=partition_index,
+            total=len(partition_plan),
+            rows=rows,
+            output_bytes=receipt.output_bytes,
+            partition_elapsed_seconds=round(
+                time.monotonic() - block_started,
+                3,
+            ),
+            rss_mb=_rss_mb(),
+        )
+        del frame, partition_block
+        _release_partition_memory()
+
+    if not part_paths:
+        raise RuntimeError(f"no partition outputs for {source.logical_name}")
+
     with StageTimer(
         logger,
-        f"materialize_{source.logical_name}",
+        f"combine_{source.logical_name}",
         heartbeat_seconds=heartbeat_seconds,
     ):
-        _materialize(block, output, recipe=recipe)
+        first_schema = pq.ParquetFile(part_paths[0]).schema_arrow
+        for part_path in part_paths[1:]:
+            if pq.ParquetFile(part_path).schema_arrow != first_schema:
+                raise ValueError(
+                    f"partition schema mismatch for {source.logical_name}: {part_path}"
+                )
+        combined = pl.concat(
+            [pl.scan_parquet(path) for path in part_paths],
+            how="vertical",
+            rechunk=False,
+        )
+        _materialize(combined, output, recipe=recipe)
 
     with StageTimer(logger, f"validate_{source.logical_name}"):
         rows, columns = _block_contract(output)
+        if rows > sum(partition.expected_base_cases for partition in partition_plan):
+            raise ValueError(
+                f"final partitioned block exceeds the base population: {source.logical_name}"
+            )
         digest = sha256_file(output)
 
     result = FeatureBlock(
@@ -781,8 +1076,17 @@ def _source_feature_block(
         output_sha256=digest,
         recipe_sha256=recipe_sha256,
         protocol_sha256=protocol_sha256,
+        execution_sha256=execution_sha256,
         unsupported_columns=semantic.unsupported,
     )
+    state.record_feature_block(
+        source.logical_name,
+        _feature_block_state_payload(result, output_root=output_dir),
+    )
+
+    if not execution_policy.retain_partition_files:
+        shutil.rmtree(work_root, ignore_errors=True)
+
     logger.event(
         "feature_block_completed",
         split=result.split,
@@ -792,6 +1096,11 @@ def _source_feature_block(
         columns=result.columns,
         feature_columns=result.feature_columns,
         output_bytes=result.output_bytes,
+        execution_mode="case_range_partitioned",
+        partitions=len(partition_plan),
+        resumed_partitions=resumed_partitions,
+        block_elapsed_seconds=round(time.monotonic() - block_started, 3),
+        rss_mb=_rss_mb(),
         output=result.output,
     )
     return result
@@ -804,13 +1113,16 @@ def build_feature_blocks(
     recipe: FeatureRecipe,
     recipe_sha256: str,
     protocol_sha256: str,
+    raw_manifest_sha256: str,
+    execution_policy: FeatureExecutionPolicy,
+    execution_sha256: str,
     output_dir: Path,
     logger: RunLogger,
     heartbeat_seconds: float,
     splits: frozenset[str],
     families: frozenset[str] | None,
 ) -> tuple[FeatureBlock, ...]:
-    """Build selected case-level feature blocks sequentially to bound peak memory."""
+    """Build case-level feature blocks with exact resumable case partitioning."""
     if heartbeat_seconds <= 0:
         raise ValueError("heartbeat_seconds must be positive")
 
@@ -818,6 +1130,35 @@ def build_feature_blocks(
     selected = select_sources(all_sources, splits=splits, families=families)
     if not selected:
         raise ValueError("feature source selection is empty")
+
+    selected_names = tuple(source.logical_name for source in selected)
+    identity = BuildIdentity(
+        git_commit=_git_commit(),
+        raw_manifest_sha256=raw_manifest_sha256,
+        validation_protocol_sha256=protocol_sha256,
+        feature_recipe_sha256=recipe_sha256,
+        feature_execution_sha256=execution_sha256,
+        selected_sources=selected_names,
+    )
+    state = BuildStateStore(output_dir / "build_state.json", identity)
+
+    partition_plans: dict[Split, tuple[CasePartition, ...]] = {}
+    base_rows_by_split: dict[Split, int] = {}
+    for split_name in sorted(splits):
+        split = cast(Split, split_name)
+        base_source = _base_source(all_sources, split)
+        base_frame = _scan_base(base_source, store, recipe)
+        plan = _base_case_partitions(base_frame, policy=execution_policy)
+        base_rows = sum(part.expected_base_cases for part in plan)
+        partition_plans[split] = plan
+        base_rows_by_split[split] = base_rows
+        logger.event(
+            "feature_partition_plan",
+            split=split,
+            base_rows=base_rows,
+            partitions=len(plan),
+            partition_rows=execution_policy.partition_rows,
+        )
 
     blocks: list[FeatureBlock] = []
     started = time.monotonic()
@@ -827,9 +1168,21 @@ def build_feature_blocks(
         splits=sorted(splits),
         families="all" if families is None else sorted(families),
         recipe=recipe.name,
+        execution_mode=execution_policy.mode,
+        execution_sha256=execution_sha256,
+        partition_rows=execution_policy.partition_rows,
+        max_threads=execution_policy.max_threads,
     )
 
     for index, source in enumerate(selected, start=1):
+        source_bytes = sum(record.bytes for record in source.records)
+        should_partition = should_partition_source(
+            base_rows=base_rows_by_split[source.split],
+            source_bytes=source_bytes,
+            is_base=source.family == "base",
+            policy=execution_policy,
+        )
+        source_plan = partition_plans[source.split] if should_partition else None
         logger.event(
             "feature_block_started",
             index=index,
@@ -838,6 +1191,10 @@ def build_feature_blocks(
             family=source.family,
             depth=source.depth,
             shards=len(source.records),
+            source_bytes=source_bytes,
+            partitioned=should_partition,
+            partitions=0 if source_plan is None else len(source_plan),
+            rss_mb=_rss_mb(),
         )
         blocks.append(
             _source_feature_block(
@@ -847,11 +1204,16 @@ def build_feature_blocks(
                 recipe=recipe,
                 recipe_sha256=recipe_sha256,
                 protocol_sha256=protocol_sha256,
+                execution_sha256=execution_sha256,
+                execution_policy=execution_policy,
                 output_dir=output_dir,
                 logger=logger,
                 heartbeat_seconds=heartbeat_seconds,
+                state=state,
+                partition_plan=source_plan,
             )
         )
+        _release_partition_memory()
 
     logger.event(
         "feature_build_completed",
@@ -859,6 +1221,7 @@ def build_feature_blocks(
         total_feature_columns=sum(block.feature_columns for block in blocks),
         total_output_bytes=sum(block.output_bytes for block in blocks),
         total_elapsed_seconds=round(time.monotonic() - started, 3),
+        rss_mb=_rss_mb(),
     )
     return tuple(blocks)
 
@@ -871,6 +1234,7 @@ def write_feature_manifest(
     manifest_sha256: str,
     protocol_sha256: str,
     recipe_sha256: str,
+    execution_sha256: str,
 ) -> None:
     """Atomically write the feature-block provenance manifest."""
     payload = {
@@ -880,6 +1244,7 @@ def write_feature_manifest(
         "raw_manifest_sha256": manifest_sha256,
         "validation_protocol_sha256": protocol_sha256,
         "feature_recipe_sha256": recipe_sha256,
+        "feature_execution_sha256": execution_sha256,
         "blocks": [asdict(block) for block in blocks],
     }
     serialized = json.dumps(payload, indent=2, sort_keys=True, default=list) + "\n"

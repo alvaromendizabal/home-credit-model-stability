@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "mode": "case_range_partitioned",
+  "partition_rows": 20000,
+  "partition_threshold_rows": 100000,
+  "partition_min_source_bytes": 134217728,
+  "max_threads": 4,
+  "resume": true,
+  "validate_intermediate_hashes": true,
+  "sort_partitions_by_case_id": true,
+  "retain_partition_files": false,
+  "work_directory_name": "work",
+  "notes": "Exact case-range partitioning bounds group-by state, preserves one-case-per-partition semantics, supports deterministic checkpoints, and resumes only from provenance- and hash-verified artifacts."
+}
