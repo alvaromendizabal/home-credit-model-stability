@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "run_key": "ea48ad26a735ef4044ebc6a0d2e2750cb54584a2926619ab9d52bcdc0f739438",
+  "summary_sha256": "cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4",
+  "manifest_sha256": "4fb12c48f7af8a9f7f442b2519f17cc0c1eba274c9d34fa6bb76b59c485e58f6",
+  "region": "us-west-2",
+  "s3_prefix": "home-credit-model-stability/model-benchmarks/cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4"
+}

@@ -1,0 +1,62 @@
+# Validation record
+
+The acceptance implementation was executed against the actual published benchmark,
+not only synthetic fixtures. No training was rerun and no AWS compute resource was created.
+
+## Evidence checked
+
+- Training commit: `414397e1f5731aa969b8599d5c11a58459a0e361`.
+- Run key: `ea48ad26a735ef4044ebc6a0d2e2750cb54584a2926619ab9d52bcdc0f739438`.
+- Manifest SHA-256: `4fb12c48f7af8a9f7f442b2519f17cc0c1eba274c9d34fa6bb76b59c485e58f6`.
+- Summary SHA-256: `cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4`.
+- 70 files / 250,504,699 bytes verified against the published manifest.
+- 20 model-fold receipts, model bytes, prediction bytes, and feature counts verified.
+- Fold metrics, pooled OOF metrics, weekly diagnostics, and model ranking recomputed.
+- 727,187 distinct OOF cases per model; exact case/week/label agreement across all four models.
+- OOF weeks 33-72; no weeks 73-91 in these prediction artifacts.
+- Screening feature counts, excluded predictors, protocol hash, configuration hash,
+  feature-screen identity, and training provenance checked.
+
+## Code checks
+
+`bash scripts/check.sh` runs Ruff lint, Ruff formatting, strict mypy, and the full
+pytest suite with coverage. The expanded suite contains 154 tests, including 24 new
+acceptance, report, S3 restoration, and heartbeat regression cases.
+
+New cases cover known metric values; duplicate IDs; nonfinite and out-of-range
+probabilities; wrong, missing, or single-class weeks; invalid targets; missing folds;
+changed artifact bytes; a wrong metric inside a consistently rehashed publication;
+holdout contamination; manifest identity; cached restoration; corrupted download
+cleanup; report generation; and unavailable process telemetry.
+
+S3 restoration uses an injected client in tests. The real S3 artifacts were downloaded
+through the connected AWS account, then the local acceptance CLI verified them in the
+locked project environment. The CLI's direct boto3 download path was not run inside
+the user's SageMaker terminal during this review.
+
+The run emits UTC console/JSONL events, per-fold counters, elapsed stage time, a
+heartbeat, and total elapsed time. In containers that hide process telemetry, the
+heartbeat continues with null CPU/RSS values and an explicit telemetry status.
+
+## Visual checks and limits
+
+The static SVG overview was rendered and visually inspected. The HTML contains four
+Plotly figures and embeds its JavaScript. The report-generation test passes and its
+tables use accepted aggregate evidence. Interactive browser QA could not be completed
+because this environment's browser policy blocked the local preview routes.
+
+Acceptance establishes artifact consistency and reproducible development metrics.
+It does not establish final holdout performance, production readiness, causal
+interpretability, fairness, raw-data point-in-time correctness, or actual AWS dollar costs.
+
+## Continue in SageMaker
+
+Run from the repository root on `feat/benchmark-acceptance`:
+
+```bash
+bash scripts/check.sh &&
+uv run --locked python scripts/accept_model_benchmark.py --download --bucket YOUR_ARTIFACT_BUCKET
+```
+
+Success ends with `PHASE_5A_ACCEPTANCE_COMPLETED`. Open `reports/benchmark/report.html`
+in a browser. The command restores the completed run; it does not refit the models.

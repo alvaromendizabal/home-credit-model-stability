@@ -2,6 +2,58 @@
 
 Research-grade credit-risk modeling under temporal distribution shift, built as a reproducible AWS SageMaker portfolio project.
 
+## Current benchmark
+
+![Temporal benchmark overview](reports/benchmark/overview.svg)
+
+The September 6 development benchmark completed **20 model folds** across four model
+families. Independent acceptance verified **70 artifacts**, recomputed all fold, pooled,
+and weekly metrics, and confirmed aligned out-of-fold predictions for **727,187 cases**.
+
+| Model | Mean fold stability | Worst fold stability | OOF AUC | OOF average precision | OOF Brier |
+|---|---:|---:|---:|---:|---:|
+| LightGBM | 0.585188 | 0.393682 | 0.846894 | 0.204525 | 0.032425 |
+| XGBoost | 0.558892 | 0.343432 | 0.846576 | 0.204701 | 0.032441 |
+| CatBoost | 0.546330 | 0.297149 | 0.842745 | 0.201164 | 0.032512 |
+| Logistic SGD | -0.120484 | -0.586889 | 0.675897 | 0.102612 | 0.036354 |
+
+**LightGBM is the development leader.** Selection uses mean fold stability, not pooled
+OOF stability. Development folds inform early stopping and selection. Final holdout
+evaluation on weeks 73-91 remains pending; these are not final-test or production claims.
+The boosting models use 700 screened features. The logistic SGD baseline uses the
+first 256 screened features with training-only imputation and standardization; this
+is a lightweight sanity baseline, not an optimized linear-model comparison.
+
+See the [benchmark evidence](reports/benchmark/README.md),
+[machine-readable acceptance](reports/benchmark/acceptance.json), and
+[interactive report](reports/benchmark/report.html). Download the HTML and open it in
+a browser; JavaScript is embedded and no server is required.
+
+### Reproduce acceptance of the completed run
+
+```bash
+uv sync --locked
+bash scripts/check.sh
+uv run --locked python scripts/accept_model_benchmark.py --download --bucket YOUR_ARTIFACT_BUCKET
+```
+
+The last command restores the pinned S3 publication into `artifacts/benchmark_acceptance`,
+checks SHA-256 identities, recomputes metrics, and writes `reports/benchmark/`. It trains
+no models and creates no AWS compute resources. It needs read access to the existing
+S3 objects and approximately 310 MB of free disk for the cache and reserve. Repeated
+runs reuse verified downloads. UTC console/JSONL logs include stage timings, a 15-second
+heartbeat, per-fold progress, failures, and total elapsed time.
+Supply the existing bucket locally with `--bucket`, or set `HOME_CREDIT_ARTIFACT_BUCKET`.
+The acceptance policy contains no AWS account ID or account-specific bucket address.
+
+For an already restored bundle, omit `--download` and supply `--benchmark-dir PATH`.
+The bundle must contain the pinned `checkpoint_manifest.json`. S3 restoration is
+covered by injected-client tests; acceptance was also executed against all real artifacts.
+
+The next modeling step is controlled LightGBM/XGBoost tuning and feature-block
+ablation, preceded by investigation of weak folds and the screening adversarial AUC
+of 0.998944. Keep the outer holdout locked until model and calibration choices are frozen.
+
 ## Engineering principles
 
 - Python 3.12 with a project-local `uv` environment and committed `uv.lock`.
