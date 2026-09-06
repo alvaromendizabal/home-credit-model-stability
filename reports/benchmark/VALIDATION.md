@@ -54,9 +54,19 @@ interpretability, fairness, raw-data point-in-time correctness, or actual AWS do
 Run from the repository root on `feat/benchmark-acceptance`:
 
 ```bash
-bash scripts/check.sh &&
-uv run --locked python scripts/accept_model_benchmark.py --download --bucket YOUR_ARTIFACT_BUCKET
+bash scripts/start_here.sh --require-persistent-storage \
+  --accept-benchmark --bucket YOUR_ARTIFACT_BUCKET
 ```
 
 Success ends with `PHASE_5A_ACCEPTANCE_COMPLETED`. Open `reports/benchmark/report.html`
 in a browser. The command restores the completed run; it does not refit the models.
+
+## Persistent startup regression coverage
+
+The startup entry point now prepares a real project-local `.venv`, managed Python,
+and persistent dependency caches before quality gates. Tests execute real uv against
+a dangling link, check preservation of model files and old link targets, verify
+interrupted creation recovery, reject low capacity and temporary mounts, exercise
+silent-child heartbeats and failure propagation, and prevent recursive bootstrap.
+The original 154-test result above records the earlier acceptance implementation;
+current startup verification is recorded in GitHub CI and the startup logs.

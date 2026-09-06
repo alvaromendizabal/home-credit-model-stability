@@ -32,21 +32,23 @@ a browser; JavaScript is embedded and no server is required.
 ### Reproduce acceptance of the completed run
 
 ```bash
-uv sync --locked
-bash scripts/check.sh
-uv run --locked python scripts/accept_model_benchmark.py --download --bucket YOUR_ARTIFACT_BUCKET
+bash scripts/start_here.sh --require-persistent-storage \
+  --accept-benchmark --bucket YOUR_ARTIFACT_BUCKET
 ```
 
-The last command restores the pinned S3 publication into `artifacts/benchmark_acceptance`,
-checks SHA-256 identities, recomputes metrics, and writes `reports/benchmark/`. It trains
-no models and creates no AWS compute resources. It needs read access to the existing
-S3 objects and approximately 310 MB of free disk for the cache and reserve. Repeated
+The command prepares the persistent environment and runs the quality gates before
+restoring the pinned S3 publication into `artifacts/benchmark_acceptance`, checking
+SHA-256 identities, recomputing metrics, and writing `reports/benchmark/`. Bootstrap
+fits tiny synthetic smoke-test models; no benchmark model is retrained and no AWS
+compute resource is created. Startup requires 12 GiB free for installation and reserve;
+the acceptance bundle itself requires approximately 310 MB including its reserve. Repeated
 runs reuse verified downloads. UTC console/JSONL logs include stage timings, a 15-second
 heartbeat, per-fold progress, failures, and total elapsed time.
 Supply the existing bucket locally with `--bucket`, or set `HOME_CREDIT_ARTIFACT_BUCKET`.
 The acceptance policy contains no AWS account ID or account-specific bucket address.
 
-For an already restored bundle, omit `--download` and supply `--benchmark-dir PATH`.
+For an already restored bundle, invoke `scripts/accept_model_benchmark.py` directly
+with the prepared project Python, omit `--download`, and supply `--benchmark-dir PATH`.
 The bundle must contain the pinned `checkpoint_manifest.json`. S3 restoration is
 covered by injected-client tests; acceptance was also executed against all real artifacts.
 
@@ -82,7 +84,7 @@ bash scripts/connectivity_check.sh
 ```
 
 Before any Kaggle download, the project enforces a local storage safety floor. The
-competition download is blocked unless at least 30 GiB of ephemeral staging capacity is free by default. Override only deliberately with `MIN_STAGING_FREE_GIB=<value>` after verifying an alternate storage plan.
+competition download is blocked unless at least 30 GiB of persistent staging capacity is free by default. Override only deliberately with `MIN_STAGING_FREE_GIB=<value>` after verifying an alternate storage plan.
 
 Kaggle is project-managed and invoked through the locked `uv` environment; it does not depend on a global `kaggle` executable.
 
@@ -132,15 +134,38 @@ inside SageMaker with `uv run --locked kaggle auth login`, then rerun
 `scripts/connectivity_check.sh`. Git author identity is also repository-local configuration rather
 than project source; set `git config user.name` and `git config user.email` before the first commit.
 
-Raw competition files are staged one at a time through `/tmp` and uploaded to the conventional
+Raw competition files are staged one at a time in `data/staging` and uploaded to the conventional
 SageMaker S3 bucket (`sagemaker-<region>-<account-id>` by default). The ingestion script does not
 require bucket-administration permissions. Every uploaded data object is explicitly encrypted with
 SSE-S3 and carries its SHA-256 digest as object metadata for post-upload verification.
 
 ## SageMaker storage layout
 
-The project intentionally keeps source code and small logs under the persistent JupyterLab home
-filesystem while placing the reproducible `.venv` target and uv cache under `/tmp`. The `.venv`
-entry in the repository is a symlink created by `scripts/start_here.sh`. This prevents the model
-stack from exhausting a small SageMaker home mount; official competition data is likewise staged
-one file at a time under `/tmp` and persisted to S3.
+Source, `.venv`, managed Python, dependency caches, local checkpoints, logs, and reports
+live on the project volume. `.venv` is a real directory. Managed Python 3.12.14 and
+caches live under `artifacts/runtime`; restored benchmark artifacts live under
+`artifacts/benchmark_acceptance`. The completed model checkpoints also remain in S3.
+
+`scripts/start_here.sh` is the canonical entry point. It logs the actual mounted
+filesystem and free capacity before changing the environment. In SageMaker, supply
+`--require-persistent-storage` to reject container overlay or memory-backed storage.
+A configured 100 GiB space is not evidence of 100 GiB currently mounted or available.
+There is no automatic fallback to `/tmp` when capacity is insufficient.
+
+Historical `.venv` symlinks are detached only after the persistent interpreter is
+available; their old targets are preserved. Healthy persistent environments and
+verified downloads are reused. Partial environment creation is recoverable, and
+installed packages are reconciled to the existing `uv.lock`. The bootstrap lock
+prevents two startup processes from changing the environment simultaneously.
+Startup, dependency installation, quality gates, and acceptance emit UTC events,
+15-second outer heartbeats, stage times, total time, and durable text/JSONL logs.
+After interruption, rerun the same command. Validation checks repeat; completed
+model training and verified artifact downloads do not repeat.
+
+EBS persistence covers stopping/restarting the application and changing instances;
+it is not a backup against deleting the space. GitHub holds source history and S3
+holds published experiment artifacts. Python environments are installed once on the
+space volume; they are reproducible from pinned tools and the committed lockfile.
+
+See [AWS storage behavior](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-updated-jl-user-guide.html)
+and [uv environment configuration](https://docs.astral.sh/uv/concepts/projects/config/#project-environment-path).
