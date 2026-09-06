@@ -12,10 +12,23 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
         with:
-          version: "0.12.9"
-          python-version: "3.12"
+          version: "0.12.10"
+          python-version: "3.12.14"
           enable-cache: true
       - name: Sync locked environment
         run: uv sync --locked --group dev
       - name: Run quality gates
         run: bash scripts/check.sh
+      - name: Execute benchmark review notebook
+        run: uv run --locked python scripts/review_model_benchmark.py --force
+      - name: Verify published review is reproducible
+        run: git diff --exit-code -- notebooks/05_benchmark_review.ipynb reports/benchmark/review.json
+      - name: Preserve executed review
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-review
+          path: |
+            notebooks/05_benchmark_review.ipynb
+            reports/benchmark/review.json
+            logs/benchmark-review-*.jsonl
+          if-no-files-found: error

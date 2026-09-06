@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import ast
+import os
 import re
 import subprocess
 import sys
@@ -51,6 +52,15 @@ def stamp() -> str:
 
 def log(message: str) -> None:
     print(f"{stamp()} {message}", flush=True)
+
+
+def source_files() -> list[Path]:
+    """Prune installed environments and persistent caches before traversal."""
+    files: list[Path] = []
+    for directory, names, filenames in os.walk(ROOT):
+        names[:] = [name for name in names if name not in IGNORED_PARTS]
+        files.extend(Path(directory) / name for name in filenames)
+    return files
 
 
 def resolve_internal_module(module: str) -> bool:
@@ -101,7 +111,8 @@ def main() -> int:
         if not (ROOT / relative).is_file():
             errors.append(f"missing required file: {relative}")
 
-    for path in ROOT.rglob("*"):
+    paths = source_files()
+    for path in paths:
         if not path.is_file() or any(part in IGNORED_PARTS for part in path.parts):
             continue
         if FORBIDDEN.search(path.name):
@@ -109,7 +120,7 @@ def main() -> int:
 
     errors.extend(internal_import_errors())
 
-    for path in sorted(ROOT.rglob("*.py")):
+    for path in sorted(path for path in paths if path.suffix == ".py"):
         if any(part in IGNORED_PARTS for part in path.parts):
             continue
         try:

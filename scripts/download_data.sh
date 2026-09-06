@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # Stage official Home Credit Parquet files from Kaggle into the SageMaker S3 bucket.
-# Files are downloaded one at a time to ephemeral /tmp storage, hashed, encrypted,
-# uploaded, verified, and removed immediately so the small JupyterLab home volume
-# never needs to hold the full competition dataset.
+# Files are staged on persistent project storage, hashed, encrypted, uploaded,
+# verified, and then removed from staging. The durable raw snapshot stays in S3.
 
 set -u
 set -o pipefail
@@ -11,7 +10,7 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT" || exit 1
 
 COMPETITION="home-credit-credit-risk-model-stability"
-STAGING_ROOT="${HOME_CREDIT_STAGING_ROOT:-/tmp/home-credit-kaggle-staging}"
+STAGING_ROOT="${HOME_CREDIT_STAGING_ROOT:-$PROJECT_ROOT/data/staging}"
 MIN_STAGING_FREE_GIB="${MIN_STAGING_FREE_GIB:-30}"
 HEARTBEAT_SECONDS="${HEARTBEAT_SECONDS:-30}"
 START_EPOCH="$(date +%s)"

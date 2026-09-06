@@ -3,11 +3,11 @@ from __future__ import annotations
 from pathlib import Path
 
 
-def test_data_acquisition_is_s3_first_and_ephemeral() -> None:
+def test_data_acquisition_is_s3_first_with_persistent_staging() -> None:
     root = Path(__file__).resolve().parents[2]
     script = (root / "scripts" / "download_data.sh").read_text(encoding="utf-8")
 
-    assert "/tmp/home-credit-kaggle-staging" in script
+    assert "$PROJECT_ROOT/data/staging" in script
     assert "aws s3 cp" in script
     assert 'row["name"].endswith(".parquet")' in script
     assert 'rm -rf "$WORK_DIR"' in script
@@ -37,10 +37,10 @@ def test_kaggle_access_is_verified_before_s3_creation() -> None:
     assert "uv run --locked kaggle auth login" in script
 
 
-def test_data_acquisition_does_not_require_large_home_volume() -> None:
+def test_data_acquisition_uses_project_staging_without_full_local_dataset() -> None:
     root = Path(__file__).resolve().parents[2]
     script = (root / "scripts" / "download_data.sh").read_text(encoding="utf-8")
 
-    assert 'STAGING_ROOT="${HOME_CREDIT_STAGING_ROOT:-/tmp/' in script
+    assert 'STAGING_ROOT="${HOME_CREDIT_STAGING_ROOT:-$PROJECT_ROOT/data/staging}"' in script
     assert 'DEST="data/downloads"' not in script
     assert 'MIN_FREE_GIB="${MIN_FREE_GIB:-60}"' not in script

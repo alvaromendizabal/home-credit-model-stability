@@ -28,6 +28,7 @@ class Heartbeat(AbstractContextManager["Heartbeat"]):
 
     def __enter__(self) -> Self:
         self._started = time.monotonic()
+        self._stop.clear()
         self._thread = threading.Thread(
             target=self._loop,
             daemon=True,
@@ -47,15 +48,25 @@ class Heartbeat(AbstractContextManager["Heartbeat"]):
             self._thread.join(timeout=max(self.interval_seconds * 2, 1.0))
 
     def _loop(self) -> None:
-        process = psutil.Process(os.getpid())
         while not self._stop.wait(self.interval_seconds):
-            memory = process.memory_info().rss / (1024 * 1024)
+            # Some containers hide their own PID from /proc. Progress must remain
+            # visible even when optional resource telemetry is unavailable.
+            try:
+                process = psutil.Process(os.getpid())
+                memory: float | None = round(process.memory_info().rss / (1024 * 1024), 1)
+                cpu: float | None = psutil.cpu_percent(interval=None)
+                telemetry_status = "available"
+            except (psutil.Error, OSError) as exc:
+                memory = None
+                cpu = None
+                telemetry_status = type(exc).__name__
             self.logger.event(
                 "heartbeat",
                 label=self.label,
                 elapsed_seconds=round(time.monotonic() - self._started, 1),
-                rss_mb=round(memory, 1),
-                cpu_percent=psutil.cpu_percent(interval=None),
+                rss_mb=memory,
+                cpu_percent=cpu,
+                telemetry_status=telemetry_status,
             )
 
 

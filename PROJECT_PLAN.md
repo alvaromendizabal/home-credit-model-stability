@@ -27,6 +27,12 @@ Build lazy Polars feature pipelines for depth-0/1/2 tables with leakage checks, 
 ## 9. Classical model benchmark
 Train logistic regression, LightGBM, CatBoost, and XGBoost with identical locked temporal evaluation, OOF predictions, calibration metrics, and runtime/cost metadata.
 
+Completed: four model families x five temporal folds. The published run was restored
+and accepted with independent metric recomputation, 70 verified files, cross-model
+OOF alignment, weekly diagnostics, and an aggregate-only report. LightGBM leads the
+development selection metric. Fit-stage timings are available; AWS dollar costs have
+not been established. Final holdout evaluation remains pending.
+
 ## 10. Optimization and ablation
 Run persisted Optuna studies and controlled feature/model ablations. Prefer evidence over model complexity.
 

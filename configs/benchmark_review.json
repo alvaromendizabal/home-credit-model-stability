@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "evidence_sha256": "d76a0588901f07f80b94254348c7598545f35adb53ca1d5faae7d28314f99798",
+  "summary_sha256": "cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4",
+  "metric_source": "https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/overview/evaluation",
+  "metrics_sha256": "e02e6d30c6559e029402e6b3d6180f759d7d2d5baeb60f1c09dbe377f237f9e3"
+}
