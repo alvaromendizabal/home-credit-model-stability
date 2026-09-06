@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 from pathlib import Path
 
@@ -20,11 +21,9 @@ IGNORED_DIRS = {
 def project_files() -> list[Path]:
     root = Path(__file__).resolve().parents[2]
     files: list[Path] = []
-    for path in root.rglob("*"):
-        if any(part in IGNORED_DIRS for part in path.parts):
-            continue
-        if path.is_file():
-            files.append(path)
+    for directory, names, filenames in os.walk(root):
+        names[:] = [name for name in names if name not in IGNORED_DIRS]
+        files.extend(Path(directory) / name for name in filenames)
     return files
 
 

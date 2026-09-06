@@ -1,0 +1,2200 @@
+{
+  "schema_version": 1,
+  "status": "accepted",
+  "scope": "development_benchmark_artifacts",
+  "run_key": "ea48ad26a735ef4044ebc6a0d2e2750cb54584a2926619ab9d52bcdc0f739438",
+  "training_commit": "414397e1f5731aa969b8599d5c11a58459a0e361",
+  "summary_sha256": "cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4",
+  "manifest_sha256": "4fb12c48f7af8a9f7f442b2519f17cc0c1eba274c9d34fa6bb76b59c485e58f6",
+  "validation_protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+  "verified_files": 70,
+  "verified_bytes": 250504699,
+  "model_folds": 20,
+  "oof_rows_per_model": 727187,
+  "oof_week_min": 33,
+  "oof_week_max": 72,
+  "holdout_week_min": 73,
+  "holdout_week_max": 91,
+  "holdout_predictions_present": false,
+  "oof_positive_rate": 0.037261392186603993,
+  "descriptive_constant_brier": 0.035872980838920085,
+  "selected_features": 700,
+  "model_feature_counts": {
+    "linear_logistic": 256,
+    "lightgbm": 700,
+    "xgboost": 700,
+    "catboost": 700
+  },
+  "categorical_features": 67,
+  "selected_features_by_block": {
+    "applprev_depth1": 175,
+    "applprev_depth2": 9,
+    "credit_bureau_a_depth1": 244,
+    "credit_bureau_a_depth2": 29,
+    "credit_bureau_b_depth1": 7,
+    "credit_bureau_b_depth2": 4,
+    "debitcard_depth1": 4,
+    "deposit_depth1": 4,
+    "person_depth1": 69,
+    "person_depth2": 7,
+    "static_cb_depth0": 23,
+    "static_depth0": 107,
+    "tax_registry_c_depth1": 18
+  },
+  "screening_drift_auc": 0.9989437343708738,
+  "leader": "lightgbm",
+  "models": [
+    {
+      "folds": 5,
+      "mean_auc": 0.8493414423026999,
+      "mean_brier_score": 0.030813879929730337,
+      "mean_inner_stability_score": 0.5851883723923733,
+      "mean_residual_std": 0.024017247883034932,
+      "mean_temporal_slope": 0.0007955140125832018,
+      "mean_weekly_gini": 0.6942107647906615,
+      "model": "lightgbm",
+      "oof_auc": 0.8468941374919333,
+      "oof_brier_score": 0.032425458087833335,
+      "oof_log_loss": 0.12680497461504933,
+      "oof_mean_gini": 0.6942107647906613,
+      "oof_path": "oof/lightgbm.parquet",
+      "oof_pr_auc": 0.20452456164496388,
+      "oof_residual_std": 0.030684478632690346,
+      "oof_sha256": "3088079c4b9b64cb0a72cb072b1e0f9221c3f56e50d3139d5e21a835532ae269",
+      "oof_stability_score": 0.6788685254743162,
+      "oof_temporal_slope": 0.0006795158752285938,
+      "rank": 1,
+      "std_inner_stability_score": 0.11865390960758322,
+      "worst_fold_stability_score": 0.3936822858714575
+    },
+    {
+      "folds": 5,
+      "mean_auc": 0.8490231910616511,
+      "mean_brier_score": 0.03082601104927769,
+      "mean_inner_stability_score": 0.5588916378616412,
+      "mean_residual_std": 0.023562408803911083,
+      "mean_temporal_slope": 0.00038120262437360395,
+      "mean_weekly_gini": 0.6933122121796524,
+      "model": "xgboost",
+      "oof_auc": 0.8465757851506721,
+      "oof_brier_score": 0.032440709461510696,
+      "oof_log_loss": 0.12688676450802353,
+      "oof_mean_gini": 0.6933122121796523,
+      "oof_path": "oof/xgboost.parquet",
+      "oof_pr_auc": 0.20470064621597361,
+      "oof_residual_std": 0.03027488737465513,
+      "oof_sha256": "750b8e958fab9c8bd59d13ef9154b79af1d74e97617f7c22398a8ce83baad371",
+      "oof_stability_score": 0.6781747684923247,
+      "oof_temporal_slope": 0.000650229759213654,
+      "rank": 2,
+      "std_inner_stability_score": 0.13310898975687602,
+      "worst_fold_stability_score": 0.34343243575499016
+    },
+    {
+      "folds": 5,
+      "mean_auc": 0.8457245003486211,
+      "mean_brier_score": 0.03089003997303737,
+      "mean_inner_stability_score": 0.5463295572474515,
+      "mean_residual_std": 0.023938755298520045,
+      "mean_temporal_slope": 0.000542142896125832,
+      "mean_weekly_gini": 0.686473277963443,
+      "model": "catboost",
+      "oof_auc": 0.8427452521032657,
+      "oof_brier_score": 0.0325124174119557,
+      "oof_log_loss": 0.12773980614985053,
+      "oof_mean_gini": 0.686473277963443,
+      "oof_path": "oof/catboost.parquet",
+      "oof_pr_auc": 0.20116420296139312,
+      "oof_residual_std": 0.030623336727163948,
+      "oof_sha256": "1167a8b45dc903e5e93c47a5e82f28c851c68955337e9b59d164509a19fabe3e",
+      "oof_stability_score": 0.671161609599861,
+      "oof_temporal_slope": 0.0009371841854686165,
+      "rank": 3,
+      "std_inner_stability_score": 0.15071363175519,
+      "worst_fold_stability_score": 0.2971489522198035
+    },
+    {
+      "folds": 5,
+      "mean_auc": 0.6955344065480235,
+      "mean_brier_score": 0.03446587404075302,
+      "mean_inner_stability_score": -0.12048440445713104,
+      "mean_residual_std": 0.026892505279283087,
+      "mean_temporal_slope": -0.004434290424713772,
+      "mean_weekly_gini": 0.38385633380039497,
+      "model": "linear_logistic",
+      "oof_auc": 0.6758971390659616,
+      "oof_brier_score": 0.03635357232534583,
+      "oof_log_loss": 0.2538335358122594,
+      "oof_mean_gini": 0.38385633380039497,
+      "oof_path": "oof/linear_logistic.parquet",
+      "oof_pr_auc": 0.1026119731674244,
+      "oof_residual_std": 0.04251771552355758,
+      "oof_sha256": "7a39a73405d799d91078c11b8c3751448caa7b818a6af62caba0b5ce297f2774",
+      "oof_stability_score": 0.3625974760386162,
+      "oof_temporal_slope": 0.000988702241078448,
+      "rank": 4,
+      "std_inner_stability_score": 0.3575688210537156,
+      "worst_fold_stability_score": -0.5868890993115676
+    }
+  ],
+  "fold_metrics": [
+    {
+      "model": "linear_logistic",
+      "fold": 1,
+      "stability_score": -0.434694236403957,
+      "mean_gini": 0.33594508015954505,
+      "temporal_slope": -0.008651044796040567,
+      "residual_std": 0.018694749023864282,
+      "auc": 0.6672197956244627,
+      "pr_auc": 0.08353576435906593,
+      "brier_score": 0.03322988822669131,
+      "log_loss": 0.32535330263180323,
+      "rows": 182576,
+      "best_iteration": 46
+    },
+    {
+      "model": "linear_logistic",
+      "fold": 2,
+      "stability_score": 0.19951680518134277,
+      "mean_gini": 0.3937988415893232,
+      "temporal_slope": -0.0021158069612113592,
+      "residual_std": 0.016182047642761647,
+      "auc": 0.6973140798920323,
+      "pr_auc": 0.10600869128976663,
+      "brier_score": 0.03597400323918868,
+      "log_loss": 0.22623480307043972,
+      "rows": 194116,
+      "best_iteration": 80
+    },
+    {
+      "model": "linear_logistic",
+      "fold": 3,
+      "stability_score": -0.12948201133131462,
+      "mean_gini": 0.4052317537692733,
+      "temporal_slope": -0.00597937542901067,
+      "residual_std": 0.017057454695297816,
+      "auc": 0.7000594439290264,
+      "pr_auc": 0.10829666884872442,
+      "brier_score": 0.03638642103913642,
+      "log_loss": 0.23151281753499783,
+      "rows": 192561,
+      "best_iteration": 64
+    },
+    {
+      "model": "linear_logistic",
+      "fold": 4,
+      "stability_score": -0.5868890993115676,
+      "mean_gini": 0.4060326110883471,
+      "temporal_slope": -0.011145504951117205,
+      "residual_std": 0.024234549403201407,
+      "auc": 0.7070789453884492,
+      "pr_auc": 0.1332729908146334,
+      "brier_score": 0.044920335276913026,
+      "log_loss": 0.2568264828001977,
+      "rows": 126970,
+      "best_iteration": 66
+    },
+    {
+      "model": "linear_logistic",
+      "fold": 5,
+      "stability_score": 0.3491265195798413,
+      "mean_gini": 0.37827338239548647,
+      "temporal_slope": 0.005720280013810937,
+      "residual_std": 0.05829372563129026,
+      "auc": 0.7059997679061472,
+      "pr_auc": 0.08460569365116524,
+      "brier_score": 0.021818722421835655,
+      "log_loss": 0.13168032599425392,
+      "rows": 30964,
+      "best_iteration": 55
+    },
+    {
+      "model": "lightgbm",
+      "fold": 1,
+      "stability_score": 0.3936822858714575,
+      "mean_gini": 0.6911252160297433,
+      "temporal_slope": -0.003324049095003601,
+      "residual_std": 0.009853219595937837,
+      "auc": 0.8456739275525365,
+      "pr_auc": 0.18174728981004726,
+      "brier_score": 0.029607803544051396,
+      "log_loss": 0.11809253999090628,
+      "rows": 182576,
+      "best_iteration": 598
+    },
+    {
+      "model": "lightgbm",
+      "fold": 2,
+      "stability_score": 0.667723153778498,
+      "mean_gini": 0.6784267698795633,
+      "temporal_slope": 0.0015153656852272548,
+      "residual_std": 0.021407232202130665,
+      "auc": 0.8406162097704656,
+      "pr_auc": 0.1908416416456623,
+      "brier_score": 0.03247351921036848,
+      "log_loss": 0.12774555905714047,
+      "rows": 194116,
+      "best_iteration": 1151
+    },
+    {
+      "model": "lightgbm",
+      "fold": 3,
+      "stability_score": 0.49782348183981734,
+      "mean_gini": 0.6975363869685487,
+      "temporal_slope": -0.0021880968400401876,
+      "residual_std": 0.01432076641038982,
+      "auc": 0.850248320011422,
+      "pr_auc": 0.20659821736050024,
+      "brier_score": 0.03243268574483375,
+      "log_loss": 0.12639714079083827,
+      "rows": 192561,
+      "best_iteration": 1423
+    },
+    {
+      "model": "lightgbm",
+      "fold": 4,
+      "stability_score": 0.6828064506634226,
+      "mean_gini": 0.6932730490817607,
+      "temporal_slope": 0.0003047935617515162,
+      "residual_std": 0.0209331968366762,
+      "auc": 0.8472675857448803,
+      "pr_auc": 0.24812949701101208,
+      "brier_score": 0.039380081081992285,
+      "log_loss": 0.1487243140867762,
+      "rows": 126970,
+      "best_iteration": 1726
+    },
+    {
+      "model": "lightgbm",
+      "fold": 5,
+      "stability_score": 0.6839064898086712,
+      "mean_gini": 0.7106924019936912,
+      "temporal_slope": 0.007669556750981027,
+      "residual_std": 0.05357182437004013,
+      "auc": 0.8629011684341962,
+      "pr_auc": 0.1724414848896108,
+      "brier_score": 0.020175310067405763,
+      "log_loss": 0.08493484577753853,
+      "rows": 30964,
+      "best_iteration": 1355
+    },
+    {
+      "model": "xgboost",
+      "fold": 1,
+      "stability_score": 0.34343243575499016,
+      "mean_gini": 0.6903019569740936,
+      "temporal_slope": -0.0038765143073735938,
+      "residual_std": 0.011472524340454307,
+      "auc": 0.8452135247229058,
+      "pr_auc": 0.18203764095187228,
+      "brier_score": 0.029605348367443628,
+      "log_loss": 0.11812378777516154,
+      "rows": 182576,
+      "best_iteration": 689
+    },
+    {
+      "model": "xgboost",
+      "fold": 2,
+      "stability_score": 0.6671120064100791,
+      "mean_gini": 0.6777511836854853,
+      "temporal_slope": 0.0005965506196230253,
+      "residual_std": 0.021278354550812336,
+      "auc": 0.8402188219808225,
+      "pr_auc": 0.19117478754270595,
+      "brier_score": 0.03248267075759969,
+      "log_loss": 0.1278019897993144,
+      "rows": 194116,
+      "best_iteration": 1135
+    },
+    {
+      "model": "xgboost",
+      "fold": 3,
+      "stability_score": 0.4638514906979906,
+      "mean_gini": 0.6955973875925059,
+      "temporal_slope": -0.0025588511685822163,
+      "residual_std": 0.013133988118560556,
+      "auc": 0.8491559942576559,
+      "pr_auc": 0.20475395638351895,
+      "brier_score": 0.03249165399953412,
+      "log_loss": 0.12673572175146178,
+      "rows": 192561,
+      "best_iteration": 1178
+    },
+    {
+      "model": "xgboost",
+      "fold": 4,
+      "stability_score": 0.6380689193689559,
+      "mean_gini": 0.6945648416353953,
+      "temporal_slope": -0.0005327805420018955,
+      "residual_std": 0.019222469140545206,
+      "auc": 0.8480420877148107,
+      "pr_auc": 0.25037296895642913,
+      "brier_score": 0.03936510814997939,
+      "log_loss": 0.1485195501827652,
+      "rows": 126970,
+      "best_iteration": 2196
+    },
+    {
+      "model": "xgboost",
+      "fold": 5,
+      "stability_score": 0.6819933370761901,
+      "mean_gini": 0.7083456910107817,
+      "temporal_slope": 0.008277608520202701,
+      "residual_std": 0.05270470786918302,
+      "auc": 0.8624855266320606,
+      "pr_auc": 0.17130700400709292,
+      "brier_score": 0.02018527397183162,
+      "log_loss": 0.08505171459390136,
+      "rows": 30964,
+      "best_iteration": 1198
+    },
+    {
+      "model": "catboost",
+      "fold": 1,
+      "stability_score": 0.2971489522198035,
+      "mean_gini": 0.6782736380760677,
+      "temporal_slope": -0.004252826476459731,
+      "residual_std": 0.013751911855615664,
+      "auc": 0.8392587904054376,
+      "pr_auc": 0.17399819018986498,
+      "brier_score": 0.029772606098011644,
+      "log_loss": 0.11934748572094024,
+      "rows": 182576,
+      "best_iteration": 2192
+    },
+    {
+      "model": "catboost",
+      "fold": 2,
+      "stability_score": 0.6599312621173622,
+      "mean_gini": 0.670428920254698,
+      "temporal_slope": 0.0016230006998195295,
+      "residual_std": 0.0209953162746716,
+      "auc": 0.8365651473291886,
+      "pr_auc": 0.18701309152846904,
+      "brier_score": 0.032530308314655546,
+      "log_loss": 0.1284880695099568,
+      "rows": 194116,
+      "best_iteration": 2200
+    },
+    {
+      "model": "catboost",
+      "fold": 3,
+      "stability_score": 0.44596147980476225,
+      "mean_gini": 0.6891712043511413,
+      "temporal_slope": -0.0026920632021993638,
+      "residual_std": 0.012616325505670054,
+      "auc": 0.8461756863771358,
+      "pr_auc": 0.20335405337194679,
+      "brier_score": 0.03254050498700558,
+      "log_loss": 0.12745080614241996,
+      "rows": 192561,
+      "best_iteration": 2200
+    },
+    {
+      "model": "catboost",
+      "fold": 4,
+      "stability_score": 0.646035128487495,
+      "mean_gini": 0.6857380937956368,
+      "temporal_slope": -0.0003377434501324645,
+      "residual_std": 0.019963083392969816,
+      "auc": 0.8437781018583493,
+      "pr_auc": 0.24645974936999868,
+      "brier_score": 0.039377685661860964,
+      "log_loss": 0.1493505607422808,
+      "rows": 126970,
+      "best_iteration": 2199
+    },
+    {
+      "model": "catboost",
+      "fold": 5,
+      "stability_score": 0.6825709636078344,
+      "mean_gini": 0.708754533339671,
+      "temporal_slope": 0.00837034690960119,
+      "residual_std": 0.05236713946367309,
+      "auc": 0.8628447757729942,
+      "pr_auc": 0.16837204241822804,
+      "brier_score": 0.02022909480365311,
+      "log_loss": 0.0857141965402493,
+      "rows": 30964,
+      "best_iteration": 2200
+    }
+  ],
+  "fit_seconds_by_model": {
+    "linear_logistic": 314.384,
+    "lightgbm": 2752.339,
+    "xgboost": 11438.231,
+    "catboost": 29371.975
+  },
+  "weekly_metrics": [
+    {
+      "model": "linear_logistic",
+      "week_num": 33,
+      "rows": 21525,
+      "positives": 632,
+      "positive_rate": 0.029361207897793264,
+      "prediction_mean": 0.000785507011374633,
+      "gini": 0.3600779014472173
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 34,
+      "rows": 23477,
+      "positives": 638,
+      "positive_rate": 0.027175533500873195,
+      "prediction_mean": 0.0008468345207980651,
+      "gini": 0.35754122389505616
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 35,
+      "rows": 24137,
+      "positives": 677,
+      "positive_rate": 0.028048224717239095,
+      "prediction_mean": 0.0007021815449103944,
+      "gini": 0.3592439313404381
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 36,
+      "rows": 23812,
+      "positives": 810,
+      "positive_rate": 0.03401646228792206,
+      "prediction_mean": 0.0010600714169561741,
+      "gini": 0.30863972107632076
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 37,
+      "rows": 22255,
+      "positives": 834,
+      "positive_rate": 0.0374747247809481,
+      "prediction_mean": 0.0010312055012121997,
+      "gini": 0.3376910441209613
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 38,
+      "rows": 22424,
+      "positives": 861,
+      "positive_rate": 0.03839636104174099,
+      "prediction_mean": 0.0009294966441349383,
+      "gini": 0.29017206583113864
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 39,
+      "rows": 21039,
+      "positives": 820,
+      "positive_rate": 0.03897523646561148,
+      "prediction_mean": 0.0007099502279920102,
+      "gini": 0.294632795281907
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 40,
+      "rows": 23907,
+      "positives": 833,
+      "positive_rate": 0.03484335131969716,
+      "prediction_mean": 0.0006523417943711653,
+      "gini": 0.327330013222243
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 41,
+      "rows": 21125,
+      "positives": 843,
+      "positive_rate": 0.039905325443786985,
+      "prediction_mean": 0.004774878750243268,
+      "gini": 0.3925748371450095
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 42,
+      "rows": 20643,
+      "positives": 801,
+      "positive_rate": 0.03880249963668071,
+      "prediction_mean": 0.004513777002222675,
+      "gini": 0.40277474193444096
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 43,
+      "rows": 21029,
+      "positives": 841,
+      "positive_rate": 0.03999239145941319,
+      "prediction_mean": 0.004507573079441563,
+      "gini": 0.38154875678726974
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 44,
+      "rows": 25887,
+      "positives": 938,
+      "positive_rate": 0.036234403368486115,
+      "prediction_mean": 0.004671227032804965,
+      "gini": 0.4268809437350276
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 45,
+      "rows": 28947,
+      "positives": 1001,
+      "positive_rate": 0.03458044011469237,
+      "prediction_mean": 0.0046364358451706925,
+      "gini": 0.3969400312705258
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 46,
+      "rows": 22299,
+      "positives": 915,
+      "positive_rate": 0.041033230189694604,
+      "prediction_mean": 0.005199562425853752,
+      "gini": 0.3705220081813889
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 47,
+      "rows": 31888,
+      "positives": 936,
+      "positive_rate": 0.029352734570998493,
+      "prediction_mean": 0.004116729470985052,
+      "gini": 0.4031056220494704
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 48,
+      "rows": 22298,
+      "positives": 890,
+      "positive_rate": 0.03991389362274644,
+      "prediction_mean": 0.004988136359929084,
+      "gini": 0.37589339698695
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 49,
+      "rows": 30938,
+      "positives": 1014,
+      "positive_rate": 0.03277522787510505,
+      "prediction_mean": 0.005379207631933073,
+      "gini": 0.41782285010257425
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 50,
+      "rows": 26244,
+      "positives": 1060,
+      "positive_rate": 0.04039018442310623,
+      "prediction_mean": 0.004952116126877648,
+      "gini": 0.41257158633214264
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 51,
+      "rows": 35920,
+      "positives": 1136,
+      "positive_rate": 0.03162583518930958,
+      "prediction_mean": 0.004936859652632599,
+      "gini": 0.4557681227081902
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 52,
+      "rows": 22915,
+      "positives": 689,
+      "positive_rate": 0.030067641283002402,
+      "prediction_mean": 0.004444878022110832,
+      "gini": 0.3961056083455652
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 53,
+      "rows": 22194,
+      "positives": 823,
+      "positive_rate": 0.03708209425970983,
+      "prediction_mean": 0.004608008362471304,
+      "gini": 0.3854735408978214
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 54,
+      "rows": 18740,
+      "positives": 869,
+      "positive_rate": 0.04637139807897545,
+      "prediction_mean": 0.003987964440987699,
+      "gini": 0.3927492380987154
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 55,
+      "rows": 18538,
+      "positives": 789,
+      "positive_rate": 0.042561225590678604,
+      "prediction_mean": 0.0030277185360635494,
+      "gini": 0.39121495696824615
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 56,
+      "rows": 17072,
+      "positives": 811,
+      "positive_rate": 0.04750468603561387,
+      "prediction_mean": 0.0032685483005444682,
+      "gini": 0.3898829444562273
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 57,
+      "rows": 18221,
+      "positives": 838,
+      "positive_rate": 0.045990889632841224,
+      "prediction_mean": 0.008408383775440093,
+      "gini": 0.40708016240045786
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 58,
+      "rows": 17819,
+      "positives": 867,
+      "positive_rate": 0.04865592906448173,
+      "prediction_mean": 0.008676454797121895,
+      "gini": 0.46091243176336705
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 59,
+      "rows": 17729,
+      "positives": 889,
+      "positive_rate": 0.05014383213943257,
+      "prediction_mean": 0.008461616165382674,
+      "gini": 0.4195587932743561
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 60,
+      "rows": 15864,
+      "positives": 729,
+      "positive_rate": 0.04595310136157337,
+      "prediction_mean": 0.008384587101033006,
+      "gini": 0.44277098251085456
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 61,
+      "rows": 15568,
+      "positives": 807,
+      "positive_rate": 0.05183710174717369,
+      "prediction_mean": 0.009372984854082403,
+      "gini": 0.3889980353634577
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 62,
+      "rows": 17164,
+      "positives": 895,
+      "positive_rate": 0.05214402237240737,
+      "prediction_mean": 0.009185133342358473,
+      "gini": 0.3933620887103726
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 63,
+      "rows": 14337,
+      "positives": 589,
+      "positive_rate": 0.04108251377554579,
+      "prediction_mean": 0.006897172251974381,
+      "gini": 0.3992123811927826
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 64,
+      "rows": 10268,
+      "positives": 322,
+      "positive_rate": 0.03135956369302688,
+      "prediction_mean": 0.006477311847218732,
+      "gini": 0.3362168130263672
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 65,
+      "rows": 4258,
+      "positives": 96,
+      "positive_rate": 0.02254579614842649,
+      "prediction_mean": 0.005547947797072279,
+      "gini": 0.4445228656094826
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 66,
+      "rows": 2278,
+      "positives": 52,
+      "positive_rate": 0.0228270412642669,
+      "prediction_mean": 0.0057445018223290885,
+      "gini": 0.3435275416407493
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 67,
+      "rows": 1434,
+      "positives": 30,
+      "positive_rate": 0.02092050209205021,
+      "prediction_mean": 0.005943309387971984,
+      "gini": 0.3432098765432099
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 68,
+      "rows": 825,
+      "positives": 21,
+      "positive_rate": 0.025454545454545455,
+      "prediction_mean": 0.0059226908421780855,
+      "gini": 0.3647239990523572
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 69,
+      "rows": 1582,
+      "positives": 35,
+      "positive_rate": 0.022123893805309734,
+      "prediction_mean": 0.007946657735071498,
+      "gini": 0.2606150152368638
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 70,
+      "rows": 3808,
+      "positives": 82,
+      "positive_rate": 0.02153361344537815,
+      "prediction_mean": 0.006072190038932929,
+      "gini": 0.38985769084744004
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 71,
+      "rows": 7921,
+      "positives": 176,
+      "positive_rate": 0.02221941674031057,
+      "prediction_mean": 0.005715575429602962,
+      "gini": 0.44161335759140785
+    },
+    {
+      "model": "linear_logistic",
+      "week_num": 72,
+      "rows": 8858,
+      "positives": 207,
+      "positive_rate": 0.02336870625423346,
+      "prediction_mean": 0.006010589472364066,
+      "gini": 0.4379220631274927
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 33,
+      "rows": 21525,
+      "positives": 632,
+      "positive_rate": 0.029361207897793264,
+      "prediction_mean": 0.025858013631819082,
+      "gini": 0.7049123714744263
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 34,
+      "rows": 23477,
+      "positives": 638,
+      "positive_rate": 0.027175533500873195,
+      "prediction_mean": 0.024706779200053132,
+      "gini": 0.6958750781159817
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 35,
+      "rows": 24137,
+      "positives": 677,
+      "positive_rate": 0.028048224717239095,
+      "prediction_mean": 0.028018925952406255,
+      "gini": 0.701763333295556
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 36,
+      "rows": 23812,
+      "positives": 810,
+      "positive_rate": 0.03401646228792206,
+      "prediction_mean": 0.03163028033227767,
+      "gini": 0.6958903197896908
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 37,
+      "rows": 22255,
+      "positives": 834,
+      "positive_rate": 0.0374747247809481,
+      "prediction_mean": 0.029669857267466942,
+      "gini": 0.6933004737613209
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 38,
+      "rows": 22424,
+      "positives": 861,
+      "positive_rate": 0.03839636104174099,
+      "prediction_mean": 0.030166885615586492,
+      "gini": 0.6619198057411437
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 39,
+      "rows": 21039,
+      "positives": 820,
+      "positive_rate": 0.03897523646561148,
+      "prediction_mean": 0.03133221912734121,
+      "gini": 0.685360063403295
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 40,
+      "rows": 23907,
+      "positives": 833,
+      "positive_rate": 0.03484335131969716,
+      "prediction_mean": 0.026855830034679992,
+      "gini": 0.6899802826565316
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 41,
+      "rows": 21125,
+      "positives": 843,
+      "positive_rate": 0.039905325443786985,
+      "prediction_mean": 0.03748473352769961,
+      "gini": 0.6724751583924082
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 42,
+      "rows": 20643,
+      "positives": 801,
+      "positive_rate": 0.03880249963668071,
+      "prediction_mean": 0.03776154939104555,
+      "gini": 0.6710759066538261
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 43,
+      "rows": 21029,
+      "positives": 841,
+      "positive_rate": 0.03999239145941319,
+      "prediction_mean": 0.03594948841432806,
+      "gini": 0.6684405588655697
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 44,
+      "rows": 25887,
+      "positives": 938,
+      "positive_rate": 0.036234403368486115,
+      "prediction_mean": 0.03434070382583104,
+      "gini": 0.7067223959905926
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 45,
+      "rows": 28947,
+      "positives": 1001,
+      "positive_rate": 0.03458044011469237,
+      "prediction_mean": 0.0341528579410585,
+      "gini": 0.6741959107234998
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 46,
+      "rows": 22299,
+      "positives": 915,
+      "positive_rate": 0.041033230189694604,
+      "prediction_mean": 0.03709285997590628,
+      "gini": 0.6444538483397015
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 47,
+      "rows": 31888,
+      "positives": 936,
+      "positive_rate": 0.029352734570998493,
+      "prediction_mean": 0.029622677573924498,
+      "gini": 0.7179348420382925
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 48,
+      "rows": 22298,
+      "positives": 890,
+      "positive_rate": 0.03991389362274644,
+      "prediction_mean": 0.03880719900057762,
+      "gini": 0.6721155380326163
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 49,
+      "rows": 30938,
+      "positives": 1014,
+      "positive_rate": 0.03277522787510505,
+      "prediction_mean": 0.03270311845687467,
+      "gini": 0.7017258316729797
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 50,
+      "rows": 26244,
+      "positives": 1060,
+      "positive_rate": 0.04039018442310623,
+      "prediction_mean": 0.036303147004885884,
+      "gini": 0.6868773375128863
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 51,
+      "rows": 35920,
+      "positives": 1136,
+      "positive_rate": 0.03162583518930958,
+      "prediction_mean": 0.03305395878998293,
+      "gini": 0.7171432024761264
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 52,
+      "rows": 22915,
+      "positives": 689,
+      "positive_rate": 0.030067641283002402,
+      "prediction_mean": 0.03151285351097387,
+      "gini": 0.7164788372043518
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 53,
+      "rows": 22194,
+      "positives": 823,
+      "positive_rate": 0.03708209425970983,
+      "prediction_mean": 0.03648029822090129,
+      "gini": 0.7040577978595242
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 54,
+      "rows": 18740,
+      "positives": 869,
+      "positive_rate": 0.04637139807897545,
+      "prediction_mean": 0.03786206090768877,
+      "gini": 0.6683353832500778
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 55,
+      "rows": 18538,
+      "positives": 789,
+      "positive_rate": 0.042561225590678604,
+      "prediction_mean": 0.03541622817389579,
+      "gini": 0.6890985343361067
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 56,
+      "rows": 17072,
+      "positives": 811,
+      "positive_rate": 0.04750468603561387,
+      "prediction_mean": 0.03872101587911567,
+      "gini": 0.6965741714363365
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 57,
+      "rows": 18221,
+      "positives": 838,
+      "positive_rate": 0.045990889632841224,
+      "prediction_mean": 0.048720281984789095,
+      "gini": 0.6887157054247579
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 58,
+      "rows": 17819,
+      "positives": 867,
+      "positive_rate": 0.04865592906448173,
+      "prediction_mean": 0.0527420814796454,
+      "gini": 0.715131345823175
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 59,
+      "rows": 17729,
+      "positives": 889,
+      "positive_rate": 0.05014383213943257,
+      "prediction_mean": 0.05219631261685676,
+      "gini": 0.6971597968306218
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 60,
+      "rows": 15864,
+      "positives": 729,
+      "positive_rate": 0.04595310136157337,
+      "prediction_mean": 0.05419730126463809,
+      "gini": 0.6705235867589501
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 61,
+      "rows": 15568,
+      "positives": 807,
+      "positive_rate": 0.05183710174717369,
+      "prediction_mean": 0.05692129980326999,
+      "gini": 0.6681046130552506
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 62,
+      "rows": 17164,
+      "positives": 895,
+      "positive_rate": 0.05214402237240737,
+      "prediction_mean": 0.056218066663006466,
+      "gini": 0.6901398313480309
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 63,
+      "rows": 14337,
+      "positives": 589,
+      "positive_rate": 0.04108251377554579,
+      "prediction_mean": 0.04833650597323431,
+      "gini": 0.7345591987326572
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 64,
+      "rows": 10268,
+      "positives": 322,
+      "positive_rate": 0.03135956369302688,
+      "prediction_mean": 0.04741750309170279,
+      "gini": 0.6818503146806418
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 65,
+      "rows": 4258,
+      "positives": 96,
+      "positive_rate": 0.02254579614842649,
+      "prediction_mean": 0.02428645624576967,
+      "gini": 0.7220587057504404
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 66,
+      "rows": 2278,
+      "positives": 52,
+      "positive_rate": 0.0228270412642669,
+      "prediction_mean": 0.025832904195638943,
+      "gini": 0.6412502591747873
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 67,
+      "rows": 1434,
+      "positives": 30,
+      "positive_rate": 0.02092050209205021,
+      "prediction_mean": 0.022626897246333152,
+      "gini": 0.7101139601139601
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 68,
+      "rows": 825,
+      "positives": 21,
+      "positive_rate": 0.025454545454545455,
+      "prediction_mean": 0.024546601459435876,
+      "gini": 0.7396351575456053
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 69,
+      "rows": 1582,
+      "positives": 35,
+      "positive_rate": 0.022123893805309734,
+      "prediction_mean": 0.027254421451440393,
+      "gini": 0.6074983839689723
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 70,
+      "rows": 3808,
+      "positives": 82,
+      "positive_rate": 0.02153361344537815,
+      "prediction_mean": 0.024894754363599038,
+      "gini": 0.7949085529502637
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 71,
+      "rows": 7921,
+      "positives": 176,
+      "positive_rate": 0.02221941674031057,
+      "prediction_mean": 0.024408802886386798,
+      "gini": 0.7539306884206818
+    },
+    {
+      "model": "lightgbm",
+      "week_num": 72,
+      "rows": 8858,
+      "positives": 207,
+      "positive_rate": 0.02336870625423346,
+      "prediction_mean": 0.025580110935154735,
+      "gini": 0.7161435080248186
+    },
+    {
+      "model": "xgboost",
+      "week_num": 33,
+      "rows": 21525,
+      "positives": 632,
+      "positive_rate": 0.029361207897793264,
+      "prediction_mean": 0.025721297507480496,
+      "gini": 0.7113628845467594
+    },
+    {
+      "model": "xgboost",
+      "week_num": 34,
+      "rows": 23477,
+      "positives": 638,
+      "positive_rate": 0.027175533500873195,
+      "prediction_mean": 0.024526362723302088,
+      "gini": 0.6947132036837937
+    },
+    {
+      "model": "xgboost",
+      "week_num": 35,
+      "rows": 24137,
+      "positives": 677,
+      "positive_rate": 0.028048224717239095,
+      "prediction_mean": 0.028798970032237955,
+      "gini": 0.6961235126636875
+    },
+    {
+      "model": "xgboost",
+      "week_num": 36,
+      "rows": 23812,
+      "positives": 810,
+      "positive_rate": 0.03401646228792206,
+      "prediction_mean": 0.032284050068469586,
+      "gini": 0.694925723045017
+    },
+    {
+      "model": "xgboost",
+      "week_num": 37,
+      "rows": 22255,
+      "positives": 834,
+      "positive_rate": 0.0374747247809481,
+      "prediction_mean": 0.030313902695459683,
+      "gini": 0.6954514815858437
+    },
+    {
+      "model": "xgboost",
+      "week_num": 38,
+      "rows": 22424,
+      "positives": 861,
+      "positive_rate": 0.03839636104174099,
+      "prediction_mean": 0.030683296200968997,
+      "gini": 0.6578265141341231
+    },
+    {
+      "model": "xgboost",
+      "week_num": 39,
+      "rows": 21039,
+      "positives": 820,
+      "positive_rate": 0.03897523646561148,
+      "prediction_mean": 0.031730964360714535,
+      "gini": 0.6811210537299497
+    },
+    {
+      "model": "xgboost",
+      "week_num": 40,
+      "rows": 23907,
+      "positives": 833,
+      "positive_rate": 0.03484335131969716,
+      "prediction_mean": 0.02717971928407257,
+      "gini": 0.6908912824035747
+    },
+    {
+      "model": "xgboost",
+      "week_num": 41,
+      "rows": 21125,
+      "positives": 843,
+      "positive_rate": 0.039905325443786985,
+      "prediction_mean": 0.0375473243808391,
+      "gini": 0.673098691603784
+    },
+    {
+      "model": "xgboost",
+      "week_num": 42,
+      "rows": 20643,
+      "positives": 801,
+      "positive_rate": 0.03880249963668071,
+      "prediction_mean": 0.037429594705195655,
+      "gini": 0.6738439036679407
+    },
+    {
+      "model": "xgboost",
+      "week_num": 43,
+      "rows": 21029,
+      "positives": 841,
+      "positive_rate": 0.03999239145941319,
+      "prediction_mean": 0.03576964984082162,
+      "gini": 0.6696720859591656
+    },
+    {
+      "model": "xgboost",
+      "week_num": 44,
+      "rows": 25887,
+      "positives": 938,
+      "positive_rate": 0.036234403368486115,
+      "prediction_mean": 0.03467435011958362,
+      "gini": 0.7093720657091425
+    },
+    {
+      "model": "xgboost",
+      "week_num": 45,
+      "rows": 28947,
+      "positives": 1001,
+      "positive_rate": 0.03458044011469237,
+      "prediction_mean": 0.03462020287866961,
+      "gini": 0.6705408668480306
+    },
+    {
+      "model": "xgboost",
+      "week_num": 46,
+      "rows": 22299,
+      "positives": 915,
+      "positive_rate": 0.041033230189694604,
+      "prediction_mean": 0.03724168352915318,
+      "gini": 0.6434460471952883
+    },
+    {
+      "model": "xgboost",
+      "week_num": 47,
+      "rows": 31888,
+      "positives": 936,
+      "positive_rate": 0.029352734570998493,
+      "prediction_mean": 0.02921132645752672,
+      "gini": 0.7128603663682174
+    },
+    {
+      "model": "xgboost",
+      "week_num": 48,
+      "rows": 22298,
+      "positives": 890,
+      "positive_rate": 0.03991389362274644,
+      "prediction_mean": 0.03849287911617754,
+      "gini": 0.6691754421323124
+    },
+    {
+      "model": "xgboost",
+      "week_num": 49,
+      "rows": 30938,
+      "positives": 1014,
+      "positive_rate": 0.03277522787510505,
+      "prediction_mean": 0.032572904166448466,
+      "gini": 0.7019169140389054
+    },
+    {
+      "model": "xgboost",
+      "week_num": 50,
+      "rows": 26244,
+      "positives": 1060,
+      "positive_rate": 0.04039018442310623,
+      "prediction_mean": 0.03607661975958933,
+      "gini": 0.6832499220829036
+    },
+    {
+      "model": "xgboost",
+      "week_num": 51,
+      "rows": 35920,
+      "positives": 1136,
+      "positive_rate": 0.03162583518930958,
+      "prediction_mean": 0.03256798103957286,
+      "gini": 0.7142638381172501
+    },
+    {
+      "model": "xgboost",
+      "week_num": 52,
+      "rows": 22915,
+      "positives": 689,
+      "positive_rate": 0.030067641283002402,
+      "prediction_mean": 0.031175965752940373,
+      "gini": 0.7161835463297801
+    },
+    {
+      "model": "xgboost",
+      "week_num": 53,
+      "rows": 22194,
+      "positives": 823,
+      "positive_rate": 0.03708209425970983,
+      "prediction_mean": 0.036558033234746386,
+      "gini": 0.7013611238768336
+    },
+    {
+      "model": "xgboost",
+      "week_num": 54,
+      "rows": 18740,
+      "positives": 869,
+      "positive_rate": 0.04637139807897545,
+      "prediction_mean": 0.03751612204603049,
+      "gini": 0.6728748847626118
+    },
+    {
+      "model": "xgboost",
+      "week_num": 55,
+      "rows": 18538,
+      "positives": 789,
+      "positive_rate": 0.042561225590678604,
+      "prediction_mean": 0.034487252104885076,
+      "gini": 0.6853941538397601
+    },
+    {
+      "model": "xgboost",
+      "week_num": 56,
+      "rows": 17072,
+      "positives": 811,
+      "positive_rate": 0.04750468603561387,
+      "prediction_mean": 0.037730089850932944,
+      "gini": 0.6895347176920019
+    },
+    {
+      "model": "xgboost",
+      "week_num": 57,
+      "rows": 18221,
+      "positives": 838,
+      "positive_rate": 0.045990889632841224,
+      "prediction_mean": 0.0487174804038793,
+      "gini": 0.6955614742793861
+    },
+    {
+      "model": "xgboost",
+      "week_num": 58,
+      "rows": 17819,
+      "positives": 867,
+      "positive_rate": 0.04865592906448173,
+      "prediction_mean": 0.052805774984659645,
+      "gini": 0.7164599496073587
+    },
+    {
+      "model": "xgboost",
+      "week_num": 59,
+      "rows": 17729,
+      "positives": 889,
+      "positive_rate": 0.05014383213943257,
+      "prediction_mean": 0.05232188273424254,
+      "gini": 0.6950427366412928
+    },
+    {
+      "model": "xgboost",
+      "week_num": 60,
+      "rows": 15864,
+      "positives": 729,
+      "positive_rate": 0.04595310136157337,
+      "prediction_mean": 0.05430345094900096,
+      "gini": 0.67701949033912
+    },
+    {
+      "model": "xgboost",
+      "week_num": 61,
+      "rows": 15568,
+      "positives": 807,
+      "positive_rate": 0.05183710174717369,
+      "prediction_mean": 0.057166821195537613,
+      "gini": 0.6688462102527952
+    },
+    {
+      "model": "xgboost",
+      "week_num": 62,
+      "rows": 17164,
+      "positives": 895,
+      "positive_rate": 0.05214402237240737,
+      "prediction_mean": 0.05652792253449074,
+      "gini": 0.6907664472068928
+    },
+    {
+      "model": "xgboost",
+      "week_num": 63,
+      "rows": 14337,
+      "positives": 589,
+      "positive_rate": 0.04108251377554579,
+      "prediction_mean": 0.04873819500677009,
+      "gini": 0.7311391612201783
+    },
+    {
+      "model": "xgboost",
+      "week_num": 64,
+      "rows": 10268,
+      "positives": 322,
+      "positive_rate": 0.03135956369302688,
+      "prediction_mean": 0.047135287831589136,
+      "gini": 0.6816832635361387
+    },
+    {
+      "model": "xgboost",
+      "week_num": 65,
+      "rows": 4258,
+      "positives": 96,
+      "positive_rate": 0.02254579614842649,
+      "prediction_mean": 0.02432359564554713,
+      "gini": 0.7197861604997597
+    },
+    {
+      "model": "xgboost",
+      "week_num": 66,
+      "rows": 2278,
+      "positives": 52,
+      "positive_rate": 0.0228270412642669,
+      "prediction_mean": 0.025757572857640652,
+      "gini": 0.6412157025364571
+    },
+    {
+      "model": "xgboost",
+      "week_num": 67,
+      "rows": 1434,
+      "positives": 30,
+      "positive_rate": 0.02092050209205021,
+      "prediction_mean": 0.02386115649851858,
+      "gini": 0.7058879392212725
+    },
+    {
+      "model": "xgboost",
+      "week_num": 68,
+      "rows": 825,
+      "positives": 21,
+      "positive_rate": 0.025454545454545455,
+      "prediction_mean": 0.025301197860389948,
+      "gini": 0.7239990523572613
+    },
+    {
+      "model": "xgboost",
+      "week_num": 69,
+      "rows": 1582,
+      "positives": 35,
+      "positive_rate": 0.022123893805309734,
+      "prediction_mean": 0.027216886486740206,
+      "gini": 0.6082371410102501
+    },
+    {
+      "model": "xgboost",
+      "week_num": 70,
+      "rows": 3808,
+      "positives": 82,
+      "positive_rate": 0.02153361344537815,
+      "prediction_mean": 0.025250383238487127,
+      "gini": 0.7986070198866242
+    },
+    {
+      "model": "xgboost",
+      "week_num": 71,
+      "rows": 7921,
+      "positives": 176,
+      "positive_rate": 0.02221941674031057,
+      "prediction_mean": 0.024788973918763186,
+      "gini": 0.7528610833969129
+    },
+    {
+      "model": "xgboost",
+      "week_num": 72,
+      "rows": 8858,
+      "positives": 207,
+      "positive_rate": 0.02336870625423346,
+      "prediction_mean": 0.02586181598917936,
+      "gini": 0.7161714291777164
+    },
+    {
+      "model": "catboost",
+      "week_num": 33,
+      "rows": 21525,
+      "positives": 632,
+      "positive_rate": 0.029361207897793264,
+      "prediction_mean": 0.02603410219671698,
+      "gini": 0.6979934530794942
+    },
+    {
+      "model": "catboost",
+      "week_num": 34,
+      "rows": 23477,
+      "positives": 638,
+      "positive_rate": 0.027175533500873195,
+      "prediction_mean": 0.02590449365313224,
+      "gini": 0.6931977570676349
+    },
+    {
+      "model": "catboost",
+      "week_num": 35,
+      "rows": 24137,
+      "positives": 677,
+      "positive_rate": 0.028048224717239095,
+      "prediction_mean": 0.029065499799930467,
+      "gini": 0.6878494587096928
+    },
+    {
+      "model": "catboost",
+      "week_num": 36,
+      "rows": 23812,
+      "positives": 810,
+      "positive_rate": 0.03401646228792206,
+      "prediction_mean": 0.0323410137503924,
+      "gini": 0.6822477057818912
+    },
+    {
+      "model": "catboost",
+      "week_num": 37,
+      "rows": 22255,
+      "positives": 834,
+      "positive_rate": 0.0374747247809481,
+      "prediction_mean": 0.030667137069447188,
+      "gini": 0.6678854666138712
+    },
+    {
+      "model": "catboost",
+      "week_num": 38,
+      "rows": 22424,
+      "positives": 861,
+      "positive_rate": 0.03839636104174099,
+      "prediction_mean": 0.03101428238326669,
+      "gini": 0.6451546269923052
+    },
+    {
+      "model": "catboost",
+      "week_num": 39,
+      "rows": 21039,
+      "positives": 820,
+      "positive_rate": 0.03897523646561148,
+      "prediction_mean": 0.03229649255329217,
+      "gini": 0.6629360936766795
+    },
+    {
+      "model": "catboost",
+      "week_num": 40,
+      "rows": 23907,
+      "positives": 833,
+      "positive_rate": 0.03484335131969716,
+      "prediction_mean": 0.030412071779062355,
+      "gini": 0.6889245426869717
+    },
+    {
+      "model": "catboost",
+      "week_num": 41,
+      "rows": 21125,
+      "positives": 843,
+      "positive_rate": 0.039905325443786985,
+      "prediction_mean": 0.03837688864299078,
+      "gini": 0.6629064005353695
+    },
+    {
+      "model": "catboost",
+      "week_num": 42,
+      "rows": 20643,
+      "positives": 801,
+      "positive_rate": 0.03880249963668071,
+      "prediction_mean": 0.038197874155350774,
+      "gini": 0.6632038547723016
+    },
+    {
+      "model": "catboost",
+      "week_num": 43,
+      "rows": 21029,
+      "positives": 841,
+      "positive_rate": 0.03999239145941319,
+      "prediction_mean": 0.03639763967454546,
+      "gini": 0.6549455333892329
+    },
+    {
+      "model": "catboost",
+      "week_num": 44,
+      "rows": 25887,
+      "positives": 938,
+      "positive_rate": 0.036234403368486115,
+      "prediction_mean": 0.03554397496999927,
+      "gini": 0.7056053197136232
+    },
+    {
+      "model": "catboost",
+      "week_num": 45,
+      "rows": 28947,
+      "positives": 1001,
+      "positive_rate": 0.03458044011469237,
+      "prediction_mean": 0.03540197541382874,
+      "gini": 0.6656826319747668
+    },
+    {
+      "model": "catboost",
+      "week_num": 46,
+      "rows": 22299,
+      "positives": 915,
+      "positive_rate": 0.041033230189694604,
+      "prediction_mean": 0.03761635212186384,
+      "gini": 0.6424995758025509
+    },
+    {
+      "model": "catboost",
+      "week_num": 47,
+      "rows": 31888,
+      "positives": 936,
+      "positive_rate": 0.029352734570998493,
+      "prediction_mean": 0.031285130101587275,
+      "gini": 0.7050798120276667
+    },
+    {
+      "model": "catboost",
+      "week_num": 48,
+      "rows": 22298,
+      "positives": 890,
+      "positive_rate": 0.03991389362274644,
+      "prediction_mean": 0.03943245401536315,
+      "gini": 0.6635082338220721
+    },
+    {
+      "model": "catboost",
+      "week_num": 49,
+      "rows": 30938,
+      "positives": 1014,
+      "positive_rate": 0.03277522787510505,
+      "prediction_mean": 0.03400921702929819,
+      "gini": 0.6977156066901367
+    },
+    {
+      "model": "catboost",
+      "week_num": 50,
+      "rows": 26244,
+      "positives": 1060,
+      "positive_rate": 0.04039018442310623,
+      "prediction_mean": 0.03790644052957321,
+      "gini": 0.6779517843015033
+    },
+    {
+      "model": "catboost",
+      "week_num": 51,
+      "rows": 35920,
+      "positives": 1136,
+      "positive_rate": 0.03162583518930958,
+      "prediction_mean": 0.035966359706090405,
+      "gini": 0.7073159547209662
+    },
+    {
+      "model": "catboost",
+      "week_num": 52,
+      "rows": 22915,
+      "positives": 689,
+      "positive_rate": 0.030067641283002402,
+      "prediction_mean": 0.03492839302780304,
+      "gini": 0.7032179130418659
+    },
+    {
+      "model": "catboost",
+      "week_num": 53,
+      "rows": 22194,
+      "positives": 823,
+      "positive_rate": 0.03708209425970983,
+      "prediction_mean": 0.03893963746973191,
+      "gini": 0.7002509561309762
+    },
+    {
+      "model": "catboost",
+      "week_num": 54,
+      "rows": 18740,
+      "positives": 869,
+      "positive_rate": 0.04637139807897545,
+      "prediction_mean": 0.04124801689559933,
+      "gini": 0.6662609331844336
+    },
+    {
+      "model": "catboost",
+      "week_num": 55,
+      "rows": 18538,
+      "positives": 789,
+      "positive_rate": 0.042561225590678604,
+      "prediction_mean": 0.038828228933698854,
+      "gini": 0.6754142631502615
+    },
+    {
+      "model": "catboost",
+      "week_num": 56,
+      "rows": 17072,
+      "positives": 811,
+      "positive_rate": 0.04750468603561387,
+      "prediction_mean": 0.042458536912399356,
+      "gini": 0.6852422235889872
+    },
+    {
+      "model": "catboost",
+      "week_num": 57,
+      "rows": 18221,
+      "positives": 838,
+      "positive_rate": 0.045990889632841224,
+      "prediction_mean": 0.045990721434491066,
+      "gini": 0.6853490441447125
+    },
+    {
+      "model": "catboost",
+      "week_num": 58,
+      "rows": 17819,
+      "positives": 867,
+      "positive_rate": 0.04865592906448173,
+      "prediction_mean": 0.04926103852914931,
+      "gini": 0.7036722997779741
+    },
+    {
+      "model": "catboost",
+      "week_num": 59,
+      "rows": 17729,
+      "positives": 889,
+      "positive_rate": 0.05014383213943257,
+      "prediction_mean": 0.04802103678229924,
+      "gini": 0.6884066006001033
+    },
+    {
+      "model": "catboost",
+      "week_num": 60,
+      "rows": 15864,
+      "positives": 729,
+      "positive_rate": 0.04595310136157337,
+      "prediction_mean": 0.04917340250953758,
+      "gini": 0.6685276498708694
+    },
+    {
+      "model": "catboost",
+      "week_num": 61,
+      "rows": 15568,
+      "positives": 807,
+      "positive_rate": 0.05183710174717369,
+      "prediction_mean": 0.052160258036635904,
+      "gini": 0.6627332801270507
+    },
+    {
+      "model": "catboost",
+      "week_num": 62,
+      "rows": 17164,
+      "positives": 895,
+      "positive_rate": 0.05214402237240737,
+      "prediction_mean": 0.05132463769219026,
+      "gini": 0.6819450639750477
+    },
+    {
+      "model": "catboost",
+      "week_num": 63,
+      "rows": 14337,
+      "positives": 589,
+      "positive_rate": 0.04108251377554579,
+      "prediction_mean": 0.04438851806526168,
+      "gini": 0.7271411726873191
+    },
+    {
+      "model": "catboost",
+      "week_num": 64,
+      "rows": 10268,
+      "positives": 322,
+      "positive_rate": 0.03135956369302688,
+      "prediction_mean": 0.04300103614613914,
+      "gini": 0.6681296391820175
+    },
+    {
+      "model": "catboost",
+      "week_num": 65,
+      "rows": 4258,
+      "positives": 96,
+      "positive_rate": 0.02254579614842649,
+      "prediction_mean": 0.027619896664528576,
+      "gini": 0.712012453948422
+    },
+    {
+      "model": "catboost",
+      "week_num": 66,
+      "rows": 2278,
+      "positives": 52,
+      "positive_rate": 0.0228270412642669,
+      "prediction_mean": 0.029250716581444704,
+      "gini": 0.6470039394567697
+    },
+    {
+      "model": "catboost",
+      "week_num": 67,
+      "rows": 1434,
+      "positives": 30,
+      "positive_rate": 0.02092050209205021,
+      "prediction_mean": 0.02595245159493928,
+      "gini": 0.7138176638176637
+    },
+    {
+      "model": "catboost",
+      "week_num": 68,
+      "rows": 825,
+      "positives": 21,
+      "positive_rate": 0.025454545454545455,
+      "prediction_mean": 0.026906418473623992,
+      "gini": 0.7334754797441363
+    },
+    {
+      "model": "catboost",
+      "week_num": 69,
+      "rows": 1582,
+      "positives": 35,
+      "positive_rate": 0.022123893805309734,
+      "prediction_mean": 0.030259797424859465,
+      "gini": 0.5989657401422106
+    },
+    {
+      "model": "catboost",
+      "week_num": 70,
+      "rows": 3808,
+      "positives": 82,
+      "positive_rate": 0.02153361344537815,
+      "prediction_mean": 0.02695753887407393,
+      "gini": 0.7866148226699659
+    },
+    {
+      "model": "catboost",
+      "week_num": 71,
+      "rows": 7921,
+      "positives": 176,
+      "positive_rate": 0.02221941674031057,
+      "prediction_mean": 0.026645420256066515,
+      "gini": 0.7543444450965433
+    },
+    {
+      "model": "catboost",
+      "week_num": 72,
+      "rows": 8858,
+      "positives": 207,
+      "positive_rate": 0.02336870625423346,
+      "prediction_mean": 0.027824835548081874,
+      "gini": 0.7238017218416568
+    }
+  ],
+  "calibration": [
+    {
+      "model": "linear_logistic",
+      "bin_low": 0.0,
+      "bin_high": 0.01,
+      "rows": 664389,
+      "prediction_mean": 0.0012565759723817543,
+      "observed_rate": 0.029052257036164056
+    },
+    {
+      "model": "linear_logistic",
+      "bin_low": 0.01,
+      "bin_high": 0.02,
+      "rows": 31723,
+      "prediction_mean": 0.013991752711457315,
+      "observed_rate": 0.08990322478958485
+    },
+    {
+      "model": "linear_logistic",
+      "bin_low": 0.02,
+      "bin_high": 0.03,
+      "rows": 11607,
+      "prediction_mean": 0.024339807631985986,
+      "observed_rate": 0.12156457310243818
+    },
+    {
+      "model": "linear_logistic",
+      "bin_low": 0.03,
+      "bin_high": 0.05,
+      "rows": 9076,
+      "prediction_mean": 0.03822376124467249,
+      "observed_rate": 0.1480828558836492
+    },
+    {
+      "model": "linear_logistic",
+      "bin_low": 0.05,
+      "bin_high": 0.075,
+      "rows": 4358,
+      "prediction_mean": 0.06071189362530098,
+      "observed_rate": 0.16681964203763194
+    },
+    {
+      "model": "linear_logistic",
+      "bin_low": 0.075,
+      "bin_high": 0.1,
+      "rows": 1967,
+      "prediction_mean": 0.08626058360208518,
+      "observed_rate": 0.20081342145399084
+    },
+    {
+      "model": "linear_logistic",
+      "bin_low": 0.1,
+      "bin_high": 0.15,
+      "rows": 1925,
+      "prediction_mean": 0.12157429909551298,
+      "observed_rate": 0.23896103896103896
+    },
+    {
+      "model": "linear_logistic",
+      "bin_low": 0.15,
+      "bin_high": 0.25,
+      "rows": 1294,
+      "prediction_mean": 0.19149046249607063,
+      "observed_rate": 0.26275115919629055
+    },
+    {
+      "model": "linear_logistic",
+      "bin_low": 0.25,
+      "bin_high": 0.5,
+      "rows": 680,
+      "prediction_mean": 0.3375244477215935,
+      "observed_rate": 0.3058823529411765
+    },
+    {
+      "model": "linear_logistic",
+      "bin_low": 0.5,
+      "bin_high": 1.0,
+      "rows": 168,
+      "prediction_mean": 0.6584781780838966,
+      "observed_rate": 0.3392857142857143
+    },
+    {
+      "model": "lightgbm",
+      "bin_low": 0.0,
+      "bin_high": 0.01,
+      "rows": 309635,
+      "prediction_mean": 0.004407093363995011,
+      "observed_rate": 0.0035073554346246386
+    },
+    {
+      "model": "lightgbm",
+      "bin_low": 0.01,
+      "bin_high": 0.02,
+      "rows": 124928,
+      "prediction_mean": 0.01439999705404099,
+      "observed_rate": 0.0147124743852459
+    },
+    {
+      "model": "lightgbm",
+      "bin_low": 0.02,
+      "bin_high": 0.03,
+      "rows": 69207,
+      "prediction_mean": 0.024599527027154407,
+      "observed_rate": 0.02738162324620342
+    },
+    {
+      "model": "lightgbm",
+      "bin_low": 0.03,
+      "bin_high": 0.05,
+      "rows": 76344,
+      "prediction_mean": 0.038872399237257556,
+      "observed_rate": 0.04441737399140731
+    },
+    {
+      "model": "lightgbm",
+      "bin_low": 0.05,
+      "bin_high": 0.075,
+      "rows": 50432,
+      "prediction_mean": 0.06127061044410575,
+      "observed_rate": 0.06922192258883249
+    },
+    {
+      "model": "lightgbm",
+      "bin_low": 0.075,
+      "bin_high": 0.1,
+      "rows": 29385,
+      "prediction_mean": 0.08649705600683041,
+      "observed_rate": 0.09457206057512337
+    },
+    {
+      "model": "lightgbm",
+      "bin_low": 0.1,
+      "bin_high": 0.15,
+      "rows": 31135,
+      "prediction_mean": 0.12169894375867119,
+      "observed_rate": 0.1316845993255179
+    },
+    {
+      "model": "lightgbm",
+      "bin_low": 0.15,
+      "bin_high": 0.25,
+      "rows": 23588,
+      "prediction_mean": 0.19003722706802909,
+      "observed_rate": 0.190520603696795
+    },
+    {
+      "model": "lightgbm",
+      "bin_low": 0.25,
+      "bin_high": 0.5,
+      "rows": 11365,
+      "prediction_mean": 0.32898851640332516,
+      "observed_rate": 0.30048394192696876
+    },
+    {
+      "model": "lightgbm",
+      "bin_low": 0.5,
+      "bin_high": 1.0,
+      "rows": 1168,
+      "prediction_mean": 0.5969708768172725,
+      "observed_rate": 0.5196917808219178
+    },
+    {
+      "model": "xgboost",
+      "bin_low": 0.0,
+      "bin_high": 0.01,
+      "rows": 308965,
+      "prediction_mean": 0.004353424064272656,
+      "observed_rate": 0.003443755765216125
+    },
+    {
+      "model": "xgboost",
+      "bin_low": 0.01,
+      "bin_high": 0.02,
+      "rows": 125138,
+      "prediction_mean": 0.014408702456600243,
+      "observed_rate": 0.01500743179529799
+    },
+    {
+      "model": "xgboost",
+      "bin_low": 0.02,
+      "bin_high": 0.03,
+      "rows": 69907,
+      "prediction_mean": 0.02461344229104139,
+      "observed_rate": 0.027150356902742215
+    },
+    {
+      "model": "xgboost",
+      "bin_low": 0.03,
+      "bin_high": 0.05,
+      "rows": 76844,
+      "prediction_mean": 0.038825328328921736,
+      "observed_rate": 0.04488313986778408
+    },
+    {
+      "model": "xgboost",
+      "bin_low": 0.05,
+      "bin_high": 0.075,
+      "rows": 50158,
+      "prediction_mean": 0.06117939468583266,
+      "observed_rate": 0.06818453686351131
+    },
+    {
+      "model": "xgboost",
+      "bin_low": 0.075,
+      "bin_high": 0.1,
+      "rows": 29194,
+      "prediction_mean": 0.08651045893726712,
+      "observed_rate": 0.0971089949989724
+    },
+    {
+      "model": "xgboost",
+      "bin_low": 0.1,
+      "bin_high": 0.15,
+      "rows": 31010,
+      "prediction_mean": 0.12170338778919038,
+      "observed_rate": 0.12970009674298613
+    },
+    {
+      "model": "xgboost",
+      "bin_low": 0.15,
+      "bin_high": 0.25,
+      "rows": 23260,
+      "prediction_mean": 0.1902412876871159,
+      "observed_rate": 0.19286328460877042
+    },
+    {
+      "model": "xgboost",
+      "bin_low": 0.25,
+      "bin_high": 0.5,
+      "rows": 11422,
+      "prediction_mean": 0.3304275296272319,
+      "observed_rate": 0.2958326037471546
+    },
+    {
+      "model": "xgboost",
+      "bin_low": 0.5,
+      "bin_high": 1.0,
+      "rows": 1289,
+      "prediction_mean": 0.5981968387880466,
+      "observed_rate": 0.5159038013964313
+    },
+    {
+      "model": "catboost",
+      "bin_low": 0.0,
+      "bin_high": 0.01,
+      "rows": 276165,
+      "prediction_mean": 0.004899724744092004,
+      "observed_rate": 0.0031828798001194937
+    },
+    {
+      "model": "catboost",
+      "bin_low": 0.01,
+      "bin_high": 0.02,
+      "rows": 139483,
+      "prediction_mean": 0.01443096098950378,
+      "observed_rate": 0.013320619717098142
+    },
+    {
+      "model": "catboost",
+      "bin_low": 0.02,
+      "bin_high": 0.03,
+      "rows": 77482,
+      "prediction_mean": 0.02458080982370973,
+      "observed_rate": 0.024947729795307298
+    },
+    {
+      "model": "catboost",
+      "bin_low": 0.03,
+      "bin_high": 0.05,
+      "rows": 84172,
+      "prediction_mean": 0.03878514077104003,
+      "observed_rate": 0.04199733878249299
+    },
+    {
+      "model": "catboost",
+      "bin_low": 0.05,
+      "bin_high": 0.075,
+      "rows": 53986,
+      "prediction_mean": 0.06122369000483492,
+      "observed_rate": 0.06816582076834735
+    },
+    {
+      "model": "catboost",
+      "bin_low": 0.075,
+      "bin_high": 0.1,
+      "rows": 30184,
+      "prediction_mean": 0.08637476730146196,
+      "observed_rate": 0.09591174131990458
+    },
+    {
+      "model": "catboost",
+      "bin_low": 0.1,
+      "bin_high": 0.15,
+      "rows": 31427,
+      "prediction_mean": 0.12169302238093176,
+      "observed_rate": 0.1313520221465619
+    },
+    {
+      "model": "catboost",
+      "bin_low": 0.15,
+      "bin_high": 0.25,
+      "rows": 22931,
+      "prediction_mean": 0.18999446208018766,
+      "observed_rate": 0.1977236055994069
+    },
+    {
+      "model": "catboost",
+      "bin_low": 0.25,
+      "bin_high": 0.5,
+      "rows": 10298,
+      "prediction_mean": 0.3282994089781686,
+      "observed_rate": 0.3004466886774131
+    },
+    {
+      "model": "catboost",
+      "bin_low": 0.5,
+      "bin_high": 1.0,
+      "rows": 1059,
+      "prediction_mean": 0.5961715198058193,
+      "observed_rate": 0.5288007554296507
+    }
+  ],
+  "limitations": [
+    "Development folds were used for early stopping and model selection; scores are not an unbiased final test.",
+    "Pooled OOF stability spans predictions from five refitted models; mean fold stability remains the selection objective.",
+    "Artifact acceptance verifies recorded predictions and provenance, not raw-data point-in-time correctness or every historical process.",
+    "The adversarial screening AUC is a shift diagnostic from the screening sample; it is not the credit-risk model AUC.",
+    "The constant Brier reference uses OOF prevalence descriptively and is not a trained baseline.",
+    "Final holdout evaluation, model calibration, subgroup robustness, and deployment readiness remain pending."
+  ]
+}
