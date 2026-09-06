@@ -34,7 +34,11 @@ development selection metric. Fit-stage timings are available; AWS dollar costs 
 not been established. Final holdout evaluation remains pending.
 
 ## 10. Optimization and ablation
-Run persisted Optuna studies and controlled feature/model ablations. Prefer evidence over model complexity.
+The controlled LightGBM feature-block ablation is implemented with four predeclared
+conditions, frozen selected features, S3 model-fold checkpoints, and executed
+comparison reporting. Full-data execution is pending. See
+[the runbook](docs/feature_ablation.md). Persisted Optuna tuning follows the ablation
+review; it is not implemented by this phase.
 
 ## 11. Neural challenger
 Install the optional GPU stack and evaluate TabM under the same protocol. Keep it only if it adds performance, stability, or ensemble diversity.

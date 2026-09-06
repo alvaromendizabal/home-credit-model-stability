@@ -18,6 +18,8 @@ jobs:
       - name: Sync locked environment
         run: uv sync --locked --group dev
       - name: Run quality gates
+        env:
+          HOME_CREDIT_NOTEBOOK_INTEGRATION: "1"
         run: bash scripts/check.sh
       - name: Execute benchmark review notebook
         run: uv run --locked python scripts/review_model_benchmark.py --force

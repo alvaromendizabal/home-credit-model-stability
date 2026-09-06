@@ -30,7 +30,14 @@ def notebook_identity(notebook: Any, dependencies: list[Path]) -> str:
 
 
 def execute_notebook(
-    root: Path, notebook_path: Path, logger: RunLogger, *, force: bool = False
+    root: Path,
+    notebook_path: Path,
+    logger: RunLogger,
+    *,
+    force: bool = False,
+    dependencies: list[Path] | None = None,
+    receipt_path: Path | None = None,
+    execution_root: Path | None = None,
 ) -> bool:
     """Return True on verified reuse, otherwise atomically publish a successful run.
 
@@ -40,22 +47,26 @@ def execute_notebook(
     """
     notebook = nbformat.read(notebook_path, as_version=4)  # type: ignore[no-untyped-call]
     nbformat.validate(notebook)
-    dependencies = [
-        root / p
-        for p in (
-            "uv.lock",
-            "configs/benchmark_review.json",
-            "configs/validation_protocol.json",
-            "reports/benchmark/acceptance.json",
-            "reports/benchmark/metrics.json",
-            "src/home_credit/modeling/review.py",
-            "src/home_credit/modeling/report.py",
-            "src/home_credit/metrics/classification.py",
-            "src/home_credit/runtime/notebooks.py",
-        )
-    ]
+    dependencies = (
+        dependencies
+        if dependencies is not None
+        else [
+            root / p
+            for p in (
+                "uv.lock",
+                "configs/benchmark_review.json",
+                "configs/validation_protocol.json",
+                "reports/benchmark/acceptance.json",
+                "reports/benchmark/metrics.json",
+                "src/home_credit/modeling/review.py",
+                "src/home_credit/modeling/report.py",
+                "src/home_credit/metrics/classification.py",
+                "src/home_credit/runtime/notebooks.py",
+            )
+        ]
+    )
     identity = notebook_identity(notebook, dependencies)
-    receipt_path = root / "artifacts/benchmark_review/notebook.json"
+    receipt_path = receipt_path or root / "artifacts/benchmark_review/notebook.json"
     if receipt_path.is_file() and not force:
         try:
             receipt = read_json(receipt_path)
@@ -109,7 +120,7 @@ def execute_notebook(
         record_timing=False,
         allow_errors=False,
         store_widget_state=False,
-        resources={"metadata": {"path": str(root)}},
+        resources={"metadata": {"path": str(execution_root or root)}},
         on_cell_execute=on_execute,
         on_cell_executed=on_executed,
     )

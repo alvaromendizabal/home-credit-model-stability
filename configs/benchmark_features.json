@@ -1,0 +1,5632 @@
+{
+  "schema_version": 1,
+  "source_screen_sha256": "9cd20cf4a831f3acc8dcb73b8afedb281b8a61cd13758f87a0d87f57322e9c2d",
+  "identity": {
+    "benchmark_config_sha256": "2182868d53525fca56106a5d7c9f344438adb56f599ce507888f9cc5862746fa",
+    "feature_manifest_sha256": "76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587",
+    "git_commit": "414397e1f5731aa969b8599d5c11a58459a0e361",
+    "smoke": false,
+    "validation_protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20"
+  },
+  "screening_config": {
+    "drift_penalty": 0.35,
+    "early_stopping_rounds": 100,
+    "learning_rate": 0.04,
+    "max_categorical_cardinality": 5000,
+    "max_depth": 7,
+    "max_features": 700,
+    "max_missing_fraction": 0.997,
+    "max_train_rows": 160000,
+    "max_validation_rows": 80000,
+    "min_data_in_leaf": 100,
+    "min_features_per_block": 4,
+    "num_boost_round": 1200,
+    "num_leaves": 31,
+    "train_week_max": 24,
+    "train_week_min": 0,
+    "validation_week_max": 32,
+    "validation_week_min": 25
+  },
+  "selected_features": [
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__avgdpdtolclosure24_3658938P"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_overdue_1140A__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__empl_employedfrom_271D__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__pmtnum_254L"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__pmtssum_45A"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdateyear_596T__mean"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__days90_310L"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__days120_123L"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__birth_259D__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__maxdpdtolerance_577P__mean"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__annuity_780A"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__price_1097A"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_dpd_1073P__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredstart_739D__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmax_139P__first"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__pmtscount_423L"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__mobilephncnt_593L"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__lastdelinqdate_224D"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__row_missing_fraction__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__sex_738L__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__eir_270L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__employedfrom_700D__max"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_dpd_1073P__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__validfrom_1069D"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__pmtaverage_3A"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static_cb",
+      "name": "static_cb__d0__birthdate_574D"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__maxdpdinstldate_3546855D"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdbddpdtollast12m_3658940P"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__days180_256L"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__pctinstlsallpaidlate1d_3546856L"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__firstclxcampaign_1125D"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__lastrejectdate_50D"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__credamount_770A"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__pmtnum_8L__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__employedfrom_700D__mean"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__applicationscnt_867L"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstregularpaid_973L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2date_1142D__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1039L__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofinstls_320L__min"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__familystate_447L__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdpdlast3m_392P"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__prolongationcount_599L__max"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__pmtamount_36A__last"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdpdlast12m_727P"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmax_139P__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__maxdpdtolerance_577P__first"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__processingdate_168D__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__firstnonzeroinstldate_307D__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numincomingpmts_3546848L"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__riskassesment_940T"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__maxdpdtolerance_577P__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__pmtnum_8L__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredstart_739D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1039L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__refreshdate_3813885D__last"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__pmtamount_36A__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__mainoccupationinc_437A__mean"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__processingdate_168D__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_996A__first"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__education_927M__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstlswithdpd10_728L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__residualamount_856A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredstart_739D__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__disbursedcredamount_1113A"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__totalsettled_863A"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdpdlast9m_1059P"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__pctinstlsallpaidearl3d_427L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dateactivated_425D__std"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__days30_165L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__employedfrom_700D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__prolongationcount_599L__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__employedfrom_700D__last"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__inittransactionamount_650A"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmax_139P__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__empl_employedfrom_271D__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__residualamount_856A__mean"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__lastapprcredamount_781A"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1151L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_996A__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__contractst_545M__diversity_ratio"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__datefirstoffer_1144D"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__monthsannuity_845L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_996A__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credamount_590A__last"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__education_1138M__last"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__processingdate_168D__count_last_180d"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maininc_215A"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__currdebt_94A__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__outstandingamount_362A__min"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinsttopaygr_769L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__familystate_726L__first"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__processingdate_168D__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__annuity_853A__last"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__row_missing_fraction__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__incometype_1044T__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdpdlast6m_474P"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoutstandinstls_59L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdateyear_596T__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmt_581D__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__lastrejectcredamount_222A"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__birth_259D__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofcontrsvalue_358L__sum"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__downpmt_116A"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__datelastunpaid_3546854D"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__pmtamount_36A__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__pmtnum_8L__std"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static_cb",
+      "name": "static_cb__d0__dateofbirth_337D"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__education_1138M__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__mindbddpdlast24m_3658935P"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_996A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredstart_739D__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__annuity_853A__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credamount_590A__min"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__avgmaxdpdlast9m_3716943P"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__registaddr_zipcode_184M__first"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_overdue_1140A__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredend_289D__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__firstnonzeroinstldate_307D__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__daysoverduetolerancedd_3976961L"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__pmtamount_36A__max"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__contaddr_zipcode_807M__first"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__processingdate_168D__last"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credamount_590A__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__outstandingdebt_522A__mean"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__employername_160M__diversity_ratio"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__pmtamount_36A__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoutstandinstls_59L__sum"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstlallpaidearly3d_817L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmt_581D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__row_missing_fraction__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1039L__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmtallstes_3545839D__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax_155A__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__annuity_853A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__prolongationcount_599L__mean"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__amtinstpaidbefduel24m_4187115A"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__mainoccupationinc_437A__std"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__all__mainoccupationinc_384A__first"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_dpd_303P__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__district_544M__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdateyear_2T__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__district_544M__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2date_1142D__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__annuity_853A__first"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__all__persontype_1072L__std"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__registaddr_district_1083M__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__annuity_853A__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__mainoccupationinc_437A__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxinstallast24m_3658928A"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__annuity_853A__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__pctinstlsallpaidlate4d_3546849L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredstart_739D__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmt_581D__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredend_289D__mean"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstlsallpaid_934L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax_155A__min"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__pctinstlsallpaidlate6d_3546844L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_641D__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdpdtolerance_374P"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__residualamount_856A__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dateactivated_425D__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxannuity_159A"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__firstnonzeroinstldate_307D__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_641D__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__currdebt_94A__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredend_289D__max"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_overdue_1140A__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__lastupdate_1112D__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__pmtnum_8L__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__approvaldate_319D__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__avginstallast24m_3658937A"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__firstnonzeroinstldate_307D__std"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__pmtamount_36A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__creationdate_885D__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__mainoccupationinc_437A__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_year_1139T__mean"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__pmtamount_36A__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__sellerplacescnt_216L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_641D__mean"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__disbursementtype_67L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__status_219L__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1039L__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmtallstes_3545839D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__nominalrate_281L__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__avgoutstandbalancel6m_4187114A"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdatemonth_89T__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__employedfrom_700D__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmax_757P__mean"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__credtype_322L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totaloutstanddebtvalue_39A__min"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__applicant__familystate_447L__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__creationdate_885D__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__lastupdate_1112D__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__monthlyinstlamount_332A__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credamount_590A__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdatemonth_365T__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__firstnonzeroinstldate_307D__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__annuity_853A__sum"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__cntpmts24_3658933L"
+    },
+    {
+      "block": "credit_bureau_b_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d1__contractmaturitydate_151D__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__familystate_726L__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax_155A__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdebt4_972A"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__monthlyinstlamount_332A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdatemonth_89T__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmax_139P__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdbddpdlast1m_3658939P"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__empladdr_district_926M__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmtallstes_3545839D__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstpaidearly5d_1087L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmt_581D__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__pmtnum_8L__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__pmtnum_8L__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_641D__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__byoccupationinc_3656910L__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__mainoccupationinc_437A__last"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__sumoutstandtotal_3546847A"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_996A__sum"
+    },
+    {
+      "block": "applprev_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d2__conts_type_509L__diversity_ratio"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__relationshiptoclient_642T__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__refreshdate_3813885D__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__outstandingdebt_522A__std"
+    },
+    {
+      "block": "applprev_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "int64",
+      "family": "applprev",
+      "name": "applprev__d2__num_group2__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__outstandingdebt_522A__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__pctinstlsallpaidlat10d_839L"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__days360_512L"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__all__mainoccupationinc_384A__last"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstunpaidmax_3546851L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__pmtnum_8L__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__refreshdate_3813885D__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__childnum_21L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_641D__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__monthlyinstlamount_332A__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__related__persontype_1072L__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__downpmt_134A__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__instlamount_768A__min"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__avgdbddpdlast24m_3658932P"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__instlamount_768A__first"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__empladdr_zipcode_114M__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__lastupdate_1112D__first"
+    },
+    {
+      "block": "person_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d2__applicant__addres_district_368M__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__outstandingamount_362A__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__avgdbddpdlast3m_4187120P"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__nominalrate_498L__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstlswithoutdpd_562L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__childnum_21L__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredend_289D__std"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__language1_981M__first"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__contaddr_district_15M__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2date_1142D__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__maxdpdtolerance_577P__sum"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__interestrate_311L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credamount_590A__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax_155A__sum"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstpaidearly3d_3546850L"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_dpd_303P__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2_14A__std"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__related__relationshiptoclient_415T__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__outstandingdebt_522A__first"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__empl_employedfrom_271D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": true,
+      "depth": 2,
+      "dtype": "large_string",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collaterals_typeofguarante_669M__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdpdfrom6mto36m_3546853P"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__applicant__incometype_1044T__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__residualamount_856A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__mainoccupationinc_437A__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__datelastinstal40dpd_247D"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__lastupdate_388D__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__monthlyinstlamount_332A__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdatemonth_89T__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__mainoccupationinc_437A__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__residualamount_856A__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__residualamount_856A__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoutstandinstls_59L__first"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static_cb",
+      "name": "static_cb__d0__assignmentdate_238D"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__firstnonzeroinstldate_307D__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__currdebt_94A__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__financialinstitution_591M__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__homephncnt_628L"
+    },
+    {
+      "block": "person_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d2__applicant__conts_role_79M__diversity_ratio"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__byoccupationinc_3656910L__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_148D__mean"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdpdlast24m_143P"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamount_659A__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1039L__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2date_1142D__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__approvaldate_319D__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__downpmt_134A__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__status_219L__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_6A__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdatemonth_365T__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__classificationofcontr_13M__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1151L__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__employedfrom_700D__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstls_657L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__tenor_203L__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__birth_259D__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstpaidlate1d_3546852L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdatemonth_89T__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdateyear_2T__min"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collater_typofvalofguarant_298M__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2_14A__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofcontrsvalue_358L__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dateactivated_425D__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__refreshdate_3813885D__min"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__processingdate_168D__count_last_30d"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dateactivated_425D__max"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__contaddr_district_15M__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2date_1142D__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredend_289D__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_credlmt_575A__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxoutstandbalancel12m_4187113A"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credamount_590A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__approvaldate_319D__max"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__thirdquarter_1082L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__monthlyinstlamount_332A__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoutstandinstls_59L__std"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__applicant__sex_738L__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__lastapprcommoditycat_1041M"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__credlmt_935A__mean"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__applicationscnt_1086L"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__subjectroles_name_541M__diversity_ratio"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmtallstes_3545839D__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_6A__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2_14A__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__credlmt_935A__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_996A__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__monthlyinstlamount_332A__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__creationdate_885D__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax_155A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collater_valueofguarantee_1124L__std"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__related__persontype_792L__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__tenor_203L__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__nominalrate_281L__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_credlmt_575A__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2_14A__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__rejectreason_755M__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofinstls_320L__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__familystate_726L__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__credlmt_935A__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__currdebt_22A"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__currdebtcredtyperange_828A"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__fourthquarter_440L"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__registaddr_zipcode_184M__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__debtoutstand_525A__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_6A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofinstls_320L__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__typesuite_864L"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstpaidearly_338L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmtallstes_3545839D__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__nominalrate_281L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__lastupdate_1112D__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__outstandingamount_362A__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__instlamount_768A__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collater_valueofguarantee_1124L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredstart_181D__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmax_139P__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_maxhisbal_375A__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__instlamount_768A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__cancelreason_3545846M__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__nominalrate_281L__first"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__clientscnt_360L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_148D__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdatemonth_442T__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__approvaldate_319D__last"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collater_valueofguarantee_1124L__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__instlamount_768A__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__byoccupationinc_3656910L__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__district_544M__diversity_ratio"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__contaddr_zipcode_807M__last"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__currdebt_94A__sum"
+    },
+    {
+      "block": "applprev_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d2__conts_type_509L__n_unique"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoutstandinstls_59L__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdatemonth_89T__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoutstandinstls_59L__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__outstandingamount_362A__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdatemonth_365T__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmt_581D__last"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__clientscnt_887L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__credlmt_935A__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__maxdpdtolerance_577P__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_148D__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__tenor_203L__std"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_year_1139T__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totaloutstanddebtvalue_39A__mean"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__employername_160M__non_null_count"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__annualeffectiverate_199L__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__row_missing_fraction__max"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__firstquarter_103L"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__processingdate_168D__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdatemonth_442T__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__downpmt_134A__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__maxdpdtolerance_577P__last"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_credlmt_575A__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2_14A__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__rejectreason_755M__n_unique"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_dpd_1073P__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__outstandingdebt_522A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__childnum_21L__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_actualbalance_314A__last"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__byoccupationinc_3656910L__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__lastupdate_1112D__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dateactivated_425D__last"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__previouscontdistrict_112M"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__nominalrate_281L__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofcontrsvalue_358L__mean"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdbddpdtollast6m_4187119P"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__isbidproduct_1095L"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__maxdpdinstlnum_3546846P"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__isbidproduct_390L__diversity_ratio"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__all__persontype_792L__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdatemonth_365T__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1151L__max"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static_cb",
+      "name": "static_cb__d0__maritalst_385M"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__outstandingamount_362A__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__annualeffectiverate_63L__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1151L__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__byoccupationinc_3656910L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__refreshdate_3813885D__count_last_180d"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__related__relationshiptoclient_642T__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totaloutstanddebtvalue_39A__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__familystate_726L__n_unique"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__currdebt_94A__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__approvaldate_319D__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstls_725L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totaldebtoverduevalue_178A__first"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__related__persontype_1072L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totaloutstanddebtvalue_39A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdatemonth_89T__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numrejects9m_859L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__downpmt_134A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__education_1138M__diversity_ratio"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credamount_590A__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__sellerplacecnt_915L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__inittransactioncode_279L__diversity_ratio"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__all__mainoccupationinc_384A__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__lastapprdate_640D"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__revolvingaccount_394A__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmtallstes_3545839D__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdatemonth_365T__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__approvaldate_319D__min"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "uint16",
+      "family": "static",
+      "name": "static__d0__missing_count"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_148D__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__firstnonzeroinstldate_307D__count_last_1825d"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__firstnonzeroinstldate_307D__count_last_180d"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__byoccupationinc_3656910L__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__financialinstitution_591M__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_6A__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2date_1002D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__description_351M__diversity_ratio"
+    },
+    {
+      "block": "applprev_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d2__cacccardblochreas_147M__non_null_count"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__firstdatedue_489D"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__related__type_25L__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__outstandingamount_362A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdatemonth_365T__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmt_581D__count_last_365d"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofrealrepmt_138D__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__credlmt_230A__mean"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static_cb",
+      "name": "static_cb__d0__responsedate_1012D"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2date_1002D__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__purposeofcred_426M__diversity_ratio"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__cntincpaycont9m_3716944L"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstlswithdpd5_4187116L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredstart_181D__max"
+    },
+    {
+      "block": "applprev_depth2",
+      "categorical": true,
+      "depth": 2,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d2__conts_type_509L__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredstart_739D__count_last_180d"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collaterals_typeofguarante_359M__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__credlmt_935A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__firstnonzeroinstldate_307D__count_last_365d"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofinstls_320L__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dateactivated_425D__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__inittransactioncode_279L__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax_35A__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__sex_738L__last"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__related__row_missing_fraction__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmax_139P__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax_155A__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__credlmt_935A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofinstls_320L__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofcontrsvalue_358L__first"
+    },
+    {
+      "block": "applprev_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d2__cacccardblochreas_147M__diversity_ratio"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__annuitynextmonth_57A"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static_cb",
+      "name": "static_cb__d0__education_1103M"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__row_missing_fraction__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__related__persontype_792L__sum"
+    },
+    {
+      "block": "credit_bureau_b_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d2__pmts_date_1107D__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2_398A__first"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__all__persontype_792L__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__byoccupationinc_3656910L__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__classificationofcontr_13M__n_unique"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdatemonth_284T__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__empl_employedtotal_800L__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdateyear_2T__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__lastcancelreason_561M"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "uint16",
+      "family": "static_cb",
+      "name": "static_cb__d0__missing_count"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__clientscnt_304L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__cancelreason_3545846M__diversity_ratio"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__cancelreason_3545846M__n_unique"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofinstls_320L__sum"
+    },
+    {
+      "block": "debitcard_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "debitcard",
+      "name": "debitcard__d1__openingdate_857D__mean"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__pmtcount_693L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__childnum_21L__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1039L__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__annualeffectiverate_63L__min"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__empl_industry_691L__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredend_353D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collaterals_typeofguarante_669M__diversity_ratio"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__bankacctype_710L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__status_219L__last"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__childnum_21L__last"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__creationdate_885D__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamount_659A__max"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__empladdr_district_926M__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdateyear_596T__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__tenor_203L__sum"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__related__persontype_792L__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__lastrejectreason_759M"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__refreshdate_3813885D__count_last_1825d"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2_398A__mean"
+    },
+    {
+      "block": "debitcard_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "debitcard",
+      "name": "debitcard__d1__openingdate_857D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__subjectrole_182M__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collater_typofvalofguarant_407M__diversity_ratio"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_actualbalance_314A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__creationdate_885D__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_641D__count_last_180d"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmax_1151L__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__rejectreason_755M__first"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__secondquarter_766L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__financialinstitution_382M__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__rejectreasonclient_4145042M__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_overdue_1152A__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__currdebt_94A__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredend_353D__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numcontrs3months_479L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_6A__std"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__related__persontype_792L__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofcontrsvalue_358L__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__revolvingaccount_394A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__credlmt_230A__first"
+    },
+    {
+      "block": "person_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d2__all__row_missing_fraction__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__district_544M__n_unique"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__lastrejectcommoditycat_161M"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdatemonth_284T__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__nominalrate_281L__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static",
+      "name": "static__d0__lastactivateddate_801D"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totaldebtoverduevalue_178A__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__annualeffectiverate_63L__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__monthlyinstlamount_674A__std"
+    },
+    {
+      "block": "deposit_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "deposit",
+      "name": "deposit__d1__contractenddate_991D__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__instlamount_768A__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__posfstqpd30lastmonth_3976962P"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__applicationscnt_464L"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__applicant__empl_employedtotal_800L__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_minhisbal_90A__min"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_overdue_1152A__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__applicant__language1_981M__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__approvaldate_319D__count_last_1825d"
+    },
+    {
+      "block": "applprev_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d2__num_group2__n_unique"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static_cb",
+      "name": "static_cb__d0__numberofqueries_373L"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collater_valueofguarantee_1124L__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__annualeffectiverate_63L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "uint32",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collater_typofvalofguarant_298M__non_null_count"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__annualeffectiverate_63L__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmt_581D__count_last_1825d"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__applicant__empladdr_district_926M__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmt_581D__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__lastupdate_388D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmax_757P__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numinstpaidlastcontr_4325080L"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_dpd_303P__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__downpmt_134A__max"
+    },
+    {
+      "block": "credit_bureau_b_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d1__credlmt_228A__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__classificationofcontr_13M__non_null_count"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__applicant__registaddr_zipcode_184M__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_credlmt_575A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_minhisbal_90A__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdatemonth_442T__max"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__type_25L__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__monthlyinstlamount_674A__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofcontrsvalue_358L__std"
+    },
+    {
+      "block": "person_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "int64",
+      "family": "person",
+      "name": "person__d2__all__num_group1__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamount_659A__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__credtype_587L__diversity_ratio"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__actualdpd_943P__first"
+    },
+    {
+      "block": "debitcard_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "debitcard",
+      "name": "debitcard__d1__openingdate_857D__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_transactions_402L__last"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__totaldebt_9A"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__nominalrate_498L__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__tenor_203L__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstlmaxdat_148D__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__annualeffectiverate_199L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredend_353D__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__dtlastpmtallstes_3545839D__count_last_365d"
+    },
+    {
+      "block": "credit_bureau_b_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d2__pmts_date_1107D__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdateyear_994T__std"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__all__persontype_1072L__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d1__creationdate_885D__min"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__lastrejectreasonclient_4145040M"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__registaddr_district_1083M__last"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__twobodfilling_608L"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__firstnonzeroinstldate_307D__count_last_30d"
+    },
+    {
+      "block": "credit_bureau_b_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d1__amount_1115A__min"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__processingdate_168D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredend_353D__count_last_180d"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__credtype_587L__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__lastupdate_388D__max"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_actualbalance_314A__mean"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__language1_981M__last"
+    },
+    {
+      "block": "static_cb_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "float",
+      "family": "static_cb",
+      "name": "static_cb__d0__dateofbirth_342D"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_minhisbal_90A__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredstart_181D__min"
+    },
+    {
+      "block": "person_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "int64",
+      "family": "person",
+      "name": "person__d2__all__num_group2__max"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__related__persontype_792L__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdateyear_596T__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamount_659A__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofrealrepmt_138D__first"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_year_507T__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdateyear_2T__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofinstls_229L__max"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "person",
+      "name": "person__d1__related__role_1084L__n_unique"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdateyear_896T__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__contractst_964M__diversity_ratio"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__role_1084L__diversity_ratio"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__all__persontype_792L__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofinstls_229L__min"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__creationdate_885D__count_last_1825d"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__outstandingdebt_522A__last"
+    },
+    {
+      "block": "applprev_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d2__credacc_cards_status_52L__diversity_ratio"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__applicant__contaddr_district_15M__first"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_minhisbal_90A__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": true,
+      "depth": 0,
+      "dtype": "large_string",
+      "family": "static",
+      "name": "static__d0__lastst_736L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__annualeffectiverate_199L__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredstart_181D__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2date_1002D__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__creationdate_885D__count_last_730d"
+    },
+    {
+      "block": "credit_bureau_b_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d2__pmts_pmtsoverdue_635A__std"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__all__empladdr_zipcode_114M__diversity_ratio"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__incometype_1044T__last"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__creationdate_885D__count_last_365d"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofinstls_229L__std"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numactivecredschannel_414L"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_year_1139T__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__nominalrate_498L__mean"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__tenor_203L__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2_398A__std"
+    },
+    {
+      "block": "deposit_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "deposit",
+      "name": "deposit__d1__openingdate_313D__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__row_missing_fraction__max"
+    },
+    {
+      "block": "credit_bureau_b_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d1__contractdate_551D__max"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__all__personindex_1023L__std"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_credlmt_575A__max"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__role_1084L__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__monthlyinstlamount_674A__first"
+    },
+    {
+      "block": "credit_bureau_b_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d1__instlamount_892A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2_14A__max"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__numactiverelcontr_750L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dateofcredend_353D__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofoverdueinstls_725L__std"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__related__persontype_1072L__sum"
+    },
+    {
+      "block": "credit_bureau_b_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d2__pmts_pmtsoverdue_635A__max"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d1__related__education_927M__diversity_ratio"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__annualeffectiverate_199L__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__revolvingaccount_394A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "applprev",
+      "name": "applprev__d1__cancelreason_3545846M__last"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__debtoutstand_525A__max"
+    },
+    {
+      "block": "applprev_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "applprev",
+      "name": "applprev__d2__row_missing_fraction__mean"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__dpdmaxdatemonth_442T__min"
+    },
+    {
+      "block": "person_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d2__all__conts_role_79M__diversity_ratio"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__applications30d_658L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax2_398A__max"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmax_35A__min"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__numberofinstls_229L__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__totalamount_6A__sum"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "person",
+      "name": "person__d1__related__persontype_1072L__last"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "person",
+      "name": "person__d1__related__type_25L__n_unique"
+    },
+    {
+      "block": "tax_registry_c_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "tax_registry_c",
+      "name": "tax_registry_c__d1__processingdate_168D__count_last_1825d"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__credacc_maxhisbal_375A__last"
+    },
+    {
+      "block": "static_depth0",
+      "categorical": false,
+      "depth": 0,
+      "dtype": "double",
+      "family": "static",
+      "name": "static__d0__clientscnt_1022L"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamountmaxdateyear_2T__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__pmts_overdue_1152A__sum"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__approvaldate_319D__count_last_730d"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__lastupdate_1112D__count_last_180d"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "applprev",
+      "name": "applprev__d1__revolvingaccount_394A__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__overdueamount_659A__sum"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__applicant__registaddr_district_1083M__first"
+    },
+    {
+      "block": "person_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "float",
+      "family": "person",
+      "name": "person__d2__all__addres_district_368M__diversity_ratio"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "person",
+      "name": "person__d1__related__relationshiptoclient_642T__n_unique"
+    },
+    {
+      "block": "person_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "person",
+      "name": "person__d1__all__relationshiptoclient_415T__last"
+    },
+    {
+      "block": "credit_bureau_b_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "double",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d1__interesteffectiverate_369L__sum"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__lastupdate_388D__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": true,
+      "depth": 1,
+      "dtype": "large_string",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__contractst_545M__first"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__purposeofcred_426M__n_unique"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__dateactivated_425D__count_last_730d"
+    },
+    {
+      "block": "credit_bureau_a_depth2",
+      "categorical": false,
+      "depth": 2,
+      "dtype": "double",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d2__collater_valueofguarantee_876L__std"
+    },
+    {
+      "block": "credit_bureau_a_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_a",
+      "name": "credit_bureau_a__d1__subjectrole_93M__diversity_ratio"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__credtype_587L__non_null_count"
+    },
+    {
+      "block": "applprev_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "uint32",
+      "family": "applprev",
+      "name": "applprev__d1__rejectreasonclient_4145042M__n_unique"
+    },
+    {
+      "block": "credit_bureau_b_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "credit_bureau_b",
+      "name": "credit_bureau_b__d1__contractmaturitydate_151D__first"
+    },
+    {
+      "block": "debitcard_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "debitcard",
+      "name": "debitcard__d1__openingdate_857D__std"
+    },
+    {
+      "block": "deposit_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "deposit",
+      "name": "deposit__d1__openingdate_313D__max"
+    },
+    {
+      "block": "deposit_depth1",
+      "categorical": false,
+      "depth": 1,
+      "dtype": "float",
+      "family": "deposit",
+      "name": "deposit__d1__contractenddate_991D__min"
+    }
+  ]
+}

@@ -230,3 +230,11 @@ space volume; they are reproducible from pinned tools and the committed lockfile
 
 See [AWS storage behavior](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-updated-jl-user-guide.html)
 and [uv environment configuration](https://docs.astral.sh/uv/concepts/projects/config/#project-environment-path).
+
+## Next experiment: controlled feature ablation
+
+Phase 5B is complete. [Run the LightGBM feature-block ablation](docs/feature_ablation.md)
+to compare a 700-feature control with three predeclared removals on the same five
+temporal folds. The launcher runs quality gates and a capped smoke suite before
+full training, saves each model-fold to S3, and creates an offline HTML report and
+executed notebook. Weeks 73-91 remain locked. Ablation results are pending.

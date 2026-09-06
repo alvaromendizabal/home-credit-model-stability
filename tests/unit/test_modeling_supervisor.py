@@ -285,3 +285,179 @@ def test_supervisor_checkpoint_commit_is_manifest_last(
     assert restored == 1
 
     assert (output / "artifact.txt").read_text(encoding="utf-8") == "payload\n"
+
+    # A completed local fold can precede its S3 upload after a network interruption.
+    (output / "artifact.txt").write_text("newer local checkpoint")
+    monkeypatch.setattr(supervisor, "validate_benchmark_state", lambda *args, **kwargs: 2)
+    restored = store.restore_latest(
+        output,
+        run_key="run",
+        git_commit="git",
+        feature_manifest_sha256="feature",
+        validation_protocol_sha256="protocol",
+        benchmark_config_sha256="config",
+        smoke=False,
+    )
+    assert restored == 2
+    assert (output / "artifact.txt").read_text() == "newer local checkpoint"
+
+
+def test_supervisor_counts_enabled_models_and_rejects_modified_config():
+    import json
+
+    import pytest
+
+    from home_credit.modeling.checkpoints import sha256_file
+
+    supervisor = _load_supervisor_module()
+    protocol = Path("configs/validation_protocol.json")
+    protocol_sha = json.loads(protocol.read_text())["protocol_sha256"]
+    for path, expected in [
+        (Path("configs/model_benchmark.json"), 20),
+        (Path("configs/ablations/control.json"), 5),
+    ]:
+        assert (
+            supervisor.expected_model_folds(
+                path, sha256_file(path), protocol, protocol_sha, smoke=False
+            )
+            == expected
+        )
+        assert (
+            supervisor.expected_model_folds(
+                path, sha256_file(path), protocol, protocol_sha, smoke=True
+            )
+            == expected // 5
+        )
+    with pytest.raises(ValueError, match="hash mismatch"):
+        supervisor.expected_model_folds(path, "0" * 64, protocol, protocol_sha, smoke=False)
+
+
+def test_remote_empty_preserves_verified_local_folds(tmp_path, monkeypatch):
+    supervisor = _load_supervisor_module()
+
+    class EmptyS3:
+        def get_object(self, **kwargs):
+            raise ClientError({"Error": {"Code": "NoSuchKey"}}, "GetObject")
+
+    monkeypatch.setattr(supervisor.boto3, "client", lambda *args, **kwargs: EmptyS3())
+    monkeypatch.setattr(supervisor, "validate_benchmark_state", lambda *args, **kwargs: 2)
+    store = supervisor.DurableStore(
+        checkpoint_s3_uri="s3://bucket/checkpoints",
+        final_s3_uri="s3://bucket/final",
+        region="us-west-2",
+        log=supervisor.SupervisorLog(tmp_path / "log.jsonl"),
+    )
+    assert (
+        store.restore_latest(
+            tmp_path,
+            run_key="run",
+            git_commit="git",
+            feature_manifest_sha256="feature",
+            validation_protocol_sha256="protocol",
+            benchmark_config_sha256="config",
+            smoke=False,
+        )
+        == 2
+    )
+
+
+def test_partial_feature_cache_resumes_missing_files(tmp_path, monkeypatch):
+    import hashlib
+    import json
+
+    supervisor = _load_supervisor_module()
+    contents = b"validated feature block"
+    digest = hashlib.sha256(contents).hexdigest()
+    manifest = {
+        "blocks": [{"split": "train", "family": "base", "depth": 0, "output_sha256": digest}]
+    }
+    raw = json.dumps(manifest).encode()
+    (tmp_path / "feature_manifest.json").write_bytes(raw)
+    unrelated = tmp_path / "keep.txt"
+    unrelated.write_text("keep")
+    downloads = []
+
+    class Page:
+        def paginate(self, **kwargs):
+            return [
+                {
+                    "Contents": [
+                        {"Key": "snapshot/feature_manifest.json"},
+                        {"Key": "snapshot/blocks/train/base_depth0.parquet"},
+                    ]
+                }
+            ]
+
+    class S3:
+        def get_paginator(self, name):
+            return Page()
+
+        def download_file(self, bucket, key, destination):
+            downloads.append(key)
+            Path(destination).write_bytes(contents)
+
+    monkeypatch.setattr(supervisor.boto3, "client", lambda *args, **kwargs: S3())
+    kwargs = dict(
+        s3_uri="s3://bucket/snapshot",
+        destination=tmp_path,
+        expected_manifest_sha256=hashlib.sha256(raw).hexdigest(),
+        region="us-west-2",
+        log=supervisor.SupervisorLog(tmp_path / "log.jsonl"),
+    )
+    supervisor._sync_feature_snapshot(**kwargs)
+    assert downloads == ["snapshot/blocks/train/base_depth0.parquet"]
+    supervisor._sync_feature_snapshot(**kwargs)
+    assert len(downloads) == 1
+    assert unrelated.read_text() == "keep"
+
+
+def test_first_feature_download_gets_manifest_before_blocks(tmp_path, monkeypatch):
+    import hashlib
+    import json
+
+    supervisor = _load_supervisor_module()
+    block = b"feature bytes"
+    raw = json.dumps(
+        {
+            "blocks": [
+                {
+                    "split": "train",
+                    "family": "base",
+                    "depth": 0,
+                    "output_sha256": hashlib.sha256(block).hexdigest(),
+                }
+            ]
+        }
+    ).encode()
+    calls = []
+
+    class S3:
+        def download_file(self, bucket, key, destination):
+            calls.append(key)
+            Path(destination).write_bytes(raw if key.endswith("feature_manifest.json") else block)
+
+        def get_paginator(self, name):
+            return self
+
+        def paginate(self, **kwargs):
+            return [
+                {
+                    "Contents": [
+                        {"Key": "snapshot/blocks/train/base_depth0.parquet"},
+                        {"Key": "snapshot/feature_manifest.json"},
+                    ]
+                }
+            ]
+
+    monkeypatch.setattr(supervisor.boto3, "client", lambda *args, **kwargs: S3())
+    kwargs = dict(
+        s3_uri="s3://bucket/snapshot",
+        destination=tmp_path,
+        expected_manifest_sha256=hashlib.sha256(raw).hexdigest(),
+        region="us-west-2",
+        log=supervisor.SupervisorLog(tmp_path / "log.jsonl"),
+    )
+    supervisor._sync_feature_snapshot(**kwargs)
+    assert calls == ["snapshot/feature_manifest.json", "snapshot/blocks/train/base_depth0.parquet"]
+    supervisor._sync_feature_snapshot(**kwargs)
+    assert len(calls) == 2

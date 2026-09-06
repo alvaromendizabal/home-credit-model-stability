@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "feature_manifest_sha256": "76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587",
+  "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+  "experiments": [
+    "control",
+    "without_credit_bureau_a",
+    "without_previous_applications",
+    "without_depth2"
+  ],
+  "notes": "Four LightGBM conditions x five folds. Control is retrained under this commit to isolate feature removal from code/runtime changes."
+}

@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import shutil
 import subprocess
 import sys
 import time
@@ -37,6 +36,8 @@ from home_credit.modeling.checkpoints import (
     validate_benchmark_state,
     verify_checkpoint_manifest,
 )
+from home_credit.modeling.config import BenchmarkConfig
+from home_credit.modeling.runner import _load_protocol, _protocol_folds
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -150,11 +151,22 @@ class DurableStore:
         except ClientError as exc:
             code = str(exc.response.get("Error", {}).get("Code", ""))
             if code in {"404", "NoSuchKey", "NotFound"}:
-                self.log.event("checkpoint_restore_empty", run_key=run_key)
-                return 0
+                local_count = validate_benchmark_state(
+                    output_root,
+                    git_commit=git_commit,
+                    feature_manifest_sha256=feature_manifest_sha256,
+                    validation_protocol_sha256=validation_protocol_sha256,
+                    benchmark_config_sha256=benchmark_config_sha256,
+                    smoke=smoke,
+                )
+                self.log.event(
+                    "checkpoint_restore_empty", run_key=run_key, local_model_folds=local_count
+                )
+                return local_count
             raise
 
-        raw_pointer = cast(bytes, response["Body"].read())
+        with response["Body"] as body:
+            raw_pointer = cast(bytes, body.read())
         pointer_sha = sha256_bytes(raw_pointer)
         if response.get("Metadata", {}).get("sha256") != pointer_sha:
             raise RuntimeError("S3 checkpoint pointer SHA-256 metadata mismatch")
@@ -165,7 +177,8 @@ class DurableStore:
             raise RuntimeError("S3 checkpoint pointer run_key mismatch")
 
         response = self.s3.get_object(Bucket=self.bucket, Key=pointer.manifest_key)
-        raw_manifest = cast(bytes, response["Body"].read())
+        with response["Body"] as body:
+            raw_manifest = cast(bytes, body.read())
         manifest_sha = sha256_bytes(raw_manifest)
         if manifest_sha != pointer.manifest_sha256:
             raise RuntimeError("S3 checkpoint manifest SHA-256 mismatch")
@@ -185,24 +198,39 @@ class DurableStore:
             smoke=smoke,
         )
 
-        if output_root.exists():
-            shutil.rmtree(output_root)
+        local_count = validate_benchmark_state(
+            output_root,
+            git_commit=git_commit,
+            feature_manifest_sha256=feature_manifest_sha256,
+            validation_protocol_sha256=validation_protocol_sha256,
+            benchmark_config_sha256=benchmark_config_sha256,
+            smoke=smoke,
+        )
+        if local_count > manifest.completed_model_folds:
+            self.log.event("newer_local_checkpoints_preserved", completed_model_folds=local_count)
+            return local_count
         output_root.mkdir(parents=True, exist_ok=True)
 
         total = len(manifest.files)
-        for index, member in enumerate(manifest.files, start=1):
+        # Publish state last, so an interrupted restore never advertises missing members.
+        members = sorted(manifest.files, key=lambda member: member.path == "benchmark_state.json")
+        for index, member in enumerate(members, start=1):
             destination = output_root / member.path
             destination.parent.mkdir(parents=True, exist_ok=True)
+            if destination.is_file() and sha256_file(destination) == member.sha256:
+                continue
+            temporary = destination.with_suffix(destination.suffix + ".download")
             self.s3.download_file(
                 self.bucket,
                 member.object_key,
-                str(destination),
+                str(temporary),
                 Config=self.transfer,
             )
-            if destination.stat().st_size != member.bytes:
+            if temporary.stat().st_size != member.bytes:
                 raise RuntimeError(f"restored checkpoint size mismatch: {member.path}")
-            if sha256_file(destination) != member.sha256:
+            if sha256_file(temporary) != member.sha256:
                 raise RuntimeError(f"restored checkpoint SHA mismatch: {member.path}")
+            os.replace(temporary, destination)
             if index == total or index % 10 == 0:
                 self.log.event("checkpoint_restore_progress", restored=index, total=total)
 
@@ -444,17 +472,32 @@ def _sync_feature_snapshot(
     region: str,
     log: SupervisorLog,
 ) -> None:
+    destination.mkdir(parents=True, exist_ok=True)
+    bucket, prefix = parse_s3_uri(s3_uri)
+    s3 = boto3.client("s3", region_name=region)
     manifest = destination / "feature_manifest.json"
-    if manifest.is_file() and sha256_file(manifest) == expected_manifest_sha256:
+    # Get the small hash manifest first, so even the first interrupted download resumes.
+    if not manifest.is_file() or sha256_file(manifest) != expected_manifest_sha256:
+        temporary = manifest.with_suffix(".download")
+        s3.download_file(bucket, f"{prefix.rstrip('/')}/feature_manifest.json", str(temporary))
+        if sha256_file(temporary) != expected_manifest_sha256:
+            raise RuntimeError("restored feature manifest SHA-256 mismatch")
+        os.replace(temporary, manifest)
+    payload = json.loads(manifest.read_bytes())
+    known_hashes = {
+        "feature_manifest.json": expected_manifest_sha256,
+        **{
+            f"blocks/{b['split']}/{b['family']}_depth{b['depth']}.parquet": b["output_sha256"]
+            for b in payload["blocks"]
+        },
+    }
+    if all(
+        (destination / name).is_file() and sha256_file(destination / name) == digest
+        for name, digest in known_hashes.items()
+    ):
         log.event("feature_cache_reused", path=destination)
         return
 
-    if destination.exists():
-        shutil.rmtree(destination)
-    destination.mkdir(parents=True, exist_ok=True)
-
-    bucket, prefix = parse_s3_uri(s3_uri)
-    s3 = boto3.client("s3", region_name=region)
     paginator = s3.get_paginator("list_objects_v2")
     objects: list[str] = []
     for page in paginator.paginate(Bucket=bucket, Prefix=f"{prefix.rstrip('/')}/"):
@@ -468,9 +511,19 @@ def _sync_feature_snapshot(
 
     for index, key in enumerate(sorted(objects), start=1):
         relative = key[len(prefix.rstrip("/")) + 1 :]
-        destination_path = destination / relative
+        destination_path = (destination / relative).resolve()
+        if not destination_path.is_relative_to(destination.resolve()):
+            raise ValueError("feature snapshot path escaped cache")
         destination_path.parent.mkdir(parents=True, exist_ok=True)
-        s3.download_file(bucket, key, str(destination_path))
+        if (
+            relative in known_hashes
+            and destination_path.is_file()
+            and sha256_file(destination_path) == known_hashes[relative]
+        ):
+            continue
+        temporary = destination_path.with_suffix(destination_path.suffix + ".download")
+        s3.download_file(bucket, key, str(temporary))
+        os.replace(temporary, destination_path)
         if index == len(objects) or index % 10 == 0:
             log.event("feature_cache_restore_progress", restored=index, total=len(objects))
 
@@ -559,8 +612,27 @@ def _run_child(
             )
 
 
+def expected_model_folds(
+    config_path: Path, config_sha: str, protocol_path: Path, protocol_sha: str, *, smoke: bool
+) -> int:
+    """Derive progress and completion from validated inputs, never a family constant."""
+    config, actual = BenchmarkConfig.load(config_path)
+    if actual != config_sha:
+        raise ValueError("benchmark config hash mismatch")
+    protocol = _load_protocol(protocol_path, expected_sha256=protocol_sha, config=config)
+    return len(config.enabled_model_names) * (1 if smoke else len(_protocol_folds(protocol)))
+
+
 def main() -> int:
+    started = time.monotonic()
     args = _parser().parse_args()
+    expected_total = expected_model_folds(
+        args.config,
+        args.expected_config_sha256,
+        args.validation_protocol,
+        args.expected_protocol_sha256,
+        smoke=bool(args.smoke),
+    )
     if args.max_processes < 1:
         raise ValueError("max-processes must be positive")
     if args.child_heartbeat_seconds <= 0:
@@ -614,7 +686,6 @@ def main() -> int:
         log=log,
     )
 
-    expected_total = 4 if args.smoke else 20
     previous_count = validate_benchmark_state(
         output_dir,
         git_commit=git_commit,
@@ -623,10 +694,25 @@ def main() -> int:
         benchmark_config_sha256=args.expected_config_sha256,
         smoke=bool(args.smoke),
     )
+    if previous_count > expected_total:
+        raise RuntimeError("checkpoint count exceeds experiment plan")
     if previous_count != restored:
         raise RuntimeError(
             "restored checkpoint count disagrees with verified local state: "
             f"remote={restored} local={previous_count}"
+        )
+
+    if previous_count:
+        store.commit_checkpoint(
+            output_dir,
+            run_key=run_key,
+            sequence=previous_count,
+            completed_model_folds=previous_count,
+            git_commit=git_commit,
+            feature_manifest_sha256=args.expected_feature_manifest_sha256,
+            validation_protocol_sha256=args.expected_protocol_sha256,
+            benchmark_config_sha256=args.expected_config_sha256,
+            smoke=bool(args.smoke),
         )
 
     for process_index in range(1, args.max_processes + 1):
@@ -719,6 +805,7 @@ def main() -> int:
     )
     log.event(
         "supervisor_completed",
+        total_elapsed_seconds=round(time.monotonic() - started, 3),
         completed_model_folds=previous_count,
         total_model_folds=expected_total,
         benchmark_summary_sha256=sha256_file(summary_path),
