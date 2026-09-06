@@ -21,6 +21,8 @@ jobs:
         run: bash scripts/check.sh
       - name: Execute benchmark review notebook
         run: uv run --locked python scripts/review_model_benchmark.py --force
+      - name: Verify published review is reproducible
+        run: git diff --exit-code -- notebooks/05_benchmark_review.ipynb reports/benchmark/review.json
       - name: Preserve executed review
         uses: actions/upload-artifact@v4
         with:

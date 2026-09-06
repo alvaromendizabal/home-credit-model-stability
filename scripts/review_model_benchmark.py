@@ -10,9 +10,9 @@ import math
 import time
 from pathlib import Path
 
-from home_credit.modeling.acceptance import read_json, require
-from home_credit.modeling.checkpoints import atomic_write, sha256_bytes
-from home_credit.modeling.review import load_review, rescore_predictions
+from home_credit.modeling.acceptance import read_json
+from home_credit.modeling.checkpoints import atomic_write
+from home_credit.modeling.review import load_review, rescore_predictions, verify_rescored_metrics
 from home_credit.observability.logging import RunLogger
 from home_credit.observability.runtime import Heartbeat, StageTimer
 from home_credit.runtime.notebooks import execute_notebook
@@ -49,11 +49,8 @@ def main() -> int:
                             read_json(root / "configs/validation_protocol.json"),
                             args.benchmark_dir,
                         )
-                        payload = (json.dumps(metrics, indent=2, allow_nan=False) + "\n").encode()
-                        policy = read_json(root / "configs/benchmark_review.json")
-                        require(
-                            sha256_bytes(payload) == policy["metrics_sha256"],
-                            "recomputed metrics differ from reviewed snapshot",
+                        verify_rescored_metrics(
+                            metrics, read_json(root / "reports/benchmark/metrics.json")
                         )
                 with StageTimer(logger, "write_review_diagnostics"):
                     atomic_write(

@@ -18,6 +18,18 @@ from home_credit.modeling.runner import _evaluate_predictions
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def test_rescoring_tolerates_roundoff_but_rejects_material_metric_changes() -> None:
+    from home_credit.modeling.review import verify_rescored_metrics
+
+    expected = read_json(ROOT / "reports/benchmark/metrics.json")
+    actual = copy.deepcopy(expected)
+    actual["models"][0]["auc"] += 1e-14
+    verify_rescored_metrics(actual, expected)
+    actual["models"][0]["auc"] += 0.01
+    with pytest.raises(ValueError, match="metric mismatch"):
+        verify_rescored_metrics(actual, expected)
+
+
 def test_extreme_probabilities_preserve_rank_in_training_evaluator() -> None:
     target = np.tile([0, 0, 1, 1], 2)
     prediction = np.tile([1e-12, 2e-12, 3e-12, 4e-12], 2)

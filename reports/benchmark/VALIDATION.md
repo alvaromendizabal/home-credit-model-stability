@@ -129,3 +129,14 @@ notebook cache invalidation, and preservation of published output after failure.
 The full notebook executes as a separate GitHub CI gate using the locked environment;
 this local container blocks Jupyter socket creation. Execution logs and the executed
 notebook are retained as CI artifacts. No model training is launched by review.
+
+GitHub run `34059025067` executed all seven code cells successfully in 2.999 seconds.
+The resulting notebook contains three embedded PNG figures and the executed tables.
+Its ZIP digest was verified before extracting the notebook; its cell sources match
+the reviewed source exactly. All three figures were visually inspected for readable
+labels, clipping, overlap, population context, and metric interpretation. The generated
+review JSON matches the locally derived file byte for byte. CI now reexecutes the
+committed notebook and fails if its notebook or review JSON changes unexpectedly.
+Prediction rescoring verifies identities exactly and numerical metrics with the same
+explicit tolerance as acceptance, allowing harmless platform rounding without
+accepting material metric differences.

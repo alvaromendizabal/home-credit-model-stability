@@ -242,3 +242,27 @@ def rescore_predictions(
         "models": model_results,
         "folds": fold_results,
     }
+
+
+def verify_rescored_metrics(actual: dict[str, Any], expected: dict[str, Any]) -> None:
+    """Verify identities exactly and floating point metrics within acceptance tolerance."""
+    for key in ("schema_version", "summary_sha256", "ranking_policy", "probability_policy"):
+        require(actual[key] == expected[key], f"rescoring metadata mismatch: {key}")
+    for group, identity_keys in (("models", ("model",)), ("folds", ("model", "fold"))):
+
+        def indexed(
+            rows: list[dict[str, Any]], keys: tuple[str, ...] = identity_keys
+        ) -> dict[tuple[Any, ...], dict[str, Any]]:
+            result = {tuple(row[k] for k in keys): row for row in rows}
+            require(len(result) == len(rows), "duplicate rescored metric identity")
+            return result
+
+        left, right = indexed(actual[group]), indexed(expected[group])
+        require(left.keys() == right.keys(), "rescored metric coverage mismatch")
+        for identity, row in left.items():
+            require(row.keys() == right[identity].keys(), "rescored metric fields mismatch")
+            for key, value in row.items():
+                if key in (*identity_keys, "oof_sha256"):
+                    require(value == right[identity][key], "rescored prediction identity mismatch")
+                else:
+                    compare_number(value, right[identity][key], f"{identity}/{key}")
