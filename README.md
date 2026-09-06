@@ -2,6 +2,13 @@
 
 Research-grade credit-risk modeling under temporal distribution shift, built as a reproducible AWS SageMaker portfolio project.
 
+## Start with the executed review
+
+Open [05_benchmark_review.ipynb](notebooks/05_benchmark_review.ipynb) directly on GitHub
+for the research question, official metric, model comparison, fold score decomposition,
+weekly population support, calibration, drift limits, and next experiments. Executed
+static figures and tables are included; no AWS account or dataset is needed to read it.
+
 ## Current benchmark
 
 ![Temporal benchmark overview](reports/benchmark/overview.svg)
@@ -10,12 +17,20 @@ The September 6 development benchmark completed **20 model folds** across four m
 families. Independent acceptance verified **70 artifacts**, recomputed all fold, pooled,
 and weekly metrics, and confirmed aligned out-of-fold predictions for **727,187 cases**.
 
-| Model | Mean fold stability | Worst fold stability | OOF AUC | OOF average precision | OOF Brier |
-|---|---:|---:|---:|---:|---:|
-| LightGBM | 0.585188 | 0.393682 | 0.846894 | 0.204525 | 0.032425 |
-| XGBoost | 0.558892 | 0.343432 | 0.846576 | 0.204701 | 0.032441 |
-| CatBoost | 0.546330 | 0.297149 | 0.842745 | 0.201164 | 0.032512 |
-| Logistic SGD | -0.120484 | -0.586889 | 0.675897 | 0.102612 | 0.036354 |
+| Model | Mean fold stability | Worst fold stability | OOF ROC AUC | OOF AP | OOF Brier | OOF log loss |
+|---|---:|---:|---:|---:|---:|---:|
+| LightGBM | 0.585188 | 0.393682 | 0.846894 | 0.204525 | 0.032425 | 0.126805 |
+| XGBoost | 0.558892 | 0.343432 | 0.846576 | 0.204701 | 0.032441 | 0.126887 |
+| CatBoost | 0.546330 | 0.297149 | 0.842745 | 0.201164 | 0.032512 | 0.127740 |
+| Logistic SGD | -0.120990 | -0.587616 | 0.675620 | 0.102616 | 0.036354 | 0.253834 |
+
+These numbers use **unclipped prediction ranks** for the official Gini stability
+formula, ROC AUC, and AP; raw probabilities for Brier; and clipping to `[1e-7, 1-1e-7]`
+only for log loss. The [metric audit](reports/benchmark/metrics.json) was recomputed
+from SHA-256-verified saved predictions. The original
+[acceptance record](reports/benchmark/acceptance.json) preserves its historical clipping
+policy, which slightly changes the logistic baseline's ranking metrics. Boosting stability
+scores and their ordering are unchanged.
 
 **LightGBM is the development leader.** Selection uses mean fold stability, not pooled
 OOF stability. Development folds inform early stopping and selection. Final holdout
@@ -28,6 +43,24 @@ See the [benchmark evidence](reports/benchmark/README.md),
 [machine-readable acceptance](reports/benchmark/acceptance.json), and
 [interactive report](reports/benchmark/report.html). Download the HTML and open it in
 a browser; JavaScript is embedded and no server is required.
+
+### Reproduce the review
+
+```bash
+bash scripts/start_here.sh --require-persistent-storage
+uv run --locked python scripts/review_model_benchmark.py
+```
+
+The review uses the committed, hash-pinned aggregate evidence. Add
+`--benchmark-dir artifacts/benchmark_acceptance` to recompute metrics from the saved
+OOF predictions. `--force` reexecutes all notebook cells. UTC logs in `logs/` include
+per-cell progress, heartbeats, stage durations, and total runtime. Successful notebooks
+are reused only when source, dependency lock, inputs, and output hashes still match.
+A failed execution preserves the previous successful notebook and receipt. An interrupted
+notebook restarts its inexpensive cells; no model training or download is invoked.
+
+Report HTML IDs and SVG metadata are deterministic, so regenerating the same report
+under the locked environment does not produce spurious Git changes.
 
 ### Reproduce acceptance of the completed run
 

@@ -40,6 +40,9 @@ dev = [
   "pytest>=8.4,<9",
   "pytest-cov>=6.2,<8",
   "ruff>=0.12.11,<1",
+  "nbclient>=0.10,<1",
+  "ipykernel>=6.30,<8",
+  "nbformat>=5.10,<6",
 ]
 
 [project.scripts]

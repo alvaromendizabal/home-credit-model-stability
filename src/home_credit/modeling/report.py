@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import html
+import io
 import json
 from pathlib import Path
 from typing import Any
@@ -29,7 +30,7 @@ COLORS = {
 }
 
 
-def _chart(fig: Any, title: str, yaxis: str, *, first: bool = False) -> str:
+def _chart(fig: Any, title: str, yaxis: str, *, chart_id: str, first: bool = False) -> str:
     fig.update_layout(
         template="plotly_white",
         title={"text": title, "font": {"size": 20}},
@@ -45,6 +46,7 @@ def _chart(fig: Any, title: str, yaxis: str, *, first: bool = False) -> str:
         fig.to_html(
             full_html=False,
             include_plotlyjs=first,
+            div_id=chart_id,
             config={"displaylogo": False, "responsive": True},
         )
     )
@@ -131,32 +133,44 @@ def build_report(evidence: dict[str, Any], destination: Path) -> None:
             "Selection objective",
             "Each model receives equal weight across five temporal folds. "
             "Higher is better. The slope penalty makes deterioration costly.",
-            _chart(selection, "Mean fold stability", "Stability score", first=True),
+            _chart(
+                selection,
+                "Mean fold stability",
+                "Stability score",
+                chart_id="benchmark-selection",
+                first=True,
+            ),
         ),
         (
             "Performance through time",
             "Hover for sample counts and positive rates. Click a legend "
             "item to hide or restore a model; double-click to isolate it.",
-            _chart(weekly, "Weekly discrimination", "Normalized Gini"),
+            _chart(weekly, "Weekly discrimination", "Normalized Gini", chart_id="benchmark-weekly"),
         ),
         (
             "Weak periods remain visible",
             "These are the five actual fold scores. Variation across "
             "folds describes different time windows, not a confidence interval.",
-            _chart(folds, "Fold-by-fold stability", "Stability score"),
+            _chart(folds, "Fold-by-fold stability", "Stability score", chart_id="benchmark-folds"),
         ),
         (
             "Probability reliability",
             "Fixed probability bins; hover for bin counts. Sparse bins "
             "are uncertain. These predictions have not been recalibrated.",
-            _chart(calibration, "Observed versus predicted risk", "Observed positive rate"),
+            _chart(
+                calibration,
+                "Observed versus predicted risk",
+                "Observed positive rate",
+                chart_id="benchmark-calibration",
+            ),
         ),
     ]
     table_rows = "".join(
         f"<tr><td>{r['rank']}</td><th>{LABELS[r['model']]}</th>"
         f"<td>{r['mean_inner_stability_score']:.4f}</td>"
         f"<td>{r['worst_fold_stability_score']:.4f}</td><td>{r['oof_auc']:.4f}</td>"
-        f"<td>{r['oof_pr_auc']:.4f}</td><td>{r['oof_brier_score']:.5f}</td></tr>"
+        f"<td>{r['oof_pr_auc']:.4f}</td><td>{r['oof_brier_score']:.5f}</td>"
+        f"<td>{r['oof_log_loss']:.5f}</td></tr>"
         for r in models
     )
     limitations = "".join(f"<li>{html.escape(s)}</li>" for s in evidence["limitations"])
@@ -277,6 +291,7 @@ The pooled OOF AUC is {leader["oof_auc"]:.4f}. These are development results;
 <th>OOF AUC ↑</th>
 <th>OOF AP ↑</th>
 <th>OOF Brier ↓</th>
+<th>OOF log loss ↓</th>
 </tr>
 </thead>
 <tbody>{table_rows}</tbody>
@@ -290,6 +305,20 @@ with training-only imputation and standardization.
 OOF positive rate: {evidence["oof_positive_rate"]:.2%}. Descriptive constant-probability Brier
 reference:
 {evidence["descriptive_constant_brier"]:.5f}. A lower Brier score is better.</p>
+<p><strong>Competition metric:</strong> mean(weekly Gini) + 88 &times; min(0, temporal slope)
+&minus; 0.5 &times; residual standard deviation, where Gini = 2 &times; ROC AUC &minus; 1.
+The frozen development selection objective averages this score across the five folds;
+it is distinct from applying the formula once to all pooled OOF weeks.
+<a
+href="https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/overview/evaluation"
+>Official evaluation</a>.
+Log loss and Brier assess probability quality; AP summarizes precision-recall ranking.</p>
+<p class="note">This acceptance report preserves the archived evaluator, which clipped
+probabilities before ranking metrics. The Phase 5B review recalculates metrics with raw
+ranks and documents the resulting change to the logistic baseline. Boosting stability
+scores and their ordering are unchanged. See
+<a href="../../notebooks/05_benchmark_review.ipynb"
+>the executed metric review</a> for the raw-prediction comparison.</p>
 </section>
 {sections}<section>
 <h2>What the evidence says to do next</h2>
@@ -391,6 +420,7 @@ def _overview(evidence: dict[str, Any], path: Path) -> None:
             "axes.spines.top": False,
             "axes.spines.right": False,
             "svg.fonttype": "none",
+            "svg.hashsalt": evidence["summary_sha256"],
         }
     ):
         fig, axes = plt.subplots(1, 2, figsize=(13.2, 5.0), gridspec_kw={"width_ratios": [1, 1.4]})
@@ -448,5 +478,8 @@ def _overview(evidence: dict[str, Any], path: Path) -> None:
             fontsize=9,
             color="#526a79",
         )
-        fig.savefig(path, facecolor=fig.get_facecolor())
+        output = io.BytesIO()
+        fig.savefig(output, format="svg", facecolor=fig.get_facecolor(), metadata={"Date": None})
         plt.close(fig)
+        svg = "\n".join(line.rstrip() for line in output.getvalue().decode().splitlines()) + "\n"
+        atomic_write(path, svg.encode())

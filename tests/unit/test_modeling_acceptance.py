@@ -3,7 +3,10 @@ from __future__ import annotations
 import copy
 import io
 import json
+import os
 import runpy
+import subprocess
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -294,6 +297,48 @@ def test_complete_publication_accepts_and_renders(bundle: tuple, tmp_path: Path)
     assert '<script src="' not in html
     assert "case_id" not in json.dumps(result)
     assert (tmp_path / "report/overview.svg").is_file()
+
+
+def test_report_bytes_are_reproducible_across_processes(bundle: tuple, tmp_path: Path) -> None:
+    root, policy, _ = bundle
+    evidence = tmp_path / "evidence.json"
+    write_json(evidence, accept(root, policy))
+    for index in (1, 2):
+        subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import json,sys; from pathlib import Path; "
+                "from home_credit.modeling.report import build_report; "
+                "build_report(json.loads(Path(sys.argv[1]).read_text()), Path(sys.argv[2]))",
+                str(evidence),
+                str(tmp_path / str(index)),
+            ],
+            env={**os.environ, "PYTHONHASHSEED": str(index), "SOURCE_DATE_EPOCH": str(index)},
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+    for name in ("report.html", "overview.svg", "acceptance.json", "README.md"):
+        assert (tmp_path / "1" / name).read_bytes() == (tmp_path / "2" / name).read_bytes(), name
+
+
+def test_saved_predictions_rescore_without_training_and_reject_changed_bytes(bundle: tuple) -> None:
+    from home_credit.modeling.review import rescore_predictions
+
+    root, policy, _ = bundle
+    evidence = accept(root, policy)
+    protocol = read_json(Path("configs/validation_protocol.json"))
+    metrics = rescore_predictions(evidence, protocol, root)
+    assert len(metrics["models"]) == 4
+    assert len(metrics["folds"]) == 20
+    assert all(r["auc"] == 1.0 for r in metrics["models"])
+    assert all(r["stability_score"] == pytest.approx(1.0) for r in metrics["folds"])
+    path = root / evidence["models"][0]["oof_path"]
+    path.write_bytes(b"changed prediction artifact")
+    with pytest.raises(ValueError, match="prediction hash"):
+        rescore_predictions(evidence, protocol, root)
 
 
 @pytest.mark.parametrize("mutation", ["checksum", "summary", "missing_fold", "holdout"])

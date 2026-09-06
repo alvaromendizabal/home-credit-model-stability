@@ -16,9 +16,9 @@ from typing import Any, cast
 import numpy as np
 import polars as pl
 from numpy.typing import NDArray
-from sklearn.metrics import average_precision_score, brier_score_loss, log_loss, roc_auc_score
 
-from home_credit.metrics.stability import normalized_gini, stability_score
+from home_credit.metrics.classification import evaluate_probabilities
+from home_credit.metrics.stability import normalized_gini
 from home_credit.modeling.config import BenchmarkConfig, ModelConfig
 from home_credit.modeling.data import (
     CASE_ID,
@@ -781,22 +781,7 @@ def _evaluate_predictions(
     prediction: NDArray[np.generic],
     week_num: NDArray[np.generic],
 ) -> dict[str, float]:
-    if len(y_true) != len(prediction) or len(y_true) != len(week_num):
-        raise ValueError("prediction metric arrays must have equal length")
-    if not np.isfinite(prediction).all():
-        raise ValueError("model predictions must be finite")
-    clipped = np.clip(np.asarray(prediction, dtype=np.float64), 1e-7, 1.0 - 1e-7)
-    stability = stability_score(y_true, clipped, week_num)
-    return {
-        "stability_score": float(stability.score),
-        "mean_gini": float(stability.mean_gini),
-        "temporal_slope": float(stability.slope),
-        "residual_std": float(stability.residual_std),
-        "auc": float(roc_auc_score(y_true, clipped)),
-        "pr_auc": float(average_precision_score(y_true, clipped)),
-        "brier_score": float(brier_score_loss(y_true, clipped)),
-        "log_loss": float(log_loss(y_true, clipped, labels=[0, 1])),
-    }
+    return evaluate_probabilities(y_true, prediction, week_num)
 
 
 def _weekly_gini_rows(

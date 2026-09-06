@@ -78,7 +78,11 @@ def validate_predictions(frame: pl.DataFrame, weeks: set[int], label: str) -> No
 
 
 def prediction_metrics(frame: pl.DataFrame) -> dict[str, float]:
-    """Recompute persisted metrics with the training evaluator's clipping policy."""
+    """Verify the immutable benchmark's historical all-metric clipping policy.
+
+    This is an archival compatibility check. New evaluation uses
+    metrics.classification.evaluate_probabilities, which preserves raw ranks.
+    """
     target = frame["target"].to_numpy()
     prediction = np.clip(frame["prediction"].to_numpy().astype(np.float64), 1e-7, 1 - 1e-7)
     result = stability_score(target, prediction, frame["WEEK_NUM"].to_numpy())

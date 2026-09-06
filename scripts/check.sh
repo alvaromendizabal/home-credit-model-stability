@@ -37,7 +37,7 @@ run() {
 
 run ruff_lint uv run --locked ruff check . || exit $?
 run ruff_format uv run --locked ruff format --check . || exit $?
-run mypy uv run --locked mypy src scripts/bootstrap_environment.py || exit $?
+run mypy uv run --locked mypy src scripts/bootstrap_environment.py scripts/review_model_benchmark.py || exit $?
 run pytest uv run --locked pytest -q --cov=home_credit --cov-report=term-missing || exit $?
 
 TOTAL=$(( $(date +%s) - START_EPOCH ))

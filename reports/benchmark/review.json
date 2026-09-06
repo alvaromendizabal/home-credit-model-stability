@@ -1,0 +1,654 @@
+{
+  "schema_version": 1,
+  "scope": "accepted development aggregates; no training or holdout evaluation",
+  "run_key": "ea48ad26a735ef4044ebc6a0d2e2750cb54584a2926619ab9d52bcdc0f739438",
+  "summary_sha256": "cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4",
+  "leader": "lightgbm",
+  "models": [
+    {
+      "model": "lightgbm",
+      "archived_rank": 1,
+      "mean_fold_stability": 0.5851883723923733,
+      "archived_mean_fold_stability": 0.5851883723923733,
+      "oof_stability_score": 0.6788685254743162,
+      "oof_auc": 0.8468941374919333,
+      "oof_pr_auc": 0.20452456164496388,
+      "oof_brier_score": 0.032425458087833335,
+      "oof_log_loss": 0.12680497461504933,
+      "weakest_fold": 1,
+      "mean_gini": 0.6942107647906615,
+      "mean_slope_penalty": -0.09701376845677068,
+      "mean_residual_penalty": -0.012008623941517466,
+      "rank": 1
+    },
+    {
+      "model": "xgboost",
+      "archived_rank": 2,
+      "mean_fold_stability": 0.5588916378616412,
+      "archived_mean_fold_stability": 0.5588916378616412,
+      "oof_stability_score": 0.6781747684923247,
+      "oof_auc": 0.8465757851506721,
+      "oof_pr_auc": 0.20470064621597361,
+      "oof_brier_score": 0.032440709461510696,
+      "oof_log_loss": 0.12688676450802353,
+      "weakest_fold": 1,
+      "mean_gini": 0.6933122121796524,
+      "mean_slope_penalty": -0.12263936991605562,
+      "mean_residual_penalty": -0.011781204401955542,
+      "rank": 2
+    },
+    {
+      "model": "catboost",
+      "archived_rank": 3,
+      "mean_fold_stability": 0.5463295572474515,
+      "archived_mean_fold_stability": 0.5463295572474515,
+      "oof_stability_score": 0.671161609599861,
+      "oof_auc": 0.8427452521032657,
+      "oof_pr_auc": 0.20116420296139312,
+      "oof_brier_score": 0.0325124174119557,
+      "oof_log_loss": 0.12773980614985053,
+      "weakest_fold": 1,
+      "mean_gini": 0.686473277963443,
+      "mean_slope_penalty": -0.12817434306673145,
+      "mean_residual_penalty": -0.011969377649260022,
+      "rank": 3
+    },
+    {
+      "model": "linear_logistic",
+      "archived_rank": 4,
+      "mean_fold_stability": -0.12098976074743428,
+      "archived_mean_fold_stability": -0.12048440445713104,
+      "oof_stability_score": 0.3607768556387665,
+      "oof_auc": 0.6756203940472005,
+      "oof_pr_auc": 0.1026162259377218,
+      "oof_brier_score": 0.03635357258962811,
+      "oof_log_loss": 0.2538335358122594,
+      "weakest_fold": 4,
+      "mean_gini": 0.3825315495026467,
+      "mean_slope_penalty": -0.49008382549620133,
+      "mean_residual_penalty": -0.013437484753879635,
+      "rank": 4
+    }
+  ],
+  "folds": [
+    {
+      "model": "lightgbm",
+      "fold": 1,
+      "week_min": 33,
+      "week_max": 40,
+      "rows": 182576,
+      "positives": 6105,
+      "positive_rate": 0.033438129874682324,
+      "archived_stability_score": 0.3936822858714575,
+      "mean_gini": 0.6911252160297433,
+      "temporal_slope": -0.003324049095003601,
+      "residual_std": 0.009853219595937837,
+      "slope_penalty": -0.2925163203603169,
+      "residual_penalty": -0.004926609797968919,
+      "stability_score": 0.3936822858714575
+    },
+    {
+      "model": "lightgbm",
+      "fold": 2,
+      "week_min": 41,
+      "week_max": 48,
+      "rows": 194116,
+      "positives": 7165,
+      "positive_rate": 0.03691091924416329,
+      "archived_stability_score": 0.667723153778498,
+      "mean_gini": 0.6784267698795633,
+      "temporal_slope": 0.0015153656852272548,
+      "residual_std": 0.021407232202130665,
+      "slope_penalty": 0.0,
+      "residual_penalty": -0.010703616101065332,
+      "stability_score": 0.667723153778498
+    },
+    {
+      "model": "lightgbm",
+      "fold": 3,
+      "week_min": 49,
+      "week_max": 56,
+      "rows": 192561,
+      "positives": 7191,
+      "positive_rate": 0.037344010469409696,
+      "archived_stability_score": 0.49782348183981734,
+      "mean_gini": 0.6975363869685487,
+      "temporal_slope": -0.0021880968400401876,
+      "residual_std": 0.01432076641038982,
+      "slope_penalty": -0.1925525219235365,
+      "residual_penalty": -0.00716038320519491,
+      "stability_score": 0.49782348183981734
+    },
+    {
+      "model": "lightgbm",
+      "fold": 4,
+      "week_min": 57,
+      "week_max": 64,
+      "rows": 126970,
+      "positives": 5936,
+      "positive_rate": 0.046751201071119165,
+      "archived_stability_score": 0.6828064506634226,
+      "mean_gini": 0.6932730490817607,
+      "temporal_slope": 0.0003047935617515162,
+      "residual_std": 0.0209331968366762,
+      "slope_penalty": 0.0,
+      "residual_penalty": -0.0104665984183381,
+      "stability_score": 0.6828064506634226
+    },
+    {
+      "model": "lightgbm",
+      "fold": 5,
+      "week_min": 65,
+      "week_max": 72,
+      "rows": 30964,
+      "positives": 699,
+      "positive_rate": 0.022574602764500712,
+      "archived_stability_score": 0.6839064898086712,
+      "mean_gini": 0.7106924019936912,
+      "temporal_slope": 0.007669556750981027,
+      "residual_std": 0.05357182437004013,
+      "slope_penalty": 0.0,
+      "residual_penalty": -0.026785912185020064,
+      "stability_score": 0.6839064898086712
+    },
+    {
+      "model": "xgboost",
+      "fold": 1,
+      "week_min": 33,
+      "week_max": 40,
+      "rows": 182576,
+      "positives": 6105,
+      "positive_rate": 0.033438129874682324,
+      "archived_stability_score": 0.34343243575499016,
+      "mean_gini": 0.6903019569740936,
+      "temporal_slope": -0.0038765143073735938,
+      "residual_std": 0.011472524340454307,
+      "slope_penalty": -0.34113325904887626,
+      "residual_penalty": -0.005736262170227153,
+      "stability_score": 0.34343243575499016
+    },
+    {
+      "model": "xgboost",
+      "fold": 2,
+      "week_min": 41,
+      "week_max": 48,
+      "rows": 194116,
+      "positives": 7165,
+      "positive_rate": 0.03691091924416329,
+      "archived_stability_score": 0.6671120064100791,
+      "mean_gini": 0.6777511836854853,
+      "temporal_slope": 0.0005965506196230253,
+      "residual_std": 0.021278354550812336,
+      "slope_penalty": 0.0,
+      "residual_penalty": -0.010639177275406168,
+      "stability_score": 0.6671120064100791
+    },
+    {
+      "model": "xgboost",
+      "fold": 3,
+      "week_min": 49,
+      "week_max": 56,
+      "rows": 192561,
+      "positives": 7191,
+      "positive_rate": 0.037344010469409696,
+      "archived_stability_score": 0.4638514906979906,
+      "mean_gini": 0.6955973875925059,
+      "temporal_slope": -0.0025588511685822163,
+      "residual_std": 0.013133988118560556,
+      "slope_penalty": -0.22517890283523503,
+      "residual_penalty": -0.006566994059280278,
+      "stability_score": 0.4638514906979906
+    },
+    {
+      "model": "xgboost",
+      "fold": 4,
+      "week_min": 57,
+      "week_max": 64,
+      "rows": 126970,
+      "positives": 5936,
+      "positive_rate": 0.046751201071119165,
+      "archived_stability_score": 0.6380689193689559,
+      "mean_gini": 0.6945648416353953,
+      "temporal_slope": -0.0005327805420018955,
+      "residual_std": 0.019222469140545206,
+      "slope_penalty": -0.0468846876961668,
+      "residual_penalty": -0.009611234570272603,
+      "stability_score": 0.6380689193689559
+    },
+    {
+      "model": "xgboost",
+      "fold": 5,
+      "week_min": 65,
+      "week_max": 72,
+      "rows": 30964,
+      "positives": 699,
+      "positive_rate": 0.022574602764500712,
+      "archived_stability_score": 0.6819933370761901,
+      "mean_gini": 0.7083456910107817,
+      "temporal_slope": 0.008277608520202701,
+      "residual_std": 0.05270470786918302,
+      "slope_penalty": 0.0,
+      "residual_penalty": -0.02635235393459151,
+      "stability_score": 0.6819933370761901
+    },
+    {
+      "model": "catboost",
+      "fold": 1,
+      "week_min": 33,
+      "week_max": 40,
+      "rows": 182576,
+      "positives": 6105,
+      "positive_rate": 0.033438129874682324,
+      "archived_stability_score": 0.2971489522198035,
+      "mean_gini": 0.6782736380760677,
+      "temporal_slope": -0.004252826476459731,
+      "residual_std": 0.013751911855615664,
+      "slope_penalty": -0.37424872992845637,
+      "residual_penalty": -0.006875955927807832,
+      "stability_score": 0.2971489522198035
+    },
+    {
+      "model": "catboost",
+      "fold": 2,
+      "week_min": 41,
+      "week_max": 48,
+      "rows": 194116,
+      "positives": 7165,
+      "positive_rate": 0.03691091924416329,
+      "archived_stability_score": 0.6599312621173622,
+      "mean_gini": 0.670428920254698,
+      "temporal_slope": 0.0016230006998195295,
+      "residual_std": 0.0209953162746716,
+      "slope_penalty": 0.0,
+      "residual_penalty": -0.0104976581373358,
+      "stability_score": 0.6599312621173622
+    },
+    {
+      "model": "catboost",
+      "fold": 3,
+      "week_min": 49,
+      "week_max": 56,
+      "rows": 192561,
+      "positives": 7191,
+      "positive_rate": 0.037344010469409696,
+      "archived_stability_score": 0.44596147980476225,
+      "mean_gini": 0.6891712043511413,
+      "temporal_slope": -0.0026920632021993638,
+      "residual_std": 0.012616325505670054,
+      "slope_penalty": -0.23690156179354402,
+      "residual_penalty": -0.006308162752835027,
+      "stability_score": 0.44596147980476225
+    },
+    {
+      "model": "catboost",
+      "fold": 4,
+      "week_min": 57,
+      "week_max": 64,
+      "rows": 126970,
+      "positives": 5936,
+      "positive_rate": 0.046751201071119165,
+      "archived_stability_score": 0.646035128487495,
+      "mean_gini": 0.6857380937956368,
+      "temporal_slope": -0.0003377434501324645,
+      "residual_std": 0.019963083392969816,
+      "slope_penalty": -0.029721423611656875,
+      "residual_penalty": -0.009981541696484908,
+      "stability_score": 0.646035128487495
+    },
+    {
+      "model": "catboost",
+      "fold": 5,
+      "week_min": 65,
+      "week_max": 72,
+      "rows": 30964,
+      "positives": 699,
+      "positive_rate": 0.022574602764500712,
+      "archived_stability_score": 0.6825709636078344,
+      "mean_gini": 0.708754533339671,
+      "temporal_slope": 0.00837034690960119,
+      "residual_std": 0.05236713946367309,
+      "slope_penalty": 0.0,
+      "residual_penalty": -0.026183569731836547,
+      "stability_score": 0.6825709636078344
+    },
+    {
+      "model": "linear_logistic",
+      "fold": 1,
+      "week_min": 33,
+      "week_max": 40,
+      "rows": 182576,
+      "positives": 6105,
+      "positive_rate": 0.033438129874682324,
+      "archived_stability_score": -0.434694236403957,
+      "mean_gini": 0.3294160870269103,
+      "temporal_slope": -0.008594543263378883,
+      "residual_std": 0.01861768569433856,
+      "slope_penalty": -0.7563198071773417,
+      "residual_penalty": -0.00930884284716928,
+      "stability_score": -0.4362125629976007
+    },
+    {
+      "model": "linear_logistic",
+      "fold": 2,
+      "week_min": 41,
+      "week_max": 48,
+      "rows": 194116,
+      "positives": 7165,
+      "positive_rate": 0.03691091924416329,
+      "archived_stability_score": 0.19951680518134277,
+      "mean_gini": 0.3937800422612604,
+      "temporal_slope": -0.002120676652540654,
+      "residual_std": 0.01618859955394989,
+      "slope_penalty": -0.18661954542357756,
+      "residual_penalty": -0.008094299776974945,
+      "stability_score": 0.19906619706070788
+    },
+    {
+      "model": "linear_logistic",
+      "fold": 3,
+      "week_min": 49,
+      "week_max": 56,
+      "rows": 192561,
+      "positives": 7191,
+      "positive_rate": 0.037344010469409696,
+      "archived_stability_score": -0.12948201133131462,
+      "mean_gini": 0.4051986059886853,
+      "temporal_slope": -0.005976800090715284,
+      "residual_std": 0.017057029475236615,
+      "slope_penalty": -0.525958407982945,
+      "residual_penalty": -0.008528514737618308,
+      "stability_score": -0.12928831673187804
+    },
+    {
+      "model": "linear_logistic",
+      "fold": 4,
+      "week_min": 57,
+      "week_max": 64,
+      "rows": 126970,
+      "positives": 5936,
+      "positive_rate": 0.046751201071119165,
+      "archived_stability_score": -0.5868890993115676,
+      "mean_gini": 0.40601396103025195,
+      "temporal_slope": -0.011153651896558436,
+      "residual_std": 0.024217940182997007,
+      "slope_penalty": -0.9815213668971423,
+      "residual_penalty": -0.012108970091498503,
+      "stability_score": -0.5876163759583888
+    },
+    {
+      "model": "linear_logistic",
+      "fold": 5,
+      "week_min": 65,
+      "week_max": 72,
+      "rows": 30964,
+      "positives": 699,
+      "positive_rate": 0.022574602764500712,
+      "archived_stability_score": 0.3491265195798413,
+      "mean_gini": 0.3782490512061254,
+      "temporal_slope": 0.005714975255673521,
+      "residual_std": 0.05829359263227431,
+      "slope_penalty": 0.0,
+      "residual_penalty": -0.029146796316137154,
+      "stability_score": 0.34910225488998825
+    }
+  ],
+  "weekly_population": [
+    {
+      "week_num": 33,
+      "rows": 21525,
+      "positives": 632,
+      "positive_rate": 0.029361207897793264
+    },
+    {
+      "week_num": 34,
+      "rows": 23477,
+      "positives": 638,
+      "positive_rate": 0.027175533500873195
+    },
+    {
+      "week_num": 35,
+      "rows": 24137,
+      "positives": 677,
+      "positive_rate": 0.028048224717239095
+    },
+    {
+      "week_num": 36,
+      "rows": 23812,
+      "positives": 810,
+      "positive_rate": 0.03401646228792206
+    },
+    {
+      "week_num": 37,
+      "rows": 22255,
+      "positives": 834,
+      "positive_rate": 0.0374747247809481
+    },
+    {
+      "week_num": 38,
+      "rows": 22424,
+      "positives": 861,
+      "positive_rate": 0.03839636104174099
+    },
+    {
+      "week_num": 39,
+      "rows": 21039,
+      "positives": 820,
+      "positive_rate": 0.03897523646561148
+    },
+    {
+      "week_num": 40,
+      "rows": 23907,
+      "positives": 833,
+      "positive_rate": 0.03484335131969716
+    },
+    {
+      "week_num": 41,
+      "rows": 21125,
+      "positives": 843,
+      "positive_rate": 0.039905325443786985
+    },
+    {
+      "week_num": 42,
+      "rows": 20643,
+      "positives": 801,
+      "positive_rate": 0.03880249963668071
+    },
+    {
+      "week_num": 43,
+      "rows": 21029,
+      "positives": 841,
+      "positive_rate": 0.03999239145941319
+    },
+    {
+      "week_num": 44,
+      "rows": 25887,
+      "positives": 938,
+      "positive_rate": 0.036234403368486115
+    },
+    {
+      "week_num": 45,
+      "rows": 28947,
+      "positives": 1001,
+      "positive_rate": 0.03458044011469237
+    },
+    {
+      "week_num": 46,
+      "rows": 22299,
+      "positives": 915,
+      "positive_rate": 0.041033230189694604
+    },
+    {
+      "week_num": 47,
+      "rows": 31888,
+      "positives": 936,
+      "positive_rate": 0.029352734570998493
+    },
+    {
+      "week_num": 48,
+      "rows": 22298,
+      "positives": 890,
+      "positive_rate": 0.03991389362274644
+    },
+    {
+      "week_num": 49,
+      "rows": 30938,
+      "positives": 1014,
+      "positive_rate": 0.03277522787510505
+    },
+    {
+      "week_num": 50,
+      "rows": 26244,
+      "positives": 1060,
+      "positive_rate": 0.04039018442310623
+    },
+    {
+      "week_num": 51,
+      "rows": 35920,
+      "positives": 1136,
+      "positive_rate": 0.03162583518930958
+    },
+    {
+      "week_num": 52,
+      "rows": 22915,
+      "positives": 689,
+      "positive_rate": 0.030067641283002402
+    },
+    {
+      "week_num": 53,
+      "rows": 22194,
+      "positives": 823,
+      "positive_rate": 0.03708209425970983
+    },
+    {
+      "week_num": 54,
+      "rows": 18740,
+      "positives": 869,
+      "positive_rate": 0.04637139807897545
+    },
+    {
+      "week_num": 55,
+      "rows": 18538,
+      "positives": 789,
+      "positive_rate": 0.042561225590678604
+    },
+    {
+      "week_num": 56,
+      "rows": 17072,
+      "positives": 811,
+      "positive_rate": 0.04750468603561387
+    },
+    {
+      "week_num": 57,
+      "rows": 18221,
+      "positives": 838,
+      "positive_rate": 0.045990889632841224
+    },
+    {
+      "week_num": 58,
+      "rows": 17819,
+      "positives": 867,
+      "positive_rate": 0.04865592906448173
+    },
+    {
+      "week_num": 59,
+      "rows": 17729,
+      "positives": 889,
+      "positive_rate": 0.05014383213943257
+    },
+    {
+      "week_num": 60,
+      "rows": 15864,
+      "positives": 729,
+      "positive_rate": 0.04595310136157337
+    },
+    {
+      "week_num": 61,
+      "rows": 15568,
+      "positives": 807,
+      "positive_rate": 0.05183710174717369
+    },
+    {
+      "week_num": 62,
+      "rows": 17164,
+      "positives": 895,
+      "positive_rate": 0.05214402237240737
+    },
+    {
+      "week_num": 63,
+      "rows": 14337,
+      "positives": 589,
+      "positive_rate": 0.04108251377554579
+    },
+    {
+      "week_num": 64,
+      "rows": 10268,
+      "positives": 322,
+      "positive_rate": 0.03135956369302688
+    },
+    {
+      "week_num": 65,
+      "rows": 4258,
+      "positives": 96,
+      "positive_rate": 0.02254579614842649
+    },
+    {
+      "week_num": 66,
+      "rows": 2278,
+      "positives": 52,
+      "positive_rate": 0.0228270412642669
+    },
+    {
+      "week_num": 67,
+      "rows": 1434,
+      "positives": 30,
+      "positive_rate": 0.02092050209205021
+    },
+    {
+      "week_num": 68,
+      "rows": 825,
+      "positives": 21,
+      "positive_rate": 0.025454545454545455
+    },
+    {
+      "week_num": 69,
+      "rows": 1582,
+      "positives": 35,
+      "positive_rate": 0.022123893805309734
+    },
+    {
+      "week_num": 70,
+      "rows": 3808,
+      "positives": 82,
+      "positive_rate": 0.02153361344537815
+    },
+    {
+      "week_num": 71,
+      "rows": 7921,
+      "positives": 176,
+      "positive_rate": 0.02221941674031057
+    },
+    {
+      "week_num": 72,
+      "rows": 8858,
+      "positives": 207,
+      "positive_rate": 0.02336870625423346
+    }
+  ],
+  "screening_drift_auc": 0.9989437343708738,
+  "selected_features_by_block": {
+    "applprev_depth1": 175,
+    "applprev_depth2": 9,
+    "credit_bureau_a_depth1": 244,
+    "credit_bureau_a_depth2": 29,
+    "credit_bureau_b_depth1": 7,
+    "credit_bureau_b_depth2": 4,
+    "debitcard_depth1": 4,
+    "deposit_depth1": 4,
+    "person_depth1": 69,
+    "person_depth2": 7,
+    "static_cb_depth0": 23,
+    "static_depth0": 107,
+    "tax_registry_c_depth1": 18
+  },
+  "evidence_sha256": "d76a0588901f07f80b94254348c7598545f35adb53ca1d5faae7d28314f99798"
+}

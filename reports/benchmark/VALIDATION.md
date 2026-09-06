@@ -90,3 +90,42 @@ verification used overlay storage; the SageMaker command retains the explicit
 persistent-mount requirement. The README background launcher was syntax-checked and
 executed with successful and failing workers: it created the log before the viewer
 and propagated both exit statuses. No benchmark training was rerun.
+
+## SageMaker acceptance and Phase 5B review
+
+The 2026-09-06 SageMaker run at 20:21 UTC completed acceptance of all 20 model
+folds and printed `PHASE_5A_ACCEPTANCE_COMPLETED`. It reused all cached benchmark
+artifacts and its existing environment. Acceptance took 6.127 seconds; complete
+startup took 41.036 seconds. The subsequent Git guard stopped on regenerated
+HTML/SVG files. Plotly UUIDs and SVG timestamps/IDs caused that output drift.
+Explicit chart IDs, a stable SVG hash salt, omitted creation dates, and atomic
+normalized SVG writes now produce identical report bytes across separate processes
+with different hash seeds and `SOURCE_DATE_EPOCH` values.
+
+The review found a second, methodological issue: the original evaluator clipped
+predictions before ranking metrics, while weekly Gini used raw predictions. That
+changes ties for the logistic baseline. The evaluator for future runs now preserves
+raw ranks for Gini/ROC AUC/AP and raw probabilities for Brier; only log loss clips
+to `[1e-7, 1-1e-7]`. Historical acceptance deliberately preserves its original
+clipping policy so the immutable S3 publication can still be independently verified.
+
+All four saved OOF files were SHA-256 verified and rescored (727,187 cases each).
+`metrics.json` contains the raw-prediction results; `configs/benchmark_review.json`
+pins both that snapshot and the unchanged original acceptance evidence. The logistic
+mean-fold stability changes from -0.1204844045 to -0.1209897607. All three boosting
+stability scores and their ordering are unchanged. LightGBM remains the leader at
+0.5851883724 mean-fold stability and 0.8468941375 OOF ROC AUC.
+
+The review reconstructs scores from weekly Gini, reconciles them with independently
+rescored predictions, and exposes the nonlinear penalty inside each fold. LightGBM
+fold 1 loses 0.292516 points to its declining trend. Pooled OOF stability (0.678869)
+is reported separately from the predeclared mean-fold selection score (0.585188).
+
+The local full startup gate passed 200 tests, Ruff lint/formatting, strict mypy
+(40 files), and all smoke checks in 69.966 seconds. New regression coverage includes
+extreme probability ranks, analytic trend penalties, changed prediction bytes,
+inconsistent weekly/fold evidence, holdout guards, deterministic report bytes,
+notebook cache invalidation, and preservation of published output after failure.
+The full notebook executes as a separate GitHub CI gate using the locked environment;
+this local container blocks Jupyter socket creation. Execution logs and the executed
+notebook are retained as CI artifacts. No model training is launched by review.
