@@ -5,14 +5,18 @@ from __future__ import annotations
 
 import argparse
 import fcntl
-import json
 import math
 import time
 from pathlib import Path
 
 from home_credit.modeling.acceptance import read_json
 from home_credit.modeling.checkpoints import atomic_write
-from home_credit.modeling.review import load_review, rescore_predictions, verify_rescored_metrics
+from home_credit.modeling.review import (
+    load_review,
+    rescore_predictions,
+    serialize_review,
+    verify_rescored_metrics,
+)
 from home_credit.observability.logging import RunLogger
 from home_credit.observability.runtime import Heartbeat, StageTimer
 from home_credit.runtime.notebooks import execute_notebook
@@ -55,7 +59,7 @@ def main() -> int:
                 with StageTimer(logger, "write_review_diagnostics"):
                     atomic_write(
                         root / "reports/benchmark/review.json",
-                        (json.dumps(review, indent=2, allow_nan=False) + "\n").encode(),
+                        serialize_review(review),
                     )
                 with StageTimer(logger, "execute_review_notebook"):
                     execute_notebook(

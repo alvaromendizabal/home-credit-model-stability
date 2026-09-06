@@ -140,3 +140,11 @@ committed notebook and fails if its notebook or review JSON changes unexpectedly
 Prediction rescoring verifies identities exactly and numerical metrics with the same
 explicit tolerance as acceptance, allowing harmless platform rounding without
 accepting material metric differences.
+
+A subsequent CI runner exposed last-digit floating-point differences in derived
+trend diagnostics. The presentation-only `review.json` now serializes floats to
+12 decimal places and normalizes signed zero. All metric comparisons occur before
+serialization at full precision; pinned `metrics.json` and historical acceptance
+remain unchanged. Regression coverage checks equivalent platform roundoff, material
+changes, nonfinite values, and preservation of the original metrics. The strict CI
+byte comparison remains in place for both the notebook and derived JSON.

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any
 
@@ -12,6 +13,22 @@ from home_credit.metrics.classification import evaluate_probabilities
 from home_credit.modeling.acceptance import compare_number, read_json, require, validate_predictions
 from home_credit.modeling.checkpoints import sha256_file
 from home_credit.validation.protocol import verify_protocol_sha256
+
+
+def serialize_review(review: dict[str, Any]) -> bytes:
+    """Stabilize presentation JSON; validation and pinned metrics retain full precision."""
+
+    def normalize(value: Any) -> Any:
+        if isinstance(value, float):
+            rounded = round(value, 12)
+            return 0.0 if rounded == 0 else rounded
+        if isinstance(value, dict):
+            return {key: normalize(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return [normalize(item) for item in value]
+        return value
+
+    return (json.dumps(normalize(review), indent=2, allow_nan=False) + "\n").encode()
 
 
 def stability_components(weeks: list[int], ginis: list[float]) -> dict[str, float]:

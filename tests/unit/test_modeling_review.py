@@ -11,11 +11,25 @@ from home_credit.modeling.review import (
     load_review,
     rescore_predictions,
     review_evidence,
+    serialize_review,
     stability_components,
 )
 from home_credit.modeling.runner import _evaluate_predictions
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def test_presentation_serialization_normalizes_platform_roundoff_without_mutating_metrics() -> None:
+    original = {"models": [{"score": 0.5851883723923733, "penalty": -0.0}], "rows": 727187}
+    other_platform = copy.deepcopy(original)
+    other_platform["models"][0]["score"] = 0.5851883723923732
+    other_platform["models"][0]["penalty"] = 1e-17
+    assert serialize_review(original) == serialize_review(other_platform)
+    assert original["models"][0]["score"] == 0.5851883723923733
+    other_platform["models"][0]["score"] += 1e-10
+    assert serialize_review(original) != serialize_review(other_platform)
+    with pytest.raises(ValueError, match="Out of range"):
+        serialize_review({"score": float("nan")})
 
 
 def test_rescoring_tolerates_roundoff_but_rejects_material_metric_changes() -> None:
