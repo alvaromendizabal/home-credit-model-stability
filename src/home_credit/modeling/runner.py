@@ -19,6 +19,7 @@ from numpy.typing import NDArray
 
 from home_credit.metrics.classification import evaluate_probabilities
 from home_credit.metrics.stability import normalized_gini
+from home_credit.modeling.ablation import feature_payload, frozen_features
 from home_credit.modeling.config import BenchmarkConfig, ModelConfig
 from home_credit.modeling.data import (
     CASE_ID,
@@ -254,6 +255,7 @@ class BenchmarkRunner:
         git_commit: str,
     ) -> tuple[tuple[FeatureRef, ...], str]:
         screen_path = self.output_dir / "feature_screen.json"
+        frozen = frozen_features(config, snapshot) if config.feature_selection is not None else None
         expected_identity = {
             "git_commit": git_commit,
             "feature_manifest_sha256": snapshot.manifest_sha256,
@@ -272,6 +274,8 @@ class BenchmarkRunner:
             if not isinstance(result_raw, dict):
                 raise ValueError("feature-screen result must be an object")
             features = feature_refs_from_payload(cast(dict[str, Any], result_raw))
+            if frozen is not None and features != frozen:
+                raise ValueError("resumed features differ from frozen ablation policy")
             screen_sha256 = sha256_file(screen_path)
             self.logger.event(
                 "feature_screen_resumed",
@@ -280,6 +284,23 @@ class BenchmarkRunner:
                 path=screen_path,
             )
             return features, screen_sha256
+
+        if frozen is not None:
+            _atomic_json(
+                screen_path,
+                {
+                    "schema_version": 1,
+                    "identity": expected_identity,
+                    "feature_selection": config.feature_selection,
+                    "result": feature_payload(frozen),
+                },
+            )
+            self.logger.event(
+                "frozen_features_selected",
+                selected_features=len(frozen),
+                policy=config.feature_selection,
+            )
+            return frozen, sha256_file(screen_path)
 
         candidates = snapshot.candidate_features(excluded=frozenset(config.excluded_predictors))
         screening = config.screening

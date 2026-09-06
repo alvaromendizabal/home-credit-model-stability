@@ -90,6 +90,7 @@ class BenchmarkConfig:
     screening: ScreeningConfig
     models: tuple[ModelConfig, ...]
     notes: str
+    feature_selection: dict[str, Any] | None = None
 
     @classmethod
     def load(cls, path: Path) -> tuple[BenchmarkConfig, str]:
@@ -174,6 +175,7 @@ class BenchmarkConfig:
             screening=screening,
             models=tuple(models),
             notes=_required_str(payload, "notes"),
+            feature_selection=payload.get("feature_selection"),
         )
         config.validate()
         return config, hashlib.sha256(payload_bytes).hexdigest()
@@ -212,6 +214,26 @@ class BenchmarkConfig:
         if not any(model.enabled for model in self.models):
             raise ValueError("at least one model must be enabled")
         _validate_model_params(self.models)
+        if self.feature_selection is not None:
+            policy = self.feature_selection
+            if not isinstance(policy, dict) or set(policy) != {"path", "sha256", "exclude_blocks"}:
+                raise ValueError("invalid frozen feature policy")
+            if not isinstance(policy["path"], str) or not policy["path"]:
+                raise ValueError("frozen feature path must be nonempty")
+            digest = policy["sha256"]
+            if (
+                not isinstance(digest, str)
+                or len(digest) != 64
+                or any(c not in "0123456789abcdef" for c in digest)
+            ):
+                raise ValueError("invalid frozen feature SHA-256")
+            blocks = policy["exclude_blocks"]
+            if (
+                not isinstance(blocks, list)
+                or any(not isinstance(b, str) or not b for b in blocks)
+                or len(set(blocks)) != len(blocks)
+            ):
+                raise ValueError("excluded blocks must be unique nonempty strings")
 
     def model(self, name: str) -> ModelConfig:
         """Return one configured model by canonical name."""
