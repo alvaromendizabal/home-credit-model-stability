@@ -47,6 +47,34 @@ heartbeat, per-fold progress, failures, and total elapsed time.
 Supply the existing bucket locally with `--bucket`, or set `HOME_CREDIT_ARTIFACT_BUCKET`.
 The acceptance policy contains no AWS account ID or account-specific bucket address.
 
+To keep startup running after disconnecting the terminal, use this launch command
+from the repository root (replace `YOUR_ARTIFACT_BUCKET`):
+
+```bash
+bash <<'BASH'
+set -euo pipefail
+mkdir -p logs
+CONSOLE_LOG="logs/startup-$(date -u +%Y%m%dT%H%M%SZ)-$$.log"
+touch "$CONSOLE_LOG"
+nohup bash scripts/start_here.sh \
+  --require-persistent-storage \
+  --accept-benchmark --bucket YOUR_ARTIFACT_BUCKET \
+  --heartbeat-seconds 15 \
+  >> "$CONSOLE_LOG" 2>&1 < /dev/null &
+STARTUP_PID=$!
+printf 'Startup PID: %s\nLog: %s\n' "$STARTUP_PID" "$CONSOLE_LOG"
+printf 'Ctrl+C stops the viewer; startup continues.\n'
+tail --pid="$STARTUP_PID" -n 30 -F "$CONSOLE_LOG"
+wait "$STARTUP_PID"
+BASH
+```
+
+The log exists before the worker and viewer start. The final `wait` preserves the
+worker's exit status. A terminal disconnect leaves the worker running; a SageMaker
+app stop ends it. Rerunning the command reuses the persistent environment and
+SHA-256-verified downloads, then reruns validation. Completion prints
+`PHASE_5A_ACCEPTANCE_COMPLETED` followed by the `start_here_completed` event.
+
 For an already restored bundle, invoke `scripts/accept_model_benchmark.py` directly
 with the prepared project Python, omit `--download`, and supply `--benchmark-dir PATH`.
 The bundle must contain the pinned `checkpoint_manifest.json`. S3 restoration is

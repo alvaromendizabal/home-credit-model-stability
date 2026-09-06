@@ -70,3 +70,23 @@ interrupted creation recovery, reject low capacity and temporary mounts, exercis
 silent-child heartbeats and failure propagation, and prevent recursive bootstrap.
 The original 154-test result above records the earlier acceptance implementation;
 current startup verification is recorded in GitHub CI and the startup logs.
+
+On 2026-09-06, the SageMaker startup log confirmed the resized persistent XFS
+filesystem at 127.9375 GiB with 124.642 GiB free before installation. Managed Python
+3.12.14, all locked dependencies, and the environment/model smoke checks succeeded.
+The quality gate then exposed a test assertion that assumed uv's `File exists`
+diagnostic always occupied one line. Acceptance had not started in that terminal.
+
+The regression now executes real uv 0.12.10 at three terminal widths, including the
+exact word boundary that reproduced the failure. It checks exit status, normalized
+`EEXIST` diagnostics, preservation of the dangling target, and a working real virtual
+environment after recovery. The previous assertion failed in the forced wrapping
+case; the updated assertion passes all three cases without skipping the error check.
+
+The complete local `bash scripts/start_here.sh` run reused its installed environment
+and passed 180 tests, Ruff lint/formatting, strict mypy (36 files), and the smoke checks
+in 49.794 seconds. Its log recorded periodic heartbeats and total elapsed time. Local
+verification used overlay storage; the SageMaker command retains the explicit
+persistent-mount requirement. The README background launcher was syntax-checked and
+executed with successful and failing workers: it created the log before the viewer
+and propagated both exit statuses. No benchmark training was rerun.

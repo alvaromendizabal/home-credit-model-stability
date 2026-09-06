@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import errno
 import fcntl
 import importlib.util
 import json
@@ -182,7 +183,10 @@ def test_check_entry_point_prevents_recursive_bootstrap(tmp_path: Path) -> None:
     assert "Environment preparation failed" in result.stderr
 
 
-def test_real_uv_reproduces_and_recovers_dangling_link(runtime: ModuleType, tmp_path: Path) -> None:
+@pytest.mark.parametrize("terminal_width", ["narrow", "word-boundary", "wide"])
+def test_real_uv_reproduces_and_recovers_dangling_link(
+    runtime: ModuleType, tmp_path: Path, terminal_width: str
+) -> None:
     uv = shutil.which("uv")
     assert uv is not None
     (tmp_path / "pyproject.toml").write_text(
@@ -190,7 +194,17 @@ def test_real_uv_reproduces_and_recovers_dangling_link(runtime: ModuleType, tmp_
     )
     (tmp_path / ".venv").symlink_to(tmp_path / "missing-environment")
     command = [uv, "run", "--offline", "--python", sys.executable, "python", "--version"]
-    environment = {**os.environ, "UV_PROJECT_ENVIRONMENT": str(tmp_path / ".venv")}
+    # uv wraps diagnostics using COLUMNS even when stderr is captured. Exercise
+    # the SageMaker failure where a long project path splits "File exists".
+    word_boundary = len(f"error: failed to create directory `{tmp_path / '.venv'}`: File")
+    columns = {"narrow": 40, "word-boundary": word_boundary, "wide": word_boundary + 80}
+    environment = {
+        **os.environ,
+        "UV_PROJECT_ENVIRONMENT": str(tmp_path / ".venv"),
+        "COLUMNS": str(columns[terminal_width]),
+        "NO_COLOR": "1",
+    }
+    environment.pop("VIRTUAL_ENV", None)
     result = subprocess.run(
         command,
         cwd=tmp_path,
@@ -199,7 +213,11 @@ def test_real_uv_reproduces_and_recovers_dangling_link(runtime: ModuleType, tmp_
         text=True,
         timeout=20,
     )
-    assert result.returncode != 0 and "File exists" in result.stderr
+    assert result.returncode == 2, result.stderr
+    diagnostic = " ".join(result.stderr.split())
+    assert f"(os error {errno.EEXIST})" in diagnostic, result.stderr
+    assert (tmp_path / ".venv").is_symlink()
+    assert not (tmp_path / "missing-environment").exists()
     runtime.prepare_venv_path(tmp_path)
     result = subprocess.run(
         [
@@ -218,6 +236,8 @@ def test_real_uv_reproduces_and_recovers_dangling_link(runtime: ModuleType, tmp_
         timeout=20,
     )
     assert result.returncode == 0, result.stderr
+    assert not (tmp_path / ".venv").is_symlink()
+    assert not (tmp_path / "missing-environment").exists()
     assert runtime.interpreter_info(tmp_path / ".venv") is not None
 
 
