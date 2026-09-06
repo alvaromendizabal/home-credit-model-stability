@@ -472,27 +472,32 @@ def _sync_feature_snapshot(
     region: str,
     log: SupervisorLog,
 ) -> None:
-    manifest = destination / "feature_manifest.json"
-    known_hashes: dict[str, str] = {"feature_manifest.json": expected_manifest_sha256}
-    if manifest.is_file() and sha256_file(manifest) == expected_manifest_sha256:
-        payload = json.loads(manifest.read_bytes())
-        known_hashes.update(
-            {
-                f"blocks/{b['split']}/{b['family']}_depth{b['depth']}.parquet": b["output_sha256"]
-                for b in payload["blocks"]
-            }
-        )
-        if all(
-            (destination / name).is_file() and sha256_file(destination / name) == digest
-            for name, digest in known_hashes.items()
-        ):
-            log.event("feature_cache_reused", path=destination)
-            return
-
     destination.mkdir(parents=True, exist_ok=True)
-
     bucket, prefix = parse_s3_uri(s3_uri)
     s3 = boto3.client("s3", region_name=region)
+    manifest = destination / "feature_manifest.json"
+    # Get the small hash manifest first, so even the first interrupted download resumes.
+    if not manifest.is_file() or sha256_file(manifest) != expected_manifest_sha256:
+        temporary = manifest.with_suffix(".download")
+        s3.download_file(bucket, f"{prefix.rstrip('/')}/feature_manifest.json", str(temporary))
+        if sha256_file(temporary) != expected_manifest_sha256:
+            raise RuntimeError("restored feature manifest SHA-256 mismatch")
+        os.replace(temporary, manifest)
+    payload = json.loads(manifest.read_bytes())
+    known_hashes = {
+        "feature_manifest.json": expected_manifest_sha256,
+        **{
+            f"blocks/{b['split']}/{b['family']}_depth{b['depth']}.parquet": b["output_sha256"]
+            for b in payload["blocks"]
+        },
+    }
+    if all(
+        (destination / name).is_file() and sha256_file(destination / name) == digest
+        for name, digest in known_hashes.items()
+    ):
+        log.event("feature_cache_reused", path=destination)
+        return
+
     paginator = s3.get_paginator("list_objects_v2")
     objects: list[str] = []
     for page in paginator.paginate(Bucket=bucket, Prefix=f"{prefix.rstrip('/')}/"):

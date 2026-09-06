@@ -409,3 +409,55 @@ def test_partial_feature_cache_resumes_missing_files(tmp_path, monkeypatch):
     supervisor._sync_feature_snapshot(**kwargs)
     assert len(downloads) == 1
     assert unrelated.read_text() == "keep"
+
+
+def test_first_feature_download_gets_manifest_before_blocks(tmp_path, monkeypatch):
+    import hashlib
+    import json
+
+    supervisor = _load_supervisor_module()
+    block = b"feature bytes"
+    raw = json.dumps(
+        {
+            "blocks": [
+                {
+                    "split": "train",
+                    "family": "base",
+                    "depth": 0,
+                    "output_sha256": hashlib.sha256(block).hexdigest(),
+                }
+            ]
+        }
+    ).encode()
+    calls = []
+
+    class S3:
+        def download_file(self, bucket, key, destination):
+            calls.append(key)
+            Path(destination).write_bytes(raw if key.endswith("feature_manifest.json") else block)
+
+        def get_paginator(self, name):
+            return self
+
+        def paginate(self, **kwargs):
+            return [
+                {
+                    "Contents": [
+                        {"Key": "snapshot/blocks/train/base_depth0.parquet"},
+                        {"Key": "snapshot/feature_manifest.json"},
+                    ]
+                }
+            ]
+
+    monkeypatch.setattr(supervisor.boto3, "client", lambda *args, **kwargs: S3())
+    kwargs = dict(
+        s3_uri="s3://bucket/snapshot",
+        destination=tmp_path,
+        expected_manifest_sha256=hashlib.sha256(raw).hexdigest(),
+        region="us-west-2",
+        log=supervisor.SupervisorLog(tmp_path / "log.jsonl"),
+    )
+    supervisor._sync_feature_snapshot(**kwargs)
+    assert calls == ["snapshot/feature_manifest.json", "snapshot/blocks/train/base_depth0.parquet"]
+    supervisor._sync_feature_snapshot(**kwargs)
+    assert len(calls) == 2
