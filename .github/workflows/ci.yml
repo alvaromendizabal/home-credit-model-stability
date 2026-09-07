@@ -38,3 +38,12 @@ jobs:
             reports/benchmark/review.json
             logs/benchmark-review-*.jsonl
           if-no-files-found: error
+      - name: Archive tested source
+        run: git archive HEAD --format=tar -o repository-source.tar
+      - name: Preserve reproducibility source
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-source
+          path: repository-source.tar
+          if-no-files-found: error
+          retention-days: 7
