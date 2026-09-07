@@ -1,0 +1,146 @@
+{
+  "benchmark_config_sha256": "27f9c293fa3b46d5b352434be08c64a59524fe8b17a1f3661be4da1abc3422e9",
+  "completed_model_folds": 5,
+  "created_utc": "2026-09-06T22:33:36Z",
+  "feature_manifest_sha256": "76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587",
+  "files": [
+    {
+      "bytes": 5411,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/18/181b9edf021134fa49fd947d5464f20abab41cccb122fc451b54d416e3ec7bfb",
+      "path": "benchmark_state.json",
+      "sha256": "181b9edf021134fa49fd947d5464f20abab41cccb122fc451b54d416e3ec7bfb"
+    },
+    {
+      "bytes": 2336,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/55/5571985070abc47ca44410e9d50912ddd953aa9aa95e258d3a0b3403f3f16be7",
+      "path": "benchmark_summary.json",
+      "sha256": "5571985070abc47ca44410e9d50912ddd953aa9aa95e258d3a0b3403f3f16be7"
+    },
+    {
+      "bytes": 159231,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/e9/e952452d5f9c1a12f07a8dd3ac49efe4d0093c08c250c9372b31c3de35db626f",
+      "path": "feature_screen.json",
+      "sha256": "e952452d5f9c1a12f07a8dd3ac49efe4d0093c08c250c9372b31c3de35db626f"
+    },
+    {
+      "bytes": 2469,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/36/368d536a4eb6991193281f77f857725e434bc2626fbc5ad828a40d721f059400",
+      "path": "fold_metrics.jsonl",
+      "sha256": "368d536a4eb6991193281f77f857725e434bc2626fbc5ad828a40d721f059400"
+    },
+    {
+      "bytes": 6214,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/eb/ebd1989333be3e8756398ccc19883f0b54f1f0a8ee43454ffe7066d236feb652",
+      "path": "logs/model-benchmark-20260906T214819Z.jsonl",
+      "sha256": "ebd1989333be3e8756398ccc19883f0b54f1f0a8ee43454ffe7066d236feb652"
+    },
+    {
+      "bytes": 8856,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/aa/aa88f9fb5470ac60772e57be6bd77489c62e3d00bf633cb6c07c66460d84d00d",
+      "path": "logs/model-benchmark-20260906T215150Z.jsonl",
+      "sha256": "aa88f9fb5470ac60772e57be6bd77489c62e3d00bf633cb6c07c66460d84d00d"
+    },
+    {
+      "bytes": 11248,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/82/825cc5b05d5ecd403d663a990200ff7ae349c54aab0757bc9f3f27d925a971f7",
+      "path": "logs/model-benchmark-20260906T215837Z.jsonl",
+      "sha256": "825cc5b05d5ecd403d663a990200ff7ae349c54aab0757bc9f3f27d925a971f7"
+    },
+    {
+      "bytes": 13833,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/d3/d3bfb71734711808ba18aa86220ca0ccbf1de0f884bfbc8cc18161a25122c7f6",
+      "path": "logs/model-benchmark-20260906T220821Z.jsonl",
+      "sha256": "d3bfb71734711808ba18aa86220ca0ccbf1de0f884bfbc8cc18161a25122c7f6"
+    },
+    {
+      "bytes": 13482,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/e3/e3f05b6f20b9d7629a9403a08a83e8c1e4191b449eaad0291cad2e831db6c096",
+      "path": "logs/model-benchmark-20260906T222129Z.jsonl",
+      "sha256": "e3f05b6f20b9d7629a9403a08a83e8c1e4191b449eaad0291cad2e831db6c096"
+    },
+    {
+      "bytes": 2221817,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/fa/fad4f92878806d702d8629e26305a883d2d7b355583678406e331bf603da4a7b",
+      "path": "models/lightgbm/fold_1.txt",
+      "sha256": "fad4f92878806d702d8629e26305a883d2d7b355583678406e331bf603da4a7b"
+    },
+    {
+      "bytes": 4202355,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/35/35c9b3cdb23639496d4d0a4e576ca5f3f017ca3ab1c82737cc85875a6fbf14a9",
+      "path": "models/lightgbm/fold_2.txt",
+      "sha256": "35c9b3cdb23639496d4d0a4e576ca5f3f017ca3ab1c82737cc85875a6fbf14a9"
+    },
+    {
+      "bytes": 5179551,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/14/14d89f57da18e093587f1f4db7c5565bc73ccad03928abf9a16aec2114e61c02",
+      "path": "models/lightgbm/fold_3.txt",
+      "sha256": "14d89f57da18e093587f1f4db7c5565bc73ccad03928abf9a16aec2114e61c02"
+    },
+    {
+      "bytes": 6270338,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/9b/9bc7cb23d4387c9b4a02b7f904cb7299a49d653a111e3a52c8f3cce9575ceb32",
+      "path": "models/lightgbm/fold_4.txt",
+      "sha256": "9bc7cb23d4387c9b4a02b7f904cb7299a49d653a111e3a52c8f3cce9575ceb32"
+    },
+    {
+      "bytes": 4956551,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/99/9979c102ab6f7efa64667d37ac10a6ae3e72adbba581ef92c6884404d34e848d",
+      "path": "models/lightgbm/fold_5.txt",
+      "sha256": "9979c102ab6f7efa64667d37ac10a6ae3e72adbba581ef92c6884404d34e848d"
+    },
+    {
+      "bytes": 6290758,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/43/43663a77600c6cf6ce5415c4494f1dd7e7c85cc50d7f39aeee35d5e272c4b715",
+      "path": "oof/lightgbm.parquet",
+      "sha256": "43663a77600c6cf6ce5415c4494f1dd7e7c85cc50d7f39aeee35d5e272c4b715"
+    },
+    {
+      "bytes": 1577386,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/58/5894030ffef82502ccb42bf2e2704a74fc518810ecf189d4b9de176876c1b5be",
+      "path": "predictions/lightgbm/fold_1.parquet",
+      "sha256": "5894030ffef82502ccb42bf2e2704a74fc518810ecf189d4b9de176876c1b5be"
+    },
+    {
+      "bytes": 1677268,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/e9/e91a26510aa046ad09aae8d82ec9df799bc8608a65508b4b8f0f1add36a50923",
+      "path": "predictions/lightgbm/fold_2.parquet",
+      "sha256": "e91a26510aa046ad09aae8d82ec9df799bc8608a65508b4b8f0f1add36a50923"
+    },
+    {
+      "bytes": 1664498,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/87/87916f05afb8b186e67cdc2e102579c9002868878f948c4d6eec8a68afbb3c33",
+      "path": "predictions/lightgbm/fold_3.parquet",
+      "sha256": "87916f05afb8b186e67cdc2e102579c9002868878f948c4d6eec8a68afbb3c33"
+    },
+    {
+      "bytes": 1100921,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/32/32a8ac926a87fccc552b58bb9d282c5e6a5e787a9ec0eeff79e552d5dc4706f9",
+      "path": "predictions/lightgbm/fold_4.parquet",
+      "sha256": "32a8ac926a87fccc552b58bb9d282c5e6a5e787a9ec0eeff79e552d5dc4706f9"
+    },
+    {
+      "bytes": 268911,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/9c/9c0db56ff5deb472a59394685bd4662e96f1a710a886c87fdd78e16686aa29e7",
+      "path": "predictions/lightgbm/fold_5.parquet",
+      "sha256": "9c0db56ff5deb472a59394685bd4662e96f1a710a886c87fdd78e16686aa29e7"
+    },
+    {
+      "bytes": 1023,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/78/78c1cbf89875315a58ec63b32cc690fed9d98089a0796ced8e949d04a9ee815c",
+      "path": "run_metadata.json",
+      "sha256": "78c1cbf89875315a58ec63b32cc690fed9d98089a0796ced8e949d04a9ee815c"
+    },
+    {
+      "bytes": 7091,
+      "object_key": "home-credit-model-stability/feature-ablation/e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09/full/control/checkpoints/objects/0e/0ef1a6dced3234a1941748abef4cd43ffa294743829bf6a39b53ade7c06f7d35",
+      "path": "weekly_metrics.jsonl",
+      "sha256": "0ef1a6dced3234a1941748abef4cd43ffa294743829bf6a39b53ade7c06f7d35"
+    }
+  ],
+  "git_commit": "e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09",
+  "run_key": "5f12ca74ef0d260767717fba49643f4b215292aa71ee00ec230709742a3f5e9f",
+  "schema_version": 1,
+  "sequence": 5,
+  "smoke": false,
+  "validation_protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20"
+}

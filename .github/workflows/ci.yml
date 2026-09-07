@@ -25,6 +25,10 @@ jobs:
         run: uv run --locked python scripts/review_model_benchmark.py --force
       - name: Verify published review is reproducible
         run: git diff --exit-code -- notebooks/05_benchmark_review.ipynb reports/benchmark/review.json
+      - name: Reproduce accepted ablation figure
+        run: |
+          uv run --locked python scripts/review_feature_ablation.py
+          git diff --exit-code -- reports/feature_ablation/overview.svg
       - name: Preserve executed review
         uses: actions/upload-artifact@v4
         with:

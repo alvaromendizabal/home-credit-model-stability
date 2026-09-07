@@ -20,7 +20,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--feature-dir",
         type=Path,
-        default=Path("/tmp/home-credit-features"),
+        default=Path("artifacts/feature_cache"),
     )
     parser.add_argument(
         "--expected-feature-manifest-sha256",
@@ -47,7 +47,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("/tmp/home-credit-model-benchmark"),
+        default=Path("artifacts/model_benchmark"),
     )
     parser.add_argument(
         "--logs-dir",

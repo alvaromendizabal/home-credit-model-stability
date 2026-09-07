@@ -80,6 +80,13 @@ def model_smoke() -> list[ModelSmokeResult]:
     for name, model in models.items():
         model.fit(x_train, y_train)
         prediction = model.predict_proba(x_test)[:, 1]
+        if name == "lightgbm":
+            contributions = np.asarray(model.booster_.predict(x_test, pred_contrib=True))
+            raw_scores = model.booster_.predict(x_test, raw_score=True)
+            if contributions.shape != (len(x_test), x_test.shape[1] + 1):
+                raise RuntimeError("LightGBM native SHAP contribution shape mismatch")
+            if not np.allclose(contributions.sum(axis=1), raw_scores, rtol=1e-7, atol=1e-8):
+                raise RuntimeError("LightGBM native SHAP values do not reconstruct raw scores")
         auc = float(roc_auc_score(y_test, prediction))
         if not 0.5 <= auc <= 1.0:
             raise RuntimeError(f"{name} produced an implausible smoke-test AUC: {auc}")

@@ -34,11 +34,14 @@ development selection metric. Fit-stage timings are available; AWS dollar costs 
 not been established. Final holdout evaluation remains pending.
 
 ## 10. Optimization and ablation
-The controlled LightGBM feature-block ablation is implemented with four predeclared
-conditions, frozen selected features, S3 model-fold checkpoints, and executed
-comparison reporting. Full-data execution is pending. See
-[the runbook](docs/feature_ablation.md). Persisted Optuna tuning follows the ablation
-review; it is not implemented by this phase.
+Completed: four controlled LightGBM feature conditions x five folds. Every removal
+reduced mean fold stability; retain all 700 features. See the
+[accepted ablation evidence](reports/feature_ablation/README.md).
+
+Implemented: a bounded Optuna TPE study with eight new LightGBM candidates, all five
+development folds, the reused accepted control, an authoritative S3 trial ledger,
+conditional writer leases, model-fold resume, and executed reports. Full-data tuning
+is pending. See [the tuning runbook](docs/model_tuning.md).
 
 ## 11. Neural challenger
 Install the optional GPU stack and evaluate TabM under the same protocol. Keep it only if it adds performance, stability, or ensemble diversity.
@@ -54,3 +57,10 @@ Move expensive stages into disposable SageMaker processing/training jobs with S3
 
 ## 15. Portfolio release
 Publish reproducible benchmark tables, architecture diagrams, model/data cards, cost report, failure analysis, and a concise employer-facing README.
+
+## 16. Kaggle inference and submission
+After selection and final holdout evaluation, refit the inference pipeline and validate
+test feature parity, row coverage, probability bounds and `case_id,score` schema. Execute
+the competition-compatible inference notebook and preserve its CSV, artifact hashes,
+kernel version and any available submission receipt. Check current submission access
+before claiming a leaderboard score. Publish the final model card/demo on Hugging Face.

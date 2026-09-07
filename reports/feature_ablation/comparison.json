@@ -1,0 +1,309 @@
+{
+  "folds": [
+    {
+      "auc": 0.8456739275525365,
+      "brier_score": 0.029607803544051396,
+      "experiment": "control",
+      "fold": 1,
+      "log_loss": 0.11809253999090628,
+      "mean_gini": 0.6911252160297433,
+      "pr_auc": 0.18174728981004726,
+      "residual_std": 0.009853219595937837,
+      "stability_score": 0.3936822858714575,
+      "temporal_slope": -0.003324049095003601
+    },
+    {
+      "auc": 0.8406162097704656,
+      "brier_score": 0.03247351921036848,
+      "experiment": "control",
+      "fold": 2,
+      "log_loss": 0.12774555905714047,
+      "mean_gini": 0.6784267698795633,
+      "pr_auc": 0.1908416416456623,
+      "residual_std": 0.021407232202130665,
+      "stability_score": 0.667723153778498,
+      "temporal_slope": 0.0015153656852272548
+    },
+    {
+      "auc": 0.850248320011422,
+      "brier_score": 0.03243268574483375,
+      "experiment": "control",
+      "fold": 3,
+      "log_loss": 0.12639714079083827,
+      "mean_gini": 0.6975363869685487,
+      "pr_auc": 0.20659821736050024,
+      "residual_std": 0.01432076641038982,
+      "stability_score": 0.49782348183981734,
+      "temporal_slope": -0.0021880968400401876
+    },
+    {
+      "auc": 0.8472675857448803,
+      "brier_score": 0.039380081081992285,
+      "experiment": "control",
+      "fold": 4,
+      "log_loss": 0.1487243140867762,
+      "mean_gini": 0.6932730490817607,
+      "pr_auc": 0.24812949701101208,
+      "residual_std": 0.0209331968366762,
+      "stability_score": 0.6828064506634226,
+      "temporal_slope": 0.0003047935617515162
+    },
+    {
+      "auc": 0.8629011684341962,
+      "brier_score": 0.020175310067405763,
+      "experiment": "control",
+      "fold": 5,
+      "log_loss": 0.08493484577753853,
+      "mean_gini": 0.7106924019936912,
+      "pr_auc": 0.1724414848896108,
+      "residual_std": 0.05357182437004013,
+      "stability_score": 0.6839064898086712,
+      "temporal_slope": 0.007669556750981027
+    },
+    {
+      "auc": 0.8196608964123173,
+      "brier_score": 0.030154412389801183,
+      "experiment": "without_credit_bureau_a",
+      "fold": 1,
+      "log_loss": 0.12289325448405886,
+      "mean_gini": 0.6387658854239219,
+      "pr_auc": 0.15611931141338278,
+      "residual_std": 0.01426160818890128,
+      "stability_score": 0.37541922415630313,
+      "temporal_slope": -0.0029115438315132735
+    },
+    {
+      "auc": 0.8162618539267203,
+      "brier_score": 0.03301600448658769,
+      "experiment": "without_credit_bureau_a",
+      "fold": 2,
+      "log_loss": 0.13267476368871559,
+      "mean_gini": 0.6296736365377442,
+      "pr_auc": 0.16832965521691312,
+      "residual_std": 0.01541178672640334,
+      "stability_score": 0.6219677431745425,
+      "temporal_slope": 5.0116163302340406e-05
+    },
+    {
+      "auc": 0.8244817629452614,
+      "brier_score": 0.03303068330980923,
+      "experiment": "without_credit_bureau_a",
+      "fold": 3,
+      "log_loss": 0.13156317122491262,
+      "mean_gini": 0.6448832146739102,
+      "pr_auc": 0.1838473350826974,
+      "residual_std": 0.014188879365898539,
+      "stability_score": 0.4303065224963753,
+      "temporal_slope": -0.002357752869256655
+    },
+    {
+      "auc": 0.8200583142372462,
+      "brier_score": 0.040253234601259735,
+      "experiment": "without_credit_bureau_a",
+      "fold": 4,
+      "log_loss": 0.15519548088795115,
+      "mean_gini": 0.6379841295483535,
+      "pr_auc": 0.21850879992480587,
+      "residual_std": 0.017965620454016697,
+      "stability_score": 0.41840915109647764,
+      "temporal_slope": -0.002393092820737131
+    },
+    {
+      "auc": 0.8406007780107382,
+      "brier_score": 0.02098547005567356,
+      "experiment": "without_credit_bureau_a",
+      "fold": 5,
+      "log_loss": 0.09170958048333945,
+      "mean_gini": 0.6503812745257841,
+      "pr_auc": 0.14577583132958094,
+      "residual_std": 0.0792185974722794,
+      "stability_score": 0.6107719757896444,
+      "temporal_slope": 0.009842010471748914
+    },
+    {
+      "auc": 0.844513471183009,
+      "brier_score": 0.02964693412123885,
+      "experiment": "without_previous_applications",
+      "fold": 1,
+      "log_loss": 0.11844509650858467,
+      "mean_gini": 0.6890554024608596,
+      "pr_auc": 0.18071864069538468,
+      "residual_std": 0.012047998679747778,
+      "stability_score": 0.292276753031698,
+      "temporal_slope": -0.004440393751014633
+    },
+    {
+      "auc": 0.8400463555196105,
+      "brier_score": 0.03250130785930016,
+      "experiment": "without_previous_applications",
+      "fold": 2,
+      "log_loss": 0.1278950846243349,
+      "mean_gini": 0.6773416696224116,
+      "pr_auc": 0.18987310449522396,
+      "residual_std": 0.020558048718797572,
+      "stability_score": 0.6670626452630128,
+      "temporal_slope": 0.0015057002124960446
+    },
+    {
+      "auc": 0.849194501134426,
+      "brier_score": 0.03250669353854289,
+      "experiment": "without_previous_applications",
+      "fold": 3,
+      "log_loss": 0.12678588174254923,
+      "mean_gini": 0.6957416079895917,
+      "pr_auc": 0.2035250110905795,
+      "residual_std": 0.014545949174594765,
+      "stability_score": 0.44977417616601106,
+      "temporal_slope": -0.002712437014048674
+    },
+    {
+      "auc": 0.8455874370156486,
+      "brier_score": 0.03947386646809567,
+      "experiment": "without_previous_applications",
+      "fold": 4,
+      "log_loss": 0.14920663941841011,
+      "mean_gini": 0.6895775217737461,
+      "pr_auc": 0.24342040046585178,
+      "residual_std": 0.02111072966433145,
+      "stability_score": 0.6790221569415804,
+      "temporal_slope": 0.00018448029916017804
+    },
+    {
+      "auc": 0.8618061203290815,
+      "brier_score": 0.020182615935656505,
+      "experiment": "without_previous_applications",
+      "fold": 5,
+      "log_loss": 0.08490712940215993,
+      "mean_gini": 0.7079081425482245,
+      "pr_auc": 0.17097485947468696,
+      "residual_std": 0.0546083683533875,
+      "stability_score": 0.6806039583715308,
+      "temporal_slope": 0.00806421327977347
+    },
+    {
+      "auc": 0.8426765723296032,
+      "brier_score": 0.029671276690675243,
+      "experiment": "without_depth2",
+      "fold": 1,
+      "log_loss": 0.11862118682772091,
+      "mean_gini": 0.6852947614531009,
+      "pr_auc": 0.17865574266875714,
+      "residual_std": 0.01128561757144099,
+      "stability_score": 0.3552470219603996,
+      "temporal_slope": -0.003686419667124782
+    },
+    {
+      "auc": 0.8404096653946697,
+      "brier_score": 0.032471048480526066,
+      "experiment": "without_depth2",
+      "fold": 2,
+      "log_loss": 0.12775105216313498,
+      "mean_gini": 0.6781840006257999,
+      "pr_auc": 0.19176113252385252,
+      "residual_std": 0.0210211424666626,
+      "stability_score": 0.6676734293924685,
+      "temporal_slope": 0.0004019714777997872
+    },
+    {
+      "auc": 0.8499786357145481,
+      "brier_score": 0.03244584765092559,
+      "experiment": "without_depth2",
+      "fold": 3,
+      "log_loss": 0.12652638786525866,
+      "mean_gini": 0.6969499865632617,
+      "pr_auc": 0.20685073110090293,
+      "residual_std": 0.014322182319648116,
+      "stability_score": 0.4636661042279348,
+      "temporal_slope": -0.0025695771724488954
+    },
+    {
+      "auc": 0.8466157506832301,
+      "brier_score": 0.039362631345738655,
+      "experiment": "without_depth2",
+      "fold": 4,
+      "log_loss": 0.14874186161116337,
+      "mean_gini": 0.6918322591651439,
+      "pr_auc": 0.24680140419130517,
+      "residual_std": 0.020911423758308557,
+      "stability_score": 0.6813765472859896,
+      "temporal_slope": 0.00033549326725073957
+    },
+    {
+      "auc": 0.8621584208353157,
+      "brier_score": 0.02020753937630854,
+      "experiment": "without_depth2",
+      "fold": 5,
+      "log_loss": 0.08512945690003038,
+      "mean_gini": 0.7070737362393724,
+      "pr_auc": 0.16925505493916893,
+      "residual_std": 0.05581281342717707,
+      "stability_score": 0.6791673295257838,
+      "temporal_slope": 0.007212375530791329
+    }
+  ],
+  "git_commit": "e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09",
+  "outer_holdout_touched": false,
+  "provenance": {
+    "control": {
+      "config_sha256": "27f9c293fa3b46d5b352434be08c64a59524fe8b17a1f3661be4da1abc3422e9",
+      "state_sha256": "181b9edf021134fa49fd947d5464f20abab41cccb122fc451b54d416e3ec7bfb"
+    },
+    "without_credit_bureau_a": {
+      "config_sha256": "066f99c601465d5a20aaed6f7d509944a9ffd172834fb3054f7a63750adc53e9",
+      "state_sha256": "5c287d2af8c7e04c7b328851fdef3a1bbd3e2a459b11a5dd58e1457b57445d9f"
+    },
+    "without_depth2": {
+      "config_sha256": "182a2959cd217ce1dfb9a97fec19114e3df3a41eedcc7eb14f360634da122e34",
+      "state_sha256": "77f49a6d14e04b7b3dc9b3ac3a1d54538a8c848c0bcf4e9af855f0db76bd9fdf"
+    },
+    "without_previous_applications": {
+      "config_sha256": "85830c2ea4d050f20fe72b91b709d6ce5a029032764a97ff521daf0b3c3f5e43",
+      "state_sha256": "55febb058b9df2048e051c785e5be647929d7e20cfd488b6373319555b175f79"
+    }
+  },
+  "rows": [
+    {
+      "delta_vs_control": 0.0,
+      "experiment": "control",
+      "mean_fold_stability": 0.5851883723923733,
+      "oof_auc": 0.8468941374919333,
+      "oof_brier_score": 0.032425458087833335,
+      "oof_log_loss": 0.12680497461504933,
+      "oof_pr_auc": 0.20452456164496388,
+      "worst_fold_stability": 0.3936822858714575
+    },
+    {
+      "delta_vs_control": -0.015762285913857976,
+      "experiment": "without_depth2",
+      "mean_fold_stability": 0.5694260864785153,
+      "oof_auc": 0.8460506489337962,
+      "oof_brier_score": 0.03244254570096668,
+      "oof_log_loss": 0.12698474463088738,
+      "oof_pr_auc": 0.20392585626505225,
+      "worst_fold_stability": 0.3552470219603996
+    },
+    {
+      "delta_vs_control": -0.03144043443760669,
+      "experiment": "without_previous_applications",
+      "mean_fold_stability": 0.5537479379547666,
+      "oof_auc": 0.845742013184412,
+      "oof_brier_score": 0.03247898447070195,
+      "oof_log_loss": 0.12711938156633684,
+      "oof_pr_auc": 0.2021423153818888,
+      "worst_fold_stability": 0.292276753031698
+    },
+    {
+      "delta_vs_control": -0.09381344904970479,
+      "experiment": "without_credit_bureau_a",
+      "mean_fold_stability": 0.4913749233426685,
+      "oof_auc": 0.8210655065704,
+      "oof_brier_score": 0.033052812308724984,
+      "oof_log_loss": 0.13211244801069041,
+      "oof_pr_auc": 0.1794735912144088,
+      "worst_fold_stability": 0.37541922415630313
+    }
+  ],
+  "schema_version": 1,
+  "scope": "development feature ablation; final holdout remains locked",
+  "smoke": false
+}

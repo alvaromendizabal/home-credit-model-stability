@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "feature_manifest_sha256": "76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587",
+  "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+  "new_trials": 8,
+  "startup_trials": 3,
+  "seed": 20260907,
+  "baseline_commit": "e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09",
+  "search_space": {
+    "num_leaves": {
+      "type": "categorical",
+      "choices": [
+        15,
+        31,
+        47,
+        63
+      ]
+    },
+    "min_data_in_leaf": {
+      "type": "categorical",
+      "choices": [
+        100,
+        120,
+        250,
+        500,
+        1000
+      ]
+    },
+    "feature_fraction": {
+      "type": "float",
+      "low": 0.65,
+      "high": 1.0,
+      "log": false
+    },
+    "bagging_fraction": {
+      "type": "float",
+      "low": 0.7,
+      "high": 1.0,
+      "log": false
+    },
+    "lambda_l1": {
+      "type": "float",
+      "low": 0.001,
+      "high": 10.0,
+      "log": true
+    },
+    "lambda_l2": {
+      "type": "float",
+      "low": 0.1,
+      "high": 50.0,
+      "log": true
+    }
+  },
+  "input_sha256": {
+    "uv.lock": "f99ffc96e701345f057a7d09eee2edd24c5da58a9d25d292df209eeaf5ed30bc",
+    "configs/ablations/control.json": "27f9c293fa3b46d5b352434be08c64a59524fe8b17a1f3661be4da1abc3422e9",
+    "configs/benchmark_features.json": "b58793a40f271618e465c2dc2a0196a8419692aa92456d2360b0f97311dbb117",
+    "configs/validation_protocol.json": "cea658652838e09ac57d27ec96d166781f5176036ef1e4bc2cd0fbc114c00c04",
+    "reports/feature_ablation/comparison.json": "d035dc6993bf83dc9f386c23c7f6612275a13c47053758325e7ad1efcdd853ef",
+    "reports/feature_ablation/control_manifest.json": "32aa6fe9e4245d24d001a6347ad95fe6d2c80d3f2d26b3a71736093ba6a08f79",
+    "src/home_credit/modeling/models.py": "4b58eba892991131fe4040f3a5017d6f015045e1fa07970272ee4e70986e0015",
+    "src/home_credit/modeling/runner.py": "b92c4e8528331c2becd07dc52de449021e2f4e08af32eaf75e1581873d922065",
+    "src/home_credit/modeling/data.py": "93e92cf8216f67dc6515b58fa7c1b3a872ce9d35f0d433ce2d717388a2428af2",
+    "src/home_credit/modeling/encoding.py": "36b8c3aec323e5677c405dc7181ad07b329430a8e3e18421f7052aecfdd3fa0b",
+    "src/home_credit/modeling/screening.py": "2fda8a5471bbd856d9631c1ea84c0aa400462e1685684f7d7146c7d7c5795d8f",
+    "src/home_credit/modeling/config.py": "a5f1d839f8c2cc47b24f95b8aabbad19ddba1ce913cffb3515539d693bad6f93",
+    "src/home_credit/modeling/state.py": "8620757e65a6a7c28f3554f4c507b031c37fe1105c3114d4e819a42de4492c87",
+    "src/home_credit/modeling/ablation.py": "91d0623522a8d9ea37c21ff6f1936ba69fb870050c48296ecba0fa26601544ae",
+    "src/home_credit/metrics/classification.py": "16992fee9e064e04965f0b13a522d22b0bae75bc6a8135f1769a765e2873763c",
+    "src/home_credit/metrics/stability.py": "af6a995536497e862f9a69ba89e11f74999d8c0eb1de1c90c3c53ef7a0c327ce",
+    "reports/feature_ablation/training_environment.json": "9dc414c35070a95fd2e938a29653de3f596e47e1a10c1407f384e463ef98939b"
+  },
+  "notes": "Eight new LightGBM candidates, all five development folds, six CPU threads. No fold pruning. Original 700-feature control reused. Learning rate and 2200-tree cap remain fixed. Budget expansion requires a new reviewed plan."
+}

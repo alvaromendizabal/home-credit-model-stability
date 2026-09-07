@@ -1,5 +1,10 @@
 # Controlled LightGBM feature ablation
 
+**Completed September 7, 2026:** all 20 fits succeeded; retain the 700-feature control.
+See [the accepted evidence](../reports/feature_ablation/README.md) and
+[the next tuning stage](model_tuning.md). The instructions below reproduce the
+historical experiment from its original commit.
+
 Phase 5B completed successfully on SageMaker. The accepted benchmark covers four
 model families and five temporal folds, with 727,187 out-of-fold cases per model.
 LightGBM leads: mean fold stability 0.585188; OOF ROC AUC 0.846894; average precision
