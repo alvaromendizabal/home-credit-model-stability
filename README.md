@@ -2,6 +2,27 @@
 
 Research-grade credit-risk modeling under temporal distribution shift, built as a reproducible AWS SageMaker portfolio project.
 
+## Latest result and next run
+
+The feature ablation completed on September 7: **all 20 fits succeeded** and all
+tested feature removals reduced stability. Keep the full **700-feature** model.
+Read the [ablation evidence and executed notebook](reports/feature_ablation/README.md).
+
+![Feature ablation overview](reports/feature_ablation/overview.svg)
+
+The next implemented stage is [bounded Optuna tuning](docs/model_tuning.md): eight
+new LightGBM candidates x five temporal folds, reusing the accepted control. It has
+UTC progress/heartbeats, a persistent S3 trial ledger, model-fold recovery, duplicate
+writer protection and reports after each trial. Full-data tuning results are pending.
+
+```bash
+bash scripts/start_model_tuning.sh --bucket YOUR_ARTIFACT_BUCKET
+```
+
+The launcher runs quality gates and a separate smoke trial first. See the runbook for
+the background-launch command, recovery behavior, expected runtime and the path to
+final holdout evaluation, Kaggle inference/submission artifacts and a Hugging Face demo.
+
 ## Start with the executed review
 
 Open [05_benchmark_review.ipynb](notebooks/05_benchmark_review.ipynb) directly on GitHub

@@ -23,7 +23,6 @@ CORE_PACKAGES = (
     "catboost",
     "xgboost",
     "optuna",
-    "shap",
 )
 
 IMPORT_NAMES = {

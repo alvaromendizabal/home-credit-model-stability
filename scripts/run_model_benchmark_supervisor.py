@@ -66,12 +66,12 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--feature-cache-dir",
         type=Path,
-        default=Path("/tmp/home-credit-features"),
+        default=Path("artifacts/feature_cache"),
     )
     parser.add_argument(
         "--work-dir",
         type=Path,
-        default=Path("/tmp/home-credit-model-benchmark"),
+        default=Path("artifacts/model_benchmark"),
     )
     parser.add_argument(
         "--status-log",

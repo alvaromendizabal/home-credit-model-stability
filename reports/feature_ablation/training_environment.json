@@ -1,0 +1,19 @@
+{
+  "source_commit": "e7b53ca1732a362f5ab4eb8fa6f06a53e44ffd09",
+  "source_lock_sha256": "fe84d29696f948d252dc6da3fb4a5850f0c0714b45c915e57d75ef56b7888646",
+  "training_and_reporting_versions": {
+    "boto3": "1.43.88",
+    "catboost": "1.2.10",
+    "lightgbm": "4.7.0",
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "optuna": "4.8.0",
+    "pandas": "3.0.5",
+    "plotly": "7.0.0",
+    "polars": "1.44.1",
+    "pyarrow": "25.0.1",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.18.1",
+    "xgboost-cpu": "3.4.1"
+  }
+}
