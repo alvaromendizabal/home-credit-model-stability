@@ -13,6 +13,7 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: write
+      id-token: write
     steps:
       - name: Configure Git default branch
         run: git config --global init.defaultBranch main
@@ -24,39 +25,17 @@ jobs:
           enable-cache: true
       - name: Sync locked environment
         run: uv sync --locked --group dev
-      - name: Preserve isolated validation environment
+      - name: Normalize candidate source before strict validation
         if: github.event_name == 'push' && github.ref == 'refs/heads/feat/validated-model-release'
         run: |
-          uv run --locked python - <<'PY'
-          import sys, sysconfig, tarfile
-          from pathlib import Path
-          Path("artifacts/ci").mkdir(parents=True, exist_ok=True)
-          def included(member):
-              if member.name.endswith((".ttf", ".otf", ".ttc", ".woff", ".woff2")):
-                  return None
-              return member
-          with tarfile.open("artifacts/ci/runtime.tar.gz", "w:gz") as archive:
-              archive.add(sys.base_prefix, arcname="python", filter=included)
-              archive.add(sysconfig.get_paths()["purelib"], arcname="site-packages", filter=included)
-          PY
-      - name: Preserve isolated runtime for direct validation
-        if: github.event_name == 'push' && github.ref == 'refs/heads/feat/validated-model-release'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: validation-runtime
-          path: artifacts/ci/runtime.tar.gz
-          compression-level: 0
-          retention-days: 1
-          if-no-files-found: error
-      - name: Normalize release candidate source
-        if: github.event_name == 'push' && github.ref == 'refs/heads/feat/validated-model-release'
-        run: |
-          files=()
-          for path in src/home_credit/modeling/release.py src/home_credit/modeling/inference.py src/home_credit/modeling/release_workflow.py src/home_credit/modeling/release_report.py src/home_credit/modeling/selection_report.py scripts/run_model_release.py scripts/review_model_selection.py scripts/review_model_release.py tests/unit/test_model_release.py tests/unit/test_inference.py tests/unit/test_release_workflow.py tests/unit/test_selection_review.py tests/integration/test_release_notebooks.py; do
-            if test -f "$path"; then files+=("$path"); fi
-          done
-          uv run --locked ruff format "${files[@]}"
-          uv run --locked ruff check --fix "${files[@]}"
+          uv run --locked ruff format src scripts tests
+          uv run --locked ruff check --fix src scripts tests
+      - name: Restore verified aggregate evidence with read-only OIDC
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/feat/validated-model-release' || github.ref == 'refs/heads/main')
+        env:
+          HOME_CREDIT_EVIDENCE_ROLE: arn:aws:iam::560403859723:role/HomeCreditPortfolioEvidenceRead
+          HOME_CREDIT_ARTIFACT_BUCKET: sagemaker-us-west-2-560403859723
+        run: uv run --locked python scripts/restore_portfolio_evidence.py
       - name: Execute canonical tuning review
         run: uv run --locked python scripts/review_model_tuning.py --force
       - name: Run quality gates
@@ -126,19 +105,14 @@ jobs:
                 commit -m 'style: normalize checked source and publish executed reviews'
             git push origin "HEAD:$REVIEW_BRANCH"
           fi
-      - name: Preserve validation source and locked formatter
+      - name: Preserve validated source
         if: always()
-        run: |
-          git ls-files -z | tar --null --verbatim-files-from -T - -cf repository-source.tar
-          mkdir -p artifacts/ci/tools
-          if test -f .venv/bin/ruff; then cp .venv/bin/ruff artifacts/ci/tools/ruff; fi
+        run: git ls-files -z | tar --null --verbatim-files-from -T - -cf repository-source.tar
       - name: Preserve reproducibility source
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: repository-source
-          path: |
-            repository-source.tar
-            artifacts/ci/tools/ruff
+          path: repository-source.tar
           if-no-files-found: error
           retention-days: 1
