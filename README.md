@@ -1,158 +1,123 @@
 # Home Credit Model Stability
 
-Credit-risk modeling under temporal distribution shift: point-in-time features,
-expanding-window validation, four model families, controlled feature ablations,
-bounded tuning and reproducible SageMaker execution.
+An evaluated credit-risk ML system built around one question: **does predictive
+performance survive a move into future application periods?** The project combines
+relational feature engineering, temporal model comparison, controlled ablations,
+resumable AWS execution and a portable inference pipeline.
 
-## Start with the evidence
+## Review in five minutes
 
-Read [the executed model-selection notebook](notebooks/08_model_selection.ipynb)
-for the latest comparison, fold-level tradeoffs, model diversity and reliability.
-The [tuning review](notebooks/07_model_tuning.ipynb) explains the selected LightGBM;
-the [benchmark review](notebooks/05_benchmark_review.ipynb) introduces the question,
-official metric and original model families. The
-[feature ablation notebook](reports/feature_ablation/06_feature_ablation.ipynb)
-explains why all 700 screened features were retained.
+1. [Feature engineering](notebooks/02_feature_engineering.ipynb): 2,508 candidates,
+   training-only screening, 700 retained features and measured feature-family value.
+2. [Model comparison](notebooks/05_benchmark_review.ipynb): four model families on
+   five expanding temporal folds.
+3. [Frozen future-period evaluation](notebooks/09_model_release.ipynb): the final
+   result, reliability, native model lineage and tested inference boundaries.
 
-Notebook 08 includes Plotly figures with static GitHub fallbacks. Its
-[offline interactive report](reports/model_selection/report.html) embeds JavaScript;
-download the HTML and open it in a browser. No AWS account or loan-level data is
-needed to read or reproduce the published reviews.
+For the full experimental trail, read the [feature ablations](reports/feature_ablation/06_feature_ablation.ipynb),
+[tuning](notebooks/07_model_tuning.ipynb) and [ensemble selection](notebooks/08_model_selection.ipynb).
+The notebooks embed readable tables, interactive Plotly figures and static GitHub
+fallbacks. Reading the evidence requires no cloud account or borrower-level data.
 
-## Latest completed result
+## Final frozen evaluation
 
-The bounded selection study compares **15 fixed candidates on 727,187 development
-cases**, using saved, hash-verified predictions and **zero new Home Credit model fits**.
-The declared mean-fold stability objective selects **90% tuned LightGBM + 10% original
-LightGBM**. The complete results are in [selection.json](reports/model_selection/selection.json).
+| Diagnostic | Reserved weeks 73-91 |
+|---|---:|
+| Official weekly Gini stability | **0.729674** |
+| ROC AUC | **0.875759** |
+| Average precision | **0.193755** |
+| Raw Brier score | **0.019282** |
+| Log loss | **0.080695** |
+| Applications | **203,345** |
 
-| Development diagnostic | Original LightGBM | Tuned LightGBM | Selected 90/10 blend |
-|---|---:|---:|---:|
-| Mean official fold stability | 0.585188 | 0.601238 | **0.601899** |
-| Worst-fold stability | 0.393682 | **0.479200** | 0.472514 |
-| Pooled OOF ROC AUC | 0.846894 | 0.849286 | **0.849407** |
-| Pooled OOF average precision | 0.204525 | 0.207351 | **0.207859** |
-| Pooled OOF Brier score | 0.032425 | 0.032347 | **0.032336** |
-| Pooled OOF log loss | 0.126805 | 0.126222 | **0.126176** |
+The evaluated model is a 90% tuned / 10% original LightGBM blend, trained on
+**1,323,314 applications from weeks 0-72**. Before evaluation, the release froze
+features, weights, no calibration, seeds and development-derived iteration budgets.
+The immutable intent identifies the exact two models and encoders. No holdout early
+stopping or model selection was permitted.
 
-The blend gains only **0.000661 mean stability** over the tuned single model. It
-improves four of five folds, but **worsens the weakest fold**. This is a small
-observed development gain, not proof of a robust future improvement. The two
-LightGBM prediction vectors have Pearson correlation **0.9712**. The compared
-XGBoost/CatBoost blends do not win the declared objective, even when some secondary
-probability metrics improve.
+A **separate inference refit** used all **1,526,659 labeled applications**. The holdout
+score above belongs to the development-trained models, not to that all-label refit.
+It is a local temporal evaluation, not a Kaggle leaderboard score. Differences in
+period length and population mean it should not be read as a gain over development
+fold scores.
 
-**These are development-selection results, not final-test or leaderboard claims.**
-Weeks **73-91 remain locked**. Earlier development folds inform early stopping and
-selection; repeated optimization can overfit them. The earlier-fold-only blend
-choice diagnostic is not fully nested, because base-model tuning already used all
-five development folds. Weekly population support drops to **825 cases in week 68**;
-late-fold variability should not be mistaken for a reliably estimated trend.
+## What the experiments show
 
-## What has been completed
+- **Features:** 2,508 candidates; 2,034 structurally eligible; 700 retained. Screening
+  used weeks 0-32, before model-validation weeks 33-72. Stored statistics account for
+  all 1,808 rejections, including 1,334 eligible features below the computation limit.
+- **Ablations:** removing credit bureau A, previous applications or depth-two history
+  reduced mean development stability by **0.093813**, **0.031440** and **0.015762**.
+  These are controlled removal comparisons, not individual-feature causal effects.
+- **Models:** LightGBM led XGBoost, CatBoost and a logistic SGD baseline across five
+  expanding folds. The accepted benchmark contains 20 model-fold evaluations and
+  aligned out-of-fold predictions for 727,187 cases.
+- **Tuning:** eight LightGBM candidates across five folds completed 40 new fits.
+  The selected trial improved mean stability from 0.585188 to 0.601238.
+- **Blending:** 15 fixed candidates reused saved predictions. The selected blend
+  reached 0.601899 mean development stability; its small gain of 0.000661 came with
+  a weaker worst fold. It is not evidence of statistical significance.
 
-The original benchmark evaluated LightGBM, XGBoost, CatBoost and a lightweight logistic
-SGD baseline on five expanding folds. Acceptance verified 70 artifacts and aligned
-OOF predictions for 727,187 cases. Its [metric audit](reports/benchmark/metrics.json)
-recomputes ranking metrics from unclipped predictions; the older acceptance record
-preserves its historical clipping policy.
+The official metric is:
 
-The [feature ablation](reports/feature_ablation/README.md) completed 20 model-fold fits.
-Every tested feature-block removal reduced stability, so the model keeps all **700
-screened features**. Candidate blocks need point-in-time justification, training-only
-screening and ablation evidence; more features are not automatically better.
+`mean weekly Gini + 88 * min(weekly slope, 0) - 0.5 * residual standard deviation`
 
-The September 7 [tuning study](reports/model_tuning/metrics.json) completed eight new
-candidates across five temporal folds: **40 new fits**, plus five reused control folds.
-It selected `trial_006`, improving mean stability from 0.585188 to 0.601238. Tuning
-improves three of five folds; most of that gain comes from fold 1.
+Gini is `2 * ROC AUC - 1`. Probability metrics and reliability complement the
+ranking metric. No calibrated production default-probability claim is made.
 
-A subsequent managed SageMaker validation run completed at source commit
-`6623d00e9118f9847d69c0caaedd71b10e9b32fa`: **287 tests passed**, Ruff and strict mypy
-passed, benchmark/tuning reviews executed, and notebook 08 executed successfully.
-That run restored all 15 already-completed selection candidates instead of rescoring
-them. It verified input hashes/alignment, rebuilt diagnostics, and published the
-review and logs to S3. The publication upgrade is validated separately by current CI.
+## Engineering and reproducibility
 
-## Reproduce the latest review
+The feature engine builds 34 train/test blocks from 17 relational groups. Saved
+artifacts bind raw-data, feature, validation, configuration, code and dependency
+identities. Global frequency maps are learned only on the relevant fit population.
 
-From the prepared project environment:
+Expensive runs checkpoint to S3 with content hashes, conditional writer leases and
+verified read-back. Valid completed fits and prediction batches are reused. UTC logs
+include stage progress, stage/total elapsed time and heartbeats. Reviews do not
+retrain models. Native model reloads reproduce the saved probabilities.
 
-```bash
-uv run --locked python scripts/review_model_selection.py
-```
-
-This command uses committed aggregate evidence only: it verifies the original S3
-content digest, every recorded scoring-source/configuration/lock digest, all 75
-candidate-fold records, selected weights, ranking and population support. It runs no
-Home Credit training, reads no holdout data, and requires no AWS credentials.
-
-Add `--force` to reexecute all notebook cells. Unchanged verified notebook executions
-are reused. Regenerated HTML/SVG and notebook outputs are published only after a
-successful execution; the previous canonical notebook survives a failed cell.
-UTC JSONL logs include stage and total elapsed time, cell counts and heartbeats.
-CI executes the real-data review, verifies reuse and checks byte-for-byte reproduction.
-
-To verify or restore the original S3-backed comparison rather than just read it:
-
-```bash
-bash scripts/start_model_selection.sh --bucket YOUR_ARTIFACT_BUCKET
-```
-
-The launcher checks persistent storage and the locked environment, runs compatibility
-smoke tests and quality gates, then restores verified predictions and completed
-candidate evaluations. It does not retrain completed Home Credit models. Compatibility
-smoke tests fit tiny synthetic models. See the [runbook](docs/model_selection.md).
-
-**Do not restart the completed tuning study just to view its results.**
-
-## Method and safeguards
-
-Selection uses the mean of five official fold stability scores:
-
-`mean weekly Gini + 88 * min(temporal slope, 0) - 0.5 * residual standard deviation`
-
-Gini is `2 * ROC AUC - 1`. Worst-fold stability, weekly support, pooled ROC AUC,
-average precision, raw-probability Brier score and log loss provide supporting diagnostics.
-Only log loss clips probabilities to `[1e-7, 1-1e-7]`.
-The [frozen protocol](configs/validation_protocol.json) defines the expanding folds and
-locked holdout. No random train/test shuffle is used for temporal model selection.
-
-The OOF comparison rejects duplicated/missing case IDs, changed targets or fold/week
-assignments, holdout rows, invalid probabilities and artifact identity mismatches.
-A renewable S3 writer lease and a local process lock prevent duplicate scoring writers;
-each completed candidate is committed before the next begins.
-
-## Environment and durability
+CI runs Ruff, strict mypy, tests with warnings treated as errors, real notebook
+execution, output reproduction and unchanged-notebook reuse. Generated exports are
+classified separately from authored Python and notebooks in GitHub language statistics.
+Canonical filenames are edited in place.
 
 ```bash
 bash scripts/start_here.sh --require-persistent-storage
-uv run --locked python scripts/review_model_benchmark.py
-uv run --locked python scripts/review_model_tuning.py
+uv run --locked python scripts/review_model_benchmark.py --force
+uv run --locked python scripts/review_model_tuning.py --force
+uv run --locked python scripts/review_model_selection.py --force
+uv run --locked python scripts/review_model_release.py --force
+uv run --locked python scripts/review_submission.py --force
 ```
 
-The environment is locked to Python 3.12.14 and `uv.lock`. `.venv` is a real directory;
-managed Python, caches, artifacts and logs live on the project volume, not `/tmp`.
-Startup requires 12 GiB free for installation and reserve. EBS persistence is not a
-backup against deleting the SageMaker space: source history is in GitHub and
-published experiment artifacts are in S3. Credentials and raw loan data are not committed.
+The dependency lock uses Python 3.12.14. The [operating contract](AGENTS.md),
+[frozen release policy](configs/model_release.json) and
+[release runbook](docs/model_release.md) describe the validation boundaries.
+Do not rerun training merely to view results.
 
-CI runs Ruff, strict mypy, tests with warnings treated as errors, and real notebook
-execution. Canonical filenames are edited in place. Historical accepted evidence
-is retained, and unexpected warnings are not globally suppressed.
+## Inference and owner-controlled submission
 
-## Remaining release work
+[Notebook 10](notebooks/10_submission.ipynb) rebuilds features from the raw test files
+supplied to the run, checks the native bundle, resumes predictions and lets the owner
+explicitly generate, validate, save and download a `case_id,score` CSV. It checks exact
+sample coverage/order, unique IDs, finite probabilities, saved-file round trips and
+artifact lineage. **CSV generation defaults to off; nothing uploads to Kaggle.**
 
-The next release must freeze the model/ensemble/calibration policy and verify the
-final train/test feature contract before the locked holdout is evaluated once.
-The ensemble margin is small: retain the tuned single-model result as an explicit
-reference rather than presenting the blend as an unqualified improvement.
+The ten public competition example cases have passed raw-feature parity and packaged
+inference checks. They are an integration fixture. Hidden-test execution, hidden-test
+resource limits and a leaderboard score have not been verified.
 
-Final refit, full competition-compatible inference and notebook-based submission
-export are **not yet implemented and validated end to end**. The owner must explicitly
-**generate, validate, save and download** the submission from the final notebook.
-**Nothing is automatically submitted to Kaggle; the review stages create no submission CSV.**
+## Research scope
 
-The [operating contract](AGENTS.md), [tuning record](docs/model_tuning.md),
-[selection runbook](docs/model_selection.md) and [project plan](PROJECT_PLAN.md)
-provide the implementation and research boundaries.
+This is a substantial evaluated portfolio release, with explicit limits. The original
+700-feature budget has not been compared with larger selected sets. Custom credit
+ratios, cross-table interactions, quantiles, peer ranks, target encoding, SHAP and
+permutation-stability studies are not completed experiments. The existing three
+family removals do not establish exhaustive feature discovery. Notebook 02 identifies
+those gaps rather than treating a large feature count as proof of completeness.
+
+The original holdout is now observed and bound to the frozen release. Further feature
+or model exploration must use development data and be labeled accordingly; it cannot
+reuse this holdout as a new untouched test. Production deployment, lending-policy
+fairness validation and an operational monitoring service are outside the tested scope.

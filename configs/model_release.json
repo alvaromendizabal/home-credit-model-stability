@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "name": "frozen_lightgbm_release",
+  "region": "us-west-2",
+  "seed": 20260905,
+  "threads": 6,
+  "heartbeat_seconds": 15,
+  "feature_manifest_sha256": "76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587",
+  "feature_plan_sha256": "b58793a40f271618e465c2dc2a0196a8419692aa92456d2360b0f97311dbb117",
+  "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+  "lock_sha256": "f99ffc96e701345f057a7d09eee2edd24c5da58a9d25d292df209eeaf5ed30bc",
+  "selection": {
+    "key": "home-credit-model-stability/model-selection/6645e0b64f12a91519bb5307000d69b5e23527ababa4bd198048b59a88bdba42/reports/be4b6b7a7468755312128e94aacbaf73a71909350066b5a6ad0a12b141e6c97e/selection.json",
+    "sha256": "be4b6b7a7468755312128e94aacbaf73a71909350066b5a6ad0a12b141e6c97e",
+    "candidate": "tuned_lightgbm_90_lightgbm",
+    "weights": {"tuned_lightgbm": 0.9, "lightgbm": 0.1}
+  },
+  "iteration_policy": "median_of_five_saved_development_best_iterations",
+  "components": {
+    "tuned_lightgbm": {
+      "manifest": "tuned",
+      "study_trial": "trial_006",
+      "num_boost_round": 1852,
+      "state_key": "home-credit-model-stability/model-tuning/2e52dd908f2b30a783e37157ae9801e0679cc666/full/trial_006/checkpoints/objects/08/085b731ff07c3fffb139d4eaeefc873a81fabc782eb31601eace6c53166a8cdd",
+      "state_sha256": "085b731ff07c3fffb139d4eaeefc873a81fabc782eb31601eace6c53166a8cdd"
+    },
+    "lightgbm": {
+      "manifest": "benchmark",
+      "study_trial": "control",
+      "num_boost_round": 1355,
+      "state_key": "home-credit-model-stability/model-benchmarks/cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4/objects/80/80bd801f7253b8c390e81514bb1d32ee6e9ca4671f749121107e7bea4158dc1a",
+      "state_sha256": "80bd801f7253b8c390e81514bb1d32ee6e9ca4671f749121107e7bea4158dc1a"
+    }
+  },
+  "feature_count": 700,
+  "calibration": "none",
+  "holdout_fit_weeks": [0, 72],
+  "holdout_evaluation_weeks": [73, 91],
+  "final_refit_weeks": [0, 91],
+  "max_new_model_fits": 4,
+  "holdout_tuning_allowed": false,
+  "automatic_kaggle_submission": false,
+  "automatic_submission_csv": false,
+  "decision": "Freeze the declared development winner before opening the outer holdout. The 0.000661 mean-fold gain is small and worst-fold stability declines; do not claim statistical significance. Use fixed development-derived iteration counts and no holdout early stopping. Report uncalibrated probabilities transparently. The all-label refit is a separate inference artifact, never the model used to report the holdout score."
+}
