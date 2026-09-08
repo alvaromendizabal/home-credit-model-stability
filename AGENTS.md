@@ -28,6 +28,9 @@ probabilities, artifact lineage and durable export before displaying a download 
 Do not describe that release as implemented before its complete path is tested.
 
 Use documented feature branches and pull requests. Run Ruff, strict mypy, tests with
-warnings treated as errors, and real notebook execution before merging. Keep executed
-review outputs in canonical notebooks. CI may commit regenerated tuning and selection
-review outputs on feature branches only after quality gates pass; the PR head still needs its own CI.
+warnings treated as errors, and real notebook execution before merging. Generate and
+execute review notebooks before linting, so newly generated code cannot bypass style
+checks. Keep executed review outputs in canonical notebooks. CI may commit regenerated
+tuning and selection review outputs on feature branches only after quality gates pass.
+The exact resulting PR head must pass its own CI and byte-for-byte publication
+reproduction before merge; a successful run on the pre-publication parent is insufficient.
