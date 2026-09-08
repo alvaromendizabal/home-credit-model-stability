@@ -6,6 +6,7 @@ import html
 import json
 import math
 from pathlib import Path
+from textwrap import dedent
 from typing import TYPE_CHECKING, Any
 
 import matplotlib
@@ -243,25 +244,49 @@ def write_selection_notebook(path: Path) -> None:
             "Charts contain interactive Plotly data and static GitHub fallbacks."
         ),
         nbformat.v4.new_code_cell(  # type: ignore[no-untyped-call]
-            "import hashlib\nimport json\nfrom pathlib import Path\nimport pandas as pd\n"
-            "from IPython.display import display\n"
-            "from home_credit.modeling.selection_report import validate_selection_evidence\n"
-            "candidates = [Path.cwd() / 'selection.json'] + [\n"
-            "    p / 'reports/model_selection/selection.json'\n"
-            "    for p in [Path.cwd(), *Path.cwd().parents]\n"
-            "]\n"
-            f"expected_sha256 = {digest!r}\n"
-            "source = next((p for p in candidates if p.is_file() and\n"
-            "    hashlib.sha256(p.read_bytes()).hexdigest() == expected_sha256), None)\n"
-            "if source is None:\n"
-            "    raise FileNotFoundError('Matching selection evidence is missing')\n"
-            "result = json.loads(source.read_text())\n"
-            "validate_selection_evidence(result)\n"
-            "print('Scope:', result['scope'])\n"
-            "print('Cases evaluated:', f\"{result['rows_evaluated']:,}\")\n"
-            "columns = ['candidate', 'mean_fold_stability', 'worst_fold_stability', "
-            "'oof_auc', 'oof_pr_auc', 'oof_brier_score', 'oof_log_loss']\n"
-            "display(pd.DataFrame(result['rows'])[columns].round(6))"
+            dedent(
+                """
+                import hashlib
+                import json
+                from pathlib import Path
+
+                import pandas as pd
+                from IPython.display import display
+
+                from home_credit.modeling.selection_report import validate_selection_evidence
+
+                parents = [Path.cwd(), *Path.cwd().parents]
+                candidates = [Path.cwd() / "selection.json"]
+                candidates += [p / "reports/model_selection/selection.json" for p in parents]
+                expected_sha256 = "__EVIDENCE_SHA256__"
+                source = None
+                for candidate in candidates:
+                    if not candidate.is_file():
+                        continue
+                    digest = hashlib.sha256(candidate.read_bytes()).hexdigest()
+                    if digest == expected_sha256:
+                        source = candidate
+                        break
+                if source is None:
+                    raise FileNotFoundError("Matching selection evidence is missing")
+                result = json.loads(source.read_text())
+                validate_selection_evidence(result)
+                print("Scope:", result["scope"])
+                print("Cases evaluated:", f"{result['rows_evaluated']:,}")
+                columns = [
+                    "candidate",
+                    "mean_fold_stability",
+                    "worst_fold_stability",
+                    "oof_auc",
+                    "oof_pr_auc",
+                    "oof_brier_score",
+                    "oof_log_loss",
+                ]
+                display(pd.DataFrame(result["rows"])[columns].round(6))
+                """
+            )
+            .strip()
+            .replace("__EVIDENCE_SHA256__", digest)
         ),
         nbformat.v4.new_markdown_cell(  # type: ignore[no-untyped-call]
             "## Stability, time and reliability\n\n"
@@ -272,18 +297,33 @@ def write_selection_notebook(path: Path) -> None:
             "mistaken for a reliable trend. The offline HTML preserves interactivity."
         ),
         nbformat.v4.new_code_cell(  # type: ignore[no-untyped-call]
-            "import base64\nfrom io import BytesIO\nimport matplotlib.pyplot as plt\n"
-            "from home_credit.modeling.selection_report import (\n"
-            "    selection_figures, selection_plotly_figures,\n)\n"
-            "interactive = selection_plotly_figures(result)\n"
-            "for name, figure in selection_figures(result).items():\n"
-            "    buffer = BytesIO()\n"
-            "    figure.savefig(buffer, format='png', dpi=125)\n"
-            "    display({\n"
-            "        'image/png': base64.b64encode(buffer.getvalue()).decode('ascii'),\n"
-            "        'application/vnd.plotly.v1+json': json.loads(interactive[name].to_json()),\n"
-            "    }, raw=True)\n"
-            "    plt.close(figure)"
+            dedent(
+                """
+                import base64
+                from io import BytesIO
+
+                import matplotlib.pyplot as plt
+
+                from home_credit.modeling.selection_report import (
+                    selection_figures,
+                    selection_plotly_figures,
+                )
+
+                interactive = selection_plotly_figures(result)
+                for name, figure in selection_figures(result).items():
+                    buffer = BytesIO()
+                    figure.savefig(buffer, format="png", dpi=125)
+                    payload = json.loads(interactive[name].to_json())
+                    display(
+                        {
+                            "image/png": base64.b64encode(buffer.getvalue()).decode("ascii"),
+                            "application/vnd.plotly.v1+json": payload,
+                        },
+                        raw=True,
+                    )
+                    plt.close(figure)
+                """
+            ).strip()
         ),
         nbformat.v4.new_markdown_cell(  # type: ignore[no-untyped-call]
             "## Does the weight choice transfer to the next fold?\n\n"
@@ -293,22 +333,26 @@ def write_selection_notebook(path: Path) -> None:
             "the predictors are; only measured blend performance justifies complexity."
         ),
         nbformat.v4.new_code_cell(  # type: ignore[no-untyped-call]
-            "display(pd.DataFrame(result['prequential_weight_choices']).round(6))\n"
-            "display(pd.DataFrame(result['diagnostics']['prediction_correlations']).round(6))\n"
-            "selected = result['selected_candidate']\n"
-            "winner = next(r for r in result['rows'] if r['candidate'] == selected)\n"
-            "folds = pd.DataFrame(result['folds'])\n"
-            "comparison = folds.pivot(index='fold', columns='candidate', "
-            "values='stability_score')[[selected, 'tuned_lightgbm']].copy()\n"
-            "if selected == 'tuned_lightgbm':\n"
-            "    print('No blend improved the declared objective; retain the simpler incumbent.')\n"
-            "else:\n"
-            "    delta = comparison.iloc[:, 0] - comparison.iloc[:, 1]\n"
-            "    display(delta.rename('Selected minus tuned LightGBM').to_frame().round(6))\n"
-            "    print('Folds improved:', int((delta > 0).sum()), 'of', len(delta))\n"
-            "print('Selected development candidate:', selected)\n"
-            "print('Mean stability gain:', f\"{winner['delta_vs_tuned_lightgbm']:+.6f}\")\n"
-            "print(json.dumps(result['selected_weights'], indent=2, sort_keys=True))"
+            dedent(
+                """
+                display(pd.DataFrame(result["prequential_weight_choices"]).round(6))
+                display(pd.DataFrame(result["diagnostics"]["prediction_correlations"]).round(6))
+                selected = result["selected_candidate"]
+                winner = next(r for r in result["rows"] if r["candidate"] == selected)
+                folds = pd.DataFrame(result["folds"])
+                scores = folds.pivot(index="fold", columns="candidate", values="stability_score")
+                comparison = scores[[selected, "tuned_lightgbm"]].copy()
+                if selected == "tuned_lightgbm":
+                    print("No blend improved the declared objective; retain the simpler incumbent.")
+                else:
+                    delta = comparison.iloc[:, 0] - comparison.iloc[:, 1]
+                    display(delta.rename("Selected minus tuned LightGBM").to_frame().round(6))
+                    print("Folds improved:", int((delta > 0).sum()), "of", len(delta))
+                print("Selected development candidate:", selected)
+                print("Mean stability gain:", f"{winner['delta_vs_tuned_lightgbm']:+.6f}")
+                print(json.dumps(result["selected_weights"], indent=2, sort_keys=True))
+                """
+            ).strip()
         ),
         nbformat.v4.new_markdown_cell(  # type: ignore[no-untyped-call]
             "## Decision boundary and owner-controlled release\n\n"
@@ -322,11 +366,22 @@ def write_selection_notebook(path: Path) -> None:
             "submission CSV and never uploads to Kaggle.**"
         ),
         nbformat.v4.new_code_cell(  # type: ignore[no-untyped-call]
-            "import os\nfrom IPython.display import FileLink\n"
-            "display(FileLink(os.path.relpath(source), "
-            "result_html_prefix='Aggregate evidence: '))\n"
-            "display(FileLink(os.path.relpath(source.parent / 'report.html'), "
-            "result_html_prefix='Interactive offline review: '))"
+            dedent(
+                """
+                import os
+
+                from IPython.display import FileLink
+
+                relative_evidence = os.path.relpath(source)
+                display(FileLink(relative_evidence, result_html_prefix="Aggregate evidence: "))
+                display(
+                    FileLink(
+                        os.path.relpath(source.parent / "report.html"),
+                        result_html_prefix="Interactive offline review: ",
+                    )
+                )
+                """
+            ).strip()
         ),
     ]
     for index, cell in enumerate(cells):

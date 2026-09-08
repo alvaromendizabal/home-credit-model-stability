@@ -26,6 +26,8 @@ jobs:
         run: uv sync --locked --group dev
       - name: Execute canonical tuning review
         run: uv run --locked python scripts/review_model_tuning.py --force
+      - name: Execute selection review before linting generated notebook code
+        run: uv run --locked python scripts/review_model_selection.py --force
       - name: Run quality gates
         env:
           HOME_CREDIT_NOTEBOOK_INTEGRATION: "1"
@@ -57,9 +59,8 @@ jobs:
               receipt_path=directory / "receipt.json", execution_root=directory,
           )
           PY
-      - name: Execute verified selection review and prove resume
+      - name: Prove verified selection review resume
         run: |
-          uv run --locked python scripts/review_model_selection.py --force
           uv run --locked python - <<'PY'
           from pathlib import Path
           from scripts.review_model_selection import review
