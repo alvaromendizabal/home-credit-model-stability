@@ -1,0 +1,266 @@
+{
+  "schema_version": 1,
+  "region": "us-west-2",
+  "training_source_commit": "dd69a8cd935dc922c5055efbf5a35d9266de01e7",
+  "orchestration_source_commit": "1d7f85286e6aba12720f9836351235b93b650ad2",
+  "interpretation_source_commit": "e92dd56e486bb7f05b119e150f0cc0262fa413c1",
+  "jobs": [
+    {
+      "CreationTime": "2026-09-08T02:36:01.961000+00:00",
+      "LastModifiedTime": "2026-09-08T03:33:38.079000+00:00",
+      "ProcessingEndTime": "2026-09-08T03:31:42.707000+00:00",
+      "ProcessingJobName": "home-credit-model-release-20260908-0240",
+      "ProcessingJobStatus": "Completed",
+      "ProcessingResources": {
+        "ClusterConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m5.4xlarge",
+          "VolumeSizeInGB": 50
+        }
+      },
+      "ProcessingStartTime": "2026-09-08T02:36:44.407000+00:00",
+      "StoppingCondition": {
+        "MaxRuntimeInSeconds": 5400
+      }
+    },
+    {
+      "CreationTime": "2026-09-08T05:26:22.405000+00:00",
+      "LastModifiedTime": "2026-09-08T05:31:23.716000+00:00",
+      "ProcessingEndTime": "2026-09-08T05:29:21.315000+00:00",
+      "ProcessingJobName": "home-credit-release-verify-20260908-0526",
+      "ProcessingJobStatus": "Completed",
+      "ProcessingResources": {
+        "ClusterConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m5.4xlarge",
+          "VolumeSizeInGB": 30
+        }
+      },
+      "ProcessingStartTime": "2026-09-08T05:27:03.421000+00:00",
+      "StoppingCondition": {
+        "MaxRuntimeInSeconds": 1200
+      }
+    },
+    {
+      "CreationTime": "2026-09-08T06:00:13.502000+00:00",
+      "LastModifiedTime": "2026-09-08T06:05:16.248000+00:00",
+      "ProcessingEndTime": "2026-09-08T06:03:46.180000+00:00",
+      "ProcessingJobName": "home-credit-calibration-research-20260908-0601",
+      "ProcessingJobStatus": "Completed",
+      "ProcessingResources": {
+        "ClusterConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m5.2xlarge",
+          "VolumeSizeInGB": 30
+        }
+      },
+      "ProcessingStartTime": "2026-09-08T06:01:07.166000+00:00",
+      "StoppingCondition": {
+        "MaxRuntimeInSeconds": 1200
+      }
+    },
+    {
+      "CreationTime": "2026-09-08T05:43:32.662000+00:00",
+      "LastModifiedTime": "2026-09-08T07:58:44.115000+00:00",
+      "ProcessingEndTime": "2026-09-08T07:44:57.674000+00:00",
+      "ProcessingJobName": "home-credit-feature-research-20260908-0544",
+      "ProcessingJobStatus": "Stopped",
+      "ProcessingResources": {
+        "ClusterConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m5.4xlarge",
+          "VolumeSizeInGB": 40
+        }
+      },
+      "ProcessingStartTime": "2026-09-08T05:44:28.327000+00:00",
+      "StoppingCondition": {
+        "MaxRuntimeInSeconds": 7200
+      }
+    },
+    {
+      "CreationTime": "2026-09-08T07:09:45.586000+00:00",
+      "LastModifiedTime": "2026-09-08T07:59:50.755000+00:00",
+      "ProcessingEndTime": "2026-09-08T07:59:27.435000+00:00",
+      "ProcessingJobName": "home-credit-feature-shard-wider-20260908-0708",
+      "ProcessingJobStatus": "Completed",
+      "ProcessingResources": {
+        "ClusterConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m5.4xlarge",
+          "VolumeSizeInGB": 40
+        }
+      },
+      "ProcessingStartTime": "2026-09-08T07:10:24.936000+00:00",
+      "StoppingCondition": {
+        "MaxRuntimeInSeconds": 10800
+      }
+    },
+    {
+      "CreationTime": "2026-09-08T07:09:48.197000+00:00",
+      "LastModifiedTime": "2026-09-08T07:37:21.533000+00:00",
+      "ProcessingEndTime": "2026-09-08T07:35:39.967000+00:00",
+      "ProcessingJobName": "home-credit-feature-shard-engineered-20260908-0708",
+      "ProcessingJobStatus": "Completed",
+      "ProcessingResources": {
+        "ClusterConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m6i.4xlarge",
+          "VolumeSizeInGB": 40
+        }
+      },
+      "ProcessingStartTime": "2026-09-08T07:10:27.702000+00:00",
+      "StoppingCondition": {
+        "MaxRuntimeInSeconds": 10800
+      }
+    },
+    {
+      "CreationTime": "2026-09-08T07:09:46.452000+00:00",
+      "LastModifiedTime": "2026-09-08T07:54:51.344000+00:00",
+      "ProcessingEndTime": "2026-09-08T07:53:13.237000+00:00",
+      "ProcessingJobName": "home-credit-feature-shard-removals-20260908-0708",
+      "ProcessingJobStatus": "Completed",
+      "ProcessingResources": {
+        "ClusterConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m6i.4xlarge",
+          "VolumeSizeInGB": 40
+        }
+      },
+      "ProcessingStartTime": "2026-09-08T07:10:27.504000+00:00",
+      "StoppingCondition": {
+        "MaxRuntimeInSeconds": 10800
+      }
+    },
+    {
+      "CreationTime": "2026-09-08T08:00:35.145000+00:00",
+      "LastModifiedTime": "2026-09-08T08:18:25.387000+00:00",
+      "ProcessingEndTime": "2026-09-08T08:18:14.908000+00:00",
+      "ProcessingJobName": "home-credit-feature-collection-20260908-0754",
+      "ProcessingJobStatus": "Completed",
+      "ProcessingResources": {
+        "ClusterConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m5.4xlarge",
+          "VolumeSizeInGB": 40
+        }
+      },
+      "ProcessingStartTime": "2026-09-08T08:01:48.305000+00:00",
+      "StoppingCondition": {
+        "MaxRuntimeInSeconds": 7200
+      }
+    },
+    {
+      "CreationTime": "2026-09-08T18:05:00.904000+00:00",
+      "LastModifiedTime": "2026-09-08T18:10:02.295000+00:00",
+      "ProcessingEndTime": "2026-09-08T18:09:32.439000+00:00",
+      "ProcessingJobName": "home-credit-feature-interpretation-20260908-1804",
+      "ProcessingJobStatus": "Completed",
+      "ProcessingResources": {
+        "ClusterConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m5.2xlarge",
+          "VolumeSizeInGB": 30
+        }
+      },
+      "ProcessingStartTime": "2026-09-08T18:05:38.209000+00:00",
+      "StoppingCondition": {
+        "MaxRuntimeInSeconds": 2400
+      }
+    }
+  ],
+  "collection_log_stream": "home-credit-feature-collection-20260908-0754/algo-1-1788854508",
+  "collection_events": [
+    {
+      "ingestionTime": 1788855468743,
+      "message": "[2026-09-08T08:17:46Z] stage_completed stage=complete_feature_comparison stage_elapsed_seconds=840 total_elapsed_seconds=878",
+      "timestamp": 1788855467017
+    },
+    {
+      "ingestionTime": 1788855468743,
+      "message": "[2026-09-08T08:17:46Z] stage_started stage=verify_unchanged_feature_resume total_elapsed_seconds=878",
+      "timestamp": 1788855467017
+    },
+    {
+      "ingestionTime": 1788855478795,
+      "message": "[2026-09-08T08:17:52Z] INFO study_writer_acquired owner=c024a05368384c0e9335ee517cd535b5 lease_seconds=300 stage=release stage_elapsed_seconds=0.191 total_elapsed_seconds=0.191",
+      "timestamp": 1788855473018
+    },
+    {
+      "ingestionTime": 1788855478795,
+      "message": "[2026-09-08T08:17:52Z] INFO study_restored trials=20 revision=16 stage=release stage_elapsed_seconds=0.224 total_elapsed_seconds=0.224",
+      "timestamp": 1788855473018
+    },
+    {
+      "ingestionTime": 1788855478795,
+      "message": "[2026-09-08T08:17:53Z] INFO feature_research_reused model_fits=0 completed=20 stage=release stage_elapsed_seconds=1.431 total_elapsed_seconds=1.431",
+      "timestamp": 1788855474018
+    },
+    {
+      "ingestionTime": 1788855487846,
+      "message": "[2026-09-08T08:18:01Z] stage_completed stage=verify_unchanged_feature_resume stage_elapsed_seconds=15 total_elapsed_seconds=893",
+      "timestamp": 1788855482019
+    },
+    {
+      "ingestionTime": 1788855487846,
+      "message": "[2026-09-08T08:18:01Z] MANAGED_FEATURE_COLLECTION_COMPLETED total_elapsed_seconds=893",
+      "timestamp": 1788855482019
+    },
+    {
+      "ingestionTime": 1788855487846,
+      "message": "[2026-09-08T08:18:01Z] managed_feature_collection_finished exit_code=0 total_elapsed_seconds=893",
+      "timestamp": 1788855482019
+    }
+  ],
+  "interpretation_log_stream": "home-credit-feature-interpretation-20260908-1804/algo-1-1788890737",
+  "interpretation_events": [
+    {
+      "ingestionTime": 1788890946514,
+      "message": "[2026-09-08T18:09:03Z] stage_completed stage=feature_interpretation stage_elapsed_seconds=105 total_elapsed_seconds=127",
+      "timestamp": 1788890944178
+    },
+    {
+      "ingestionTime": 1788890946514,
+      "message": "[2026-09-08T18:09:03Z] stage_started stage=verify_unchanged_interpretation_resume total_elapsed_seconds=127",
+      "timestamp": 1788890944178
+    },
+    {
+      "ingestionTime": 1788890955561,
+      "message": "[2026-09-08T18:09:10Z] INFO study_writer_acquired owner=a527811adffa455ebdc264dc247c7919 lease_seconds=300 stage=release stage_elapsed_seconds=0.226 total_elapsed_seconds=0.226",
+      "timestamp": 1788890950179
+    },
+    {
+      "ingestionTime": 1788890955561,
+      "message": "[2026-09-08T18:09:10Z] INFO study_restored trials=5 revision=6 stage=release stage_elapsed_seconds=0.257 total_elapsed_seconds=0.257",
+      "timestamp": 1788890950179
+    },
+    {
+      "ingestionTime": 1788890955561,
+      "message": "[2026-09-08T18:09:10Z] INFO feature_interpretation_reused new_model_fits=0 stage=release stage_elapsed_seconds=0.737 total_elapsed_seconds=0.737",
+      "timestamp": 1788890951179
+    },
+    {
+      "ingestionTime": 1788890964613,
+      "message": "[2026-09-08T18:09:18Z] stage_completed stage=verify_unchanged_interpretation_resume stage_elapsed_seconds=15 total_elapsed_seconds=142",
+      "timestamp": 1788890959180
+    },
+    {
+      "ingestionTime": 1788890964613,
+      "message": "[2026-09-08T18:09:18Z] MANAGED_FEATURE_INTERPRETATION_COMPLETED total_elapsed_seconds=142",
+      "timestamp": 1788890959180
+    },
+    {
+      "ingestionTime": 1788890964613,
+      "message": "[2026-09-08T18:09:18Z] managed_feature_interpretation_finished exit_code=0 total_elapsed_seconds=142",
+      "timestamp": 1788890959180
+    }
+  ],
+  "completed_new_comparison_fits": 20,
+  "early_screen_model_fits": 2,
+  "completed_fits_retrained": 0,
+  "unfinished_fit_attempts_restarted": 1,
+  "original_completed_fits": 11,
+  "worker_completed_fits": 8,
+  "collector_completed_fits": 1,
+  "holdout_used": false,
+  "release_changed": false
+}

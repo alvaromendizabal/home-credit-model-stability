@@ -11,6 +11,9 @@ from a small development study, synthetic smoke test or incomparable leaderboard
 
 Use the frozen five expanding folds and the official weekly Gini stability formula.
 Keep weeks 73-91 locked until model, ensemble and calibration choices are frozen.
+That original boundary was crossed by the frozen release on 2026-09-08. Its holdout
+is now observed. Subsequent feature/calibration research uses development data only;
+never relabel those holdout weeks as untouched or use them for further selection.
 Report mean fold stability, worst fold, ROC AUC, average precision, raw Brier and log loss.
 Validate domain-informed feature blocks with training-only screening and controlled
 ablations rather than maximizing feature count without evidence.

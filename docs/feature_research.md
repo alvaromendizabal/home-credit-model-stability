@@ -34,6 +34,8 @@ or peer-statistics families. Each uses the same LightGBM parameters, seeds and
 five full development folds as the archived 700-feature control. This is 20 new
 fits plus five reused control fits. It tests breadth and major families without
 simultaneously retuning the learner.
+The early target/drift screen adds two separate LightGBM fits; those are not included
+in the twenty model-comparison fits.
 
 For the full extension, each fold also measures training gain, native TreeSHAP
 contributions on 512 validation cases, three within-week grouped permutations on
@@ -96,6 +98,37 @@ The selected additions comprise 95 amount ratios, 55 dispersion measures, 50
 peer statistics, 39 category interactions, five source-order differences and four
 each from household comparisons, recency and missingness. The screened feature
 list was persisted before any later development-fold evaluation.
+The 50 retained peer features are 44 empirical ranks, three conditional median
+ratios and three conditional interquartile positions. Most re-express existing
+ordering; they are not fifty independent new information sources.
+
+## Completed five-fold result
+
+All conditions use the same 727,187 out-of-fold cases. The complete table, fold
+changes, complexity, SHAP, permutation ranges and rejection catalog are in
+[notebook 11](../notebooks/11_feature_research.ipynb).
+
+| Condition | Features | Mean stability | Change vs control | Worst fold | Pooled AUC | Pooled AP | Brier | Log loss |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Original control | 700 | 0.585188 | 0 | 0.393682 | 0.846894 | 0.204525 | 0.032425 | 0.126805 |
+| Wider original | 1,400 | 0.586478 | +0.001290 | 0.362256 | 0.847568 | 0.205616 | 0.032396 | 0.126632 |
+| Full engineered | 956 | 0.559904 | -0.025284 | 0.317207 | 0.848341 | 0.206339 | 0.032385 | 0.126482 |
+| Without added ratios | 861 | 0.584635 | -0.000553 | 0.416372 | 0.846720 | 0.204632 | 0.032426 | 0.126830 |
+| Without peer statistics | 906 | 0.555612 | -0.029577 | 0.329406 | 0.848207 | 0.205962 | 0.032398 | 0.126536 |
+
+The full extension improves pooled ranking and probability metrics but worsens the
+primary temporal objective. Removing the added amount ratios recovers most of that
+stability loss. Removing peer statistics lowers mean stability further while
+improving the worst fold; their contribution is contextual. The wider original set
+offers a small mean improvement, a weaker worst fold and twice the input width.
+None of these differences establishes statistical significance or equivalence.
+The frozen tuned blend remains the reference release, with no further holdout use.
+
+Independent pandas/scikit-learn/NumPy recomputation checked 21 prediction files,
+25 model-fold comparisons, 3,635,935 predictions and 235 metric identities. The
+maximum metric difference was 6.78e-15. The corrected native-model interpretation
+replayed all five engineered models and 727,187 predictions exactly; SHAP additivity
+passed in every fold. See the [verification and execution records](../reports/feature_research/README.md).
 
 ## Interpretation sampling audit
 
@@ -118,7 +151,7 @@ different study identity.
 
 ## Parallel execution of the remaining comparisons
 
-The first twelve fits belong to the original driver; the eight fits in folds 4–5
+The planned first twelve fits belong to the original driver; the eight fits in folds 4–5
 are assigned to three independent workers. `configs/feature_research_shards.json`
 fixes disjoint assignments. Wider original features use `ml.m5.4xlarge`; engineered
 features and the two removals use `ml.m6i.4xlarge`. Each keeps the original six-thread
@@ -142,3 +175,14 @@ Resume the recorded training **and orchestration** commits. Worker ledgers are k
 by the original study and assignment; changed orchestration code fails the identity
 check instead of silently training another copy. The saved-model SHAP correction is
 a later stage and performs no native model fitting.
+
+The actual original job reached its two-hour limit after eleven durable fits,
+interrupting `without_peer_statistics` fold 3. Collection verified the original
+writer was stopped and its lease expired, imported the eight disjoint worker fits,
+and resumed only that unfinished fit. It did not repeat any completed fit. The
+complete study contains twenty unique records. A second unchanged invocation
+reported `feature_research_reused model_fits=0 completed=20`; corrected interpretation
+also restored all five records with `new_model_fits=0`. Recovery is at complete-fold
+boundaries, not mid-tree. All nine release/research/verification jobs listed in
+the execution record are terminal; the stopped original job is explicitly retained
+as an interruption, not mislabeled as a completed study.

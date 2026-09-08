@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source_commit": "dd69a8cd935dc922c5055efbf5a35d9266de01e7",
+  "interpretation_source_commit": "e92dd56e486bb7f05b119e150f0cc0262fa413c1",
+  "files": {
+    "screen.json": {
+      "bytes": 3408141,
+      "sha256": "d89062ff791eba9815fc84d1c2a662eee792dc58dba7eba8eeccd4d881db2ea0"
+    },
+    "comparison.json": {
+      "bytes": 61423,
+      "sha256": "4ccc099e90dccbdb2b9e69f7aa74590b244b7ac58c8eb8a4f520eff05ffd79da"
+    },
+    "study.json": {
+      "bytes": 52917,
+      "sha256": "533d73ecfad7f500a91bc7c15a86002ab095879c9532db2f160f43ab979d6e6b"
+    },
+    "diagnostics_fold_1.json": {
+      "bytes": 141703,
+      "sha256": "bfae7b8ca4a7899a2979db3c97867b6bf2f806b5cfee2b7bcd058dce239b6af7"
+    },
+    "diagnostics_fold_2.json": {
+      "bytes": 141766,
+      "sha256": "74c39a4e4fa9da370983a0dfe90a9fc3990b17870f4a5d2b0192ae9cc28647e9"
+    },
+    "diagnostics_fold_3.json": {
+      "bytes": 141741,
+      "sha256": "c8c12781484bc63aed35ed181fcd66439451be83d1611dd16934b454d9c58eec"
+    },
+    "diagnostics_fold_4.json": {
+      "bytes": 141885,
+      "sha256": "965f80681a2830f7d5077614af2934c9138fbbdbe518e5d3c5fb6a06b15764ba"
+    },
+    "diagnostics_fold_5.json": {
+      "bytes": 142242,
+      "sha256": "ca426a644b5b20f1d2d762ae122df6e77fbb8ec1d69eeb75a918a9243cdb7925"
+    },
+    "interpretation.json": {
+      "bytes": 13503,
+      "sha256": "8d9b1363cf6c8f665c1c6d0be1bfa8cf2e4294d848284beb901ec240994d3e0e"
+    },
+    "verification.json": {
+      "bytes": 602,
+      "sha256": "1c26bf717df4efd1e73255ed1376eb924053bf3b9ea062b0f581fcca0bed3297"
+    }
+  }
+}

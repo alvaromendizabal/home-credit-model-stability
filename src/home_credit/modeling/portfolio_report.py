@@ -240,7 +240,8 @@ display_charts(evidence, "features")
     categoricals, then ranks training-window predictive gain with a drift penalty.
 
     The 1,334 eligible features below the 700-feature limit are **not proven useless**.
-    The limit is a computation budget; no 700-versus-larger-set ablation was run.
+    The limit is a computation budget. The later study in notebook 11 directly tests
+    1,400 original features: a small mean gain accompanies a weaker worst fold.
     The near-perfect early-versus-later drift classifier makes temporal testing essential.
     Feature gain is associative and is not a causal explanation or a substitute for ablation.
     """,
@@ -280,12 +281,18 @@ display(pd.DataFrame(evidence["ablation"]["rows"])[[
         """
     ## Explicit research boundary
 
-    The frozen release does not include custom affordability ratios, cross-table
-    interactions, quantile/skew features, peer ranks, target encoding, or exhaustive
-    redundancy and feature-limit ablations. There is no completed SHAP or permutation
-    stability study. These remain extensions, not completed experiments or claims of
-    exhaustive discovery. External data and target encoding are unnecessary for the
-    released pipeline and would require their own availability and leakage controls.
+    [Notebook 11](11_feature_research.ipynb) completes a separate post-release study:
+    4,617 additional hypotheses, 256 retained additions, 20 comparison fits and
+    five-fold SHAP, grouped permutation and redundancy diagnostics. It tests ratios,
+    dispersion, category interactions, peer statistics and the original feature cap.
+    Better pooled metrics did not translate into better temporal stability, so the
+    frozen release remains unchanged. The observed holdout was not reused.
+
+    Raw-history quantiles/skew and verified chronological trends remain future
+    hypotheses. Peer quantiles describe training populations. CatBoost's native
+    target statistics were evaluated in the original model benchmark; online
+    default-rate histories would require outcome-availability controls. No finite
+    candidate catalog establishes exhaustive discovery.
 
     The full aggregate feature catalog is `reports/feature_ablation/feature_screen.json`;
     each entry records provenance, dtype, missingness, cardinality and both model gains.
@@ -397,7 +404,8 @@ print("Public example parity cases:", stages["raw_parity"]["rows"])
 
     This is an evaluated research portfolio release. Production lending use, calibrated
     deployment probabilities, fairness assessment and operational monitoring are outside
-    the validated scope. The feature-research limits are documented in notebook 02.
+    the validated scope. Completed development feature research and its limits are
+    documented in [notebook 11](11_feature_research.ipynb).
     """,
     ),
 ]

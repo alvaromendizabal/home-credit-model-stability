@@ -15,7 +15,11 @@ unchecked task list or a subjective project rating.
 | All-label refit | Two native models, 1,526,659 cases | Immutable release state |
 | Raw inference | Ten public example cases; durable batch reuse | Release verification record |
 | Submission controls | Owner-enabled notebook; no automatic CSV/upload | Notebook 10 |
-| Expanded feature research | Not exhaustive; untested families and budget comparisons remain | Notebook 02 research boundary |
+| Expanded feature research | 4,617 additions screened; 256 retained; 20 fits, five reused controls | Notebook 11 |
+| Interpretation audit | Five native models replayed; 727,187 exact predictions; corrected SHAP samples | Notebook 11 and corrected diagnostics |
+| Temporal calibration | Eight calibrator fits; neither tested map improved Brier/log loss | Notebook 12 |
+| Independent research verification | 235 feature-metric checks; 1,633,833 calibration predictions replayed | Research verification receipts |
+| Durable research resume | Completed feature and interpretation drivers reused checkpoints with zero new fits | Feature execution record |
 | Hidden Kaggle execution | Not run; no leaderboard result | Explicit inference limitation |
 | Production lending validation | Outside research-portfolio scope | README research scope |
 
@@ -25,3 +29,8 @@ must not re-label the observed weeks as untouched or tune against those results.
 
 Employer review starts with notebooks 02, 05 and 09; notebooks 06-08 contain the
 supporting experimental detail. Notebook 10 leaves submission generation to the owner.
+Notebooks 11-12 complete the post-release development research. Their negative results
+are part of the evidence; they do not revise the frozen evaluation. Raw-history
+quantiles, neural models and fully nested promotion studies are future hypotheses,
+not claims of completed work. See [the completion record](docs/completion.md) for
+execution identities, verification and the remaining owner-only submission boundary.

@@ -34,13 +34,16 @@ jobs:
           uv run --locked python scripts/review_submission.py --force
       - name: Execute calibration research review before linting
         run: uv run --locked python scripts/review_calibration.py --force
+      - name: Execute benchmark review notebook
+        run: uv run --locked python scripts/review_model_benchmark.py --force
+      - name: Execute expanded feature research before linting
+        run: uv run --locked python scripts/review_feature_research.py --force
       - name: Run quality gates
         env:
           HOME_CREDIT_NOTEBOOK_INTEGRATION: "1"
         run: bash scripts/check.sh
-      - name: Execute benchmark review notebook
-        run: uv run --locked python scripts/review_model_benchmark.py --force
       - name: Verify published benchmark is reproducible
+        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
         run: git diff --exit-code -- notebooks/05_benchmark_review.ipynb reports/benchmark/review.json
       - name: Reproduce accepted ablation figure
         run: |
@@ -83,6 +86,17 @@ jobs:
       - name: Verify published calibration is reproducible
         if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
         run: git diff --exit-code -- notebooks/12_calibration.ipynb reports/calibration/publication.json
+      - name: Verify published feature research is reproducible
+        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+        run: git diff --exit-code -- notebooks/11_feature_research.ipynb reports/feature_research/publication.json
+      - name: Prove unchanged feature research review resumes
+        run: |
+          uv run --locked python - <<'PYCODE'
+          from pathlib import Path
+          from home_credit.modeling.feature_research_report import review
+          assert review(Path.cwd())
+          print("FEATURE_RESEARCH_NOTEBOOK_REUSE_VERIFIED")
+          PYCODE
       - name: Prove unchanged calibration review resumes
         run: |
           uv run --locked python - <<'PY'
@@ -113,11 +127,13 @@ jobs:
             notebooks/09_model_release.ipynb
             notebooks/10_submission.ipynb
             notebooks/12_calibration.ipynb
+            notebooks/11_feature_research.ipynb
             artifacts/ci/feature_ablation/06_feature_ablation.ipynb
             reports/benchmark/review.json
             reports/model_selection
             reports/model_release
             reports/calibration
+            reports/feature_research
             logs/*review*.jsonl
           if-no-files-found: error
       - name: Publish executed reviews on feature branches
@@ -125,7 +141,7 @@ jobs:
         env:
           REVIEW_BRANCH: ${{ github.ref_name }}
         run: |
-          git add notebooks reports/model_selection reports/model_release/publication.json reports/calibration/publication.json
+          git add notebooks reports/model_selection reports/model_release/publication.json reports/calibration/publication.json reports/feature_research/publication.json
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' \
                 -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \

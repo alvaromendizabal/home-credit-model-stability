@@ -1,0 +1,16 @@
+{
+  "evaluation_cases_per_condition": 727187,
+  "holdout_used": false,
+  "maximum_metric_absolute_error": 6.772360450213455e-15,
+  "metric_comparisons": 235,
+  "model_fold_comparisons": 25,
+  "new_model_fits": 0,
+  "prediction_files_verified": 21,
+  "predictions_verified": 3635935,
+  "python_version": "3.12.13",
+  "report_sha256": "4ccc099e90dccbdb2b9e69f7aa74590b244b7ac58c8eb8a4f520eff05ffd79da",
+  "schema_version": 1,
+  "screen_checkpoints_verified": 2,
+  "source_sha256": "eb3d43e520b2c5403d4604d95ae12443cb902487eb463c570a8ce2ab6df8b3fb",
+  "verified_utc": "2026-09-08T18:11:37.323632+00:00"
+}

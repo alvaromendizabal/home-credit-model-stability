@@ -74,7 +74,13 @@ untouched test for subsequent work.
 - The raw test integration covers ten public example cases and 36 shards. Hidden
   Kaggle execution, its resource limits and a leaderboard result remain unverified.
 
-The later [calibration research](notebooks/12_calibration.ipynb) uses development
+Application periods define the folds; production event-time availability and label
+maturity have not been certified.
+
+The later [feature research](notebooks/11_feature_research.ipynb) tested 4,617 new
+hypotheses and completed 20 comparison fits. Its engineered condition improved
+pooled AUC while reducing temporal stability. It was not promoted.
+The [calibration research](notebooks/12_calibration.ipynb) uses development
 data only. Neither tested map improved pooled Brier or log loss; it does not
 change this frozen release. Further research requires its own promotion decision
 and independent evaluation population.
