@@ -57,6 +57,19 @@ jobs:
               receipt_path=directory / "receipt.json", execution_root=directory,
           )
           PY
+      - name: Execute verified selection review and prove resume
+        run: |
+          uv run --locked python scripts/review_model_selection.py --force
+          uv run --locked python - <<'PY'
+          from pathlib import Path
+          from scripts.review_model_selection import review
+          if not review(Path.cwd()):
+              raise RuntimeError("Unchanged selection notebook was not reused")
+          print("MODEL_SELECTION_REVIEW_REUSE_VERIFIED")
+          PY
+      - name: Verify published selection is reproducible
+        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+        run: git diff --exit-code -- notebooks/08_model_selection.ipynb reports/model_selection
       - name: Preserve executed reviews
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -64,20 +77,22 @@ jobs:
           path: |
             notebooks/05_benchmark_review.ipynb
             notebooks/07_model_tuning.ipynb
+            notebooks/08_model_selection.ipynb
             artifacts/ci/feature_ablation/06_feature_ablation.ipynb
             reports/benchmark/review.json
+            reports/model_selection
             logs/*review*.jsonl
           if-no-files-found: error
-      - name: Publish executed tuning review on feature branches
+      - name: Publish executed reviews on feature branches
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feat/')
         env:
           REVIEW_BRANCH: ${{ github.ref_name }}
         run: |
-          git add notebooks/07_model_tuning.ipynb
+          git add notebooks/07_model_tuning.ipynb notebooks/08_model_selection.ipynb reports/model_selection
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' \
                 -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-                commit -m 'docs: publish executed tuning review'
+                commit -m 'docs: publish executed tuning and model selection reviews'
             git push origin "HEAD:$REVIEW_BRANCH"
           fi
       - name: Archive tested source

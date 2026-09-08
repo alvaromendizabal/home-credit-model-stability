@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "selection_sha256": "be4b6b7a7468755312128e94aacbaf73a71909350066b5a6ad0a12b141e6c97e",
+  "s3_key": "home-credit-model-stability/model-selection/6645e0b64f12a91519bb5307000d69b5e23527ababa4bd198048b59a88bdba42/reports/be4b6b7a7468755312128e94aacbaf73a71909350066b5a6ad0a12b141e6c97e/selection.json",
+  "source_commit": "6623d00e9118f9847d69c0caaedd71b10e9b32fa",
+  "managed_processing_job": "home-credit-model-selection-20260908-0113",
+  "new_model_fits": 0,
+  "outer_holdout_touched": false
+}
