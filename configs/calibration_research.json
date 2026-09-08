@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "methods": ["uncalibrated", "sigmoid", "isotonic"],
+  "evaluation_folds": [2, 3, 4, 5],
+  "fit_policy": "strictly_earlier_development_oof_folds",
+  "weights": {"tuned": 0.9, "original": 0.1},
+  "max_calibrator_fits": 8,
+  "new_base_model_fits": 0,
+  "holdout_evaluation_allowed": false,
+  "release_promotion_allowed": false,
+  "scope": "Post-release exploratory calibration. Base hyperparameters and blend weights were selected using all development folds, so this is not fully nested unbiased validation.",
+  "probability_clip": 1e-7,
+  "reliability_edges": [0, 0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.15, 0.20, 0.40, 1.0],
+  "sources": {
+    "original": {"bytes":6288679,"object_key":"home-credit-model-stability/model-benchmarks/cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4/objects/30/3088079c4b9b64cb0a72cb072b1e0f9221c3f56e50d3139d5e21a835532ae269","path":"oof/lightgbm.parquet","sha256":"3088079c4b9b64cb0a72cb072b1e0f9221c3f56e50d3139d5e21a835532ae269"},
+    "tuned": {"bytes":6290701,"object_key":"home-credit-model-stability/model-tuning/2e52dd908f2b30a783e37157ae9801e0679cc666/full/trial_006/checkpoints/objects/d3/d37114b5363c6a5c70c74b63ce1951c05dfe23a453b4fe25dccb3a8cab20d343","path":"oof/lightgbm.parquet","sha256":"d37114b5363c6a5c70c74b63ce1951c05dfe23a453b4fe25dccb3a8cab20d343"}
+  }
+}
