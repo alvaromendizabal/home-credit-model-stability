@@ -85,8 +85,10 @@ A successful run prints `MODEL_SELECTION_COMPLETED` and the canonical review loc
 - `reports/model_selection/selection.json`: aggregate metrics, exact weights and provenance.
 - `reports/model_selection/report.html`: self-contained offline review.
 
-The durable run directory under `artifacts/model_selection/<identity>/` and S3 retain
-candidate receipts, figures, execution receipt and logs. Canonical copies are written
+The run directory under `artifacts/model_selection/<identity>/` retains the local notebook
+execution receipt. S3 retains candidate receipts, aggregate evidence, executed notebooks,
+figures and published logs. A lost local notebook receipt triggers inexpensive report
+execution, not model retraining or repeated candidate scoring. Canonical copies are written
 only after all report artifacts are successfully uploaded and verified. Committing the
 real results to GitHub is a separate reviewed results change; a successful local run
 alone does not mean they have appeared on GitHub.
