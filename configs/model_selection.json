@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "region": "us-west-2",
+  "leader": "tuned_lightgbm",
+  "new_model_fits": 0,
+  "expected_rows": 727187,
+  "candidate_budget": 15,
+  "outer_holdout_touched": false,
+  "feature_manifest_sha256": "76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587",
+  "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+  "study": {
+    "key": "home-credit-model-stability/model-tuning/2e52dd908f2b30a783e37157ae9801e0679cc666/full/reports/0de34e51d0a97bd8cd4064931f81135ba3a5299c30e76b3ca1f178f0cb3569dd/study.json",
+    "sha256": "0de34e51d0a97bd8cd4064931f81135ba3a5299c30e76b3ca1f178f0cb3569dd",
+    "selected_trial": "trial_006"
+  },
+  "manifests": {
+    "tuned": {
+      "key": "home-credit-model-stability/model-tuning/2e52dd908f2b30a783e37157ae9801e0679cc666/full/trial_006/checkpoints/manifests/checkpoint-005-22795731c1bcab3f049d56662d71f0c377aba9ea72d6f8e3f80f4fec5e347cc4.json",
+      "sha256": "22795731c1bcab3f049d56662d71f0c377aba9ea72d6f8e3f80f4fec5e347cc4",
+      "completed_model_folds": 5
+    },
+    "benchmark": {
+      "key": "home-credit-model-stability/model-benchmarks/cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4/benchmark-4fb12c48f7af8a9f7f442b2519f17cc0c1eba274c9d34fa6bb76b59c485e58f6.json",
+      "sha256": "4fb12c48f7af8a9f7f442b2519f17cc0c1eba274c9d34fa6bb76b59c485e58f6",
+      "completed_model_folds": 20
+    }
+  },
+  "sources": [
+    {
+      "name": "tuned_lightgbm",
+      "manifest": "tuned",
+      "path": "oof/lightgbm.parquet",
+      "sha256": "d37114b5363c6a5c70c74b63ce1951c05dfe23a453b4fe25dccb3a8cab20d343"
+    },
+    {
+      "name": "lightgbm",
+      "manifest": "benchmark",
+      "path": "oof/lightgbm.parquet",
+      "sha256": "3088079c4b9b64cb0a72cb072b1e0f9221c3f56e50d3139d5e21a835532ae269"
+    },
+    {
+      "name": "xgboost",
+      "manifest": "benchmark",
+      "path": "oof/xgboost.parquet",
+      "sha256": "750b8e958fab9c8bd59d13ef9154b79af1d74e97617f7c22398a8ce83baad371"
+    },
+    {
+      "name": "catboost",
+      "manifest": "benchmark",
+      "path": "oof/catboost.parquet",
+      "sha256": "1167a8b45dc903e5e93c47a5e82f28c851c68955337e9b59d164509a19fabe3e"
+    }
+  ],
+  "selection_scope": "Development-only fixed blends; calibration, nested base-model selection and final holdout remain separate.",
+  "prequential_scope": "Weights chosen from earlier folds only; base-model hyperparameters were selected on all development folds, so this is not unbiased nested validation."
+}

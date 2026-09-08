@@ -15,7 +15,6 @@ from jupyter_client.kernelspec import KernelSpecManager
 from jupyter_client.manager import KernelManager
 from nbclient import NotebookClient
 
-from home_credit.modeling.acceptance import read_json
 from home_credit.modeling.checkpoints import atomic_write, sha256_file
 from home_credit.observability.logging import RunLogger
 
@@ -69,7 +68,8 @@ def execute_notebook(
     receipt_path = receipt_path or root / "artifacts/benchmark_review/notebook.json"
     if receipt_path.is_file() and not force:
         try:
-            receipt = read_json(receipt_path)
+            raw_receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            receipt = raw_receipt if isinstance(raw_receipt, dict) else {}
         except (ValueError, OSError):
             receipt = {}
         if receipt.get("identity") == identity and receipt.get("sha256") == sha256_file(
@@ -84,6 +84,10 @@ def execute_notebook(
         cell.metadata.pop("execution", None)
     runtime = root / "artifacts/runtime/jupyter"
     runtime.mkdir(parents=True, exist_ok=True)
+    search_path = str(runtime / "share/jupyter")
+    search_paths = os.environ.get("JUPYTER_PATH", "").split(os.pathsep)
+    if search_path not in search_paths:
+        os.environ["JUPYTER_PATH"] = os.pathsep.join([search_path, *filter(None, search_paths)])
     install(prefix=str(runtime), kernel_name="home-credit", display_name="Python (Home Credit)")
     manager = KernelManager(
         kernel_name="home-credit",

@@ -1,261 +1,138 @@
 # Home Credit Model Stability
 
-Research-grade credit-risk modeling under temporal distribution shift, built as a reproducible AWS SageMaker portfolio project.
+Credit-risk modeling under temporal distribution shift: point-in-time features,
+expanding-window validation, four model families, controlled feature ablations,
+bounded tuning and reproducible SageMaker execution.
 
-## Latest result and next run
+## Start with the evidence
 
-The feature ablation completed on September 7: **all 20 fits succeeded** and all
-tested feature removals reduced stability. Keep the full **700-feature** model.
-Read the [ablation evidence and executed notebook](reports/feature_ablation/README.md).
+Read [the executed tuning review](notebooks/07_model_tuning.ipynb) for the latest result.
+The [benchmark review](notebooks/05_benchmark_review.ipynb) explains the research question,
+metric and original model comparison; the
+[feature ablation notebook](reports/feature_ablation/06_feature_ablation.ipynb) explains
+why all 700 features were retained. Tables and static figures are embedded for GitHub
+viewing. No AWS account or raw data is required to read the published reviews.
 
-![Feature ablation overview](reports/feature_ablation/overview.svg)
+## Latest completed result
 
-The next implemented stage is [bounded Optuna tuning](docs/model_tuning.md): eight
-new LightGBM candidates x five temporal folds, reusing the accepted control. It has
-UTC progress/heartbeats, a persistent S3 trial ledger, model-fold recovery, duplicate
-writer protection and reports after each trial. Full-data tuning results are pending.
+The September 7 tuning study completed **eight new candidates across five temporal
+folds: 40 new model fits**, plus five reused control folds. The selected LightGBM
+configuration is **`trial_006`**.
+
+| Development diagnostic | Reused control | Tuned LightGBM |
+|---|---:|---:|
+| Mean official fold stability | 0.585188 | **0.601238** |
+| Worst-fold stability | 0.393682 | **0.479200** |
+| Pooled OOF ROC AUC | 0.846894 | **0.849286** |
+| Pooled OOF average precision | 0.204525 | **0.207351** |
+| Pooled OOF Brier score | 0.032425 | **0.032347** |
+| Pooled OOF log loss | 0.126805 | **0.126222** |
+
+The winner improves **three of five folds**, not all five; most of the stability gain
+comes from fold 1. Trial 004 has slightly better Brier and log loss, but trial 006 wins
+the declared stability objective. The [aggregate excerpt](reports/model_tuning/metrics.json)
+identifies the immutable full S3 study and training commit. It is not a new training run.
+
+**These are development-selection results, not final-test or leaderboard claims.**
+Weeks **73-91 remain locked**. Earlier development folds inform early stopping and
+selection; repeated optimization can overfit them.
+
+## What has been completed
+
+The original benchmark evaluated LightGBM, XGBoost, CatBoost and a lightweight logistic
+SGD baseline on five expanding folds. Acceptance verified 70 artifacts and aligned
+OOF predictions for **727,187 cases**. Its
+[metric audit](reports/benchmark/metrics.json) recomputes ranking metrics from unclipped
+predictions; the older acceptance record preserves its historical clipping policy.
+
+The [feature ablation](reports/feature_ablation/README.md) completed 20 model-fold fits.
+Every tested feature-block removal reduced stability, so the tuned model keeps all
+**700 screened features**. More features are not automatically better: candidate blocks
+need point-in-time justification, training-only screening and ablation evidence.
+
+## Run the next stage
+
+The next implemented stage is [development model selection](docs/model_selection.md):
+**15 fixed single-model/blend candidates and zero new Home Credit model fits**, using
+hash-pinned saved predictions. Full-data blend results are not yet published.
+
+Run from the existing persistent SageMaker project:
 
 ```bash
-bash scripts/start_model_tuning.sh --bucket YOUR_ARTIFACT_BUCKET
+bash scripts/start_model_selection.sh --bucket YOUR_ARTIFACT_BUCKET
 ```
 
-The launcher runs quality gates and a separate smoke trial first. See the runbook for
-the background-launch command, recovery behavior, expected runtime and the path to
-final holdout evaluation, Kaggle inference/submission artifacts and a Hugging Face demo.
+The launcher checks persistent storage, reconciles the existing locked environment,
+runs compatibility smoke tests and quality gates, then performs the comparison.
+Compatibility smoke tests fit tiny synthetic models; the completed Home Credit models
+are not retrained. No new AWS compute resource is provisioned.
 
-## Start with the executed review
+Every completed candidate is saved to S3 before the study advances. Rerunning the same
+command restores verified inputs and reuses completed evaluations. A successful run
+writes `notebooks/08_model_selection.ipynb`, aggregate JSON and an offline HTML review,
+with the full run and logs retained locally and in S3. Publishing these real results
+to GitHub is a separate reviewed results change. See the runbook for a detached launch.
 
-Open [05_benchmark_review.ipynb](notebooks/05_benchmark_review.ipynb) directly on GitHub
-for the research question, official metric, model comparison, fold score decomposition,
-weekly population support, calibration, drift limits, and next experiments. Executed
-static figures and tables are included; no AWS account or dataset is needed to read it.
+**Do not restart the completed tuning study just to view its results.**
 
-## Current benchmark
+## Method and safeguards
 
-![Temporal benchmark overview](reports/benchmark/overview.svg)
+Selection uses the mean of five official fold stability scores:
 
-The September 6 development benchmark completed **20 model folds** across four model
-families. Independent acceptance verified **70 artifacts**, recomputed all fold, pooled,
-and weekly metrics, and confirmed aligned out-of-fold predictions for **727,187 cases**.
+`mean weekly Gini + 88 * min(temporal slope, 0) - 0.5 * residual standard deviation`
 
-| Model | Mean fold stability | Worst fold stability | OOF ROC AUC | OOF AP | OOF Brier | OOF log loss |
-|---|---:|---:|---:|---:|---:|---:|
-| LightGBM | 0.585188 | 0.393682 | 0.846894 | 0.204525 | 0.032425 | 0.126805 |
-| XGBoost | 0.558892 | 0.343432 | 0.846576 | 0.204701 | 0.032441 | 0.126887 |
-| CatBoost | 0.546330 | 0.297149 | 0.842745 | 0.201164 | 0.032512 | 0.127740 |
-| Logistic SGD | -0.120990 | -0.587616 | 0.675620 | 0.102616 | 0.036354 | 0.253834 |
+Gini is `2 * ROC AUC - 1`. Worst-fold stability, weekly support, pooled ROC AUC,
+average precision, raw-probability Brier score and log loss provide supporting diagnostics.
+Only log loss clips probabilities to `[1e-7, 1-1e-7]`.
+The [frozen protocol](configs/validation_protocol.json) defines the expanding folds and
+locked holdout. No random train/test shuffle is used for temporal model selection.
 
-These numbers use **unclipped prediction ranks** for the official Gini stability
-formula, ROC AUC, and AP; raw probabilities for Brier; and clipping to `[1e-7, 1-1e-7]`
-only for log loss. The [metric audit](reports/benchmark/metrics.json) was recomputed
-from SHA-256-verified saved predictions. The original
-[acceptance record](reports/benchmark/acceptance.json) preserves its historical clipping
-policy, which slightly changes the logistic baseline's ranking metrics. Boosting stability
-scores and their ordering are unchanged.
+The OOF comparison rejects duplicated/missing case IDs, changed targets or fold/week
+assignments, holdout rows, invalid probabilities and artifact identity mismatches.
+Earlier-fold-only blend-choice diagnostics are explicitly **not unbiased nested
+validation**, because base-model tuning already used all development folds.
 
-**LightGBM is the development leader.** Selection uses mean fold stability, not pooled
-OOF stability. Development folds inform early stopping and selection. Final holdout
-evaluation on weeks 73-91 remains pending; these are not final-test or production claims.
-The boosting models use 700 screened features. The logistic SGD baseline uses the
-first 256 screened features with training-only imputation and standardization; this
-is a lightweight sanity baseline, not an optimized linear-model comparison.
-
-See the [benchmark evidence](reports/benchmark/README.md),
-[machine-readable acceptance](reports/benchmark/acceptance.json), and
-[interactive report](reports/benchmark/report.html). Download the HTML and open it in
-a browser; JavaScript is embedded and no server is required.
-
-### Reproduce the review
+## Reproduce and review
 
 ```bash
 bash scripts/start_here.sh --require-persistent-storage
 uv run --locked python scripts/review_model_benchmark.py
+uv run --locked python scripts/review_model_tuning.py
 ```
 
-The review uses the committed, hash-pinned aggregate evidence. Add
-`--benchmark-dir artifacts/benchmark_acceptance` to recompute metrics from the saved
-OOF predictions. `--force` reexecutes all notebook cells. UTC logs in `logs/` include
-per-cell progress, heartbeats, stage durations, and total runtime. Successful notebooks
-are reused only when source, dependency lock, inputs, and output hashes still match.
-A failed execution preserves the previous successful notebook and receipt. An interrupted
-notebook restarts its inexpensive cells; no model training or download is invoked.
+Reviews use committed aggregate evidence and do not train competition models. Add
+`--force` to reexecute their cells. Valid execution receipts reuse unchanged notebooks;
+failed execution preserves the last successful notebook. Logs show UTC timestamps,
+per-cell progress, stage durations, heartbeats and total runtime.
 
-Report HTML IDs and SVG metadata are deterministic, so regenerating the same report
-under the locked environment does not produce spurious Git changes.
-
-### Reproduce acceptance of the completed run
+To independently restore and verify the accepted benchmark from S3:
 
 ```bash
 bash scripts/start_here.sh --require-persistent-storage \
   --accept-benchmark --bucket YOUR_ARTIFACT_BUCKET
 ```
 
-The command prepares the persistent environment and runs the quality gates before
-restoring the pinned S3 publication into `artifacts/benchmark_acceptance`, checking
-SHA-256 identities, recomputing metrics, and writing `reports/benchmark/`. Bootstrap
-fits tiny synthetic smoke-test models; no benchmark model is retrained and no AWS
-compute resource is created. Startup requires 12 GiB free for installation and reserve;
-the acceptance bundle itself requires approximately 310 MB including its reserve. Repeated
-runs reuse verified downloads. UTC console/JSONL logs include stage timings, a 15-second
-heartbeat, per-fold progress, failures, and total elapsed time.
-Supply the existing bucket locally with `--bucket`, or set `HOME_CREDIT_ARTIFACT_BUCKET`.
-The acceptance policy contains no AWS account ID or account-specific bucket address.
+The environment is locked to Python 3.12.14 and `uv.lock`. `.venv` is a real directory;
+managed Python, caches, artifacts and logs live on the project volume, not `/tmp`.
+Startup requires 12 GiB of free space for installation and reserve. EBS persistence
+is not a backup against deleting the SageMaker space: source history is in GitHub and
+published experiment artifacts are in S3. Credentials and raw loan data are not committed.
 
-To keep startup running after disconnecting the terminal, use this launch command
-from the repository root (replace `YOUR_ARTIFACT_BUCKET`):
+CI runs Ruff, strict mypy, tests with warnings treated as errors, and notebook execution.
+Historical benchmark and ablation evidence are preserved in place. No repair/fix
+filename variants or blanket warning suppression are used.
 
-```bash
-bash <<'BASH'
-set -euo pipefail
-mkdir -p logs
-CONSOLE_LOG="logs/startup-$(date -u +%Y%m%dT%H%M%SZ)-$$.log"
-touch "$CONSOLE_LOG"
-nohup bash scripts/start_here.sh \
-  --require-persistent-storage \
-  --accept-benchmark --bucket YOUR_ARTIFACT_BUCKET \
-  --heartbeat-seconds 15 \
-  >> "$CONSOLE_LOG" 2>&1 < /dev/null &
-STARTUP_PID=$!
-printf 'Startup PID: %s\nLog: %s\n' "$STARTUP_PID" "$CONSOLE_LOG"
-printf 'Ctrl+C stops the viewer; startup continues.\n'
-tail --pid="$STARTUP_PID" -n 30 -F "$CONSOLE_LOG"
-wait "$STARTUP_PID"
-BASH
-```
+## Remaining release work
 
-The log exists before the worker and viewer start. The final `wait` preserves the
-worker's exit status. A terminal disconnect leaves the worker running; a SageMaker
-app stop ends it. Rerunning the command reuses the persistent environment and
-SHA-256-verified downloads, then reruns validation. Completion prints
-`PHASE_5A_ACCEPTANCE_COMPLETED` followed by the `start_here_completed` event.
+Run and inspect the fixed OOF comparison, then freeze remaining model/ensemble/calibration
+choices before evaluating the holdout once. A bounded neural challenger is optional
+research and requires its own compatible environment and evidence.
 
-For an already restored bundle, invoke `scripts/accept_model_benchmark.py` directly
-with the prepared project Python, omit `--download`, and supply `--benchmark-dir PATH`.
-The bundle must contain the pinned `checkpoint_manifest.json`. S3 restoration is
-covered by injected-client tests; acceptance was also executed against all real artifacts.
+Final refit, train/test feature parity, full competition-compatible inference and
+notebook-based submission export remain separate work. The owner must explicitly
+**generate, validate, save and download** a submission from notebook code.
+**Nothing is automatically submitted to Kaggle, and this stage creates no submission CSV.**
 
-The next modeling step is controlled LightGBM/XGBoost tuning and feature-block
-ablation, preceded by investigation of weak folds and the screening adversarial AUC
-of 0.998944. Keep the outer holdout locked until model and calibration choices are frozen.
-
-## Engineering principles
-
-- Python 3.12 with a project-local `uv` environment and committed `uv.lock`.
-- CPU-first modeling with LightGBM, CatBoost, and the CPU-only XGBoost distribution.
-- A separate GPU environment will be introduced later for the neural challenger; CUDA dependencies do not belong in the CPU foundation.
-- Point-in-time-safe feature engineering and locked out-of-time validation.
-- UTC structured logging, stage timings, total runtime, persistent JSONL logs, and heartbeats for long-running stages.
-- Explicit unit and integration tests before expensive experiments.
-- Canonical filenames only. Source history lives in Git, not `fix`, `repair`, `v2`, or `final` filenames.
-- Immutable raw-data manifests and S3 provenance before modeling.
-
-## Start here in SageMaker
-
-From the extracted repository root:
-
-```bash
-bash scripts/start_here.sh
-```
-
-The entry point first performs a dependency-free source-integrity check. This catches missing internal modules, forbidden filenames, Python syntax errors, shell syntax errors, and required dependency mistakes **before** installing the ML environment.
-
-If bootstrap succeeds:
-
-```bash
-bash scripts/connectivity_check.sh
-```
-
-Before any Kaggle download, the project enforces a local storage safety floor. The
-competition download is blocked unless at least 30 GiB of persistent staging capacity is free by default. Override only deliberately with `MIN_STAGING_FREE_GIB=<value>` after verifying an alternate storage plan.
-
-Kaggle is project-managed and invoked through the locked `uv` environment; it does not depend on a global `kaggle` executable.
-
-## CPU foundation
-
-The initial environment includes:
-
-- NumPy / SciPy / pandas
-- Polars / PyArrow
-- scikit-learn
-- LightGBM
-- CatBoost
-- XGBoost CPU
-- Optuna
-- SHAP
-- boto3
-- official Kaggle CLI
-- Ruff / mypy / pytest / coverage / pre-commit
-
-The model smoke gate fits and predicts with LightGBM, CatBoost, and XGBoost on deterministic synthetic data before any Home Credit training begins.
-
-## Project sequence
-
-1. Repository and environment integrity.
-2. AWS/Kaggle/Git connectivity.
-3. Git/GitHub baseline and CI.
-4. Kaggle acquisition and immutable raw-data manifest.
-5. S3 raw snapshot.
-6. Data catalog and schema contracts.
-7. Locked expanding-window validation protocol.
-8. Point-in-time-safe feature system.
-9. Logistic sanity baseline.
-10. LightGBM benchmark.
-11. CatBoost benchmark.
-12. XGBoost benchmark.
-13. Optuna optimization and feature/model ablations.
-14. Separate neural challenger environment.
-15. OOF ensemble, calibration, drift, robustness, SageMaker jobs, MLflow, and final portfolio reporting.
-
-See `PROJECT_PLAN.md` for the detailed roadmap.
-
-
-## External authentication
-
-Kaggle credentials are intentionally not stored in this repository. Authenticate interactively
-inside SageMaker with `uv run --locked kaggle auth login`, then rerun
-`scripts/connectivity_check.sh`. Git author identity is also repository-local configuration rather
-than project source; set `git config user.name` and `git config user.email` before the first commit.
-
-Raw competition files are staged one at a time in `data/staging` and uploaded to the conventional
-SageMaker S3 bucket (`sagemaker-<region>-<account-id>` by default). The ingestion script does not
-require bucket-administration permissions. Every uploaded data object is explicitly encrypted with
-SSE-S3 and carries its SHA-256 digest as object metadata for post-upload verification.
-
-## SageMaker storage layout
-
-Source, `.venv`, managed Python, dependency caches, local checkpoints, logs, and reports
-live on the project volume. `.venv` is a real directory. Managed Python 3.12.14 and
-caches live under `artifacts/runtime`; restored benchmark artifacts live under
-`artifacts/benchmark_acceptance`. The completed model checkpoints also remain in S3.
-
-`scripts/start_here.sh` is the canonical entry point. It logs the actual mounted
-filesystem and free capacity before changing the environment. In SageMaker, supply
-`--require-persistent-storage` to reject container overlay or memory-backed storage.
-A configured 100 GiB space is not evidence of 100 GiB currently mounted or available.
-There is no automatic fallback to `/tmp` when capacity is insufficient.
-
-Historical `.venv` symlinks are detached only after the persistent interpreter is
-available; their old targets are preserved. Healthy persistent environments and
-verified downloads are reused. Partial environment creation is recoverable, and
-installed packages are reconciled to the existing `uv.lock`. The bootstrap lock
-prevents two startup processes from changing the environment simultaneously.
-Startup, dependency installation, quality gates, and acceptance emit UTC events,
-15-second outer heartbeats, stage times, total time, and durable text/JSONL logs.
-After interruption, rerun the same command. Validation checks repeat; completed
-model training and verified artifact downloads do not repeat.
-
-EBS persistence covers stopping/restarting the application and changing instances;
-it is not a backup against deleting the space. GitHub holds source history and S3
-holds published experiment artifacts. Python environments are installed once on the
-space volume; they are reproducible from pinned tools and the committed lockfile.
-
-See [AWS storage behavior](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-updated-jl-user-guide.html)
-and [uv environment configuration](https://docs.astral.sh/uv/concepts/projects/config/#project-environment-path).
-
-## Next experiment: controlled feature ablation
-
-Phase 5B is complete. [Run the LightGBM feature-block ablation](docs/feature_ablation.md)
-to compare a 700-feature control with three predeclared removals on the same five
-temporal folds. The launcher runs quality gates and a capped smoke suite before
-full training, saves each model-fold to S3, and creates an offline HTML report and
-executed notebook. Weeks 73-91 remain locked. Ablation results are pending.
+The [operating contract](AGENTS.md), [tuning record](docs/model_tuning.md),
+[selection runbook](docs/model_selection.md) and [project plan](PROJECT_PLAN.md)
+provide the implementation and research boundaries.
