@@ -24,6 +24,15 @@ jobs:
           enable-cache: true
       - name: Sync locked environment
         run: uv sync --locked --group dev
+      - name: Normalize release candidate source
+        if: github.event_name == 'push' && github.ref == 'refs/heads/feat/validated-model-release'
+        run: |
+          files=()
+          for path in src/home_credit/modeling/release.py src/home_credit/modeling/inference.py src/home_credit/modeling/release_workflow.py src/home_credit/modeling/release_report.py src/home_credit/modeling/selection_report.py scripts/run_model_release.py scripts/review_model_selection.py scripts/review_model_release.py tests/unit/test_model_release.py tests/unit/test_inference.py tests/unit/test_release_workflow.py tests/unit/test_selection_review.py tests/integration/test_release_notebooks.py; do
+            if test -f "$path"; then files+=("$path"); fi
+          done
+          uv run --locked ruff check --fix "${files[@]}"
+          uv run --locked ruff format "${files[@]}"
       - name: Execute canonical tuning review
         run: uv run --locked python scripts/review_model_tuning.py --force
       - name: Run quality gates
@@ -57,35 +66,55 @@ jobs:
               receipt_path=directory / "receipt.json", execution_root=directory,
           )
           PY
+      - name: Execute published selection and release reviews
+        run: |
+          if test -f reports/model_selection/selection.json && test -f scripts/review_model_selection.py; then
+            uv run --locked python scripts/review_model_selection.py --force
+          fi
+          if test -f reports/model_release/evaluation.json && test -f scripts/review_model_release.py; then
+            uv run --locked python scripts/review_model_release.py --force
+          fi
       - name: Preserve executed reviews
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: portfolio-reviews
           path: |
-            notebooks/05_benchmark_review.ipynb
-            notebooks/07_model_tuning.ipynb
+            notebooks/*.ipynb
             artifacts/ci/feature_ablation/06_feature_ablation.ipynb
             reports/benchmark/review.json
             logs/*review*.jsonl
           if-no-files-found: error
-      - name: Publish executed tuning review on feature branches
+      - name: Publish checked canonical source and notebook outputs on feature branches
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feat/')
         env:
           REVIEW_BRANCH: ${{ github.ref_name }}
         run: |
-          git add notebooks/07_model_tuning.ipynb
+          git add notebooks
+          if test "$REVIEW_BRANCH" = feat/validated-model-release; then
+            git add src scripts tests
+            for path in reports/model_selection reports/model_release; do
+              if test -d "$path"; then git add "$path"; fi
+            done
+          fi
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' \
                 -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-                commit -m 'docs: publish executed tuning review'
+                commit -m 'style: normalize checked source and publish executed reviews'
             git push origin "HEAD:$REVIEW_BRANCH"
           fi
-      - name: Archive tested source
-        run: git archive HEAD --format=tar -o repository-source.tar
+      - name: Preserve validation source and locked formatter
+        if: always()
+        run: |
+          git ls-files -z | tar --null --verbatim-files-from -T - -cf repository-source.tar
+          mkdir -p artifacts/ci/tools
+          if test -f .venv/bin/ruff; then cp .venv/bin/ruff artifacts/ci/tools/ruff; fi
       - name: Preserve reproducibility source
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: repository-source
-          path: repository-source.tar
+          path: |
+            repository-source.tar
+            artifacts/ci/tools/ruff
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 1
