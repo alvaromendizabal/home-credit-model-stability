@@ -13,7 +13,6 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: write
-      id-token: write
     steps:
       - name: Configure Git default branch
         run: git config --global init.defaultBranch main
@@ -25,19 +24,14 @@ jobs:
           enable-cache: true
       - name: Sync locked environment
         run: uv sync --locked --group dev
-      - name: Normalize candidate source before strict validation
-        if: github.event_name == 'push' && github.ref == 'refs/heads/feat/validated-model-release'
-        run: |
-          uv run --locked ruff format src scripts tests
-          uv run --locked ruff check --fix src scripts tests
-      - name: Restore verified aggregate evidence with read-only OIDC
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/feat/validated-model-release' || github.ref == 'refs/heads/main')
-        env:
-          HOME_CREDIT_EVIDENCE_ROLE: arn:aws:iam::560403859723:role/HomeCreditPortfolioEvidenceRead
-          HOME_CREDIT_ARTIFACT_BUCKET: sagemaker-us-west-2-560403859723
-        run: uv run --locked python scripts/restore_portfolio_evidence.py
       - name: Execute canonical tuning review
         run: uv run --locked python scripts/review_model_tuning.py --force
+      - name: Execute selection review before linting generated notebook code
+        run: uv run --locked python scripts/review_model_selection.py --force
+      - name: Execute feature, frozen release and submission reviews
+        run: |
+          uv run --locked python scripts/review_model_release.py --force
+          uv run --locked python scripts/review_submission.py --force
       - name: Run quality gates
         env:
           HOME_CREDIT_NOTEBOOK_INTEGRATION: "1"
@@ -69,50 +63,66 @@ jobs:
               receipt_path=directory / "receipt.json", execution_root=directory,
           )
           PY
-      - name: Execute published selection and release reviews
+      - name: Prove verified selection review resume
         run: |
-          if test -f reports/model_selection/selection.json && test -f scripts/review_model_selection.py; then
-            uv run --locked python scripts/review_model_selection.py --force
-          fi
-          if test -f reports/model_release/evaluation.json && test -f scripts/review_model_release.py; then
-            uv run --locked python scripts/review_model_release.py --force
-          fi
+          uv run --locked python - <<'PY'
+          from pathlib import Path
+          from scripts.review_model_selection import review
+          if not review(Path.cwd()):
+              raise RuntimeError("Unchanged selection notebook was not reused")
+          print("MODEL_SELECTION_REVIEW_REUSE_VERIFIED")
+          PY
+      - name: Verify published selection is reproducible
+        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+        run: git diff --exit-code -- notebooks/08_model_selection.ipynb reports/model_selection
+      - name: Verify published release is reproducible
+        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+        run: git diff --exit-code -- notebooks/02_feature_engineering.ipynb notebooks/09_model_release.ipynb notebooks/10_submission.ipynb reports/model_release/publication.json
+      - name: Prove unchanged portfolio reviews resume
+        run: |
+          uv run --locked python - <<'PY'
+          from pathlib import Path
+          from home_credit.modeling.portfolio_report import review_portfolio
+          from scripts.review_submission import review
+          assert all(review_portfolio(Path.cwd()).values())
+          assert review(Path.cwd())
+          print("PORTFOLIO_NOTEBOOK_REUSE_VERIFIED")
+          PY
       - name: Preserve executed reviews
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: portfolio-reviews
           path: |
-            notebooks/*.ipynb
+            notebooks/05_benchmark_review.ipynb
+            notebooks/07_model_tuning.ipynb
+            notebooks/08_model_selection.ipynb
+            notebooks/02_feature_engineering.ipynb
+            notebooks/09_model_release.ipynb
+            notebooks/10_submission.ipynb
             artifacts/ci/feature_ablation/06_feature_ablation.ipynb
             reports/benchmark/review.json
+            reports/model_selection
+            reports/model_release
             logs/*review*.jsonl
           if-no-files-found: error
-      - name: Publish checked canonical source and notebook outputs on feature branches
+      - name: Publish executed reviews on feature branches
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feat/')
         env:
           REVIEW_BRANCH: ${{ github.ref_name }}
         run: |
-          git add notebooks
-          if test "$REVIEW_BRANCH" = feat/validated-model-release; then
-            git add src scripts tests
-            for path in reports/model_selection reports/model_release; do
-              if test -d "$path"; then git add "$path"; fi
-            done
-          fi
+          git add notebooks reports/model_selection reports/model_release/publication.json
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' \
                 -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-                commit -m 'style: normalize checked source and publish executed reviews'
+                commit -m 'docs: publish executed tuning and model selection reviews'
             git push origin "HEAD:$REVIEW_BRANCH"
           fi
-      - name: Preserve validated source
-        if: always()
-        run: git ls-files -z | tar --null --verbatim-files-from -T - -cf repository-source.tar
+      - name: Archive tested source
+        run: git archive HEAD --format=tar -o repository-source.tar
       - name: Preserve reproducibility source
-        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: repository-source
           path: repository-source.tar
           if-no-files-found: error
-          retention-days: 1
+          retention-days: 7

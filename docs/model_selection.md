@@ -1,6 +1,6 @@
 # Development model selection
 
-## Why this is next
+## Completed development comparison
 
 The completed tuning study selected `trial_006`: mean fold stability **0.6012378499**,
 versus **0.5851883724** for the reused control. It wins three of five folds; most of the
@@ -9,11 +9,37 @@ The [executed tuning review](../notebooks/07_model_tuning.ipynb) preserves the f
 comparison and the control/winner fold comparison. Its JSON is a documented aggregate
 excerpt; the complete study remains in immutable S3 storage.
 
-Compare a fixed grid of saved predictions before spending time on more model training.
+The 15-candidate fixed comparison is complete. Mean fold stability selects 90% tuned
+LightGBM and 10% original LightGBM: **0.6018988903**, only **0.0006610403** above the
+tuned single model. Four folds improve, but the worst fold declines from **0.479200**
+to **0.472514**. This is a small development gain, not proof of a robust improvement.
+The [executed selection notebook](../notebooks/08_model_selection.ipynb) shows the
+complete evidence and that tradeoff.
+
+A bounded managed SageMaker run verified the saved comparison and executed the
+original review without new model fitting. It reused all 15 completed candidate
+records. The later GitHub publication retains the exact S3 aggregate bytes and adds
+interactive Plotly charts with static GitHub fallbacks; its rendering has separate
+provenance from the original scoring identity.
+
+## Read or reproduce without AWS
+
+```bash
+uv run --locked python scripts/review_model_selection.py
+```
+
+This verifies the committed aggregate digest, scoring-source/configuration/lock
+lineage, all 75 candidate-fold records, selected weights and population coverage.
+Add `--force` to reexecute the four code cells. An unchanged successful notebook is
+reused only when its execution receipt and dependency/output hashes match. Failed
+execution does not replace the previous canonical notebook. The offline HTML embeds
+Plotly JavaScript, and CI checks deterministic reproduction and receipt reuse.
+This path requires no AWS credentials, raw loan records or model fitting.
+
 Do not rerun `start_model_tuning.sh` to read the completed study. Its training identity
 includes the source commit; a new commit is not permission to redo the completed fits.
 
-## Run in the existing SageMaker project
+## Restore or verify the S3-backed study in SageMaker
 
 ```bash
 bash scripts/start_model_selection.sh --bucket YOUR_ARTIFACT_BUCKET
@@ -81,7 +107,7 @@ already committed candidate ledger remains authoritative in S3.
 
 A successful run prints `MODEL_SELECTION_COMPLETED` and the canonical review location:
 
-- `notebooks/08_model_selection.ipynb`: executed tables and static figures.
+- `notebooks/08_model_selection.ipynb`: executed tables and Plotly/static figures.
 - `reports/model_selection/selection.json`: aggregate metrics, exact weights and provenance.
 - `reports/model_selection/report.html`: self-contained offline review.
 
@@ -101,8 +127,13 @@ must not be conflated.
 
 ## Completion boundary
 
-The full-data blend comparison must actually run before choosing a new incumbent.
-Then freeze the remaining modeling decisions and evaluate weeks 73-91 once. A neural
+The full-data blend comparison has completed; do not restart tuning or model fits
+merely to view it. A temporally controlled calibration experiment is the next useful
+probability-estimation test: the selected model underpredicts some middle-risk bins.
+Use earlier development folds for calibrator fitting, evaluate later folds, and
+preserve the official ranking objective. Do not fit and evaluate a calibrator on the
+same OOF rows. Freeze the remaining modeling decisions and establish train/test
+feature parity before evaluating weeks 73-91 once. A neural
 challenger is optional research, not a prerequisite to reporting the completed benchmark,
 and must use a separate compatible environment and its own bounded evaluation.
 

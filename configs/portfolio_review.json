@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "release_key": "80f9edcb4d995cfdcb7ea3841aaf1f67c6bb31c386dc75f7bd4c3e9168192c79",
+  "artifacts": [
+    {
+      "path": "reports/model_release/state.json",
+      "key": "home-credit-model-stability/model-release/80f9edcb4d995cfdcb7ea3841aaf1f67c6bb31c386dc75f7bd4c3e9168192c79/history/8eb96048ab8499639100193f87f1c2319fd156160b2496fd34112618e66f7162.json",
+      "sha256": "8eb96048ab8499639100193f87f1c2319fd156160b2496fd34112618e66f7162"
+    },
+    {
+      "path": "reports/model_release/evaluation.json",
+      "key": "home-credit-model-stability/model-release/80f9edcb4d995cfdcb7ea3841aaf1f67c6bb31c386dc75f7bd4c3e9168192c79/checkpoints/42fbba1bfa0ee8b15991e85aa5a7b8171d5c69a3d8b29e53c19e24bf1bbf8152/evaluation.json",
+      "sha256": "42fbba1bfa0ee8b15991e85aa5a7b8171d5c69a3d8b29e53c19e24bf1bbf8152"
+    },
+    {
+      "path": "reports/model_release/holdout_intent.json",
+      "key": "home-credit-model-stability/holdout/47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20/intent.json",
+      "sha256": "2c9b7101cae4602862009f0652fad9efc350c21f14e3bf61a68cf4060e90c5be"
+    },
+    {
+      "path": "reports/feature_ablation/feature_screen.json",
+      "key": "home-credit-model-stability/model-benchmarks/cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4/objects/9c/9cd20cf4a831f3acc8dcb73b8afedb281b8a61cd13758f87a0d87f57322e9c2d",
+      "sha256": "9cd20cf4a831f3acc8dcb73b8afedb281b8a61cd13758f87a0d87f57322e9c2d"
+    },
+    {
+      "path": "reports/feature_ablation/feature_manifest.json",
+      "key": "home-credit-model-stability/feature-snapshots/76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587/feature_manifest.json",
+      "sha256": "76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587"
+    }
+  ]
+}

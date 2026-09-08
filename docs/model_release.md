@@ -36,3 +36,27 @@ Competition execution must recompute features from the test files supplied to th
 
 The configuration is a frozen plan, not evidence that these remaining stages have run.
 Published execution receipts and reports, not this document, determine completion.
+
+## Observed execution
+
+The planned stages subsequently completed in managed SageMaker job
+`home-credit-model-release-20260908-0240`, at source
+`83ff36e2d324c8f72c99d024ba34720c69c771e1`. The frozen evaluation was recorded at
+2026-09-08 03:04:22 UTC, and the full release completed at 03:31:07 UTC.
+`reports/model_release/state.json` and `evaluation.json` preserve that original record.
+
+Official holdout stability is 0.7296737944587718 on 203,345 cases. Both distinct
+all-label native models completed, raw parity passed for 700 features on ten public
+examples, and a complete rerun reused the saved holdout, models and prediction batches.
+The raw-data examples are not hidden-test execution evidence.
+
+The feature and release reviews run from committed aggregate evidence with no cloud
+access. `scripts/verify_model_release.py --bucket ...` independently restores and
+hash-checks all release members, recomputes saved prediction metrics, runs packaged
+raw inference and executes notebook 10 with export disabled. It never refits a model.
+
+For owner-controlled CSV generation, extract the verified `inference_bundle.zip`,
+set the three input paths in notebook 10 and enable its generation flag. On Kaggle,
+attach the model bundle and use that run's competition test files and sample schema.
+The notebook can import the matching source included in the bundle without requiring
+a repository checkout. The execution environment still needs compatible dependencies.

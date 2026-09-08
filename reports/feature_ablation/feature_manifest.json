@@ -1,0 +1,793 @@
+{
+  "blocks": [
+    {
+      "columns": 279,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "applprev",
+      "feature_columns": 278,
+      "output": "/tmp/home-credit-features/blocks/test/applprev_depth1.parquet",
+      "output_bytes": 127209,
+      "output_sha256": "bd86331d88ece631eed7070fd3553e5da157c8a77f155cf408e7baed741084dc",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 2,
+      "source_files": [
+        "parquet_files/test/test_applprev_1_0.parquet",
+        "parquet_files/test/test_applprev_1_1.parquet",
+        "parquet_files/test/test_applprev_1_2.parquet"
+      ],
+      "source_sha256": [
+        "7f1492ff28f4c072f4ac62ea0386411affbbef127f522d345e3bb3217d7c0c6a",
+        "644680d23a973f8dc2185fbd8e8cdd4c0b04adc61b8d12cfcde1238a2129e11b",
+        "25ad7b27992e4fd3dc2c96576513b224d20cd463714747573f3bbffb40cd47f3"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 23,
+      "depth": 2,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "applprev",
+      "feature_columns": 22,
+      "output": "/tmp/home-credit-features/blocks/test/applprev_depth2.parquet",
+      "output_bytes": 10559,
+      "output_sha256": "c5d93794cd8cdf0954eaeab5c9371796eee938f07715fb5c40875f0b227a1efd",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 1,
+      "source_files": [
+        "parquet_files/test/test_applprev_2.parquet"
+      ],
+      "source_sha256": [
+        "a4014d8023b5bd4a95ea63d02ab69eb3d14987047d3ecda35c4caef212c7fef4"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 8,
+      "depth": 0,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "base",
+      "feature_columns": 7,
+      "output": "/tmp/home-credit-features/blocks/test/base_depth0.parquet",
+      "output_bytes": 3201,
+      "output_sha256": "35befb967d98878abcb3f281a0b8b72b7fe6214865ee3b5c0475966ab9e8293c",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 10,
+      "source_files": [
+        "parquet_files/test/test_base.parquet"
+      ],
+      "source_sha256": [
+        "2309d8803ff24d1d5e9f0a13887d9e64a237fcac2be303bc58f823226c3b462e"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 571,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "credit_bureau_a",
+      "feature_columns": 570,
+      "output": "/tmp/home-credit-features/blocks/test/credit_bureau_a_depth1.parquet",
+      "output_bytes": 282848,
+      "output_sha256": "8f3d3af7b7fd3d91d2e96207df6411a26e54c8df84747fbc7d4401f76a01d011",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 4,
+      "source_files": [
+        "parquet_files/test/test_credit_bureau_a_1_0.parquet",
+        "parquet_files/test/test_credit_bureau_a_1_1.parquet",
+        "parquet_files/test/test_credit_bureau_a_1_2.parquet",
+        "parquet_files/test/test_credit_bureau_a_1_3.parquet",
+        "parquet_files/test/test_credit_bureau_a_1_4.parquet"
+      ],
+      "source_sha256": [
+        "45230f1bc066362d891e48dd7cbc142c7e58da23bad7d57934b2536e3be46ae4",
+        "89a547f6ff138b743898c2983c939899c7efae222eadf91a07ee10f0aa5a037f",
+        "8c0bd95ba3555ee1e9b85ae9a287b8d7a19b0b87c0a73d44f28eeec6794daa71",
+        "d13d6e75446cb7b91d3d497690fb5760a234ab60ed3c69d09da8214bc22fc290",
+        "296dad0ed99cfc14e3680fc64535ae88f7e2e542bf716b7be2d0f3c68049c262"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 108,
+      "depth": 2,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "credit_bureau_a",
+      "feature_columns": 107,
+      "output": "/tmp/home-credit-features/blocks/test/credit_bureau_a_depth2.parquet",
+      "output_bytes": 55097,
+      "output_sha256": "66d824a4de785f6b5befd35e5c89f6cdffaa41b15502c260b58dc96162ec6e42",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 8,
+      "source_files": [
+        "parquet_files/test/test_credit_bureau_a_2_0.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_1.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_10.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_11.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_2.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_3.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_4.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_5.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_6.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_7.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_8.parquet",
+        "parquet_files/test/test_credit_bureau_a_2_9.parquet"
+      ],
+      "source_sha256": [
+        "719bd3dbabf69131c10cc8f340034e18739e1e035dd8eb887e98a9fbfd3567e7",
+        "0376c329f73f48fd1add843466ca1e3baaffc8f1d2e22796c73d5a31970b9fb8",
+        "5092133851396bfa0fc8784c54d8696da84f38db98f08c2110b0ff31d1d80944",
+        "e34c7a6c6748fc282d0e2d4b95a301f60d4c778833f1cec0a2938243f8cea74d",
+        "318828d2995f19ed4b6408a155d1861c37eb5feb58cd098ba638ededc6697ae4",
+        "4b4e8e717d3fda0466b5b2090f67eb2d1c90bfa3afbe0973f8da2fced59914a4",
+        "9eb2d95be77e9a9f649b8ed886efae83cab137b8758cd00588c1dfc0887cb3df",
+        "d9a1aa0daed22e8e124dd4563ef662d5919a3dcf11c16c55dfcf75e6b24e0f43",
+        "7f85c4a1a7d9f6c84f8faa04f808486f4b9d56300798c2b3a08f80138f40193f",
+        "677fd5135372d3202c05534879da265e68072861e0e725136a06f2755c2ad4dd",
+        "b13d289cb1febd53192916e95df2ee0b877a55e557fab430fa567dd4ba1789de",
+        "884e74a898a287f8affd4217f2d024919ab1d2f4758d09d968c6a565cfa75ad4"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 299,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "credit_bureau_b",
+      "feature_columns": 298,
+      "output": "/tmp/home-credit-features/blocks/test/credit_bureau_b_depth1.parquet",
+      "output_bytes": 52845,
+      "output_sha256": "73981727c810624aa20a061eb8362d461127e29ef52d2da4928de309aead6b0d",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 0,
+      "source_files": [
+        "parquet_files/test/test_credit_bureau_b_1.parquet"
+      ],
+      "source_sha256": [
+        "8b45d825c288155858b288b62f457abdce4d259e17288b17d1d139be832fc73e"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 33,
+      "depth": 2,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "credit_bureau_b",
+      "feature_columns": 32,
+      "output": "/tmp/home-credit-features/blocks/test/credit_bureau_b_depth2.parquet",
+      "output_bytes": 5858,
+      "output_sha256": "62c2b519300619f912dcd52ad382a290563b645249fbd01f71d65e6ebcd2e250",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 0,
+      "source_files": [
+        "parquet_files/test/test_credit_bureau_b_2.parquet"
+      ],
+      "source_sha256": [
+        "54f81b5582442f79e1f2d2a49e1350ae9754065eb7ebb2bcc486fc004a9673e9"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 38,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "debitcard",
+      "feature_columns": 37,
+      "output": "/tmp/home-credit-features/blocks/test/debitcard_depth1.parquet",
+      "output_bytes": 6529,
+      "output_sha256": "887e9e7ed352774b95419892015aa6851980b9df7755f06c9170d705c13de44f",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 0,
+      "source_files": [
+        "parquet_files/test/test_debitcard_1.parquet"
+      ],
+      "source_sha256": [
+        "f12a1c48e3511b38ea292650e8f7b9bc0d864bcbab5e2a853f63f45176286a78"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 35,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "deposit",
+      "feature_columns": 34,
+      "output": "/tmp/home-credit-features/blocks/test/deposit_depth1.parquet",
+      "output_bytes": 5648,
+      "output_sha256": "762e71f0b591d9ae7e9367e1c3c8a9ef91005d4657f45da8bde745982aa7b546",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 0,
+      "source_files": [
+        "parquet_files/test/test_deposit_1.parquet"
+      ],
+      "source_sha256": [
+        "2319927d5ffc84ba49a1dea1f036447cdb8b25417e1d99ad062463ac289f5c6e"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 41,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "other",
+      "feature_columns": 40,
+      "output": "/tmp/home-credit-features/blocks/test/other_depth1.parquet",
+      "output_bytes": 18642,
+      "output_sha256": "2861dad7e7fdf2213de256a52d48b3e4a7648ac198b425a2189858bdcd057298",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 2,
+      "source_files": [
+        "parquet_files/test/test_other_1.parquet"
+      ],
+      "source_sha256": [
+        "19103742766d01379804f1f37ab079f03ca9eda728294a52387433f7b0ee0dfd"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 625,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "person",
+      "feature_columns": 624,
+      "output": "/tmp/home-credit-features/blocks/test/person_depth1.parquet",
+      "output_bytes": 303675,
+      "output_sha256": "79f80f077bd1f41dac32ec3d503eb697a11b85760928a0b2355bec7474a73d1c",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 6,
+      "source_files": [
+        "parquet_files/test/test_person_1.parquet"
+      ],
+      "source_sha256": [
+        "e8a8b54e6dabbc082ba737370313c2335a4eeacac6d6957e5a27cb3e7b571f74"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 160,
+      "depth": 2,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "person",
+      "feature_columns": 159,
+      "output": "/tmp/home-credit-features/blocks/test/person_depth2.parquet",
+      "output_bytes": 80280,
+      "output_sha256": "c70803538b157d7e35aa22ead4804e154164ce034bc8508b8abce22f92e1ad1c",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 3,
+      "source_files": [
+        "parquet_files/test/test_person_2.parquet"
+      ],
+      "source_sha256": [
+        "9ab40bd2aeb0ec6306e55963b3b1ce5df52202fe40464a4c14d4141ae07662c0"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 170,
+      "depth": 0,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "static",
+      "feature_columns": 169,
+      "output": "/tmp/home-credit-features/blocks/test/static_depth0.parquet",
+      "output_bytes": 75605,
+      "output_sha256": "6fb3ea1d5608611bf642d400906cd0013af692d5d5d469a2d9da28dfe796436b",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 10,
+      "source_files": [
+        "parquet_files/test/test_static_0_0.parquet",
+        "parquet_files/test/test_static_0_1.parquet",
+        "parquet_files/test/test_static_0_2.parquet"
+      ],
+      "source_sha256": [
+        "871b653abc28a1bfcfd9d38987fb5324dd13a6a3e2aa5b89c432293e2adc0630",
+        "fcbfd21d6b3d82abd771db073e3fdbc9c861c567c19de13c8a18cfc5e7f2d456",
+        "95be454ec34319165f42f3fa9331e9c0f7141eebc0e4d23871da574f4b9e55dc"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 55,
+      "depth": 0,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "static_cb",
+      "feature_columns": 54,
+      "output": "/tmp/home-credit-features/blocks/test/static_cb_depth0.parquet",
+      "output_bytes": 20981,
+      "output_sha256": "40563057e12d7701634fcd1aa8cd2b9886f070ba533a797f77ff949e69d31fd1",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 10,
+      "source_files": [
+        "parquet_files/test/test_static_cb_0.parquet"
+      ],
+      "source_sha256": [
+        "40db6c7c2514356224de81b6ffa89e8a58b94e84b479382880bc234a7e846c07"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 29,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "tax_registry_a",
+      "feature_columns": 28,
+      "output": "/tmp/home-credit-features/blocks/test/tax_registry_a_depth1.parquet",
+      "output_bytes": 5166,
+      "output_sha256": "b32b34129c1225971770ebe58cf63dfd5a28ff4c1eda3f5267dda4d37d9a1498",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 0,
+      "source_files": [
+        "parquet_files/test/test_tax_registry_a_1.parquet"
+      ],
+      "source_sha256": [
+        "3c4d2e5a262ea04bda3c8f7959e9bcb80026f4d75578c169e923e162ffd6146d"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 29,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "tax_registry_b",
+      "feature_columns": 28,
+      "output": "/tmp/home-credit-features/blocks/test/tax_registry_b_depth1.parquet",
+      "output_bytes": 13940,
+      "output_sha256": "88c475926004b0282df387085968e699f60e7a59dd5ca1c7b40c9c7ed1391bdb",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 2,
+      "source_files": [
+        "parquet_files/test/test_tax_registry_b_1.parquet"
+      ],
+      "source_sha256": [
+        "98f7948e37176dc3de35824068f41c5c06edad82c677c275c7986c0a57bd522b"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 29,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "tax_registry_c",
+      "feature_columns": 28,
+      "output": "/tmp/home-credit-features/blocks/test/tax_registry_c_depth1.parquet",
+      "output_bytes": 5164,
+      "output_sha256": "20967953b98382985d188b2e197fc5ecd699233cbff8dd422fd44652a2d6cbd9",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 0,
+      "source_files": [
+        "parquet_files/test/test_tax_registry_c_1.parquet"
+      ],
+      "source_sha256": [
+        "6072fd2e1811cd84de8e9fede8ebd8194d3dd4e27ea3cdfa0df90897d81c7821"
+      ],
+      "split": "test",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 279,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "applprev",
+      "feature_columns": 278,
+      "output": "/tmp/home-credit-features/blocks/train/applprev_depth1.parquet",
+      "output_bytes": 330751074,
+      "output_sha256": "618d656798500b8ab398ab1d5d9c03844ea2a03b54157b98abd8cf498596cd8c",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 1221522,
+      "source_files": [
+        "parquet_files/train/train_applprev_1_0.parquet",
+        "parquet_files/train/train_applprev_1_1.parquet"
+      ],
+      "source_sha256": [
+        "0301380ee0092b0d3215329896b850e6321ff1fc73ff889c07778c7034472dee",
+        "cae63fdb5d8de8ba0c61eca8a9f15be4d15d24e320bf3ad8bc1c78f877d1a5d2"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 23,
+      "depth": 2,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "applprev",
+      "feature_columns": 22,
+      "output": "/tmp/home-credit-features/blocks/train/applprev_depth2.parquet",
+      "output_bytes": 11853162,
+      "output_sha256": "71699a1b716756a1dc23bed3ec3303917f5f5496ce0ef6bf2fbdb91c2184b2b3",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 1221522,
+      "source_files": [
+        "parquet_files/train/train_applprev_2.parquet"
+      ],
+      "source_sha256": [
+        "153dbbd225a9b3846666fb78f75a1191ba322b9ac93994b8e4b3fe92cfd15246"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 9,
+      "depth": 0,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "base",
+      "feature_columns": 8,
+      "output": "/tmp/home-credit-features/blocks/train/base_depth0.parquet",
+      "output_bytes": 2110875,
+      "output_sha256": "42fd15127ed0564bf1999e0a222b0adb29424bb7e086fac747c9789d9588c3d8",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 1526659,
+      "source_files": [
+        "parquet_files/train/train_base.parquet"
+      ],
+      "source_sha256": [
+        "29d94662545eece908f20e44e6592336c9c40916dcfdad7735de92b8e9edf908"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 571,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "credit_bureau_a",
+      "feature_columns": 570,
+      "output": "/tmp/home-credit-features/blocks/train/credit_bureau_a_depth1.parquet",
+      "output_bytes": 668432973,
+      "output_sha256": "26714ca436003ac9243348ae248f356aab5f5baba9904c2a20b70a448a257aed",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 1386273,
+      "source_files": [
+        "parquet_files/train/train_credit_bureau_a_1_0.parquet",
+        "parquet_files/train/train_credit_bureau_a_1_1.parquet",
+        "parquet_files/train/train_credit_bureau_a_1_2.parquet",
+        "parquet_files/train/train_credit_bureau_a_1_3.parquet"
+      ],
+      "source_sha256": [
+        "b8e29ea89da103ce50a86d3fadd24bcc9e1523b3f3d7a1fe9dedde172fee1b00",
+        "5f3c4b28e09685fbcf23e0baaac1523af96734934ab6723e5c8e8afbd7764aaf",
+        "931908b33e0c3d675f88b7ad6e134f38ffd8b838e0d906b1284f795576d545fc",
+        "b9d4f5803ecb24311fd0f2a9372629ea05262f6429070e3239be6240761a310b"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 108,
+      "depth": 2,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "credit_bureau_a",
+      "feature_columns": 107,
+      "output": "/tmp/home-credit-features/blocks/train/credit_bureau_a_depth2.parquet",
+      "output_bytes": 117761860,
+      "output_sha256": "be83d3d7f983a114433270388712fe6f16efbebbd63ab49f9d1c09b873836457",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 1385288,
+      "source_files": [
+        "parquet_files/train/train_credit_bureau_a_2_0.parquet",
+        "parquet_files/train/train_credit_bureau_a_2_1.parquet",
+        "parquet_files/train/train_credit_bureau_a_2_10.parquet",
+        "parquet_files/train/train_credit_bureau_a_2_2.parquet",
+        "parquet_files/train/train_credit_bureau_a_2_3.parquet",
+        "parquet_files/train/train_credit_bureau_a_2_4.parquet",
+        "parquet_files/train/train_credit_bureau_a_2_5.parquet",
+        "parquet_files/train/train_credit_bureau_a_2_6.parquet",
+        "parquet_files/train/train_credit_bureau_a_2_7.parquet",
+        "parquet_files/train/train_credit_bureau_a_2_8.parquet",
+        "parquet_files/train/train_credit_bureau_a_2_9.parquet"
+      ],
+      "source_sha256": [
+        "053c2269990eabd6fe26a888409e9f6334109b4a933591bde0ad09801beb715f",
+        "18f30c8bb9f781488f4a871fe0b6ccee82f1e79fad665fc4850708be855ec6db",
+        "4913d6516000587f15addbbb8f80a6fdcc41a2c17a3ba14c731ede392f608323",
+        "c36e8952d3ffedef387e0a2f6cac233aab6121cea322820a8fb6df1083598696",
+        "55de63492b08a48016f86f58a2d3418deb3685c35a1eae041661566ca988d1e9",
+        "6262695f7ae7631936611a889eefee80f355f8bd867dde93e22b94816bb7db50",
+        "92e20fe1e772353c2cc1fca5b934fe3066d729bc774702f8be79527f08324fe8",
+        "720fc7c9bc407d498f22cc6de83b38887058874333c4273b373672e0caec9a53",
+        "80779c277c1d336f935a27052a3fefbdb43170dd7ba590abf5d88c9f28b5bc56",
+        "f639dc8b7c896e6c972b3e7fbc84a2eb06aceb44f672cbaeb8c734e770b68be1",
+        "882177fa0b1cb55000980d849e924d79a7232f46f2e93ad7af5cc1215cfffac4"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 299,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "credit_bureau_b",
+      "feature_columns": 298,
+      "output": "/tmp/home-credit-features/blocks/train/credit_bureau_b_depth1.parquet",
+      "output_bytes": 12673999,
+      "output_sha256": "581fed73eb23ece3f0e3020a189ce2eea4535733626716b3f7241733e50753ab",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 36500,
+      "source_files": [
+        "parquet_files/train/train_credit_bureau_b_1.parquet"
+      ],
+      "source_sha256": [
+        "a4842614f688e939486a303e0bbd305ab3ffe952b2efacc7a8898f98d95128ff"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 33,
+      "depth": 2,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "credit_bureau_b",
+      "feature_columns": 32,
+      "output": "/tmp/home-credit-features/blocks/train/credit_bureau_b_depth2.parquet",
+      "output_bytes": 1421953,
+      "output_sha256": "655586cb3e414063c64c58faff5d045f59980b7f4862b96753471af5a75554a1",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 36447,
+      "source_files": [
+        "parquet_files/train/train_credit_bureau_b_2.parquet"
+      ],
+      "source_sha256": [
+        "9cd22472c28a2714e2ba4ba001ff0cb0ea6b78462e9ab42d32b8959941c0083f"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 38,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "debitcard",
+      "feature_columns": 37,
+      "output": "/tmp/home-credit-features/blocks/train/debitcard_depth1.parquet",
+      "output_bytes": 2022158,
+      "output_sha256": "32ebc206538eea497f8cff1b4b9f6bf6003ca6f112258cdc1d1ae3bb963f3357",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 111772,
+      "source_files": [
+        "parquet_files/train/train_debitcard_1.parquet"
+      ],
+      "source_sha256": [
+        "4f1d81bd55075dff22780fe6f453dd7f2f91087f58dd1651d427f9d89ce15dbf"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 35,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "deposit",
+      "feature_columns": 34,
+      "output": "/tmp/home-credit-features/blocks/train/deposit_depth1.parquet",
+      "output_bytes": 4236142,
+      "output_sha256": "181378c60e5816b3538ff1827eb4b3ba42a17f41e2060e2510949e2a1c53d90d",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 105111,
+      "source_files": [
+        "parquet_files/train/train_deposit_1.parquet"
+      ],
+      "source_sha256": [
+        "845fa0b14c3614b4f4c37891ede924414b035e5d6c04a2a6d50a5976dcdd6996"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 41,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "other",
+      "feature_columns": 40,
+      "output": "/tmp/home-credit-features/blocks/train/other_depth1.parquet",
+      "output_bytes": 2366152,
+      "output_sha256": "ad52f1742b6bf4f740aa06e0dbba287fbef5f03cded1f7586993fd4c0cab2692",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 51109,
+      "source_files": [
+        "parquet_files/train/train_other_1.parquet"
+      ],
+      "source_sha256": [
+        "a84aaf075bc3dd115c114bd80ed6d37f824adba0ce5829c7fb1cdd22c77af21e"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 625,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "person",
+      "feature_columns": 624,
+      "output": "/tmp/home-credit-features/blocks/train/person_depth1.parquet",
+      "output_bytes": 179347009,
+      "output_sha256": "221a2cb3b043eb9e6ac33407327f50cbb2184ab984868e8ae5406fcc6e0df5d4",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 1526659,
+      "source_files": [
+        "parquet_files/train/train_person_1.parquet"
+      ],
+      "source_sha256": [
+        "81fcdb5596d8f7474a8a57a5bfa7184b5d179330d3479bd83f17a9b5a59748de"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 160,
+      "depth": 2,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "person",
+      "feature_columns": 159,
+      "output": "/tmp/home-credit-features/blocks/train/person_depth2.parquet",
+      "output_bytes": 12119896,
+      "output_sha256": "7a09b21b52863b7387e3886a2a8d239796b09ed205846a1c0aef11107df2db9a",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 1435105,
+      "source_files": [
+        "parquet_files/train/train_person_2.parquet"
+      ],
+      "source_sha256": [
+        "c295eb898df66fde0a629c4461b9cd6bd2468b80e78706d60f7700bc894eb032"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 170,
+      "depth": 0,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "static",
+      "feature_columns": 169,
+      "output": "/tmp/home-credit-features/blocks/train/static_depth0.parquet",
+      "output_bytes": 178201274,
+      "output_sha256": "efddb36af0f2b62d6b2ba3577ec5329bc47a9544bba41663a2442c55681f448f",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 1526659,
+      "source_files": [
+        "parquet_files/train/train_static_0_0.parquet",
+        "parquet_files/train/train_static_0_1.parquet"
+      ],
+      "source_sha256": [
+        "c993192e68853259183babe05870b173b2695799c9ea56a7824ee6cf6b083366",
+        "78adb27582754d3c986b692dbe6ca03ef43806d5265e65d9f460eef8554d3d2d"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 55,
+      "depth": 0,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "static_cb",
+      "feature_columns": 54,
+      "output": "/tmp/home-credit-features/blocks/train/static_cb_depth0.parquet",
+      "output_bytes": 29239668,
+      "output_sha256": "66cbbfb15790d63c05b1cac0dc7458e76b6e06f53145322aed8ff541e198f49d",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 1500476,
+      "source_files": [
+        "parquet_files/train/train_static_cb_0.parquet"
+      ],
+      "source_sha256": [
+        "08a460c7c10b9ebc80597f2c7be636ba15ba68c482f138f7d2a0ebdb592b74e0"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 29,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "tax_registry_a",
+      "feature_columns": 28,
+      "output": "/tmp/home-credit-features/blocks/train/tax_registry_a_depth1.parquet",
+      "output_bytes": 17788941,
+      "output_sha256": "978a827ac2e001293ad13bbf4cc7818968ec965c3850d6b30bcb95aa50ea9738",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 457934,
+      "source_files": [
+        "parquet_files/train/train_tax_registry_a_1.parquet"
+      ],
+      "source_sha256": [
+        "50ff790d9daec8dc48b94c18af361de3b3298bbb354b36dbfea33e04af367531"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 29,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "tax_registry_b",
+      "feature_columns": 28,
+      "output": "/tmp/home-credit-features/blocks/train/tax_registry_b_depth1.parquet",
+      "output_bytes": 8131926,
+      "output_sha256": "500f92dfc8060a19d31a65dad0e9746926c214bfc1927a8fe41a1363e9b4d7dc",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 150732,
+      "source_files": [
+        "parquet_files/train/train_tax_registry_b_1.parquet"
+      ],
+      "source_sha256": [
+        "a1f1de27b00da19ee690ce86b85008d9b97dbd89c9e8a60afc2a6fb710df1e93"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    },
+    {
+      "columns": 29,
+      "depth": 1,
+      "execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+      "family": "tax_registry_c",
+      "feature_columns": 28,
+      "output": "/tmp/home-credit-features/blocks/train/tax_registry_c_depth1.parquet",
+      "output_bytes": 25200562,
+      "output_sha256": "9e49cb7d16c1dac97ab2a700311a0b0119497f119aba71f1ece322a63cd86eed",
+      "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+      "recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+      "rows": 482265,
+      "source_files": [
+        "parquet_files/train/train_tax_registry_c_1.parquet"
+      ],
+      "source_sha256": [
+        "59786491e9cc79058d7fdffb17ac59e77422641d8b575c61801070f047ded77d"
+      ],
+      "split": "train",
+      "unsupported_columns": []
+    }
+  ],
+  "feature_execution_sha256": "6b10441bd559005cc0c8ef0c3f07094b6c6cb3a8286f842bd967ef79152f2c2d",
+  "feature_recipe_sha256": "99897fe2a089a8e689a78fd066aac88e79869895eb1890ae4041c3090cea6cc3",
+  "git_commit": "3e427c80b195d425f6352e9a809f62c1dd6d6fd8",
+  "raw_manifest_sha256": "e1e1786b263537e75a906ec835395ae35acbf7abd8e4ad601b3c78c5320a5b33",
+  "raw_manifest_uri": "s3://sagemaker-us-west-2-560403859723/home-credit-model-stability/manifests/kaggle-to-s3-20260905T003805Z.jsonl",
+  "schema_version": 1,
+  "validation_protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20"
+}
