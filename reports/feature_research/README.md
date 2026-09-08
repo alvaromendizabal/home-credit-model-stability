@@ -12,6 +12,7 @@ Start with [the executed notebook](../../notebooks/11_feature_research.ipynb) an
 | `diagnostics_fold_1.json` through `diagnostics_fold_5.json` | Full feature importance, within-week grouped permutations, training redundancy, SHAP sampling and prediction parity |
 | [verification.json](verification.json) | Independent recomputation from 21 prediction files, 3,635,935 predictions and 235 metric identities |
 | [execution.json](execution.json) | Actual AWS job states, timings, interrupted-work recovery and zero-fit reuse log records |
+| [acceptance.json](acceptance.json) | Publication-source CI, actual test coverage and visual review |
 | [publication.json](publication.json) | Executed notebook hash, renderer identity and dependency-bound execution receipt |
 
 The [review policy](../../configs/feature_research_review.json) pins the bytes and

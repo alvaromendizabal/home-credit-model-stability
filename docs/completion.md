@@ -109,6 +109,16 @@ the actual PR head, including published notebook outputs, to pass before merge.
 Local Python 3.12.13 verification is disclosed in its receipt; local Jupyter sockets
 are unavailable, so CI provides the actual notebook execution gate.
 
+The [publication source CI run](https://github.com/alvaromendizabal/home-credit-model-stability/actions/runs/34266850893)
+passed all **434 tests with zero skips**, strict mypy on 75 source files, Ruff and
+real notebook execution. Measured test line coverage was **77%**; this is not a
+claim of exhaustive coverage, and managed cloud executions are outside that
+instrumented test run. Eight canonical notebooks plus the archived ablation review
+executed 35 code cells. All five published feature-research figures were visually
+reviewed. The [acceptance record](../reports/feature_research/acceptance.json) pins
+that source run and the resulting notebook publication. The resulting final PR
+head must still pass its own reproduction gates before merge.
+
 ## 11. Known limits and employer interpretation
 
 The project demonstrates hypothesis-driven ML, temporal evaluation, negative-result
@@ -129,3 +139,10 @@ uploads to Kaggle. The owner alone enables, generates, downloads and submits a f
 Further modeling should begin as a separately scoped study with a new promotion
 decision and independent evaluation population. It is not necessary to add every
 possible model family or engineered formula to close this research release.
+
+One account-side presentation edit remains: the repository's About description still
+mentions neural challengers and drift monitoring, which exceed the demonstrated
+scope. The connected repository tools do not expose an About editor, and the secure
+browser sign-in was interrupted. In the repository's About gear, use:
+
+> Temporal credit-risk research: LightGBM, CatBoost, XGBoost, feature ablations, calibration studies, and verified SageMaker pipelines.
