@@ -127,17 +127,17 @@ must not be conflated.
 
 ## Completion boundary
 
-The full-data blend comparison has completed; do not restart tuning or model fits
-merely to view it. A temporally controlled calibration experiment is the next useful
-probability-estimation test: the selected model underpredicts some middle-risk bins.
-Use earlier development folds for calibrator fitting, evaluate later folds, and
-preserve the official ranking objective. Do not fit and evaluate a calibrator on the
-same OOF rows. Freeze the remaining modeling decisions and establish train/test
-feature parity before evaluating weeks 73-91 once. A neural
-challenger is optional research, not a prerequisite to reporting the completed benchmark,
-and must use a separate compatible environment and its own bounded evaluation.
+The full-data blend comparison and subsequent frozen release have completed; do not
+restart tuning or model fits merely to view them. The release froze no calibration
+before evaluating weeks 73-91. Its reliability and raw probability metrics remain
+explicit diagnostics, without a production probability claim. The subsequent
+[calibration study](calibration.md) fitted earlier development folds and evaluated
+later folds. Neither tested map improved pooled Brier or log loss, and neither
+used the observed holdout or changed the release. Neural
+challengers are optional research and were not part of the accepted four-family benchmark.
 
-Final refit, train/test feature parity, competition-compatible inference and notebook
-submission generation remain a separate release. That notebook must let the owner
-explicitly generate, validate, save and download `submission.csv`; it must not upload
-anything to Kaggle automatically. No submission CSV is created by this stage.
+The separate [release](model_release.md) completed development and all-label refits,
+raw feature parity and packaged inference. Notebook 10 lets the owner explicitly
+generate, validate, save and download `submission.csv`. Its real raw-input path was
+executed with CSV generation disabled. No automatic Kaggle upload occurs. These
+public-example checks do not establish hidden-test execution or a leaderboard score.

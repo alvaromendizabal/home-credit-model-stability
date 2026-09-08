@@ -237,10 +237,11 @@ def write_selection_notebook(path: Path) -> None:
     cells = [
         nbformat.v4.new_markdown_cell(  # type: ignore[no-untyped-call]
             "# Home Credit: Development model selection\n\n"
-            "**15 predeclared candidates · 0 new model fits · holdout untouched.**\n\n"
+            "**15 predeclared candidates · 0 new model fits · holdout unused by this study.**\n\n"
             "Can complementary models improve the tuned LightGBM without another fit? "
             "This notebook compares hash-verified, aligned development predictions. "
-            "It is not a final-test or leaderboard result. Weeks 73-91 remain locked. "
+            "It is not a final-test or leaderboard result. "
+            "Weeks 73-91 are excluded from this study. "
             "Charts contain interactive Plotly data and static GitHub fallbacks."
         ),
         nbformat.v4.new_code_cell(  # type: ignore[no-untyped-call]
@@ -444,7 +445,8 @@ def write_selection_report(result: dict[str, Any], directory: Path) -> list[Path
         "font-size:13px}th,td{padding:9px;text-align:right;border-bottom:1px solid #ddd}"
         "th:first-child,td:first-child{text-align:left}.table{overflow:auto}"
         "</style><h1>Development model selection</h1><p>"
-        "15 fixed candidates; no new training (zero model fits); weeks 73-91 remain locked. "
+        "15 fixed candidates; no new training (zero model fits); "
+        "weeks 73-91 are excluded from this study. "
         "No calibrator is fitted. No submission is generated or uploaded.</p><h2>"
         + html.escape(candidate_label(result["selected_candidate"]))
         + "</h2><p>Development selection, not an untouched test or leaderboard score.</p>"

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "name": "post_release_feature_research",
+  "scope": "Exploratory development-only research after the original holdout was opened. No release promotion or further holdout evaluation.",
+  "development_week_max": 72,
+  "wider_original_features": 1400,
+  "additional_features": 256,
+  "new_model_fit_budget": 20,
+  "experiments": ["wider_original", "engineered", "without_amount_ratios", "without_peer_statistics"],
+  "permutation_rows": 12000,
+  "permutation_repeats": 3,
+  "shap_rows": 512,
+  "seed": 20260905,
+  "threads": 6,
+  "feature_manifest_sha256": "76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587",
+  "protocol_sha256": "47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20",
+  "lock_sha256": "f99ffc96e701345f057a7d09eee2edd24c5da58a9d25d292df209eeaf5ed30bc",
+  "control": {"bytes":6288679,"object_key":"home-credit-model-stability/model-benchmarks/cb87d1ce0abd7419a115e3b47aa1d332aad27f4d476a36a0028c2c7b2af183f4/objects/30/3088079c4b9b64cb0a72cb072b1e0f9221c3f56e50d3139d5e21a835532ae269","path":"oof/lightgbm.parquet","sha256":"3088079c4b9b64cb0a72cb072b1e0f9221c3f56e50d3139d5e21a835532ae269"}
+}

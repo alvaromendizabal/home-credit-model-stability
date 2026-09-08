@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "training_source_commit": "dd69a8cd935dc922c5055efbf5a35d9266de01e7",
+  "training_study_key": "6e5fb0a67d28bf465142c2de8d8d1577632463bfa70d2d2413762c82ccc6b79e",
+  "original_job": "home-credit-feature-research-20260908-0544",
+  "screen_sha256": "d89062ff791eba9815fc84d1c2a662eee792dc58dba7eba8eeccd4d881db2ea0",
+  "maximum_complete_fits": 20,
+  "shards": {
+    "wider": {"experiments": ["wider_original"], "folds": [4, 5], "instance_type": "ml.m5.4xlarge"},
+    "engineered": {"experiments": ["engineered"], "folds": [4, 5], "instance_type": "ml.m6i.4xlarge"},
+    "removals": {"experiments": ["without_amount_ratios", "without_peer_statistics"], "folds": [4, 5], "instance_type": "ml.m6i.4xlarge"}
+  }
+}

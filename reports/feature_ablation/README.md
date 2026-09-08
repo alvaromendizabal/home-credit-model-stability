@@ -48,5 +48,6 @@ uv run --locked python scripts/review_feature_ablation.py
 ```
 
 These metrics use development folds for early stopping and selection. Holdout weeks
-73-91 remain locked. Average precision, Brier score and log loss are included in
+73-91 were excluded from this experiment; the later frozen evaluation is reported
+in [notebook 09](../../notebooks/09_model_release.ipynb). Average precision, Brier score and log loss are included in
 `comparison.json`; the primary selection metric is mean fold stability.

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "training_study_key": "6e5fb0a67d28bf465142c2de8d8d1577632463bfa70d2d2413762c82ccc6b79e",
+  "training_source_commit": "dd69a8cd935dc922c5055efbf5a35d9266de01e7",
+  "sampling": "uniform_without_replacement_from_full_validation_fold",
+  "shap_rows": 512,
+  "seed_offset": 104729,
+  "prediction_absolute_tolerance": 1e-12,
+  "development_week_max": 72,
+  "new_model_fits": 0,
+  "reason": "Correct SHAP sampling after an audit found that a sorted sample prefix could overrepresent earlier source-ordered cases. Replay saved peer references, encoders and native models; preserve all training results and original diagnostics.",
+  "benchmark_config_sha256": "2182868d53525fca56106a5d7c9f344438adb56f599ce507888f9cc5862746fa"
+}

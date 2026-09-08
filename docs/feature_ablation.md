@@ -119,14 +119,17 @@ outcome is claimed before training completes.
 
 ## Selection limits and following work
 
-Weeks 73-91 remain locked. Early stopping and experiment selection use development
-folds, so repeated comparisons can overfit development; the final holdout is the
-future check after feature/model/tuning decisions are frozen. Feature removal
+Weeks 73-91 were excluded from this study; their subsequent frozen evaluation is
+reported in notebook 09. Early stopping and experiment selection use development
+folds, so repeated comparisons can overfit development; the final holdout was the
+future check after feature/model/tuning decisions were frozen. Feature removal
 measures sensitivity, not a causal explanation of drift.
 
-Review the weakest-fold and probability-metric changes before deciding what to
-retain. Next, add persisted LightGBM/XGBoost Optuna studies, then evaluate ensemble,
-calibration and a neural challenger under the same protocol. A linked Hugging Face
-account does not require a GPU model for this ablation phase.
+The subsequent [LightGBM tuning](../notebooks/07_model_tuning.ipynb),
+[ensemble selection](../notebooks/08_model_selection.ipynb),
+[expanded feature study](../notebooks/11_feature_research.ipynb) and
+[temporal calibration](../notebooks/12_calibration.ipynb) are complete. The latter
+two are explicitly post-release development studies. XGBoost retuning and a neural
+challenger were not performed and are not claimed as completed experiments.
 
 Metric reference: [Home Credit competition evaluation](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/overview/evaluation).

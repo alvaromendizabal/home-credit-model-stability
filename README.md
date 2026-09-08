@@ -16,8 +16,15 @@ resumable AWS execution and a portable inference pipeline.
 
 For the full experimental trail, read the [feature ablations](reports/feature_ablation/06_feature_ablation.ipynb),
 [tuning](notebooks/07_model_tuning.ipynb) and [ensemble selection](notebooks/08_model_selection.ipynb).
+The later [feature study](notebooks/11_feature_research.ipynb) tests a wider budget
+and 256 engineered additions with SHAP, grouped permutation and redundancy diagnostics.
+The [calibration study](notebooks/12_calibration.ipynb) tests whether probability
+mappings transfer across development periods. Both retain their negative findings.
 The notebooks embed readable tables, interactive Plotly figures and static GitHub
 fallbacks. Reading the evidence requires no cloud account or borrower-level data.
+The [model card](MODEL_CARD.md) summarizes intended use, artifact distinctions and
+the observed limits relevant to interpreting the results.
+The [completion record](docs/completion.md) maps the finished work to its verification evidence.
 
 ## Final frozen evaluation
 
@@ -58,6 +65,13 @@ fold scores.
 - **Blending:** 15 fixed candidates reused saved predictions. The selected blend
   reached 0.601899 mean development stability; its small gain of 0.000661 came with
   a weaker worst fold. It is not evidence of statistical significance.
+- **Expanded feature research:** 4,617 additional hypotheses, 256 retained, 20 new
+  comparison fits. The full extension improved pooled AUC but reduced mean stability
+  by **0.025284**. Doubling the original budget to 1,400 gave a **0.001290** mean gain
+  and a weaker worst fold. These post-release development results did not change the release.
+- **Calibration:** eight past-fold sigmoid/isotonic fits evaluated 544,611 later
+  development cases. Neither improved pooled Brier score or log loss. This four-fold
+  comparison has a different population from the five-fold model-selection study.
 
 The official metric is:
 
@@ -89,6 +103,8 @@ uv run --locked python scripts/review_model_tuning.py --force
 uv run --locked python scripts/review_model_selection.py --force
 uv run --locked python scripts/review_model_release.py --force
 uv run --locked python scripts/review_submission.py --force
+uv run --locked python scripts/review_feature_research.py --force
+uv run --locked python scripts/review_calibration.py --force
 ```
 
 The dependency lock uses Python 3.12.14. The [operating contract](AGENTS.md),
@@ -110,12 +126,14 @@ resource limits and a leaderboard score have not been verified.
 
 ## Research scope
 
-This is a substantial evaluated portfolio release, with explicit limits. The original
-700-feature budget has not been compared with larger selected sets. Custom credit
-ratios, cross-table interactions, quantiles, peer ranks, target encoding, SHAP and
-permutation-stability studies are not completed experiments. The existing three
-family removals do not establish exhaustive feature discovery. Notebook 02 identifies
-those gaps rather than treating a large feature count as proof of completeness.
+This is a completed, bounded research portfolio release. The expanded study tests
+ratios, dispersion, category interactions, recency, household comparisons,
+missingness and training-only peer statistics, with all rejections accounted for.
+It includes five-fold interpretation and native-model replay. A finite search does
+not establish exhaustive discovery: raw-history quantiles/skew, verified event-time
+trends, neural challengers and fully nested promotion studies were not performed.
+Peer quantiles describe training populations; they are not new per-customer history
+quantiles. Native categorical target statistics were evaluated through CatBoost.
 
 The original holdout is now observed and bound to the frozen release. Further feature
 or model exploration must use development data and be labeled accordingly; it cannot

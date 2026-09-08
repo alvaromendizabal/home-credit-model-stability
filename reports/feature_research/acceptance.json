@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "scope": "Research publication source validation; final PR head requires its own CI before merge",
+  "source_commit": "a8fb23005de9fa6320e694acb28b1e4efc80fa04",
+  "source_ci_run_id": 34266850893,
+  "source_ci_job_id": 102198246947,
+  "source_ci_url": "https://github.com/alvaromendizabal/home-credit-model-stability/actions/runs/34266850893",
+  "notebook_publication_commit": "993815dc8cf69f0ab095dc1fec19f32974f35172",
+  "quality": {
+    "tests_passed": 434,
+    "tests_skipped": 0,
+    "warnings_as_errors": true,
+    "mypy_source_files": 75,
+    "test_line_coverage_percent": 77,
+    "ruff_lint": "passed",
+    "ruff_format": "passed"
+  },
+  "executed_reviews": [
+    {
+      "path": "notebooks/02_feature_engineering.ipynb",
+      "completed_code_cells": 4
+    },
+    {
+      "path": "notebooks/05_benchmark_review.ipynb",
+      "completed_code_cells": 7
+    },
+    {
+      "path": "reports/feature_ablation/06_feature_ablation.ipynb",
+      "completed_code_cells": 3
+    },
+    {
+      "path": "notebooks/07_model_tuning.ipynb",
+      "completed_code_cells": 4
+    },
+    {
+      "path": "notebooks/08_model_selection.ipynb",
+      "completed_code_cells": 4
+    },
+    {
+      "path": "notebooks/09_model_release.ipynb",
+      "completed_code_cells": 3
+    },
+    {
+      "path": "notebooks/10_submission.ipynb",
+      "completed_code_cells": 3
+    },
+    {
+      "path": "notebooks/11_feature_research.ipynb",
+      "completed_code_cells": 4
+    },
+    {
+      "path": "notebooks/12_calibration.ipynb",
+      "completed_code_cells": 3
+    }
+  ],
+  "feature_notebook_sha256": "920203dd3be8bd68b401a83c5c0573f58d51804fa2965c9e14957d9c535ef807",
+  "feature_static_figures_visually_reviewed": 5,
+  "feature_static_interactive_values_checked": true,
+  "review_new_model_fits": 0
+}

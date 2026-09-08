@@ -1,0 +1,188 @@
+# Development feature research after the frozen release
+
+The original holdout was opened before this extension. These are explicitly
+exploratory development comparisons. They neither revise its reported score nor
+establish a new unbiased final evaluation. The released 700-feature model and its
+90/10 blend remain immutable.
+
+The extension enumerates 4,617 additional hypotheses from the verified original
+2,508-column cache. Together these form 7,125 candidate representations, not
+7,125 independent signals. Selection uses only weeks 0–24 for fitting and 25–32
+for early screening; five subsequent development folds cover weeks 33–72.
+
+| Family | Candidates | Question |
+|---|---:|---|
+| Missingness | 2,179 | Does the absence of a measurement identify a different risk context? |
+| Amount ratios | 1,137 | Does recorded activity relative to current credit, price or annuity help? |
+| Dispersion | 546 | Are historical ranges and relative variability predictive? |
+| Household comparisons | 193 | Does applicant versus related-person context matter? |
+| Source-order changes | 182 | Do first/last source records differ meaningfully? |
+| Recency | 164 | Does recent activity dominate the longer history? |
+| Category interactions | 120 | Do training-fitted joint frequencies improve category representation? |
+| Peer statistics | 96 | Do training-only percentiles, category medians and interquartile ranges help? |
+
+Every candidate has a formula, source columns, rationale, stable identifier and
+recorded rejection reason. Invalid or nonpositive ratio denominators produce null;
+overflow never becomes infinity. Exact duplicates and near-constant columns are
+removed using training rows only. Categorical combinations use an unambiguous
+encoding. Peer groups require at least 50 training cases; unseen or unsupported
+groups produce null. Their reference distributions and frequency maps are saved.
+
+The plan fixes four conditions before execution: 1,400 original features;
+700 original plus 256 screened additions; and removal of the added amount-ratio
+or peer-statistics families. Each uses the same LightGBM parameters, seeds and
+five full development folds as the archived 700-feature control. This is 20 new
+fits plus five reused control fits. It tests breadth and major families without
+simultaneously retuning the learner.
+The early target/drift screen adds two separate LightGBM fits; those are not included
+in the twenty model-comparison fits.
+
+For the full extension, each fold also measures training gain, native TreeSHAP
+contributions on 512 validation cases, three within-week grouped permutations on
+12,000 validation cases, and high correlations among the leading training
+predictors. SHAP additivity and saved-model prediction parity are asserted.
+These diagnostics explain associations; they are not causal or fairness findings.
+
+## Boundaries of the search
+
+No finite search exhausts all possible formulas. This study deliberately covers
+the major plausible families and reports its computational budget. It does not
+equate feature count with sophistication or promise a gain from more features.
+The 1,400-versus-700 comparison directly tests the earlier feature cap.
+
+The cache contains case-level historical means, standard deviations, extrema,
+counts and sums. New dispersion measures derive from those records. New peer
+quantiles are training-population statistics; they are **not** newly computed
+per-customer historical medians, quantiles or skew. Raw-history quantiles and
+chronological event trends remain separate hypotheses. `num_group1/2` provide
+source order, not proven event-time order, so source differences are never called
+momentum or acceleration. Date-window shares use the original application-time
+offsets and do not pool future cases.
+
+Native categorical target statistics were already evaluated through CatBoost in
+the four-family benchmark. This extension does not introduce online default-rate
+histories without outcome-availability timestamps. Ranks, counts, combinations and
+peer aggregates contain no target values. Generic text, graph and image embeddings
+have no corresponding validated input modality here. External data are not added
+without a reproducible and competition-compliant join. Monotonic transforms alone
+do not create new feature ordering for trees; the emphasis is on relative and
+joint information. Population-shift and fairness questions require separate
+validation before any lending deployment.
+
+The categorical leakage rationale is informed by
+[Prokhorenkova et al., NeurIPS 2018](https://papers.neurips.cc/paper/7898-catboost-unbiased-boosting-with-categorical-features.pdf).
+The implementation uses the native contribution interface in
+[LightGBM's Booster documentation](https://lightgbm.readthedocs.io/en/stable/pythonapi/lightgbm.Booster.html).
+The task and its application-time data scope are described by
+[the competition](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/data).
+
+## Reproducibility
+
+`configs/feature_research.json` freezes the experimental conditions. Every completed
+fold publishes its native model, predictions, encoder, peer references and exact
+feature list. S3 objects receive full read-back hash verification before a
+compare-and-swap ledger advances. A renewable writer lease and local process lock
+prevent duplicate workers. Resuming the original source commit reuses verified
+completed folds. UTC stage logs and 15-second heartbeats cover long work.
+
+## Observed screening
+
+The full early-window screen completed on 160,000 training and 80,000 later
+early-window cases. Of 4,617 candidates, 2,159 survived duplicate/near-constant
+pruning, 2,036 passed the additional missingness/cardinality filters, and 256
+were retained. There were 934 constants, 1,458 exact duplicates, 66 near-constants,
+97 mostly missing variables, 26 high-cardinality combinations and 1,780 eligible
+features below the ranking budget. Every rejection appears in the committed catalog.
+
+The selected additions comprise 95 amount ratios, 55 dispersion measures, 50
+peer statistics, 39 category interactions, five source-order differences and four
+each from household comparisons, recency and missingness. The screened feature
+list was persisted before any later development-fold evaluation.
+The 50 retained peer features are 44 empirical ranks, three conditional median
+ratios and three conditional interquartile positions. Most re-express existing
+ordering; they are not fifty independent new information sources.
+
+## Completed five-fold result
+
+All conditions use the same 727,187 out-of-fold cases. The complete table, fold
+changes, complexity, SHAP, permutation ranges and rejection catalog are in
+[notebook 11](../notebooks/11_feature_research.ipynb).
+
+| Condition | Features | Mean stability | Change vs control | Worst fold | Pooled AUC | Pooled AP | Brier | Log loss |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Original control | 700 | 0.585188 | 0 | 0.393682 | 0.846894 | 0.204525 | 0.032425 | 0.126805 |
+| Wider original | 1,400 | 0.586478 | +0.001290 | 0.362256 | 0.847568 | 0.205616 | 0.032396 | 0.126632 |
+| Full engineered | 956 | 0.559904 | -0.025284 | 0.317207 | 0.848341 | 0.206339 | 0.032385 | 0.126482 |
+| Without added ratios | 861 | 0.584635 | -0.000553 | 0.416372 | 0.846720 | 0.204632 | 0.032426 | 0.126830 |
+| Without peer statistics | 906 | 0.555612 | -0.029577 | 0.329406 | 0.848207 | 0.205962 | 0.032398 | 0.126536 |
+
+The full extension improves pooled ranking and probability metrics but worsens the
+primary temporal objective. Removing the added amount ratios recovers most of that
+stability loss. Removing peer statistics lowers mean stability further while
+improving the worst fold; their contribution is contextual. The wider original set
+offers a small mean improvement, a weaker worst fold and twice the input width.
+None of these differences establishes statistical significance or equivalence.
+The frozen tuned blend remains the reference release, with no further holdout use.
+
+Independent pandas/scikit-learn/NumPy recomputation checked 21 prediction files,
+25 model-fold comparisons, 3,635,935 predictions and 235 metric identities. The
+maximum metric difference was 6.78e-15. The corrected native-model interpretation
+replayed all five engineered models and 727,187 predictions exactly; SHAP additivity
+passed in every fold. See the [verification and execution records](../reports/feature_research/README.md).
+
+## Interpretation sampling audit
+
+An audit found that the initial SHAP implementation took the first 512 rows after
+sorting a larger random sample. With source-ordered cases, that can overweight
+earlier observations. `configs/feature_interpretation.json` defines the correction:
+sample 512 cases uniformly without replacement from the complete validation fold,
+using an independent deterministic seed, and report the sampled week counts.
+
+`scripts/review_feature_interpretation.py` restores the original native models,
+encoders and learned peer references. It reconstructs every validation prediction
+without fitting a model or refitting a peer map, checks the saved probabilities,
+then regenerates SHAP with the corrected sampling. The original diagnostics remain
+in the training ledger; the corrected publication links both identities. The
+within-week permutation and training-correlation results are preserved.
+
+The original training run must resume at its pinned source commit. A reporting or
+interpretation correction must never restart that completed model work under a
+different study identity.
+
+## Parallel execution of the remaining comparisons
+
+The planned first twelve fits belong to the original driver; the eight fits in folds 4–5
+are assigned to three independent workers. `configs/feature_research_shards.json`
+fixes disjoint assignments. Wider original features use `ml.m5.4xlarge`; engineered
+features and the two removals use `ml.m6i.4xlarge`. Each keeps the original six-thread
+LightGBM configuration. Machine and job identities accompany the fit records.
+
+The orchestration checkout and training checkout are separate, both clean and
+identified by commit. Every worker imports the **unchanged** `run_fold` implementation
+from `dd69a8cd935dc922c5055efbf5a35d9266de01e7`. Before fitting, it verifies its exact
+feature-recipe hash against an already-completed original fit. It reuses the same
+screen, source blocks, fold definitions, parameters, seeds and dependency lock.
+
+Workers have separate conditional ledgers and renewable leases. A guard stops only
+the named original driver once all twelve early-fold records are durably committed.
+Collection requires that driver to be inactive, waits for its lease to expire,
+verifies every imported artifact and rejects conflicting duplicate fits or a budget
+above twenty. The unchanged original driver then resumes to create the final
+comparison and demonstrate verified reuse. Missing early-fold work after an
+interruption can resume normally; completed fits are never placeholders.
+
+Resume the recorded training **and orchestration** commits. Worker ledgers are keyed
+by the original study and assignment; changed orchestration code fails the identity
+check instead of silently training another copy. The saved-model SHAP correction is
+a later stage and performs no native model fitting.
+
+The actual original job reached its two-hour limit after eleven durable fits,
+interrupting `without_peer_statistics` fold 3. Collection verified the original
+writer was stopped and its lease expired, imported the eight disjoint worker fits,
+and resumed only that unfinished fit. It did not repeat any completed fit. The
+complete study contains twenty unique records. A second unchanged invocation
+reported `feature_research_reused model_fits=0 completed=20`; corrected interpretation
+also restored all five records with `new_model_fits=0`. Recovery is at complete-fold
+boundaries, not mid-tree. All nine release/research/verification jobs listed in
+the execution record are terminal; the stopped original job is explicitly retained
+as an interruption, not mislabeled as a completed study.
