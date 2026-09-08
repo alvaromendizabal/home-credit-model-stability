@@ -1,5 +1,10 @@
 # Research portfolio completion record
 
+**Scope clarification:** this record closes the bounded release and its declared
+studies. The expanded feature-research gate requested subsequently remains open;
+see [current status and next experiments](project_status.md). In particular,
+raw-history quantiles/skew and verified event-time trends have not been evaluated.
+
 The project is an evaluated, bounded credit-risk research release. Its standard is
 reproducible evidence, clear decisions and honest limits; a subjective employer
 rating cannot be guaranteed. Start with the [README](../README.md) and notebooks

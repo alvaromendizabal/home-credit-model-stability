@@ -26,6 +26,11 @@ The [model card](MODEL_CARD.md) summarizes intended use, artifact distinctions a
 the observed limits relevant to interpreting the results.
 The [completion record](docs/completion.md) maps the finished work to its verification evidence.
 
+For the current state and optional AWS monitoring, see [project status](docs/project_status.md).
+The published release is evaluated, while the expanded feature-research completion
+gate remains open for raw-history distributions, event-time availability and a new
+promotion protocol. Completed experiments do not imply that these avenues were tested.
+
 ## Final frozen evaluation
 
 | Diagnostic | Reserved weeks 73-91 |
@@ -126,7 +131,7 @@ resource limits and a leaderboard score have not been verified.
 
 ## Research scope
 
-This is a completed, bounded research portfolio release. The expanded study tests
+This is an evaluated, bounded research portfolio release. The expanded study tests
 ratios, dispersion, category interactions, recency, household comparisons,
 missingness and training-only peer statistics, with all rejections accounted for.
 It includes five-fold interpretation and native-model replay. A finite search does
