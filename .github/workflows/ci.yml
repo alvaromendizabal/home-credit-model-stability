@@ -38,6 +38,8 @@ jobs:
         run: uv run --locked python scripts/review_model_benchmark.py --force
       - name: Execute expanded feature research before linting
         run: uv run --locked python scripts/review_feature_research.py --force
+      - name: Verify project status without cloud access
+        run: uv run --locked python scripts/project_status.py --json
       - name: Run quality gates
         env:
           HOME_CREDIT_NOTEBOOK_INTEGRATION: "1"

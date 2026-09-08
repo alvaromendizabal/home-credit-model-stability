@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "scope": "Expanded feature-research completion requested after the bounded release. Preserve all original experiment identities and the observed holdout.",
+  "requirements": [
+    {
+      "id": "raw_history_shape",
+      "status": "open",
+      "reason": "Historical medians, interquartile ranges, upper-tail quantiles and skew cannot be recovered from the existing case-level means and extrema. Training-population peer quantiles do not test this family.",
+      "next_action": "Build and screen a bounded raw-history distribution family on development data, then compare it with the fixed 700-feature control across all five folds."
+    },
+    {
+      "id": "event_time_availability",
+      "status": "open",
+      "reason": "Source group indices are not verified event timestamps. Chronological trends require a field-level event/availability contract; unsupported histories must be excluded with a recorded reason.",
+      "next_action": "Audit raw event-date semantics before admitting lag, trend or acceleration features; explicitly exclude histories whose ordering or availability cannot be established."
+    },
+    {
+      "id": "future_promotion_protocol",
+      "status": "open",
+      "reason": "Weeks 73-91 have already been observed. Repeated selection on the five development folds does not create new independent evidence.",
+      "next_action": "Predeclare a nested temporal development study and require a new independent evaluation population before claiming a newly validated release."
+    }
+  ],
+  "justified_exclusions": [
+    "Online target histories without outcome-availability timestamps; the release uses fold-fitted frequencies and the benchmark separately evaluated native CatBoost categorical statistics.",
+    "External joins without reproducible keys and competition permission.",
+    "Text, image or graph embeddings without a validated input modality."
+  ]
+}
