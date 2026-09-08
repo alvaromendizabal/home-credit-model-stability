@@ -60,3 +60,15 @@ set the three input paths in notebook 10 and enable its generation flag. On Kagg
 attach the model bundle and use that run's competition test files and sample schema.
 The notebook can import the matching source included in the bundle without requiring
 a repository checkout. The execution environment still needs compatible dependencies.
+# Independent release verification
+
+On 8 September 2026, SageMaker job
+`home-credit-release-verify-20260908-0526` completed successfully against source
+`6df194040544f4a17ac3df3b44fa5a10ef050234`. The committed
+`reports/model_release/verification.json` records the result: 62 immutable objects
+(33,186,864 bytes) verified by SHA-256, all eight holdout metrics reproduced from
+203,345 saved predictions, all 36 public test shards checked, and four prediction
+batches reused unchanged. The canonical submission notebook executed end to end
+against the raw public example with export disabled. There were zero new model
+fits, no generated submission CSV, and no Kaggle upload. This verifies the ten-row
+public example; hidden competition execution is still untested.
