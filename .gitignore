@@ -1,4 +1,4 @@
-# Python
+# Python environments and caches
 .venv/
 __pycache__/
 *.py[cod]
@@ -8,16 +8,26 @@ __pycache__/
 .coverage
 htmlcov/
 
-# Runtime
+# Private data, checkpoints, local models, runtime receipts and logs
 /logs/
 /artifacts/
 /data/
-# Local settings
+/models/
+/submissions/
+**/.ipynb_checkpoints/
+submission*.csv
+*.download
+
+# Local configuration and editors
 .env
 .env.*
 !.env.example
-# OS/editor
 .DS_Store
 .vscode/
 .idea/
-.venv
+
+# Build/transfer products; publish only explicitly selected aggregate evidence
+/dist/
+/build/
+repository-source.tar
+repository-source.zip
