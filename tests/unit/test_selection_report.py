@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import copy
 import json
+import runpy
+import shutil
+from pathlib import Path
 
 import matplotlib
 import pytest
@@ -77,3 +80,35 @@ def test_offline_report_is_deterministic_and_has_static_fallbacks(tmp_path):
     for name in ("candidates", "weekly_gini", "reliability"):
         assert f'id="selection-{name}"' in page
     assert "case_id" not in json.dumps(result)
+
+
+def test_real_publication_matches_pinned_scoring_lineage():
+    root = Path(__file__).resolve().parents[2]
+    api = runpy.run_path(str(root / "scripts/review_model_selection.py"))
+    source, result = api["load_evidence"](root)
+    assert source.stat().st_size == 40389
+    assert result["rows_evaluated"] == 727187
+    assert len(result["folds"]) == 75
+    assert result["selected_candidate"] == "tuned_lightgbm_90_lightgbm"
+
+
+@pytest.mark.parametrize("fault", ["evidence_bytes", "scoring_lineage"])
+def test_real_publication_rejects_changed_bytes_or_lineage(tmp_path, fault):
+    root = Path(__file__).resolve().parents[2]
+    api = runpy.run_path(str(root / "scripts/review_model_selection.py"))
+    source, result = api["load_evidence"](root)
+    names = {
+        *result["identity"]["inputs"],
+        "configs/model_selection_review.json",
+        source.relative_to(root).as_posix(),
+    }
+    for name in names:
+        destination = tmp_path / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(root / name, destination)
+    relative = source.relative_to(root) if fault == "evidence_bytes" else Path("uv.lock")
+    path = tmp_path / relative
+    path.write_bytes(path.read_bytes() + b"\n")
+    expected = "evidence digest changed" if fault == "evidence_bytes" else "lineage changed"
+    with pytest.raises(ValueError, match=expected):
+        api["load_evidence"](tmp_path)

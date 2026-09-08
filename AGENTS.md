@@ -29,5 +29,5 @@ Do not describe that release as implemented before its complete path is tested.
 
 Use documented feature branches and pull requests. Run Ruff, strict mypy, tests with
 warnings treated as errors, and real notebook execution before merging. Keep executed
-review outputs in canonical notebooks. CI may commit regenerated tuning-review outputs
-on feature branches only after quality gates pass; the PR head still needs its own CI.
+review outputs in canonical notebooks. CI may commit regenerated tuning and selection
+review outputs on feature branches only after quality gates pass; the PR head still needs its own CI.
