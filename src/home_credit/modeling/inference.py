@@ -242,8 +242,19 @@ def predict_raw(
     with (work / "run.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         result = _predict_batches(
-            bundle_directory, raw_directory, records, features, schema, encoder,
-            models, bundle["weights"], work, key, ordered, batch_rows, logger,
+            bundle_directory,
+            raw_directory,
+            records,
+            features,
+            schema,
+            encoder,
+            models,
+            bundle["weights"],
+            work,
+            key,
+            ordered,
+            batch_rows,
+            logger,
         )
     with StageTimer(logger, "verify_raw_inputs_unchanged", heartbeat_seconds=15):
         require(
@@ -284,19 +295,31 @@ def _predict_batches(
         else:
             with StageTimer(logger, f"inference_batch_{number}", heartbeat_seconds=15):
                 frame = raw_test_frame(
-                    raw_directory, records, features, schema,
-                    bundle_directory / "feature_recipe.json", case_ids=cases,
+                    raw_directory,
+                    records,
+                    features,
+                    schema,
+                    bundle_directory / "feature_recipe.json",
+                    case_ids=cases,
                 )
                 prediction = predict_components(
                     transform(frame, features, encoder), features, models, weights, threads=2
                 )
-                predicted = pd.DataFrame({"case_id": frame["case_id"].to_numpy(), "score": prediction})
+                predicted = pd.DataFrame(
+                    {"case_id": frame["case_id"].to_numpy(), "score": prediction}
+                )
                 temporary = path.with_suffix(".parquet.download")
                 predicted.to_parquet(temporary, index=False)
                 temporary.replace(path)
-                save_json(receipt_path, {"identity": key, "sha256": sha256_file(path), "rows": len(cases)})
-            logger.event("inference_batch_completed", completed=number, total=total, rows=len(cases))
-        require(predicted["case_id"].tolist() == cases, "cached prediction order or coverage changed")
+                save_json(
+                    receipt_path, {"identity": key, "sha256": sha256_file(path), "rows": len(cases)}
+                )
+            logger.event(
+                "inference_batch_completed", completed=number, total=total, rows=len(cases)
+            )
+        require(
+            predicted["case_id"].tolist() == cases, "cached prediction order or coverage changed"
+        )
         validate_probabilities(predicted["score"].to_numpy(dtype=np.float64), len(cases))
         outputs.append(predicted)
     return pd.concat(outputs, ignore_index=True)
@@ -314,11 +337,20 @@ def submission_frame(sample: pd.DataFrame, predictions: pd.DataFrame) -> pd.Data
     for frame in (sample, predictions):
         require(len(frame) > 0, "empty submission population")
         require(pd.api.types.is_integer_dtype(frame["case_id"].dtype), "case IDs must be integer")
-        require(bool(frame["case_id"].notna().all()) and frame["case_id"].is_unique, "null or duplicate case IDs")
+        require(
+            bool(frame["case_id"].notna().all()) and frame["case_id"].is_unique,
+            "null or duplicate case IDs",
+        )
         require(bool((frame["case_id"] >= 0).all()), "negative case ID")
     require(len(sample) == len(predictions), "submission row count mismatch")
-    require(set(sample["case_id"]) == set(predictions["case_id"]), "submission case coverage mismatch")
-    values = predictions.set_index("case_id")["score"].reindex(sample["case_id"]).to_numpy(dtype=np.float64)
+    require(
+        set(sample["case_id"]) == set(predictions["case_id"]), "submission case coverage mismatch"
+    )
+    values = (
+        predictions.set_index("case_id")["score"]
+        .reindex(sample["case_id"])
+        .to_numpy(dtype=np.float64)
+    )
     validate_probabilities(values, len(sample))
     return pd.DataFrame({"case_id": sample["case_id"].to_numpy(), "score": values})
 
@@ -335,9 +367,12 @@ def export_submission(
     require(owner_confirmed is True, "submission generation requires explicit owner confirmation")
     require(destination.suffix == ".csv", "submission destination must be a CSV")
     require(
-        all(isinstance(lineage.get(name), str) and len(lineage[name]) == 64
+        all(
+            isinstance(lineage.get(name), str)
+            and len(lineage[name]) == 64
             and set(lineage[name]) <= set("0123456789abcdef")
-            for name in ("bundle_sha256", "input_sha256")),
+            for name in ("bundle_sha256", "input_sha256")
+        ),
         "submission lineage missing",
     )
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -347,22 +382,37 @@ def export_submission(
 
 
 def _save_submission(
-    sample: pd.DataFrame, predictions: pd.DataFrame, destination: Path,
+    sample: pd.DataFrame,
+    predictions: pd.DataFrame,
+    destination: Path,
     lineage: Mapping[str, Any],
 ) -> Path:
     """Write under the caller's exclusive export lock and preserve any different prior CSV."""
     result = submission_frame(sample, predictions)
     payload = result.to_csv(index=False, float_format="%.17g").encode("utf-8")
     if destination.exists():
-        require(destination.read_bytes() == payload, "refuse to overwrite a different existing submission")
+        require(
+            destination.read_bytes() == payload,
+            "refuse to overwrite a different existing submission",
+        )
     else:
         atomic_write(destination, payload)
     restored = pd.read_csv(destination, float_precision="round_trip")
     checked = submission_frame(sample, restored)
     require(checked["case_id"].tolist() == sample["case_id"].tolist(), "saved CSV order mismatch")
-    require(bool(np.allclose(checked["score"], result["score"], rtol=0, atol=1e-15)), "CSV probability roundtrip mismatch")
-    save_json(destination.with_suffix(".json"), {
-        "schema_version": 1, "rows": len(result), "columns": result.columns.tolist(),
-        "sha256": sha256_file(destination), "lineage": dict(lineage), "kaggle_submitted": False,
-    })
+    require(
+        bool(np.allclose(checked["score"], result["score"], rtol=0, atol=1e-15)),
+        "CSV probability roundtrip mismatch",
+    )
+    save_json(
+        destination.with_suffix(".json"),
+        {
+            "schema_version": 1,
+            "rows": len(result),
+            "columns": result.columns.tolist(),
+            "sha256": sha256_file(destination),
+            "lineage": dict(lineage),
+            "kaggle_submitted": False,
+        },
+    )
     return destination

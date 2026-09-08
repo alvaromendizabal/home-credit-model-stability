@@ -1,4 +1,5 @@
 """Fault injection proves release stages do not outrun verified durable state."""
+
 from __future__ import annotations
 
 import copy
@@ -9,6 +10,7 @@ from types import SimpleNamespace
 from unittest.mock import Mock
 
 import pytest
+
 import home_credit.modeling.release_workflow as workflow
 from home_credit.modeling.checkpoints import sha256_bytes
 from home_credit.observability.runtime import StageTimer
@@ -44,25 +46,69 @@ def test_full_readback_is_required_after_upload(tmp_path):
 
 
 def test_complete_models_resume_without_materializing_or_fitting(tmp_path, monkeypatch):
-    model = {"fit_weeks": [0, 72], "fit_rows": 7, "model": {"path": "model.txt"}, "encoder": {"path": "encoder.json"}}
-    original = {"stages": {"development/a": copy.deepcopy(model), "development/b": copy.deepcopy(model)}}
+    model = {
+        "fit_weeks": [0, 72],
+        "fit_rows": 7,
+        "model": {"path": "model.txt"},
+        "encoder": {"path": "encoder.json"},
+    }
+    original = {
+        "stages": {"development/a": copy.deepcopy(model), "development/b": copy.deepcopy(model)}
+    }
     store = SimpleNamespace(logger=Mock())
     monkeypatch.setattr(workflow, "restore_member", lambda *args: tmp_path / "verified")
-    monkeypatch.setattr(workflow, "load_feature_frame", lambda *a, **k: pytest.fail("valid work was rematerialized"))
-    monkeypatch.setattr(workflow, "fit_frozen_model", lambda *a, **k: pytest.fail("valid fit was repeated"))
-    plan = {"components": {"a": {"num_boost_round": 5}, "b": {"num_boost_round": 5}}, "holdout_fit_weeks": [0, 72], "seed": 9, "threads": 1}
+    monkeypatch.setattr(
+        workflow, "load_feature_frame", lambda *a, **k: pytest.fail("valid work was rematerialized")
+    )
+    monkeypatch.setattr(
+        workflow, "fit_frozen_model", lambda *a, **k: pytest.fail("valid fit was repeated")
+    )
+    plan = {
+        "components": {"a": {"num_boost_round": 5}, "b": {"num_boost_round": 5}},
+        "holdout_fit_weeks": [0, 72],
+        "seed": 9,
+        "threads": 1,
+    }
     parameters = {"a": {"num_leaves": 7}, "b": {"num_leaves": 7}}
     for name in plan["components"]:
-        original["stages"][f"development/{name}"]["fit_spec_sha256"] = sha256_bytes(workflow.canonical_json_bytes({"phase": "development", "weeks": [0, 72], "rows": 7, "features": [], "parameters": parameters[name], "rounds": 5, "seed": 9, "threads": 1}))
-    actual = workflow.fit_phase("development", [0, 72], 7, None, (), plan, parameters, original, store, Mock())
+        original["stages"][f"development/{name}"]["fit_spec_sha256"] = sha256_bytes(
+            workflow.canonical_json_bytes(
+                {
+                    "phase": "development",
+                    "weeks": [0, 72],
+                    "rows": 7,
+                    "features": [],
+                    "parameters": parameters[name],
+                    "rounds": 5,
+                    "seed": 9,
+                    "threads": 1,
+                }
+            )
+        )
+    actual = workflow.fit_phase(
+        "development", [0, 72], 7, None, (), plan, parameters, original, store, Mock()
+    )
     assert actual is original
     with pytest.raises(ValueError, match="specification"):
-        workflow.fit_phase("development", [0, 72], 8, None, (), plan, parameters, original, store, Mock())
+        workflow.fit_phase(
+            "development", [0, 72], 8, None, (), plan, parameters, original, store, Mock()
+        )
 
 
 def test_holdout_cannot_change_frozen_models_after_intent_exists():
-    state = {"stages": {"development/a": {"model": {"sha256": "a" * 64}, "encoder": {"sha256": "b" * 64}}}}
-    plan = {"components": {"a": {}}, "selection": {"sha256": "c" * 64, "weights": {"a": 1.0}}, "feature_manifest_sha256": "d" * 64, "holdout_fit_weeks": [0, 72], "holdout_evaluation_weeks": [73, 91], "protocol_sha256": "e" * 64}
+    state = {
+        "stages": {
+            "development/a": {"model": {"sha256": "a" * 64}, "encoder": {"sha256": "b" * 64}}
+        }
+    }
+    plan = {
+        "components": {"a": {}},
+        "selection": {"sha256": "c" * 64, "weights": {"a": 1.0}},
+        "feature_manifest_sha256": "d" * 64,
+        "holdout_fit_weeks": [0, 72],
+        "holdout_evaluation_weeks": [73, 91],
+        "protocol_sha256": "e" * 64,
+    }
     store = Mock()
     store.read.return_value = (b'{"models": "different"}', "etag")
     with pytest.raises(ValueError, match="already bound"):
@@ -75,7 +121,9 @@ def test_completed_holdout_reuses_verified_prediction_receipt(monkeypatch):
     state = {"stages": {"holdout": {"report": report, "predictions": {}}}}
     restored = Mock(return_value=Path("verified"))
     monkeypatch.setattr(workflow, "restore_member", restored)
-    monkeypatch.setattr(workflow, "load_feature_frame", lambda *a, **k: pytest.fail("holdout reread"))
+    monkeypatch.setattr(
+        workflow, "load_feature_frame", lambda *a, **k: pytest.fail("holdout reread")
+    )
     assert workflow.evaluate_holdout(None, (), {}, {}, state, Mock(), Mock()) is state
     assert restored.call_count == 2
 
