@@ -115,3 +115,30 @@ within-week permutation and training-correlation results are preserved.
 The original training run must resume at its pinned source commit. A reporting or
 interpretation correction must never restart that completed model work under a
 different study identity.
+
+## Parallel execution of the remaining comparisons
+
+The first twelve fits belong to the original driver; the eight fits in folds 4–5
+are assigned to three independent workers. `configs/feature_research_shards.json`
+fixes disjoint assignments. Wider original features use `ml.m5.4xlarge`; engineered
+features and the two removals use `ml.m6i.4xlarge`. Each keeps the original six-thread
+LightGBM configuration. Machine and job identities accompany the fit records.
+
+The orchestration checkout and training checkout are separate, both clean and
+identified by commit. Every worker imports the **unchanged** `run_fold` implementation
+from `dd69a8cd935dc922c5055efbf5a35d9266de01e7`. Before fitting, it verifies its exact
+feature-recipe hash against an already-completed original fit. It reuses the same
+screen, source blocks, fold definitions, parameters, seeds and dependency lock.
+
+Workers have separate conditional ledgers and renewable leases. A guard stops only
+the named original driver once all twelve early-fold records are durably committed.
+Collection requires that driver to be inactive, waits for its lease to expire,
+verifies every imported artifact and rejects conflicting duplicate fits or a budget
+above twenty. The unchanged original driver then resumes to create the final
+comparison and demonstrate verified reuse. Missing early-fold work after an
+interruption can resume normally; completed fits are never placeholders.
+
+Resume the recorded training **and orchestration** commits. Worker ledgers are keyed
+by the original study and assignment; changed orchestration code fails the identity
+check instead of silently training another copy. The saved-model SHAP correction is
+a later stage and performs no native model fitting.
