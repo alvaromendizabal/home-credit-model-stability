@@ -51,7 +51,7 @@ def test_report_exposes_scope_metrics_and_parameters(tmp_path):
         "Average precision",
         "Brier",
         "Log loss",
-        "weeks 73-91 remain locked",
+        "weeks 73-91 are excluded from this study",
         "num_leaves",
         "plotly.js",
     ]:

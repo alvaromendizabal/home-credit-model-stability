@@ -16,6 +16,8 @@ resumable AWS execution and a portable inference pipeline.
 
 For the full experimental trail, read the [feature ablations](reports/feature_ablation/06_feature_ablation.ipynb),
 [tuning](notebooks/07_model_tuning.ipynb) and [ensemble selection](notebooks/08_model_selection.ipynb).
+The later [calibration study](notebooks/12_calibration.ipynb) tests whether probability
+mappings transfer across development periods.
 The notebooks embed readable tables, interactive Plotly figures and static GitHub
 fallbacks. Reading the evidence requires no cloud account or borrower-level data.
 

@@ -34,8 +34,8 @@ The downloadable competition test files contain ten public example cases. A CSV
 for those cases is not evidence of hidden-test execution or a leaderboard score.
 Competition execution must recompute features from the test files supplied to that run.
 
-The configuration is a frozen plan, not evidence that these remaining stages have run.
-Published execution receipts and reports, not this document, determine completion.
+The configuration records the original frozen plan. The execution receipts and
+independent verification below establish that these stages subsequently completed.
 
 ## Observed execution
 
@@ -60,7 +60,8 @@ set the three input paths in notebook 10 and enable its generation flag. On Kagg
 attach the model bundle and use that run's competition test files and sample schema.
 The notebook can import the matching source included in the bundle without requiring
 a repository checkout. The execution environment still needs compatible dependencies.
-# Independent release verification
+
+## Independent release verification
 
 On 8 September 2026, SageMaker job
 `home-credit-release-verify-20260908-0526` completed successfully against source

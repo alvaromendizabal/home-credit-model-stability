@@ -137,8 +137,9 @@ pre{white-space:pre-wrap;background:white;padding:20px}summary{cursor:pointer;fo
     page += "Selection maximizes the mean official stability score over five expanding time folds. "
     page += "The control reuses the accepted run. ROC AUC and average precision assess ranking; "
     page += "Brier and log loss assess probabilities. "
-    page += "Early stopping and selection use development folds; weeks 73-91 remain locked. "
-    page += "These results guide model selection. Final holdout evaluation remains pending.</p>"
+    page += "Early stopping and selection use development folds; "
+    page += "weeks 73-91 are excluded from this study. "
+    page += "These results document model selection. Final evaluation is a separate release.</p>"
     page += "<section class='card'>" + table + "</section>"
     page += figure.to_html(full_html=False, include_plotlyjs=True, div_id="tuning-folds")
     page += "<details class='card'><summary>Sampled parameters and provenance</summary><pre>"
@@ -164,7 +165,7 @@ def write_notebook(state: dict[str, Any], path: Path) -> None:
             "# Home Credit: Model tuning\n\n"
             "A bounded Optuna study on five expanding temporal folds. "
             "All 700 features are retained. The accepted control is reused. "
-            "These are development results; the final holdout remains locked."
+            "These are development results; the final holdout was not used in this study."
         ),
         nbformat.v4.new_code_cell(  # type: ignore[no-untyped-call]
             "import json\nfrom pathlib import Path\nimport pandas as pd\n"

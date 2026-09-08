@@ -1,6 +1,8 @@
 # Home Credit temporal model benchmark
 
-Development artifact acceptance passed. Final holdout evaluation is pending.
+This is the archived development benchmark. Acceptance passed; the later frozen
+holdout evaluation is complete in [notebook 09](../../notebooks/09_model_release.ipynb).
+The current metric review is [notebook 05](../../notebooks/05_benchmark_review.ipynb).
 
 ![Benchmark overview](overview.svg)
 
@@ -22,11 +24,15 @@ Verified 70 files and 20 model folds; 727,187 OOF cases per model.
 - Artifact acceptance verifies recorded predictions and provenance, not raw-data point-in-time correctness or every historical process.
 - The adversarial screening AUC is a shift diagnostic from the screening sample; it is not the credit-risk model AUC.
 - The constant Brier reference uses OOF prevalence descriptively and is not a trained baseline.
-- Final holdout evaluation, model calibration, subgroup robustness, and deployment readiness remain pending.
+- Calibration, subgroup robustness and lending deployment are outside this benchmark's claims.
 
-## Next experiment
+## Subsequent experiments
 
-Inspect weak-fold behavior and temporal shift, then run LightGBM/XGBoost tuning and feature-block ablations. Keep weeks 73-91 locked.
+Feature-block ablations, LightGBM tuning, blend selection and the frozen final release
+subsequently completed. Their executed reviews are linked from the main README.
+The table and HTML here preserve historical acceptance, including its original
+probability clipping. Notebook 05 exposes the corrected raw-ranking metrics and
+documents the small change to the logistic baseline.
 
 Training commit: `414397e1f5731aa969b8599d5c11a58459a0e361`.
 

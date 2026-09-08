@@ -119,7 +119,8 @@ outcome is claimed before training completes.
 
 ## Selection limits and following work
 
-Weeks 73-91 remain locked. Early stopping and experiment selection use development
+Weeks 73-91 were excluded from this study; their subsequent frozen evaluation is
+reported in notebook 09. Early stopping and experiment selection use development
 folds, so repeated comparisons can overfit development; the final holdout is the
 future check after feature/model/tuning decisions are frozen. Feature removal
 measures sensitivity, not a causal explanation of drift.

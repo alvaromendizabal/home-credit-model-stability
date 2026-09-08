@@ -332,8 +332,10 @@ print("Frozen evaluation completed (UTC):", evaluation["evaluated_utc"])
     The weekly plot shows the variation that the overall AUC alone would hide.
 
     Raw probability calibration remains imperfect. The reliability plot is descriptive;
-    no calibrator was fitted after seeing this holdout. Its base rate differs from the
-    development periods, so the lower Brier score alone is not a model-improvement claim.
+    no calibrator is applied to this frozen model. The later development-only study in
+    notebook 12 neither accesses this holdout nor changes the released bundle. The
+    holdout base rate differs from development periods, so the lower Brier score alone
+    is not a model-improvement claim.
     A Kaggle leaderboard result has not been obtained.
     """,
     ),

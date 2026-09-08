@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "sha256": "a134fa9e972f4509de560b45ab318f75be9d83bb43b8a7c729f119205526ac6b",
+  "bytes": 52488,
+  "source_commit": "02a81aa7b29df1011f8c7aa2545fb8030b465a65",
+  "s3_key": "home-credit-model-stability/calibration-research/6d82c2bb2dbc2ffb98de1e75c1f96dc4090503d283545a49a8a6536335599d31/checkpoints/a134fa9e972f4509de560b45ab318f75be9d83bb43b8a7c729f119205526ac6b/comparison.json",
+  "managed_job": "home-credit-calibration-research-20260908-0601",
+  "unchanged_resume_verified": true,
+  "verification_sha256": "25c9bf281cb9d488c305a4b23b659d45912cde762ff4f93d02383c5ddd259e2c"
+}
