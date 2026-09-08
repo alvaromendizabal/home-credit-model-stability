@@ -297,3 +297,73 @@ def prune_candidates(
             }
         )
     return tuple(retained), records
+
+
+def apply_peer_references(
+    frame: pl.DataFrame, specs: tuple[Hypothesis, ...], state: dict[str, Any]
+) -> pl.DataFrame:
+    """Replay persisted rank and peer maps without accessing any training rows."""
+    peers = tuple(s for s in specs if s.family == "peer_statistics")
+    require(set(state) == {s.name for s in peers}, "saved peer feature coverage changed")
+    columns = []
+    for spec in peers:
+        saved = state[spec.name]
+        require(saved["operation"] == spec.operation, "saved peer operation changed")
+        name = spec.sources[0]
+        if spec.operation == "rank":
+            require(saved["source"] == name, "saved rank source changed")
+            values = np.asarray(saved["values"], dtype=np.float64)
+            counts = np.asarray(saved["counts"], dtype=np.int64)
+            require(
+                values.ndim == counts.ndim == 1
+                and len(values) == len(counts)
+                and bool(np.isfinite(values).all() and (np.diff(values) > 0).all())
+                and bool((counts > 0).all() and (np.diff(counts) > 0).all()),
+                "invalid saved empirical distribution",
+            )
+            current = frame[name].cast(pl.Float64).to_numpy()
+            distribution = np.r_[0, counts] / max(1, int(counts[-1]) if len(counts) else 0)
+            out = distribution[np.searchsorted(values, current, side="right")]
+            out[~np.isfinite(current)] = np.nan
+            columns.append(pl.Series(spec.name, out, dtype=pl.Float32).fill_nan(None))
+            continue
+        require(saved["sources"] == list(spec.sources), "saved peer sources changed")
+        require(saved["minimum_peer_count"] == 50, "saved peer support rule changed")
+        references = saved["reference"]
+        if not references:
+            columns.append(pl.Series(spec.name, [None] * len(frame), dtype=pl.Float32))
+            continue
+        reference = pl.DataFrame(references)
+        require(reference["key"].n_unique() == len(reference), "duplicate saved peer group")
+        require(
+            bool(
+                reference.select(
+                    (
+                        (pl.col("count") >= 50)
+                        & (pl.col("q25") <= pl.col("median"))
+                        & (pl.col("median") <= pl.col("q75"))
+                        & pl.all_horizontal(pl.col("q25", "median", "q75").is_finite())
+                    ).all()
+                ).item()
+            ),
+            "invalid saved peer summary",
+        )
+        key = pl.struct(
+            pl.col(spec.sources[1]).cast(pl.String).alias("category")
+        ).struct.json_encode()
+        query = frame.select(key.alias("key"), pl.col(name).cast(pl.Float64).alias("value"))
+        query = query.join(reference, on="key", how="left", validate="m:1", maintain_order="left")
+        value: pl.Expr
+        if spec.operation == "peer_median_ratio":
+            value = pl.when(pl.col("median") > 0).then(pl.col("value") / pl.col("median"))
+        else:
+            require(spec.operation == "peer_iqr_position", "unknown saved peer operation")
+            spread = pl.col("q75") - pl.col("q25")
+            value = pl.when(spread > 0).then((pl.col("value") - pl.col("median")) / spread)
+        value = value.cast(pl.Float32)
+        columns.append(
+            query.select(pl.when(value.is_finite()).then(value).otherwise(None).alias(spec.name))[
+                spec.name
+            ]
+        )
+    return pl.DataFrame(columns)

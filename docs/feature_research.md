@@ -82,3 +82,36 @@ feature list. S3 objects receive full read-back hash verification before a
 compare-and-swap ledger advances. A renewable writer lease and local process lock
 prevent duplicate workers. Resuming the original source commit reuses verified
 completed folds. UTC stage logs and 15-second heartbeats cover long work.
+
+## Observed screening
+
+The full early-window screen completed on 160,000 training and 80,000 later
+early-window cases. Of 4,617 candidates, 2,159 survived duplicate/near-constant
+pruning, 2,036 passed the additional missingness/cardinality filters, and 256
+were retained. There were 934 constants, 1,458 exact duplicates, 66 near-constants,
+97 mostly missing variables, 26 high-cardinality combinations and 1,780 eligible
+features below the ranking budget. Every rejection appears in the committed catalog.
+
+The selected additions comprise 95 amount ratios, 55 dispersion measures, 50
+peer statistics, 39 category interactions, five source-order differences and four
+each from household comparisons, recency and missingness. The screened feature
+list was persisted before any later development-fold evaluation.
+
+## Interpretation sampling audit
+
+An audit found that the initial SHAP implementation took the first 512 rows after
+sorting a larger random sample. With source-ordered cases, that can overweight
+earlier observations. `configs/feature_interpretation.json` defines the correction:
+sample 512 cases uniformly without replacement from the complete validation fold,
+using an independent deterministic seed, and report the sampled week counts.
+
+`scripts/review_feature_interpretation.py` restores the original native models,
+encoders and learned peer references. It reconstructs every validation prediction
+without fitting a model or refitting a peer map, checks the saved probabilities,
+then regenerates SHAP with the corrected sampling. The original diagnostics remain
+in the training ledger; the corrected publication links both identities. The
+within-week permutation and training-correlation results are preserved.
+
+The original training run must resume at its pinned source commit. A reporting or
+interpretation correction must never restart that completed model work under a
+different study identity.

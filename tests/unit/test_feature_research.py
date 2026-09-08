@@ -11,6 +11,7 @@ import pytest
 
 from home_credit.features.research import (
     Hypothesis,
+    apply_peer_references,
     case_features,
     catalog,
     peer_features,
@@ -20,6 +21,7 @@ from home_credit.modeling.checkpoints import sha256_file
 from home_credit.modeling.config import BenchmarkConfig, ModelConfig
 from home_credit.modeling.data import FeatureBlockRef, FeatureRef, FeatureSnapshot
 from home_credit.modeling.experiment_store import ExperimentStore
+from home_credit.modeling.feature_interpretation import interpret_fold
 from home_credit.modeling.feature_research import (
     add_hypotheses,
     diagnostics,
@@ -100,6 +102,8 @@ def test_training_only_peer_references_ignore_validation_labels_and_distribution
     assert b["median_ratio"][1] is None
     assert b["median_ratio"][2] is None
     assert state["position"]["reference"][0]["count"] == 100
+    replayed = apply_peer_references(valid.drop("target"), specs, json.loads(json.dumps(state)))
+    assert replayed.equals(b)
 
 
 def test_exact_duplicates_and_near_constants_are_recorded() -> None:
@@ -148,7 +152,7 @@ def test_saved_encoder_model_and_shap_round_trip(tmp_path: Path) -> None:
     raw = pl.DataFrame({"a": rng.normal(2, 1, 1200), "b": np.ones(1200)})
     frame = raw.hstack(case_features(raw, specs)).with_columns(
         pl.Series("target", (raw["a"].to_numpy() + rng.normal(0, 1, 1200) > 2).astype(np.int8)),
-        pl.Series("WEEK_NUM", np.tile(np.arange(4), 300)),
+        pl.Series("WEEK_NUM", np.repeat(np.arange(12), 100)),
     )
     refs = tuple(s.ref for s in specs)
     encoder = json.loads(json.dumps(fit_encoder(frame[:800], refs)))
@@ -172,8 +176,32 @@ def test_saved_encoder_model_and_shap_round_trip(tmp_path: Path) -> None:
         42,
     )
     assert result["shap_rows"] == 50
+    assert result["shap_sampling"] == "uniform_without_replacement_from_full_validation_fold"
+    assert {row["WEEK_NUM"] for row in result["shap_week_counts"]} == {8, 9, 10, 11}
+    assert sum(row["len"] for row in result["shap_week_counts"]) == 50
     assert result["importance"][0]["mean_abs_shap"] > 0
     assert all(r["auc_decrease"] > 0 for r in result["permutation"])
+
+
+@pytest.mark.parametrize("fault", ["missing", "rank_source", "unordered", "unsupported_group"])
+def test_saved_peer_references_fail_closed(fault: str) -> None:
+    train = pl.DataFrame({"amount": np.arange(100.0), "group": ["a"] * 100})
+    specs = (
+        hypothesis("rank", "rank", "amount"),
+        hypothesis("median", "peer_median_ratio", "amount", "group"),
+    )
+    _, expected, state = peer_features(train, train, specs)
+    assert apply_peer_references(train, specs, state).equals(expected)
+    if fault == "missing":
+        del state["rank"]
+    elif fault == "rank_source":
+        state["rank"]["source"] = "target"
+    elif fault == "unordered":
+        state["rank"]["values"].reverse()
+    else:
+        state["median"]["reference"][0]["count"] = 49
+    with pytest.raises(ValueError):
+        apply_peer_references(train, specs, state)
 
 
 def test_fold_orchestration_writes_replayable_artifacts(
@@ -211,38 +239,54 @@ def test_fold_orchestration_writes_replayable_artifacts(
     store = ExperimentStore(None, "test", "test", tmp_path / "study", logger)
     specs = (
         Hypothesis("research__amount", "amount_ratios", "positive_ratio", ("a", "b"), "Exposure"),
+        Hypothesis("research__rank", "peer_statistics", "rank", ("a",), "Relative position"),
     )
 
     def publish(_store: ExperimentStore, path: Path, relative: str) -> dict[str, object]:
         return {"path": relative, "sha256": sha256_file(path), "bytes": path.stat().st_size}
 
     monkeypatch.setattr("home_credit.modeling.feature_research.publish_verified", publish)
+    fold = {
+        "fold": 1,
+        "train_week_min": 0,
+        "train_week_max": 31,
+        "validation_week_min": 32,
+        "validation_week_max": 39,
+    }
+    plan = {"permutation_rows": 800, "permutation_repeats": 1, "shap_rows": 64, "threads": 1}
     result = run_fold(
         snapshot,
         (refs[0], refs[2]),
         specs,
-        {
-            "fold": 1,
-            "train_week_min": 0,
-            "train_week_max": 31,
-            "validation_week_min": 32,
-            "validation_week_max": 39,
-        },
-        "wider_original",
+        fold,
+        "engineered",
         config,
-        {},
+        plan,
         store,
         logger,
     )
     assert result["train_rows"] == 3200 and result["validation_rows"] == 800
-    assert result["features"] == 3
+    assert result["features"] == 4
     assert set(result["artifacts"]) == {
         "model",
         "predictions",
         "encoder",
         "peer_references",
         "features",
+        "diagnostics",
     }
     saved = pl.read_parquet(store.root / result["artifacts"]["predictions"]["path"])
     assert set(saved["WEEK_NUM"]) == set(range(32, 40))
     assert np.isfinite(saved["prediction"].to_numpy()).all()
+
+    def restore(_store: ExperimentStore, member: dict[str, object]) -> Path:
+        path = store.root / str(member["path"])
+        assert sha256_file(path) == member["sha256"]
+        return path
+
+    monkeypatch.setattr("home_credit.modeling.feature_interpretation.restore_member", restore)
+    replay = interpret_fold(result, fold, snapshot, config, plan, store)
+    assert replay["new_model_fits"] == 0 and replay["peer_references_refitted"] is False
+    assert replay["prediction_maximum_absolute_error"] <= 1e-12
+    assert replay["replayed_predictions"] == 800
+    assert replay["native_model_sha256"] == result["artifacts"]["model"]["sha256"]

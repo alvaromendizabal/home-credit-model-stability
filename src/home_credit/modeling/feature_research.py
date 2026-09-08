@@ -196,6 +196,50 @@ def add_hypotheses(
     )
 
 
+def shap_diagnostics(
+    model: lgb.Booster,
+    x: Any,
+    valid: pl.DataFrame,
+    features: tuple[FeatureRef, ...],
+    plan: dict[str, Any],
+    seed: int,
+) -> dict[str, Any]:
+    """Interpret a uniform sample of the full validation fold, with week support."""
+    # Sample independently across the full fold. Taking the first rows after sorting
+    # a larger sample would bias interpretation toward earlier source-ordered cases.
+    shap_rng = np.random.default_rng(seed + 104729)
+    shap_take = np.sort(
+        shap_rng.choice(len(valid), min(plan["shap_rows"], len(valid)), replace=False)
+    )
+    contributions = np.asarray(
+        model.predict(x[shap_take], pred_contrib=True, num_threads=plan["threads"]),
+        dtype=np.float64,
+    )
+    margin = model.predict(x[shap_take], raw_score=True, num_threads=plan["threads"])
+    require(
+        bool(np.allclose(contributions.sum(axis=1), margin, atol=1e-6, rtol=1e-6)),
+        "TreeSHAP contributions do not sum to the model margin",
+    )
+    importance = [
+        {"name": f.name, "family": f.family, "gain": float(gain), "mean_abs_shap": float(shap)}
+        for f, gain, shap in zip(
+            features,
+            model.feature_importance(importance_type="gain"),
+            np.abs(contributions[:, :-1]).mean(axis=0),
+            strict=True,
+        )
+    ]
+    return {
+        "importance": importance,
+        "shap_rows": len(contributions),
+        "shap_sampling": "uniform_without_replacement_from_full_validation_fold",
+        "shap_week_counts": valid[shap_take].group_by("WEEK_NUM").len().sort("WEEK_NUM").to_dicts(),
+        "maximum_additivity_absolute_error": float(
+            np.max(np.abs(contributions.sum(axis=1) - margin))
+        ),
+    }
+
+
 def diagnostics(
     model: lgb.Booster,
     x: Any,
@@ -240,24 +284,7 @@ def diagnostics(
                     "auc_decrease": original["auc"] - metrics["auc"],
                 }
             )
-    contributions = np.asarray(
-        model.predict(sample[: plan["shap_rows"]], pred_contrib=True, num_threads=plan["threads"]),
-        dtype=np.float64,
-    )
-    margin = model.predict(sample[: plan["shap_rows"]], raw_score=True, num_threads=plan["threads"])
-    require(
-        bool(np.allclose(contributions.sum(axis=1), margin, atol=1e-6, rtol=1e-6)),
-        "TreeSHAP contributions do not sum to the model margin",
-    )
-    importance = [
-        {"name": f.name, "family": f.family, "gain": float(gain), "mean_abs_shap": float(shap)}
-        for f, gain, shap in zip(
-            features,
-            model.feature_importance(importance_type="gain"),
-            np.abs(contributions[:, :-1]).mean(axis=0),
-            strict=True,
-        )
-    ]
+    shap = shap_diagnostics(model, x, valid, features, plan, seed)
     # Pairwise redundancy is descriptive; do not remove features using validation diagnostics.
     top = np.argsort(-model.feature_importance(importance_type="gain"))[:80]
     sample_train = train[:: max(1, len(train) // 4000), :][:4000, top].astype(np.float64)
@@ -279,8 +306,7 @@ def diagnostics(
                     )
     return {
         "sample_rows": len(sample),
-        "shap_rows": len(contributions),
-        "importance": importance,
+        **shap,
         "permutation": permutation,
         "redundancy": pairs,
         "interpretation": "Predictive associations, not causal effects. Permutation preserves "

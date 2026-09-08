@@ -20,6 +20,8 @@ The later [calibration study](notebooks/12_calibration.ipynb) tests whether prob
 mappings transfer across development periods.
 The notebooks embed readable tables, interactive Plotly figures and static GitHub
 fallbacks. Reading the evidence requires no cloud account or borrower-level data.
+The [model card](MODEL_CARD.md) summarizes intended use, artifact distinctions and
+the observed limits relevant to interpreting the results.
 
 ## Final frozen evaluation
 
