@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "status": "registered_not_executed",
+  "purpose": "Define what a later feature/model promotion would require after the original holdout was opened.",
+  "existing_holdout_weeks": [73, 91],
+  "existing_holdout_is_independent_for_new_selection": false,
+  "automatic_promotion": false,
+  "development_design": {
+    "outer_windows": [[33, 40], [41, 48], [49, 56], [57, 64], [65, 72]],
+    "outer_training": "Expanding weeks 0 through the week immediately preceding each outer window.",
+    "inner_windows": "Within each outer training population, use the last two disjoint four-week windows as chronological inner validation windows, each with expanding prior training. Refit candidate screens, encoders, calibration and all learned transforms inside each inner training window.",
+    "candidate_limit": 8,
+    "candidate_registration": "Hash the exact feature/model candidates, seeds, raw snapshots, availability contracts and search budget before launching. No candidate changes after reading outer results.",
+    "selection": "Choose on mean inner weekly Gini stability, then worst inner stability, then fewer features. Derive boosting budgets from the selected inner fits; no outer early stopping.",
+    "outer_evaluation": "One prediction pass for the selected inner procedure on each outer window. Pool only aligned cases; report all five folds and all six registered comparison diagnostics.",
+    "interpretation": "Nested development estimate of the specified selection procedure. Prior exploratory use of these weeks remains disclosed; this is not a new untouched external test."
+  },
+  "release_requirements": [
+    "New independent labeled application periods or a genuinely independent external evaluation population, with target maturity and feature availability established.",
+    "Freeze features, encoders, parameters, weights and calibration before independent labels are accessed.",
+    "Validate raw train/test parity, native bundle lineage, resource bounds, schema and probability contracts for every promoted feature.",
+    "Report original and proposed models on identical independent cases, with dependence-aware uncertainty and no adaptive test reuse."
+  ],
+  "current_release_action": "Retain the frozen evaluated release. Research gate completion is not permission to claim a newly validated model."
+}
