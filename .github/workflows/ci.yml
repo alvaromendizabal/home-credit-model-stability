@@ -47,3 +47,12 @@ jobs:
           path: repository-source.tar
           if-no-files-found: error
           retention-days: 7
+      - name: Stage locked verification tool
+        run: cp .venv/bin/ruff ruff
+      - name: Preserve locked verification tool
+        uses: actions/upload-artifact@v4
+        with:
+          name: locked-formatter
+          path: ruff
+          if-no-files-found: error
+          retention-days: 1
