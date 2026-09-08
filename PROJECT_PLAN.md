@@ -38,29 +38,52 @@ Completed: four controlled LightGBM feature conditions x five folds. Every remov
 reduced mean fold stability; retain all 700 features. See the
 [accepted ablation evidence](reports/feature_ablation/README.md).
 
-Implemented: a bounded Optuna TPE study with eight new LightGBM candidates, all five
+Completed: a bounded Optuna TPE study with eight new LightGBM candidates, all five
 development folds, the reused accepted control, an authoritative S3 trial ledger,
-conditional writer leases, model-fold resume, and executed reports. Full-data tuning
-is pending. See [the tuning runbook](docs/model_tuning.md).
+conditional writer leases, model-fold resume, and executed reports. All 40 new fits
+completed; `trial_006` improved mean fold stability from 0.585188 to 0.601238. See [the tuning runbook](docs/model_tuning.md).
 
 ## 11. Neural challenger
 Install the optional GPU stack and evaluate TabM under the same protocol. Keep it only if it adds performance, stability, or ensemble diversity.
 
 ## 12. Ensemble and calibration
-Learn ensemble weights from OOF predictions only; compare calibration approaches on temporally valid data.
+Completed: 15 predeclared fixed candidates on 727,187 hash-verified and aligned
+saved OOF rows, with zero new model fits. The 90% tuned / 10% original LightGBM
+blend leads mean stability at 0.601899, but its 0.000661 gain comes with a worse
+weakest fold. The [executed review](notebooks/08_model_selection.ipynb) includes
+Plotly/static charts, exact fold deltas, model correlations and reliability.
+
+Next experiment: compare an uncalibrated reference with a bounded, temporally
+cross-fitted probability calibrator. Fit only on earlier development folds and
+evaluate later folds; report Brier/log loss and preserve the official ranking
+objective. Base-model tuning used all development folds, so this diagnostic must
+not be presented as fully nested validation. Final holdout remains untouched.
 
 ## 13. Drift and robustness
 Measure weekly predictive performance, calibration, feature drift, missingness drift, prediction drift, and subgroup robustness.
 
 ## 14. SageMaker productionization
-Move expensive stages into disposable SageMaker processing/training jobs with S3 artifacts, CloudWatch logs, checkpoints, and managed MLflow when the modeling interfaces are stable.
+Completed: a bounded managed SageMaker Processing execution at source commit
+`6623d00e9118f9847d69c0caaedd71b10e9b32fa`, with CloudWatch logs and verified S3
+artifacts. It passed 287 tests and reused the completed selection ledger. The job
+terminated successfully and did not alter the active development workspace.
+Generalized managed training and experiment tracking remain future work, not a
+reason to repeat valid fits. AWS dollar costs have not been established.
 
 ## 15. Portfolio release
-Publish reproducible benchmark tables, architecture diagrams, model/data cards, cost report, failure analysis, and a concise employer-facing README.
+Completed: executed benchmark, ablation, tuning and selection reviews with a short
+README navigation path. The selection publication has pinned aggregate/scoring
+lineage, deterministic offline HTML/SVG, Plotly and PNG notebook representations,
+explicit corruption guards, and tested execution reuse. CI executes actual published
+reviews and checks reproduction. Final model/data cards must wait for an accepted
+inference release; do not invent final-test, cost or deployment claims.
 
 ## 16. Kaggle inference and submission
 After selection and final holdout evaluation, refit the inference pipeline and validate
-test feature parity, row coverage, probability bounds and `case_id,score` schema. Execute
-the competition-compatible inference notebook and preserve its CSV, artifact hashes,
-kernel version and any available submission receipt. Check current submission access
-before claiming a leaderboard score. Publish the final model card/demo on Hugging Face.
+test feature parity, row coverage, probability bounds and `case_id,score` schema.
+Implement the final notebook so the owner explicitly generates predictions, validates
+sample row count/order and finite ranges, saves the CSV durably and downloads it.
+Never generate a real submission outside that notebook or upload to Kaggle on the
+owner's behalf. Final refit and competition inference are not yet validated end to
+end. A Hugging Face model card/demo is optional only when a publishable model exists
+and data/licensing/privacy constraints have been verified.

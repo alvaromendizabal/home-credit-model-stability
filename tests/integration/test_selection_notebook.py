@@ -82,7 +82,14 @@ def test_selection_notebook_executes_static_figures_and_resumes(tmp_path):
     cells = [c for c in executed.cells if c.cell_type == "code"]
     assert [c.execution_count for c in cells] == [1, 2, 3, 4]
     assert all(c.outputs for c in cells)
-    assert sum("image/png" in output.get("data", {}) for c in cells for output in c.outputs) == 3
+    figures = [
+        output["data"]
+        for cell in cells
+        for output in cell.outputs
+        if "image/png" in output.get("data", {})
+    ]
+    assert len(figures) == 3
+    assert all("application/vnd.plotly.v1+json" in figure for figure in figures)
     assert not any(output.output_type == "error" for c in cells for output in c.outputs)
     original = path.read_bytes()
     write_selection_notebook(path)
