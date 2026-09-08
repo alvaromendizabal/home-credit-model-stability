@@ -84,7 +84,11 @@ def fit_encoder(train: pl.DataFrame, features: tuple[FeatureRef, ...]) -> dict[s
     for feature in features:
         if feature.categorical:
             require(
-                not bool(train.select((pl.col(feature.name).cast(pl.String) == "__HC_MISSING__").any()).item()),
+                not bool(
+                    train.select(
+                        (pl.col(feature.name).cast(pl.String) == "__HC_MISSING__").any()
+                    ).item()
+                ),
                 "reserved missing-category token appears as a real category",
             )
     return {
@@ -146,14 +150,29 @@ def fit_frozen_model(
     require(not bool(np.isinf(matrix).any()), "infinite training feature")
     require(rounds > 0 and threads > 0, "round and thread budgets must be positive")
     keys = (
-        "learning_rate", "num_leaves", "max_depth", "min_data_in_leaf", "feature_fraction",
-        "bagging_fraction", "bagging_freq", "lambda_l1", "lambda_l2", "max_bin",
+        "learning_rate",
+        "num_leaves",
+        "max_depth",
+        "min_data_in_leaf",
+        "feature_fraction",
+        "bagging_fraction",
+        "bagging_freq",
+        "lambda_l1",
+        "lambda_l2",
+        "max_bin",
     )
     parameters = {key: params[key] for key in keys}
     parameters.update(
-        objective="binary", metric="None", verbosity=-1, seed=seed,
-        feature_fraction_seed=seed, bagging_seed=seed, data_random_seed=seed,
-        num_threads=threads, deterministic=True, force_col_wise=True,
+        objective="binary",
+        metric="None",
+        verbosity=-1,
+        seed=seed,
+        feature_fraction_seed=seed,
+        bagging_seed=seed,
+        data_random_seed=seed,
+        num_threads=threads,
+        deterministic=True,
+        force_col_wise=True,
     )
     names = [f.name for f in features]
     dataset = lgb.Dataset(matrix, label=target, feature_name=names, free_raw_data=True)
@@ -162,7 +181,9 @@ def fit_frozen_model(
         check_lease()
         completed = int(environment.iteration) + 1
         if completed == 1 or completed % 100 == 0 or completed == rounds:
-            logger.event("release_tree_progress", completed=completed, total=rounds, model=path.stem)
+            logger.event(
+                "release_tree_progress", completed=completed, total=rounds, model=path.stem
+            )
 
     with StageTimer(logger, f"fit_{path.stem}", heartbeat_seconds=15):
         model = lgb.train(parameters, dataset, num_boost_round=rounds, callbacks=[progress])
@@ -174,7 +195,9 @@ def fit_frozen_model(
     expected = np.asarray(model.predict(probe, num_threads=threads), dtype=np.float64)
     actual = np.asarray(restored.predict(probe, num_threads=threads), dtype=np.float64)
     validate_probabilities(actual, len(probe))
-    require(bool(np.allclose(expected, actual, rtol=0, atol=1e-12)), "model reload prediction mismatch")
+    require(
+        bool(np.allclose(expected, actual, rtol=0, atol=1e-12)), "model reload prediction mismatch"
+    )
     return {
         "requested_rounds": rounds,
         "actual_rounds": int(restored.current_iteration()),
@@ -197,7 +220,9 @@ def predict_components(
     """Load verified native components and combine probabilities in a stable order."""
     require(set(paths) == set(weights) and bool(paths), "ensemble component mismatch")
     require(all(math.isfinite(w) and 0 < w <= 1 for w in weights.values()), "invalid blend weight")
-    require(math.isclose(sum(weights.values()), 1, abs_tol=1e-12), "blend weights do not sum to one")
+    require(
+        math.isclose(sum(weights.values()), 1, abs_tol=1e-12), "blend weights do not sum to one"
+    )
     prediction = np.zeros(len(matrix), dtype=np.float64)
     for name in sorted(paths):
         model = lgb.Booster(model_file=str(paths[name]))
@@ -221,24 +246,38 @@ def evaluation_report(
     for week in expected_weeks:
         mask = weeks == week
         require(set(np.unique(target[mask])) == {0, 1}, f"single-class evaluation week: {week}")
-        weekly.append({
-            "week": week, "rows": int(mask.sum()), "positives": int(target[mask].sum()),
-            "gini": float(2 * roc_auc_score(target[mask], prediction[mask]) - 1),
-        })
+        weekly.append(
+            {
+                "week": week,
+                "rows": int(mask.sum()),
+                "positives": int(target[mask].sum()),
+                "gini": float(2 * roc_auc_score(target[mask], prediction[mask]) - 1),
+            }
+        )
     values = pd.DataFrame({"prediction": prediction, "target": target})
     values["bin"] = pd.qcut(values["prediction"], 10, duplicates="drop")
     reliability = [
-        {"rows": len(group), "mean_prediction": float(group["prediction"].mean()),
-         "observed_default_rate": float(group["target"].mean())}
+        {
+            "rows": len(group),
+            "mean_prediction": float(group["prediction"].mean()),
+            "observed_default_rate": float(group["target"].mean()),
+        }
         for _, group in values.groupby("bin", observed=True)
     ]
     if not reliability:
-        reliability = [{"rows": len(values), "mean_prediction": float(np.mean(prediction)),
-            "observed_default_rate": float(np.mean(target))}]
+        reliability = [
+            {
+                "rows": len(values),
+                "mean_prediction": float(np.mean(prediction)),
+                "observed_default_rate": float(np.mean(target)),
+            }
+        ]
     return {
         "metrics": evaluate_probabilities(target, prediction, weeks),
-        "rows": frame.height, "positive_rate": float(np.mean(target)),
-        "weekly": weekly, "reliability": reliability,
+        "rows": frame.height,
+        "positive_rate": float(np.mean(target)),
+        "weekly": weekly,
+        "reliability": reliability,
     }
 
 

@@ -10,6 +10,7 @@ import numpy as np
 import polars as pl
 import pytest
 
+from home_credit.modeling.checkpoints import sha256_file
 from home_credit.modeling.data import FeatureRef
 from home_credit.modeling.release import (
     checked_member,
@@ -25,7 +26,6 @@ from home_credit.modeling.release import (
     validate_probabilities,
     verify_file,
 )
-from home_credit.modeling.checkpoints import sha256_file
 from home_credit.observability.logging import RunLogger
 
 
@@ -72,7 +72,9 @@ def test_corrupt_encoder_rejected(features, mutation):
         transform(frame, features, encoder)
 
 
-@pytest.mark.parametrize("name", ["target", "case_id", "WEEK_NUM", "MONTH", "score", "base__decision_day"])
+@pytest.mark.parametrize(
+    "name", ["target", "case_id", "WEEK_NUM", "MONTH", "score", "base__decision_day"]
+)
 def test_forbidden_predictors_rejected(name):
     with pytest.raises(ValueError):
         validate_features((FeatureRef(name, "base_depth0", "base", 0, "int", False),))
@@ -90,10 +92,14 @@ def test_missing_schema_empty_fit_and_missing_token_fail(features):
 
 
 def test_fixed_iterations_derive_from_all_saved_development_folds():
-    state = {"schema_version": 1, "identity": {"smoke": False}, "folds": {
-        f"lightgbm:fold_{i}": {"fold": i, "metrics": {"best_iteration": n}}
-        for i, n in enumerate([1024, 1435, 1995, 2199, 1852], 1)
-    }}
+    state = {
+        "schema_version": 1,
+        "identity": {"smoke": False},
+        "folds": {
+            f"lightgbm:fold_{i}": {"fold": i, "metrics": {"best_iteration": n}}
+            for i, n in enumerate([1024, 1435, 1995, 2199, 1852], 1)
+        },
+    }
     assert frozen_iterations(state) == 1852
     state["identity"]["smoke"] = True
     with pytest.raises(ValueError, match="smoke"):
@@ -104,7 +110,9 @@ def test_fixed_iterations_derive_from_all_saved_development_folds():
         frozen_iterations(state)
 
 
-@pytest.mark.parametrize("values", [[float("nan")], [float("inf")], [-0.1], [1.1], [[0.1]], [0.1, 0.2]])
+@pytest.mark.parametrize(
+    "values", [[float("nan")], [float("inf")], [-0.1], [1.1], [[0.1]], [0.1, 0.2]]
+)
 def test_probability_contract(values):
     with pytest.raises(ValueError):
         validate_probabilities(np.asarray(values), 1)
@@ -120,7 +128,7 @@ def test_safe_artifacts_and_nonportable_json(tmp_path):
         with pytest.raises(ValueError, match="unsafe"):
             checked_member(tmp_path, name)
     path = tmp_path / "metadata.json"
-    path.write_text('[1]')
+    path.write_text("[1]")
     with pytest.raises(ValueError):
         read_object(path)
     path.write_text('{"value": NaN}')
@@ -137,9 +145,15 @@ def test_evaluation_requires_every_declared_week_and_both_classes():
     with pytest.raises(ValueError, match="coverage"):
         evaluation_report(frame, prediction, expected_weeks=[73, 74, 75])
     with pytest.raises(ValueError, match="single-class"):
-        evaluation_report(frame.with_columns(pl.Series("target", [0, 0, 0, 1])), prediction, expected_weeks=[73, 74])
+        evaluation_report(
+            frame.with_columns(pl.Series("target", [0, 0, 0, 1])),
+            prediction,
+            expected_weeks=[73, 74],
+        )
     constant = evaluation_report(frame, np.full(4, 0.5), expected_weeks=[73, 74])
-    assert constant["reliability"] == [{"rows": 4, "mean_prediction": 0.5, "observed_default_rate": 0.5}]
+    assert constant["reliability"] == [
+        {"rows": 4, "mean_prediction": 0.5, "observed_default_rate": 0.5}
+    ]
 
 
 def test_native_model_fixed_rounds_reload_and_predict(tmp_path, features):
@@ -148,14 +162,25 @@ def test_native_model_fixed_rounds_reload_and_predict(tmp_path, features):
     encoder = fit_encoder(frame, features)
     matrix = transform(frame, features, encoder)
     target = (matrix[:, 0] + rng.normal(size=500) > 0).astype(np.int8)
-    parameters = json.loads((Path(__file__).resolve().parents[2] / "configs/model_benchmark.json").read_text())["models"]["lightgbm"]
+    parameters = json.loads(
+        (Path(__file__).resolve().parents[2] / "configs/model_benchmark.json").read_text()
+    )["models"]["lightgbm"]
     parameters = copy.deepcopy(parameters)
     parameters.update(min_data_in_leaf=10, num_leaves=7)
     path = tmp_path / "lightgbm.txt"
     events = []
-    receipt = fit_frozen_model(matrix, target, features, params=parameters, rounds=12, seed=9,
-        threads=1, path=path, logger=RunLogger("release-test", tmp_path / "logs"),
-        check_lease=lambda: events.append("checked"))
+    receipt = fit_frozen_model(
+        matrix,
+        target,
+        features,
+        params=parameters,
+        rounds=12,
+        seed=9,
+        threads=1,
+        path=path,
+        logger=RunLogger("release-test", tmp_path / "logs"),
+        check_lease=lambda: events.append("checked"),
+    )
     assert receipt["actual_rounds"] == 12
     assert receipt["reload_max_absolute_error"] == 0
     assert receipt["early_stopping_used"] is False
