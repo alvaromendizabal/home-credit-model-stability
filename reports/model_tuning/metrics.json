@@ -1,0 +1,140 @@
+{
+  "complete": true,
+  "completed_new_model_folds": 40,
+  "completed_utc": "2026-09-07T07:40:22Z",
+  "feature_count": 700,
+  "folds": [
+    {
+      "control": 0.3936822858714575,
+      "delta": 0.0855176956614907,
+      "fold": 1,
+      "trial_006": 0.4791999815329482
+    },
+    {
+      "control": 0.667723153778498,
+      "delta": 0.0026070620087736973,
+      "fold": 2,
+      "trial_006": 0.6703302157872717
+    },
+    {
+      "control": 0.49782348183981734,
+      "delta": -0.010469104571892596,
+      "fold": 3,
+      "trial_006": 0.48735437726792474
+    },
+    {
+      "control": 0.6828064506634226,
+      "delta": -0.0024934837444011704,
+      "fold": 4,
+      "trial_006": 0.6803129669190214
+    },
+    {
+      "control": 0.6839064898086712,
+      "delta": 0.005085218408507286,
+      "fold": 5,
+      "trial_006": 0.6889917082171785
+    }
+  ],
+  "interpretation": "The leader improves three of five folds; most stability gain comes from fold 1. Trial 004 has slightly better probability metrics. Repeated selection on these folds is not unbiased validation.",
+  "new_candidates": 8,
+  "outer_holdout_touched": false,
+  "plan_sha256": "4a035fd15373ecb67ae8d1b54efe43da21f3d797673097d5d2f550516ba6ce1d",
+  "reused_control_folds": 5,
+  "rows": [
+    {
+      "candidate": "control",
+      "mean_fold_stability": 0.5851883723923733,
+      "oof_auc": 0.8468941374919333,
+      "oof_average_precision": 0.20452456164496388,
+      "oof_brier": 0.032425458087833335,
+      "oof_log_loss": 0.12680497461504933,
+      "worst_fold_stability": 0.3936822858714575
+    },
+    {
+      "candidate": "trial_001",
+      "mean_fold_stability": 0.5731951286322959,
+      "oof_auc": 0.8471536995247345,
+      "oof_average_precision": 0.205705350091099,
+      "oof_brier": 0.032412754518803356,
+      "oof_log_loss": 0.1267852813818969,
+      "worst_fold_stability": 0.40777175376234953
+    },
+    {
+      "candidate": "trial_002",
+      "mean_fold_stability": 0.5817339232724457,
+      "oof_auc": 0.8467323165593602,
+      "oof_average_precision": 0.20414685020232368,
+      "oof_brier": 0.032426216345591924,
+      "oof_log_loss": 0.12683010311543452,
+      "worst_fold_stability": 0.4230798892792055
+    },
+    {
+      "candidate": "trial_003",
+      "mean_fold_stability": 0.5901181459767021,
+      "oof_auc": 0.8488605166848576,
+      "oof_average_precision": 0.20729928139286022,
+      "oof_brier": 0.03235659308410403,
+      "oof_log_loss": 0.126324098296837,
+      "worst_fold_stability": 0.42492230294065464
+    },
+    {
+      "candidate": "trial_004",
+      "mean_fold_stability": 0.591861624315831,
+      "oof_auc": 0.8492754107114332,
+      "oof_average_precision": 0.20792536854084845,
+      "oof_brier": 0.0323353346472485,
+      "oof_log_loss": 0.12618930778994658,
+      "worst_fold_stability": 0.4534097737463672
+    },
+    {
+      "candidate": "trial_005",
+      "mean_fold_stability": 0.5460156645596497,
+      "oof_auc": 0.8451682599010664,
+      "oof_average_precision": 0.2021028132880136,
+      "oof_brier": 0.0325171306251487,
+      "oof_log_loss": 0.12725553157015632,
+      "worst_fold_stability": 0.25291991845287626
+    },
+    {
+      "candidate": "trial_006",
+      "mean_fold_stability": 0.6012378499448688,
+      "oof_auc": 0.8492864312535401,
+      "oof_average_precision": 0.20735077530474932,
+      "oof_brier": 0.032347467314445176,
+      "oof_log_loss": 0.12622168543553317,
+      "worst_fold_stability": 0.4791999815329482
+    },
+    {
+      "candidate": "trial_007",
+      "mean_fold_stability": 0.5927725564220815,
+      "oof_auc": 0.848767295168748,
+      "oof_average_precision": 0.20564206118208342,
+      "oof_brier": 0.03239174051887792,
+      "oof_log_loss": 0.126435972320502,
+      "worst_fold_stability": 0.41235447655074237
+    },
+    {
+      "candidate": "trial_008",
+      "mean_fold_stability": 0.5847994538203236,
+      "oof_auc": 0.847314728192425,
+      "oof_average_precision": 0.2053299486441879,
+      "oof_brier": 0.032399797439917756,
+      "oof_log_loss": 0.12667620021714657,
+      "worst_fold_stability": 0.411907169191681
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Development-only aggregate excerpt from the completed S3 study; not a holdout or leaderboard result.",
+  "selected_parameters": {
+    "bagging_fraction": 0.8128296528743939,
+    "feature_fraction": 0.7588755879033762,
+    "lambda_l1": 9.093011170854757,
+    "lambda_l2": 36.49985170247936,
+    "min_data_in_leaf": 100,
+    "num_leaves": 31
+  },
+  "selected_trial": "trial_006",
+  "smoke": false,
+  "source_study_sha256": "0de34e51d0a97bd8cd4064931f81135ba3a5299c30e76b3ca1f178f0cb3569dd",
+  "training_git_commit": "2e52dd908f2b30a783e37157ae9801e0679cc666"
+}

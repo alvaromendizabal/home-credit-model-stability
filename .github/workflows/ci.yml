@@ -4,37 +4,88 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   quality:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - name: Configure Git default branch
+        run: git config --global init.defaultBranch main
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
           version: "0.12.10"
           python-version: "3.12.14"
           enable-cache: true
       - name: Sync locked environment
         run: uv sync --locked --group dev
+      - name: Execute canonical tuning review
+        run: uv run --locked python scripts/review_model_tuning.py --force
       - name: Run quality gates
         env:
           HOME_CREDIT_NOTEBOOK_INTEGRATION: "1"
         run: bash scripts/check.sh
       - name: Execute benchmark review notebook
         run: uv run --locked python scripts/review_model_benchmark.py --force
-      - name: Verify published review is reproducible
+      - name: Verify published benchmark is reproducible
         run: git diff --exit-code -- notebooks/05_benchmark_review.ipynb reports/benchmark/review.json
       - name: Reproduce accepted ablation figure
         run: |
           uv run --locked python scripts/review_feature_ablation.py
           git diff --exit-code -- reports/feature_ablation/overview.svg
-      - name: Preserve executed review
-        uses: actions/upload-artifact@v4
+      - name: Execute accepted ablation notebook without replacing historical evidence
+        run: |
+          uv run --locked python - <<'PY'
+          import shutil
+          from pathlib import Path
+          from home_credit.observability.logging import RunLogger
+          from home_credit.runtime.notebooks import execute_notebook
+          root = Path.cwd()
+          directory = root / "artifacts/ci/feature_ablation"
+          directory.mkdir(parents=True, exist_ok=True)
+          for name in ("06_feature_ablation.ipynb", "comparison.json"):
+              shutil.copy2(root / "reports/feature_ablation" / name, directory / name)
+          execute_notebook(
+              root, directory / "06_feature_ablation.ipynb",
+              RunLogger("ablation-review-ci", root / "logs"),
+              dependencies=[directory / "comparison.json", root / "uv.lock"],
+              receipt_path=directory / "receipt.json", execution_root=directory,
+          )
+          PY
+      - name: Preserve executed reviews
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: benchmark-review
+          name: portfolio-reviews
           path: |
             notebooks/05_benchmark_review.ipynb
+            notebooks/07_model_tuning.ipynb
+            artifacts/ci/feature_ablation/06_feature_ablation.ipynb
             reports/benchmark/review.json
-            logs/benchmark-review-*.jsonl
+            logs/*review*.jsonl
           if-no-files-found: error
+      - name: Publish executed tuning review on feature branches
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feat/')
+        env:
+          REVIEW_BRANCH: ${{ github.ref_name }}
+        run: |
+          git add notebooks/07_model_tuning.ipynb
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m 'docs: publish executed tuning review'
+            git push origin "HEAD:$REVIEW_BRANCH"
+          fi
+      - name: Archive tested source
+        run: git archive HEAD --format=tar -o repository-source.tar
+      - name: Preserve reproducibility source
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: repository-source
+          path: repository-source.tar
+          if-no-files-found: error
+          retention-days: 7
