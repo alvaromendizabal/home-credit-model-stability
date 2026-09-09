@@ -14,11 +14,14 @@
   "kaggle_notebook": "https://www.kaggle.com/code/alvaromendizabal/home-credit-frozen-lightgbm-inference",
   "kaggle_dataset": "https://www.kaggle.com/datasets/alvaromendizabal/home-credit-frozen-inference",
   "kaggle_dataset_visibility": "private",
-  "kaggle_stage": "submitted_hidden_test_running",
+  "kaggle_stage": "hidden_test_succeeded_scored",
   "kaggle_saved_version": 1,
   "kaggle_submitted": true,
-  "hidden_test_executed": false,
-  "kaggle_score": null,
+  "hidden_test_executed": true,
+  "kaggle_score": {
+    "private": 0.47429,
+    "public": 0.56062
+  },
   "kaggle_offline_dependency_probe": {
     "status": "passed",
     "python": "3.12.13",
@@ -61,12 +64,13 @@
   },
   "kaggle_submission": {
     "submitted_date_utc": "2026-09-09",
-    "observed_status": "Notebook Running (after deadline)",
+    "observed_status": "Succeeded (after deadline)",
+    "terminal_observed_utc": "2026-09-09T05:00:32Z",
     "page_url": "https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/submissions",
     "saved_version": 1,
     "script_version_id": 348432382,
     "file": "submission.csv",
-    "public_score": null,
-    "private_score": null
+    "public_score": 0.56062,
+    "private_score": 0.47429
   }
 }

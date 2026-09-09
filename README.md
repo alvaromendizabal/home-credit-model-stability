@@ -141,11 +141,11 @@ is disabled by default. [Submission runbook](docs/kaggle_submission.md).
 
 Kaggle saved notebook **version 1** completed offline and matched both verified AWS
 exports byte for byte, with zero model fits. The ten public examples are an
-integration fixture. The saved version has now been submitted; Kaggle reports
-**Notebook Running (after deadline)** on the
+integration fixture. Kaggle completed the submitted hidden-test rerun with status
+**Succeeded (after deadline)** and reported **0.56062 public / 0.47429 private** on the
 [submissions page](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/submissions).
-Its hidden-test score is pending. The project's observed holdout metric remains
-separate evidence.
+These leaderboard scores evaluate the separate all-label inference refit; the
+project's observed local holdout metric remains separate evidence.
 
 ## Research scope
 

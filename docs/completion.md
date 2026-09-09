@@ -184,9 +184,10 @@ Its real raw-data integration covers the ten public examples. On 9 September 202
 the owner authorized submission preparation and submission. The offline delivery
 package passed two export runs with four unchanged prediction batches reused.
 Kaggle saved version 1 (script version 348432382) completed offline with zero fits
-and reproduced the verified CSV bytes. That version has been submitted and Kaggle
-reports **Notebook Running (after deadline)**. A completed hidden-test evaluation
-and its score remain pending.
+and reproduced the verified CSV bytes. Kaggle's submitted hidden-test rerun reports
+**Succeeded (after deadline)** with **0.56062 public / 0.47429 private**. These
+leaderboard scores evaluate the separate all-label inference refit and must not be
+substituted for the development-trained model's 0.729674 local holdout stability.
 See the [submission runbook](kaggle_submission.md) and `reports/kaggle_submission/`.
 
 Further modeling should begin as a separately scoped study with a new promotion

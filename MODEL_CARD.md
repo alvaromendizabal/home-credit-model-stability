@@ -72,8 +72,9 @@ untouched test for subsequent work.
 - No operational decision threshold, lending-cost function, policy impact or
   protected-group fairness evaluation has been validated.
 - The saved Kaggle notebook reproduced the verified ten-example integration export
-  offline. Its submitted hidden-test execution is running; no leaderboard result
-  or completed hidden-test resource measurement is claimed yet. See the
+  offline. Its submitted hidden-test rerun succeeded after the deadline and scored
+  0.56062 public / 0.47429 private. Those leaderboard scores evaluate the separate
+  all-label inference refit, not the local holdout model. See the
   [submission record](reports/kaggle_submission/execution.json).
 
 Application periods define the folds; production event-time availability and label
