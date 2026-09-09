@@ -4,21 +4,50 @@
   "requirements": [
     {
       "id": "raw_history_shape",
-      "status": "open",
+      "status": "addressed",
       "reason": "Historical medians, interquartile ranges, upper-tail quantiles and skew cannot be recovered from the existing case-level means and extrema. Training-population peer quantiles do not test this family.",
-      "next_action": "Build and screen a bounded raw-history distribution family on development data, then compare it with the fixed 700-feature control across all five folds."
+      "next_action": "Build and screen a bounded raw-history distribution family on development data, then compare it with the fixed 700-feature control across all five folds.",
+      "resolution": "Completed the registered raw-history distribution study: 524 candidates, 96 retained, 428 rejected, two conditions across all five development folds and independent native-model/metric replay. No new holdout evaluation or release promotion.",
+      "evidence": [
+        {
+          "path": "reports/history_research/comparison.json",
+          "sha256": "14ba104ca2a082b086dfc789e61185873241897cd147f95c297a00ca11240d76"
+        },
+        {
+          "path": "reports/history_research/screen.json",
+          "sha256": "56538b74f6aa0685c360b1aa22addad0a0ef3ae5a281e2079d9fe16697cc433f"
+        },
+        {
+          "path": "reports/history_research/verification.json",
+          "sha256": "4ac0c6b7a39028ec886818204e392ac7df2e64221700e79a8603735202359ecd"
+        }
+      ]
     },
     {
       "id": "event_time_availability",
-      "status": "open",
+      "status": "addressed",
       "reason": "Source group indices are not verified event timestamps. Chronological trends require a field-level event/availability contract; unsupported histories must be excluded with a recorded reason.",
-      "next_action": "Audit raw event-date semantics before admitting lag, trend or acceleration features; explicitly exclude histories whose ordering or availability cannot be established."
+      "next_action": "Audit raw event-date semantics before admitting lag, trend or acceleration features; explicitly exclude histories whose ordering or availability cannot be established.",
+      "resolution": "Audited 33 resolved date fields across all 14 raw history sources. No field-level event/availability contract is present in the locked snapshot. Chronological lags, trends and accelerations are explicitly excluded; supplied numeric calendar parts do not establish ordering.",
+      "evidence": [
+        {
+          "path": "reports/history_research/history_manifest.json",
+          "sha256": "be2821c72dfbd6e5c7bffe488bc537a0d44fee3bf6217fccf9b2231f8573da05"
+        }
+      ]
     },
     {
       "id": "future_promotion_protocol",
-      "status": "open",
+      "status": "addressed",
       "reason": "Weeks 73-91 have already been observed. Repeated selection on the five development folds does not create new independent evidence.",
-      "next_action": "Predeclare a nested temporal development study and require a new independent evaluation population before claiming a newly validated release."
+      "next_action": "Predeclare a nested temporal development study and require a new independent evaluation population before claiming a newly validated release.",
+      "resolution": "Registered a bounded nested temporal development protocol, with all selection confined to inner training windows and a new independent evaluation population required for a newly validated release. The protocol is registered, not executed; the frozen release is retained.",
+      "evidence": [
+        {
+          "path": "configs/future_promotion.json",
+          "sha256": "032fbbc013c653f69428f20cdeebb9fff1d27af0579bb87cc8cd41c0906ac750"
+        }
+      ]
     }
   ],
   "justified_exclusions": [

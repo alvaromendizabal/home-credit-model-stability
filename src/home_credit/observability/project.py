@@ -11,6 +11,7 @@ from typing import Any
 
 from home_credit.modeling.calibration_report import load_evidence as load_calibration
 from home_credit.modeling.feature_research_report import load_evidence as load_research
+from home_credit.modeling.history_report import load_evidence as load_history
 from home_credit.modeling.portfolio import load_portfolio
 from home_credit.modeling.release import checked_member, read_object, verify_file
 from home_credit.modeling.selection import require
@@ -46,6 +47,8 @@ def published_status(root: Path) -> dict[str, Any]:
     """Reject stale evidence before returning results; never infer live cloud state."""
     portfolio = load_portfolio(root)
     research = load_research(root)["result"]
+    history_evidence = load_history(root)
+    history = history_evidence["result"]
     calibration = load_calibration(root)
     original = portfolio["features"]
     gate = read_object(root / "configs/research_gate.json")
@@ -85,6 +88,7 @@ def published_status(root: Path) -> dict[str, Any]:
         "published_evidence_verified": True,
         "release_complete": portfolio["state"]["complete"],
         "expanded_study_complete": True,
+        "raw_history_study_complete": True,
         "feature_completion_gate_passed": not open_requirements,
         "remaining_requirements": open_requirements,
         "holdout": {"weeks": [73, 91], "observed": True, "available_for_new_selection": False},
@@ -96,13 +100,22 @@ def published_status(root: Path) -> dict[str, Any]:
             "additional_candidates": research["additional_candidates"],
             "additional_retained_for_experiment": research["additional_retained"],
             "additional_rejected": research["additional_rejected"],
-            "combined_hypotheses": original["candidate_count"] + research["additional_candidates"],
+            "raw_history_candidates": history["additional_candidates"],
+            "raw_history_retained_for_experiment": history["additional_retained"],
+            "raw_history_rejected": history["additional_rejected"],
+            "combined_hypotheses": original["candidate_count"]
+            + research["additional_candidates"]
+            + history["additional_candidates"],
             "additions_promoted_to_release": 0,
         },
         "expanded_study_fits": research["new_model_fits"],
+        "raw_history_study_fits": history["new_model_fits"],
         "calibrator_fits": calibration["new_calibrator_fits"],
         "frozen_evaluation": portfolio["evaluation"]["metrics"],
         "feature_comparisons": research["rows"],
+        "raw_history_comparisons": history["rows"],
+        "raw_history_fold_sensitivity": fold_sensitivity(history),
+        "raw_history_verification": history_evidence["verification"],
         "fold_sensitivity": fold_sensitivity(research),
         "sensitivity_scope": "Descriptive fold-omission sensitivity; not a confidence interval.",
         "notebooks": notebooks,
@@ -174,8 +187,9 @@ def cloud_artifacts(root: Path) -> list[dict[str, Any]]:
     portfolio = load_portfolio(root)
     research = load_research(root)
     calibration = load_calibration(root)
+    history = load_history(root)
     members: dict[str, dict[str, Any]] = {}
-    for data in (portfolio["state"], research["result"], calibration):
+    for data in (portfolio["state"], research["result"], calibration, history["study"]):
         for member in artifact_members(data):
             key = member["key"]
             require(key.startswith(PROJECT_PREFIX), "checkpoint belongs to another project")

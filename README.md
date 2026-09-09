@@ -16,10 +16,11 @@ resumable AWS execution and a portable inference pipeline.
 
 For the full experimental trail, read the [feature ablations](reports/feature_ablation/06_feature_ablation.ipynb),
 [tuning](notebooks/07_model_tuning.ipynb) and [ensemble selection](notebooks/08_model_selection.ipynb).
-The later [feature study](notebooks/11_feature_research.ipynb) tests a wider budget
-and 256 engineered additions with SHAP, grouped permutation and redundancy diagnostics.
+The later [feature study](notebooks/11_feature_research.ipynb) tests a wider budget,
+256 engineered additions and 96 raw-history additions. It includes SHAP, grouped
+permutation, redundancy diagnostics and an explicit event-date availability audit.
 The [calibration study](notebooks/12_calibration.ipynb) tests whether probability
-mappings transfer across development periods. Both retain their negative findings.
+mappings transfer across development periods. Both retain unsuccessful comparisons.
 The notebooks embed readable tables, interactive Plotly figures and static GitHub
 fallbacks. Reading the evidence requires no cloud account or borrower-level data.
 The [model card](MODEL_CARD.md) summarizes intended use, artifact distinctions and
@@ -27,9 +28,10 @@ the observed limits relevant to interpreting the results.
 The [completion record](docs/completion.md) maps the finished work to its verification evidence.
 
 For the current state and optional AWS monitoring, see [project status](docs/project_status.md).
-The published release is evaluated, while the expanded feature-research completion
-gate remains open for raw-history distributions, event-time availability and a new
-promotion protocol. Completed experiments do not imply that these avenues were tested.
+**The bounded research portfolio is complete.** Its expanded feature gate is
+closed with executed distribution comparisons, documented chronology exclusions
+and a registered future promotion protocol. The protocol itself is not an
+executed experiment. No cloud job needs to stay running to review these results.
 
 ## Final frozen evaluation
 
@@ -74,6 +76,12 @@ fold scores.
   comparison fits. The full extension improved pooled AUC but reduced mean stability
   by **0.025284**. Doubling the original budget to 1,400 gave a **0.001290** mean gain
   and a weaker worst fold. These post-release development results did not change the release.
+- **Raw-history research:** 524 median, IQR, p90 and skew candidates; 96 retained;
+  ten new comparison fits. The 796-feature condition reaches 0.584195 mean stability
+  (-0.000994 vs the original control); removing its 13 skew features reaches
+  0.588678 (+0.003490). Both improve the weakest fold but win on only three of five
+  folds; their omission ranges cross zero. These modest, inconsistent development
+  changes preserve the already-evaluated release.
 - **Calibration:** eight past-fold sigmoid/isotonic fits evaluated 544,611 later
   development cases. Neither improved pooled Brier score or log loss. This four-fold
   comparison has a different population from the five-fold model-selection study.
@@ -134,11 +142,15 @@ resource limits and a leaderboard score have not been verified.
 This is an evaluated, bounded research portfolio release. The expanded study tests
 ratios, dispersion, category interactions, recency, household comparisons,
 missingness and training-only peer statistics, with all rejections accounted for.
-It includes five-fold interpretation and native-model replay. A finite search does
-not establish exhaustive discovery: raw-history quantiles/skew, verified event-time
-trends, neural challengers and fully nested promotion studies were not performed.
-Peer quantiles describe training populations; they are not new per-customer history
-quantiles. Native categorical target statistics were evaluated through CatBoost.
+The separate raw-history study computes within-applicant median, IQR, p90 and
+skew directly from verified source shards. Across the original and two added
+screens, 7,649 hypotheses are accounted for; the release still uses 700 features.
+A finite search does not establish exhaustive discovery. Thirty-three resolved
+date fields lack the field-level event/availability contract needed for verified
+chronological lags and trends, so that avenue is explicitly excluded. Numeric
+calendar parts are not proof of event ordering. Native categorical target
+statistics were evaluated through CatBoost. Neural challengers and fully nested
+promotion experiments were not performed.
 
 The original holdout is now observed and bound to the frozen release. Further feature
 or model exploration must use development data and be labeled accordingly; it cannot

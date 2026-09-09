@@ -541,7 +541,7 @@ CELLS = [
     (
         "markdown",
         """
-    # Feature research: when more predictors hurt temporal stability
+    # Feature research: what richer representations add
 
     **Question:** does a wider representation improve the original 700-feature
     LightGBM control on later development periods? We tested 4,617 additional
@@ -608,8 +608,9 @@ display(pd.Series(screen["rejection_counts"], name="Rejected candidates").to_fra
     interquartile positions. Ranks mostly re-express existing information. Unsupported
     peer groups (fewer than 50 training cases) and unseen groups return null.
 
-    Source group order is **not verified chronology**. Historical quantiles/skew were
-    not recomputed from raw histories; peer quantiles describe training populations.
+    Source group order is **not verified chronology**. This first study did not
+    recompute raw-history quantiles/skew; the separate study below does that.
+    Peer quantiles in this first study describe training populations.
     All features rely on the competition's application-time snapshots, without a
     production guarantee about event timestamps or label maturity. CatBoost's native
     target statistics were tested in the original benchmark; online default-rate
@@ -722,7 +723,7 @@ print("Maximum metric absolute error:", evidence["verification"]["maximum_metric
     (
         "markdown",
         """
-    ## Decision and reproducible closure
+    ## First study: decision and recovery
 
     - **All 256 additions:** mean stability falls by 0.025284 despite better pooled
       discrimination and probability scores. Feature influence alone does not justify
@@ -737,8 +738,8 @@ print("Maximum metric absolute error:", evidence["verification"]["maximum_metric
 
     **Decision: preserve the frozen tuned blend.** This extension has answered its
     bounded research questions; it does not retroactively optimize the observed
-    holdout. Raw-history quantiles, neural challengers and fully nested promotion
-    studies remain possible future work, not unfinished requirements for this release.
+    holdout. The next section tests raw-history distributions under its own registered
+    plan. Neural challengers and fully nested promotion are not executed claims.
 
     Independent recomputation verified 21 prediction files, 3,635,935 predictions
     across the five conditions and 235 metric identities. The original feature job
@@ -757,17 +758,152 @@ print("Maximum metric absolute error:", evidence["verification"]["maximum_metric
 ]
 
 
+HISTORY_CELLS = [
+    (
+        "markdown",
+        """
+    ## Second study: return to the raw histories
+
+    **Question:** do an applicant's typical historical value, middle spread,
+    upper tail and asymmetry add information beyond existing means and extrema?
+    This study pools raw shards per applicant and computes median, IQR, p90 and
+    adjusted Fisher-Pearson skew for eligible numeric histories. These are distinct
+    from population peer percentiles. Static snapshots, resolved date fields, targets
+    and group indices do not become distribution candidates. Supplied numeric calendar
+    parts remain numeric candidates; they are not used to infer chronological order.
+
+    Quantiles use linear interpolation. IQR and p90 require three finite observations;
+    skew requires five and positive variance. Missing or undefined histories stay
+    missing. Tests check independent NumPy/SciPy oracles, shard pooling, row-order
+    invariance, empty histories and exclusion of observed holdout cases.
+
+    The same early screening windows retain at most 96 additions. Two conditions
+    compare the original 700 plus retained distributions, then remove all selected
+    skew features without filling their slots. All other learner settings and the
+    five temporal folds remain fixed. The five baseline fits are reused.
+    See the [registered study](../docs/history_research.md) for exact definitions.
+    """,
+    ),
+    (
+        "code",
+        """
+from home_credit.modeling.history_report import load_evidence as load_history
+
+history = load_history(root)
+history_result, history_screen = history["result"], history["screen"]
+print("Verified raw-history study:", history_result["study_key"])
+display(pd.DataFrame([{
+    "New raw-history candidates": history_screen["generated"],
+    "Retained": history_screen["retained"], "Rejected": history_screen["rejected"],
+    "Full comparison fits": history_result["new_model_fits"],
+    "Cases per condition": history_result["aligned_oof_cases"],
+}]))
+display(pd.Series(history_result["retained_statistics"], name="Retained").to_frame())
+display(pd.Series(history_screen["rejection_counts"], name="Rejected").to_frame())
+retained = pd.DataFrame([r["screen"] for r in history_screen["catalog"]
+                         if r["rejection_reason"] is None])
+print("Leading early-screen candidates; these scores are not final-model importance:")
+with pd.option_context("display.max_colwidth", 90):
+    display(retained.sort_values("selection_score", ascending=False).head(10)[
+        ["name", "missing_fraction", "selection_score"]].round(6))
+audit = pd.DataFrame([{
+    "Source": f"{a['source']} / depth {a['depth']}",
+    "Numeric columns": len(a["numeric_columns"]),
+    "Date fields audited": len(a["date_fields"]),
+    "Chronology admitted": a["chronology_admitted"],
+} for a in history["manifest"]["source_audits"]])
+display(audit)
+""",
+    ),
+    (
+        "markdown",
+        """
+    ## Raw-history results and the skew ablation
+
+    Each condition evaluates exactly the same cases. Read mean stability and the
+    weakest fold together; pooled AUC and probability quality answer different
+    questions. Fold means weight the five time windows equally even though their
+    case counts differ. The support table makes that imbalance visible, and the
+    heatmap shows where gains or losses occur. Fold omission is
+    descriptive sensitivity, not a confidence interval: expanding training windows
+    overlap and these development periods have already informed earlier research.
+    """,
+    ),
+    (
+        "code",
+        """
+from home_credit.modeling.history_report import display_results
+
+display(pd.DataFrame([{k: t[k] for k in ["fold", "train_rows", "validation_rows"]}
+    for t in history_result["fit_records"] if t["experiment"] == "history_shape"])
+    .sort_values("fold"))
+display_results(history)
+sensitivity = pd.DataFrame(history_result["fold_sensitivity"])
+display(sensitivity[["experiment", "positive_folds", "omission_min", "omission_max"]].round(6))
+verification = history["verification"]
+display(pd.DataFrame([{k: verification[k] for k in [
+    "native_models_replayed", "predictions_replayed", "maximum_prediction_absolute_error",
+    "metric_identities_checked", "maximum_metric_absolute_error", "model_fits",
+]}]))
+print("Frozen release changed:", history_result["release_changed"])
+""",
+    ),
+    (
+        "markdown",
+        """
+    ## Availability, decisions and what counts as finished
+
+    Every audited history source records physical date fields and explicit exclusions.
+    A date-looking name or raw row index is not evidence of event ordering or the time
+    a value became available. The locked data has no field-level availability contract,
+    so chronological lags, trends and accelerations are excluded. This is an explicit
+    evidence boundary, not a claim that those ideas were empirically unhelpful.
+
+    The original family removals establish the value of credit bureau and application
+    histories. The later extensions directly test wider budgets, engineered interactions,
+    peer statistics and now raw distribution shape. Their full fold results and negative
+    findings remain visible. Additional feature count or feature importance alone is
+    insufficient justification for changing the released representation.
+
+    The full history condition changes mean stability by -0.000994; removing its
+    13 skew features gives +0.003490 versus the original control. Both improve the
+    weakest fold but win on only three of five folds. Both omission ranges cross zero;
+    the no-skew range is -0.002966 to +0.007128. The modest mean gain depends on the
+    time windows included. These results support closing this registered search
+    without further ad hoc feature expansion or retuning. They do not establish that
+    every conceivable feature family has been exhausted.
+
+    **The frozen evaluated release remains the employer-facing model.** This research
+    does not reuse weeks 73-91 or revise their score. The
+    [future promotion protocol](../configs/future_promotion.json) registers inner
+    temporal selection within each outer training window and requires a new independent
+    population for any newly validated release claim. That protocol is registered,
+    not executed. Neural models, production deployment and operational lending
+    validation are separate extensions.
+
+    The [history evidence record](../reports/history_research/README.md) identifies
+    the source, input hashes, all hypotheses, full comparisons, cloud execution and
+    independent replay. Reading this notebook requires no cloud credentials.
+    """,
+    ),
+]
+
+
 def review(root: Path, *, force: bool = False, write_only: bool = False) -> bool:
     evidence = load_evidence(root)
+    from home_credit.modeling.history_report import load_evidence as load_history
+
+    history = load_history(root)
     logger = ReleaseLogger("feature-research-review", root / "logs")
     work = root / "artifacts/feature_research_review"
     work.mkdir(parents=True, exist_ok=True)
     notebook = work / "11_feature_research.ipynb"
-    write_notebook(notebook, CELLS)
+    write_notebook(notebook, [*CELLS, *HISTORY_CELLS])
     if write_only:
         atomic_write(root / "notebooks" / notebook.name, notebook.read_bytes())
         return False
     policy = read_object(root / "configs/feature_research_review.json")
+    history_policy = read_object(root / "configs/history_research_review.json")
     dependencies = [
         Path(__file__),
         *(
@@ -780,9 +916,17 @@ def review(root: Path, *, force: bool = False, write_only: bool = False) -> bool
                 "scripts/verify_feature_research.py",
                 "src/home_credit/modeling/portfolio_report.py",
                 "src/home_credit/runtime/notebooks.py",
+                "src/home_credit/modeling/history_report.py",
+                "src/home_credit/modeling/history_research.py",
+                "src/home_credit/features/distributions.py",
+                "configs/history_research.json",
+                "configs/history_research_review.json",
+                "configs/future_promotion.json",
+                "scripts/verify_history_research.py",
             )
         ),
         *(root / "reports/feature_research" / name for name in sorted(policy["files"])),
+        *(root / "reports/history_research" / name for name in sorted(history_policy["files"])),
     ]
     with StageTimer(logger, "execute_feature_research_review", heartbeat_seconds=15):
         reused = execute_notebook(
@@ -801,6 +945,7 @@ def review(root: Path, *, force: bool = False, write_only: bool = False) -> bool
             {
                 "schema_version": 1,
                 "study_key": evidence["result"]["study_key"],
+                "history_study_key": history["result"]["study_key"],
                 "notebook_sha256": sha256_file(notebook),
                 "renderer_sha256": sha256_file(Path(__file__)),
                 "execution_receipt": read_object(work / "receipt.json"),

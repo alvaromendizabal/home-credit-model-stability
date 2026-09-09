@@ -1,9 +1,10 @@
 # Research portfolio completion record
 
-**Scope clarification:** this record closes the bounded release and its declared
-studies. The expanded feature-research gate requested subsequently remains open;
-see [current status and next experiments](project_status.md). In particular,
-raw-history quantiles/skew and verified event-time trends have not been evaluated.
+**The bounded release and expanded feature-research gate are complete.** The
+raw-history study is executed and independently verified; the date audit records
+unsupported chronology explicitly; the next promotion protocol is registered.
+Registration does not claim that a fully nested study has run. See
+[current status](project_status.md) for the completed scope and optional monitoring.
 
 The project is an evaluated, bounded credit-risk research release. Its standard is
 reproducible evidence, clear decisions and honest limits; a subjective employer
@@ -14,8 +15,8 @@ rating cannot be guaranteed. Start with the [README](../README.md) and notebooks
 
 ## 1. What was completed
 
-The work closes the feature-budget comparison, engineered-feature search, temporal
-calibration, interpretation audit and independent verification. The canonical
+The work closes the feature-budget comparison, engineered and raw-history searches,
+temporal calibration, interpretation audit and independent verification. The canonical
 notebooks and model card distinguish observed results, historical experiments and
 future hypotheses. No leaderboard or production lending claim is made.
 
@@ -30,10 +31,15 @@ Group-index order is not presented as verified chronological order.
 ## 3. Expanded search and selection
 
 The extension adds 4,617 candidate representations across eight families, making
-7,125 combined hypotheses rather than independent signals. Structural and early
-temporal screening retains 256, with every rejection recorded. The 50 selected peer
-features contain 44 ranks and six conditional median/interquartile transforms.
-Raw-history quantiles/skew were not recomputed. See [notebook 11](../notebooks/11_feature_research.ipynb).
+7,125 hypotheses in those first two screens rather than independent signals.
+Structural and early temporal screening retains 256, with every rejection recorded.
+The 50 selected peer features contain 44 ranks and six conditional median/interquartile transforms.
+That first extension did not recompute within-applicant distributions. The subsequent
+raw-history study adds 524 candidates from 131 numeric columns in 12 eligible
+sources, bringing the total across screens to 7,649 hypotheses. It retains 96
+(50 medians, 11 IQRs, 22 p90 values and 13 skew features) and explains all 428
+rejections. Removing skew leaves 783 features without refilling the budget.
+See [notebook 11](../notebooks/11_feature_research.ipynb).
 
 ## 4. Models and experiment budgets
 
@@ -44,8 +50,10 @@ the control. Bounded LightGBM tuning completed eight candidates and 40 new fits;
 verifies those earlier results rather than claiming to have rerun their training.
 
 The new feature study completed 20 native comparison fits plus two separate early
-screening fits. Calibration completed eight calibrator fits with zero base-model
-fits. Corrected interpretation replayed five saved native models with zero new fits.
+screening fits. The raw-history study adds ten full fits and two early-screen
+fits; its five controls are reused. Calibration completed eight calibrator fits
+with zero base-model fits. Corrected interpretation replayed five saved native
+models with zero new fits.
 
 ## 5. Observed feature and calibration decisions
 
@@ -54,6 +62,18 @@ The original 700-feature control has mean development stability 0.585188. The
 scores. Removing added ratios recovers mean stability to 0.584635. Wider original
 features reach 0.586478 but weaken the worst fold from 0.393682 to 0.362256.
 Feature importance does not establish improvement on the chosen objective.
+
+The 796-feature history condition reaches 0.584195 mean stability (-0.000994 vs
+the original control); removing its 13 skew features reaches 0.588678 (+0.003490).
+
+Both history conditions improve the weakest fold but win on only three of five
+folds. Their fold-omission ranges cross zero; without skew, the range is
+-0.002966 to +0.007128. The modest mean benefit depends on which periods
+are included. Together with the weaker engineered extension and the fragile
+1,400-feature gain, this supports closing the registered search without further
+ad hoc expansion or retuning. It does not establish exhaustive discovery of every
+possible feature. The frozen release is preserved; any later promotion requires
+its own protocol and new independent evaluation evidence.
 
 Neither past-fold sigmoid nor isotonic calibration improves pooled Brier or log loss
 on the 544,611 later development cases. These four calibration folds differ from
@@ -80,7 +100,10 @@ prediction batches. Feature verification independently recomputed 235 metric
 identities from 21 prediction files / 3,635,935 predictions; maximum error was below
 6.78e-15. Calibration verification replayed 1,633,833 predictions and checked all
 eight fold/pooled diagnostics. Five engineered native models reproduced all 727,187
-validation predictions exactly. Receipts and verifier source identities are committed.
+validation predictions exactly. The raw-history verifier replayed 1,454,374
+predictions from all ten models and independently checked 141 metric identities.
+Its maximum prediction error was 0; maximum metric error was 4.66e-15.
+Receipts and verifier source identities are committed.
 
 ## 8. Durable recovery and actual cloud closure
 
@@ -95,6 +118,13 @@ are content-addressed and verified before conditional ledgers advance. Native
 models, encoders, peer references and predictions remain durable and private.
 The [execution record](../reports/feature_research/execution.json) includes actual
 UTC starts/ends, all nine terminal AWS job states and explicit reuse log events.
+
+The later raw-history driver completed its two-condition grid on one managed
+processing instance. It then replayed all saved models and invoked the unchanged
+study again, proving identical results with zero new fits. Its separate
+[execution record](../reports/history_research/execution.json) records the actual
+terminal state, source identity and reuse log events. Source partitions and
+per-fit receipts support recovery after a coordinator interruption.
 
 ## 9. Notebooks and visual review
 
@@ -114,15 +144,20 @@ the actual PR head, including published notebook outputs, to pass before merge.
 Local Python 3.12.13 verification is disclosed in its receipt; local Jupyter sockets
 are unavailable, so CI provides the actual notebook execution gate.
 
-The [publication source CI run](https://github.com/alvaromendizabal/home-credit-model-stability/actions/runs/34266850893)
+The earlier [publication source CI run](https://github.com/alvaromendizabal/home-credit-model-stability/actions/runs/34266850893)
 passed all **434 tests with zero skips**, strict mypy on 75 source files, Ruff and
 real notebook execution. Measured test line coverage was **77%**; this is not a
 claim of exhaustive coverage, and managed cloud executions are outside that
 instrumented test run. Eight canonical notebooks plus the archived ablation review
 executed 35 code cells. All five published feature-research figures were visually
 reviewed. The [acceptance record](../reports/feature_research/acceptance.json) pins
-that source run and the resulting notebook publication. The resulting final PR
-head must still pass its own reproduction gates before merge.
+that historical source run and its notebook publication. The raw-history
+[training-source CI](https://github.com/alvaromendizabal/home-credit-model-stability/actions/runs/34287549682)
+subsequently passed 456 tests with zero skips and strict mypy on 81 files. The
+new publication adds evidence-contract tests and two figures. Its exact PR head
+must pass execution, reproduction and unchanged-review reuse before merge; the
+workflow itself enforces these checks. Test totals above are acceptance records
+for their stated source revisions, not a claim about all future revisions.
 
 ## 11. Known limits and employer interpretation
 
@@ -130,7 +165,10 @@ The project demonstrates hypothesis-driven ML, temporal evaluation, negative-res
 reporting, reproducible execution and artifact verification. It does not demonstrate
 fully nested inference, significant superiority, a neural challenger, operational
 monitoring or production lending validation. Sex and birth-related predictors are
-disclosed; importance is not a fairness audit or a causal explanation. Event-time
+disclosed; importance is not a fairness audit or a causal explanation. The 33-field
+date audit found no field-level event/availability contract in the frozen inputs;
+chronological lags, trends and acceleration are therefore excluded. This is a
+scope decision, not evidence that those features are ineffective. Event-time
 availability and outcome maturity need separate controls for deployment.
 
 ## 12. Owner-only boundary and future work
@@ -147,7 +185,7 @@ possible model family or engineered formula to close this research release.
 
 One account-side presentation edit remains: the repository's About description still
 mentions neural challengers and drift monitoring, which exceed the demonstrated
-scope. The connected repository tools do not expose an About editor, and the secure
-browser sign-in was interrupted. In the repository's About gear, use:
+scope. The connected repository tools do not expose an About editor, so that account
+setting remains an owner-side edit. In the repository's About gear, use:
 
 > Temporal credit-risk research: LightGBM, CatBoost, XGBoost, feature ablations, calibration studies, and verified SageMaker pipelines.

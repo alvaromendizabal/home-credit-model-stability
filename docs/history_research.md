@@ -16,7 +16,10 @@ Quantiles use [linear interpolation](https://docs.pola.rs/api/python/stable/refe
 Skew uses the [bias-corrected estimator](https://docs.pola.rs/api/python/stable/reference/expressions/api/polars.Expr.skew.html).
 IQR and p90 require three finite observations. Skew requires five and positive
 variance. Nonfinite or unsupported summaries remain missing. Empty histories do
-not become zero balances. Dates, targets and source group indices are excluded.
+not become zero balances. Resolved date fields (`D` suffix or temporal storage),
+targets and source group indices are excluded. Supplied numeric calendar parts,
+such as historical year/month indicators, remain numeric candidates; they neither
+establish chronological ordering nor certify production availability.
 
 ## Registered experiment
 
@@ -44,6 +47,9 @@ The source manifest records every candidate date field and its physical storage
 types. A date suffix, raw row position or `num_group1`/`num_group2` does not establish
 event meaning or availability time. Without a field-level contract in the locked
 snapshot, chronological lag/trend/acceleration features are explicitly excluded.
+The [competition data guide](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/data)
+describes the group columns as historical-record indices; that description alone
+does not establish a clock or an availability timestamp.
 Order-invariant summaries rely on the competition's supplied historical snapshot;
 they do not certify production point-in-time availability.
 

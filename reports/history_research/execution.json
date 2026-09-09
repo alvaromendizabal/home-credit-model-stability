@@ -1,0 +1,139 @@
+{
+  "events": [
+    {
+      "eventId": "39893991394727241041733385402341375989560878934952116228",
+      "message": "[2026-09-08T23:00:43Z] INFO history_fit_completed completed=1 total=10 experiment=without_history_skew fold=1 stability_score=0.42299392407425934 mean_gini=0.6897015796924331 temporal_slope=-0.0029711235275814178 residual_std=0.010497570382017983 auc=0.8449797202725446 pr_auc=0.18066120951710246 brier_score=0.029621702419613642 log_loss=0.11818293817385289 stage=history_study stage_elapsed_seconds=602.259 total_elapsed_seconds=602.428",
+      "timestamp": 1788908444071
+    },
+    {
+      "eventId": "39893992733017261150754610820699148466553855012083924999",
+      "message": "[2026-09-08T23:01:43Z] INFO history_fit_completed completed=2 total=10 experiment=history_shape fold=1 stability_score=0.40924281904733045 mean_gini=0.6915376558245736 temporal_slope=-0.0031430278192273505 residual_std=0.011416777370472692 auc=0.8458126496421742 pr_auc=0.18249701811390556 brier_score=0.02958276668464842 log_loss=0.11796051975821167 stage=history_study stage_elapsed_seconds=661.746 total_elapsed_seconds=661.915",
+      "timestamp": 1788908504082
+    },
+    {
+      "eventId": "39894007097306356192703997654242726186941635901470146569",
+      "message": "[2026-09-08T23:12:27Z] INFO history_fit_completed completed=3 total=10 experiment=history_shape fold=2 stability_score=0.6683356580205354 mean_gini=0.6786112596597129 temporal_slope=0.0011222397782419582 residual_std=0.02055120327835496 auc=0.8405886346364281 pr_auc=0.19261597626508578 brier_score=0.03245646336999035 log_loss=0.12771446398578096 stage=history_study stage_elapsed_seconds=1306.132 total_elapsed_seconds=1306.301",
+      "timestamp": 1788909148199
+    },
+    {
+      "eventId": "39894008234889669514949614786629591333026879758330363914",
+      "message": "[2026-09-08T23:13:18Z] INFO history_fit_completed completed=4 total=10 experiment=without_history_skew fold=2 stability_score=0.6680501188590249 mean_gini=0.6791646125261982 temporal_slope=0.0004051184016137743 residual_std=0.022228987334346584 auc=0.8408854609432029 pr_auc=0.19166790064967631 brier_score=0.032460530094429604 log_loss=0.1276811658522502 stage=history_study stage_elapsed_seconds=1357.114 total_elapsed_seconds=1357.283",
+      "timestamp": 1788909199210
+    },
+    {
+      "eventId": "39894024807353952625004243973330931075564542396312518665",
+      "message": "[2026-09-08T23:25:42Z] INFO history_fit_completed completed=5 total=10 experiment=history_shape fold=3 stability_score=0.47643493996217984 mean_gini=0.6973866285962351 temporal_slope=-0.00243650760616712 residual_std=0.013078038582697555 auc=0.8501791524949214 pr_auc=0.20564468112108697 brier_score=0.032455330365287714 log_loss=0.12648048621005567 stage=history_study stage_elapsed_seconds=2100.618 total_elapsed_seconds=2100.787",
+      "timestamp": 1788909942345
+    },
+    {
+      "eventId": "39894028777600221809808143321632846495314286207651151880",
+      "message": "[2026-09-08T23:28:39Z] INFO history_fit_completed completed=6 total=10 experiment=without_history_skew fold=3 stability_score=0.493305503262809 mean_gini=0.6989451577599328 temporal_slope=-0.0022695507264951027 residual_std=0.011838381131109528 auc=0.8510020253854238 pr_auc=0.20753159664954798 brier_score=0.032419393596435676 log_loss=0.12627723069549418 stage=history_study stage_elapsed_seconds=2278.028 total_elapsed_seconds=2278.198",
+      "timestamp": 1788910120377
+    },
+    {
+      "eventId": "39894048049034493317229968978705344179296452669125820424",
+      "message": "[2026-09-08T23:43:03Z] INFO history_fit_completed completed=7 total=10 experiment=history_shape fold=4 stability_score=0.6765242434752469 mean_gini=0.6927909859927935 temporal_slope=-5.762330693917295e-05 residual_std=0.022391783013798912 auc=0.8472756182275218 pr_auc=0.2485296646341544 brier_score=0.039337905583744275 log_loss=0.14858450095992412 stage=history_study stage_elapsed_seconds=3142.283 total_elapsed_seconds=3142.452",
+      "timestamp": 1788910984538
+    },
+    {
+      "eventId": "39894059089932734402954711344718069514851825643778473992",
+      "message": "[2026-09-08T23:51:19Z] INFO history_fit_completed completed=8 total=10 experiment=without_history_skew fold=4 stability_score=0.6717411908003662 mean_gini=0.6947415271393629 temporal_slope=-0.0001407394004198825 residual_std=0.021230538204094027 auc=0.8482706703741041 pr_auc=0.25010145875128553 brier_score=0.03931910920915331 log_loss=0.14834402790763038 stage=history_study stage_elapsed_seconds=3637.995 total_elapsed_seconds=3638.164",
+      "timestamp": 1788911479629
+    },
+    {
+      "eventId": "39894071156888262073073424506008730581070780513012547592",
+      "message": "[2026-09-09T00:00:20Z] INFO history_fit_completed completed=9 total=10 experiment=history_shape fold=5 stability_score=0.6904355370508594 mean_gini=0.7145110639151036 temporal_slope=0.007854432918224344 residual_std=0.048151053728488345 auc=0.8647921897345975 pr_auc=0.1713616992791217 brier_score=0.020164747939917363 log_loss=0.08472721097489165 stage=history_study stage_elapsed_seconds=4178.788 total_elapsed_seconds=4178.957",
+      "timestamp": 1788912020730
+    },
+    {
+      "eventId": "39894079142004591584941000112383777289725342097242062856",
+      "message": "[2026-09-09T00:06:18Z] INFO history_fit_completed completed=10 total=10 experiment=without_history_skew fold=5 stability_score=0.687299721370082 mean_gini=0.7131219346333609 temporal_slope=0.008173985149400587 residual_std=0.051644426526557985 auc=0.864327056636336 pr_auc=0.16912270527523837 brier_score=0.020191766352272055 log_loss=0.08478664993960462 stage=history_study stage_elapsed_seconds=4537.243 total_elapsed_seconds=4537.412",
+      "timestamp": 1788912378795
+    },
+    {
+      "eventId": "39894081885442265908178259134954113273942844738491318273",
+      "message": "[2026-09-09T00:08:21Z] INFO history_verification_passed schema_version=1 status=passed study_key=dbae30f9c3b54ccbb694e4fa5f2b3ad0499dde474a5ff2ef7c76017f66d57b5b comparison_sha256=14ba104ca2a082b086dfc789e61185873241897cd147f95c297a00ca11240d76 identity={'benchmark_config_sha256': '2182868d53525fca56106a5d7c9f344438adb56f599ce507888f9cc5862746fa', 'feature_manifest_sha256': '76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587', 'lock_sha256': 'f99ffc96e701345f057a7d09eee2edd24c5da58a9d25d292df209eeaf5ed30bc', 'plan_sha256': 'fb6150b5c2424111af8590697c2894ed32b71c0503a6cab650cd7b3a1773f845', 'protocol_sha256': '47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20', 'raw_manifest_sha256': 'e1e1786b263537e75a906ec835395ae35acbf7abd8e4ad601b3c78c5320a5b33', 'source_commit': '5c18beceffbe5e79f2bf193ec4478eb71cd63f3e'} verified_checkpoint_objects=216 native_models_replayed=10 predictions_replayed=1454374 maximum_prediction_absolute_error=0.0 metric_identities_checked=141 maximum_metric_absolute_error=4.6629367034256575e-15 model_fits=0 holdout_accessed=False stage=release stage_elapsed_seconds=116.313 total_elapsed_seconds=116.313",
+      "timestamp": 1788912501815
+    },
+    {
+      "eventId": "39894081885442265908178259134954113273942844738491318277",
+      "message": "[2026-09-09T00:08:21Z] INFO history_research_reused model_fits=0 completed=10 stage=history_study stage_elapsed_seconds=0.243 total_elapsed_seconds=0.344",
+      "timestamp": 1788912501815
+    },
+    {
+      "eventId": "39894081885464566653376789758095648992215493099997298695",
+      "message": "HISTORY_STUDY_REUSE_VERIFIED_ZERO_FITS",
+      "timestamp": 1788912501816
+    },
+    {
+      "eventId": "39894081885464566653376789758095648992215493099997298696",
+      "message": "HISTORY_STUDY_AND_INDEPENDENT_REPLAY_COMPLETED {'schema_version': 1, 'status': 'passed', 'study_key': 'dbae30f9c3b54ccbb694e4fa5f2b3ad0499dde474a5ff2ef7c76017f66d57b5b', 'comparison_sha256': '14ba104ca2a082b086dfc789e61185873241897cd147f95c297a00ca11240d76', 'identity': {'benchmark_config_sha256': '2182868d53525fca56106a5d7c9f344438adb56f599ce507888f9cc5862746fa', 'feature_manifest_sha256': '76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587', 'lock_sha256': 'f99ffc96e701345f057a7d09eee2edd24c5da58a9d25d292df209eeaf5ed30bc', 'plan_sha256': 'fb6150b5c2424111af8590697c2894ed32b71c0503a6cab650cd7b3a1773f845', 'protocol_sha256': '47c06ba37dabd5b0ba192d1e93271cc9281a5f96c7f8bd51d2c1fc0f9c32dd20', 'raw_manifest_sha256': 'e1e1786b263537e75a906ec835395ae35acbf7abd8e4ad601b3c78c5320a5b33', 'source_commit': '5c18beceffbe5e79f2bf193ec4478eb71cd63f3e'}, 'verified_checkpoint_objects': 216, 'native_models_replayed': 10, 'predictions_replayed': 1454374, 'maximum_prediction_absolute_error': 0.0, 'metric_identities_checked': 141, 'maximum_metric_absolute_error': 4.6629367034256575e-15, 'model_fits': 0, 'holdout_accessed': False}",
+      "timestamp": 1788912501816
+    },
+    {
+      "eventId": "39894081907765311851907412899631367264863854605977714697",
+      "message": "[2026-09-09T00:08:22Z] history_driver_exit exit_code=0 total_elapsed_seconds=4674",
+      "timestamp": 1788912502816
+    }
+  ],
+  "job": {
+    "AppSpecification": {
+      "ContainerEntrypoint": [
+        "bash",
+        "/opt/ml/processing/input/run.sh"
+      ],
+      "ImageUri": "246618743249.dkr.ecr.us-west-2.amazonaws.com/sagemaker-scikit-learn@sha256:82bed6e5a382c1132589c5d12f352df53498535c9ced1c4d00148699bf61caa1"
+    },
+    "CreationTime": "2026-09-08T22:48:47.225000+00:00",
+    "LastModifiedTime": "2026-09-09T00:08:55.160000+00:00",
+    "ProcessingEndTime": "2026-09-09T00:08:34.394000+00:00",
+    "ProcessingInputs": [
+      {
+        "AppManaged": false,
+        "InputName": "source",
+        "S3Input": {
+          "LocalPath": "/opt/ml/processing/input",
+          "S3DataDistributionType": "FullyReplicated",
+          "S3DataType": "S3Prefix",
+          "S3InputMode": "File",
+          "S3Uri": "s3://sagemaker-us-west-2-560403859723/home-credit-model-stability/automation/history-research/5c18beceffbe5e79f2bf193ec4478eb71cd63f3e/input/"
+        }
+      }
+    ],
+    "ProcessingJobArn": "arn:aws:sagemaker:us-west-2:560403859723:processing-job/home-credit-history-research-20260908-2248",
+    "ProcessingJobName": "home-credit-history-research-20260908-2248",
+    "ProcessingJobStatus": "Completed",
+    "ProcessingOutputConfig": {
+      "Outputs": [
+        {
+          "AppManaged": false,
+          "OutputName": "evidence",
+          "S3Output": {
+            "LocalPath": "/opt/ml/processing/output",
+            "S3UploadMode": "Continuous",
+            "S3Uri": "s3://sagemaker-us-west-2-560403859723/home-credit-model-stability/automation/history-research/5c18beceffbe5e79f2bf193ec4478eb71cd63f3e/execution"
+          }
+        }
+      ]
+    },
+    "ProcessingResources": {
+      "ClusterConfig": {
+        "InstanceCount": 1,
+        "InstanceType": "ml.m5.4xlarge",
+        "VolumeSizeInGB": 80
+      }
+    },
+    "ProcessingStartTime": "2026-09-08T22:49:26.937000+00:00",
+    "RoleArn": "arn:aws:iam::560403859723:role/service-role/AmazonSageMaker-ExecutionRole-20260902T115323",
+    "StoppingCondition": {
+      "MaxRuntimeInSeconds": 7200
+    }
+  },
+  "log_group": "/aws/sagemaker/ProcessingJobs",
+  "log_stream": "home-credit-history-research-20260908-2248/algo-1-1788907766",
+  "recorded_at": "2026-09-09T00:10:13.150109+00:00",
+  "region": "us-west-2",
+  "schema_version": 1,
+  "source_bundle_sha256": "a3bd746d59f9358ea2ef8490bc5b422422d673711d8a1e92dab3b52560145bfd",
+  "training_source_commit": "5c18beceffbe5e79f2bf193ec4478eb71cd63f3e"
+}
