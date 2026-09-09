@@ -59,12 +59,12 @@ is required to present this release. The completion record links the actual
 verification and cloud execution receipts.
 
 The frozen Kaggle notebook has been submitted. Saved version 1 completed offline,
-matched the verified AWS prediction bytes and fitted zero models. The competition
-currently reports **Notebook Running (after deadline)**; its hidden-test score is
-pending. The [submission runbook](kaggle_submission.md) and
+matched the verified AWS prediction bytes and fitted zero models. The competition's
+hidden-test rerun **Succeeded (after deadline)** and scored **0.56062 public /
+0.47429 private**. The [submission runbook](kaggle_submission.md) and
 [execution receipt](../reports/kaggle_submission/execution.json) record this separately
-from the local holdout evaluation. No further submission action is needed while that
-run is processing. A later research iteration would use the separately registered
+from the local holdout evaluation. No further submission action is needed for this
+frozen release. A later research iteration would use the separately registered
 [future promotion protocol](../configs/future_promotion.json), which is **not
 executed**, and a new independent evaluation population for a new release claim.
 

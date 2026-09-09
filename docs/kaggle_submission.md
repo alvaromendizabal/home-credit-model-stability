@@ -26,10 +26,11 @@ with Internet disabled and zero model fits. Its ten-example CSV matches the AWS
 export byte for byte: SHA-256
 `c48d8111604d62895e9ffff643bcf42a52b59c2b110385d78a10d95389f3c799`.
 
-The saved version was submitted on 9 September 2026. Kaggle currently reports
-**Notebook Running (after deadline)** on the account's
+The saved version was submitted on 9 September 2026. Kaggle reports
+**Succeeded (after deadline)** with **0.56062 public / 0.47429 private** on the account's
 [submissions page](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/submissions).
-This confirms the submission request, not a completed evaluation or score.
+These are the completed hidden-test rerun's leaderboard scores, not the ten-example
+integration output or the development-trained model's local holdout score.
 The [execution receipt](../reports/kaggle_submission/execution.json) records the
 observed stages separately.
 
@@ -93,5 +94,5 @@ aws sagemaker describe-processing-job \
 
 Expected status is `Completed`, with no failure reason. Listing only `InProgress`
 jobs and receiving `[]` proves that no matching job is running; it does not establish
-that an export or Kaggle submission succeeded. Kaggle submission status must be checked
-on the competition's submissions page after the saved notebook is submitted.
+that an export or Kaggle submission succeeded. The terminal Kaggle status and scores
+are recorded above from the competition's submissions page.
