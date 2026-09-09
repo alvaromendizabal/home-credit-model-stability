@@ -18,22 +18,28 @@ prediction batches, and fitted zero models. A separately built archive matched
 AWS byte for byte; all 78 manifest members were verified. The exact 21 dependencies
 also installed and imported successfully in Kaggle with Internet disabled.
 
-The updated package is staged for version 2 of the owner's **private**
+The updated package is published as version 2 of the owner's **private**
 [Home Credit Frozen Inference dataset](https://www.kaggle.com/datasets/alvaromendizabal/home-credit-frozen-inference).
-Automatic approval review blocked the final **Create** action and requires explicit
-approval for this exact upload. It contains native models, frozen source and wheels;
-it contains no raw borrower files or credential files. No saved notebook version,
-hidden-test execution, accepted submission or Kaggle score is claimed.
+It contains native models, frozen source and wheels, without raw borrower files or
+credential files. Saved notebook **version 1**, script version **348432382**, completed
+with Internet disabled and zero model fits. Its ten-example CSV matches the AWS
+export byte for byte: SHA-256
+`c48d8111604d62895e9ffff643bcf42a52b59c2b110385d78a10d95389f3c799`.
 
-After upload approval, update the notebook input to dataset version 2, import the
-canonical notebook, Save & Run All, verify the saved output, and submit that version.
+The saved version was submitted on 9 September 2026. Kaggle currently reports
+**Notebook Running (after deadline)** on the account's
+[submissions page](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/submissions).
+This confirms the submission request, not a completed evaluation or score.
+The [execution receipt](../reports/kaggle_submission/execution.json) records the
+observed stages separately.
+
 The first dataset version is superseded: Kaggle expanded its nested ZIP, which
 prevented inference. Version 2 publishes native model members explicitly.
 
 ## Reproduce the submission
 
 1. Open [Home Credit — Frozen LightGBM Inference](https://www.kaggle.com/code/alvaromendizabal/home-credit-frozen-lightgbm-inference).
-2. Attach the **Home Credit Frozen Inference** dataset and the competition input.
+2. Attach version **2** of the **Home Credit Frozen Inference** dataset and the competition input.
 3. Use Python 3.12, CPU, and **Internet off**. Save & Run All.
 4. Confirm the output contains `submission.csv`, `submission.json`, and
    `SUBMISSION_VALIDATED` in the execution log.
@@ -46,7 +52,11 @@ the exact wheels selected from `uv.lock`, using `--no-index --require-hashes`.
 Kaggle's base package versions are not used for scoring. The installer copies only
 pip into a private directory and runs under `python -I -S`, avoiding the host's
 startup hooks and dependency resolution. It does not require `venv` or `ensurepip`
-on Kaggle. The worker uses `-W error`; unexpected model warnings remain errors.
+on Kaggle. The worker uses `-W error`. The pinned Polars 1.44.1 runtime nevertheless
+prints nonfatal String-to-Date deprecation messages from the frozen feature code;
+these messages are preserved, not filtered. The validated CSV matches both AWS
+exports. This release does not claim compatibility with Polars 2.x. Kaggle's notebook
+HTML exporter also reports host-package syntax warnings after inference completes.
 
 The native bundle retains its original source, feature recipe, encoders, models and
 SHA-256 manifest. Every raw test shard is fingerprinted; completed prediction

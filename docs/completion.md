@@ -18,7 +18,8 @@ rating cannot be guaranteed. Start with the [README](../README.md) and notebooks
 The work closes the feature-budget comparison, engineered and raw-history searches,
 temporal calibration, interpretation audit and independent verification. The canonical
 notebooks and model card distinguish observed results, historical experiments and
-future hypotheses. No leaderboard or production lending claim is made.
+future hypotheses. The separate Kaggle submission is recorded below; no production
+lending claim is made.
 
 ## 2. Original feature engineering
 
@@ -134,6 +135,10 @@ and calibration. Interactive figures include static GitHub fallbacks. Tables exp
 fold support, worst-fold behavior, probability metrics, rejected features and model
 complexity. SHAP sampling was corrected after an audit found a biased sorted prefix;
 the publication preserves the original diagnostic lineage and sampled week counts.
+The README adds a compact comparison of model families and controlled feature-block
+removals. CI regenerates that SVG from accepted aggregate reports and requires a
+byte-identical result. The eight canonical notebooks contain 22 static figures and
+17 interactive charts, alongside the archived ablation review.
 
 ## 10. Quality and publication gates
 
@@ -175,10 +180,13 @@ availability and outcome maturity need separate controls for deployment.
 
 [Notebook 10](../notebooks/10_submission.ipynb) validates raw feature parity, native
 artifacts, unique case IDs, exact sample coverage/order and finite probabilities.
-Its real raw-data integration covers the ten public examples. Hidden-test execution
-and its resource limits require a separate Kaggle execution. On 9 September 2026,
+Its real raw-data integration covers the ten public examples. On 9 September 2026,
 the owner authorized submission preparation and submission. The offline delivery
 package passed two export runs with four unchanged prediction batches reused.
+Kaggle saved version 1 (script version 348432382) completed offline with zero fits
+and reproduced the verified CSV bytes. That version has been submitted and Kaggle
+reports **Notebook Running (after deadline)**. A completed hidden-test evaluation
+and its score remain pending.
 See the [submission runbook](kaggle_submission.md) and `reports/kaggle_submission/`.
 
 Further modeling should begin as a separately scoped study with a new promotion
