@@ -58,9 +58,13 @@ notebooks 11–12 for the feature and calibration research. No further paid trai
 is required to present this release. The completion record links the actual
 verification and cloud execution receipts.
 
-An optional Kaggle submission remains an owner action in notebook 10. Its CSV
-generation defaults to off. Hidden-test execution and a leaderboard score are
-unverified. A later research iteration would use the separately registered
+The frozen Kaggle notebook has been submitted. Saved version 1 completed offline,
+matched the verified AWS prediction bytes and fitted zero models. The competition
+currently reports **Notebook Running (after deadline)**; its hidden-test score is
+pending. The [submission runbook](kaggle_submission.md) and
+[execution receipt](../reports/kaggle_submission/execution.json) record this separately
+from the local holdout evaluation. No further submission action is needed while that
+run is processing. A later research iteration would use the separately registered
 [future promotion protocol](../configs/future_promotion.json), which is **not
 executed**, and a new independent evaluation population for a new release claim.
 

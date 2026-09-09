@@ -71,8 +71,10 @@ untouched test for subsequent work.
   weeks, subpopulations and probability ranges; the notebooks expose weekly results.
 - No operational decision threshold, lending-cost function, policy impact or
   protected-group fairness evaluation has been validated.
-- The raw test integration covers ten public example cases and 36 shards. Hidden
-  Kaggle execution, its resource limits and a leaderboard result remain unverified.
+- The saved Kaggle notebook reproduced the verified ten-example integration export
+  offline. Its submitted hidden-test execution is running; no leaderboard result
+  or completed hidden-test resource measurement is claimed yet. See the
+  [submission record](reports/kaggle_submission/execution.json).
 
 Application periods define the folds; production event-time availability and label
 maturity have not been certified.

@@ -14,9 +14,9 @@
   "kaggle_notebook": "https://www.kaggle.com/code/alvaromendizabal/home-credit-frozen-lightgbm-inference",
   "kaggle_dataset": "https://www.kaggle.com/datasets/alvaromendizabal/home-credit-frozen-inference",
   "kaggle_dataset_visibility": "private",
-  "kaggle_stage": "package_version_2_staged_awaiting_upload_approval",
-  "kaggle_saved_version": null,
-  "kaggle_submitted": false,
+  "kaggle_stage": "submitted_hidden_test_running",
+  "kaggle_saved_version": 1,
+  "kaggle_submitted": true,
   "hidden_test_executed": false,
   "kaggle_score": null,
   "kaggle_offline_dependency_probe": {
@@ -36,11 +36,37 @@
     "reason": "Kaggle expanded the nested model ZIP; its Python also lacks ensurepip and includes host startup hooks.",
     "resolution": "Publish native model members explicitly and bootstrap only pip under Python -I -S into a private target directory."
   },
-  "blocker": {
-    "source": "automatic_approval_review",
-    "action": "Create version 2 of the existing private Kaggle dataset",
-    "reason": "Explicit user re-approval is required for this exact 205.82 MB model/dependency upload.",
-    "raw_borrower_files_in_package": false,
-    "credential_files_in_package": false
+  "blocker": null,
+  "kaggle_dataset_version": 2,
+  "kaggle_draft_inference": {
+    "status": "passed",
+    "rows": 10,
+    "csv_sha256": "c48d8111604d62895e9ffff643bcf42a52b59c2b110385d78a10d95389f3c799",
+    "matches_aws_export": true,
+    "model_fits": 0
+  },
+  "compatibility_notice": "Pinned Polars 1.44.1 emits nonfatal String-to-Date deprecation messages from frozen feature code. Warnings are not filtered; validated prediction bytes match AWS. No Polars 2.x compatibility is claimed.",
+  "kaggle_script_version_id": 348432382,
+  "kaggle_saved_run": {
+    "status": "completed",
+    "version": 1,
+    "script_version_id": 348432382,
+    "log_url": "https://www.kaggle.com/code/alvaromendizabal/home-credit-frozen-lightgbm-inference/log?scriptVersionId=348432382",
+    "rows": 10,
+    "csv_sha256": "c48d8111604d62895e9ffff643bcf42a52b59c2b110385d78a10d95389f3c799",
+    "model_fits": 0,
+    "validated_at_utc": "2026-09-09T04:19:16Z",
+    "export_log_seconds": 53.0,
+    "notebook_html_log_seconds": 62.4
+  },
+  "kaggle_submission": {
+    "submitted_date_utc": "2026-09-09",
+    "observed_status": "Notebook Running (after deadline)",
+    "page_url": "https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/submissions",
+    "saved_version": 1,
+    "script_version_id": 348432382,
+    "file": "submission.csv",
+    "public_score": null,
+    "private_score": null
   }
 }

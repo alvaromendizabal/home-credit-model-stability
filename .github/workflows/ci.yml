@@ -44,6 +44,11 @@ jobs:
         env:
           HOME_CREDIT_NOTEBOOK_INTEGRATION: "1"
         run: bash scripts/check.sh
+      - name: Reproduce the employer overview
+        run: |
+          uv run --locked python -W error scripts/review_portfolio_overview.py
+          uv run --locked mypy scripts/review_portfolio_overview.py
+          git diff --exit-code -- reports/portfolio/overview.svg
       - name: Verify published benchmark is reproducible
         if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
         run: git diff --exit-code -- notebooks/05_benchmark_review.ipynb reports/benchmark/review.json

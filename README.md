@@ -33,6 +33,12 @@ closed with executed distribution comparisons, documented chronology exclusions
 and a registered future promotion protocol. The protocol itself is not an
 executed experiment. No cloud job needs to stay running to review these results.
 
+![Development benchmark and controlled feature-block removal results](reports/portfolio/overview.svg)
+
+This figure is rebuilt from the accepted aggregate reports. The left panel compares
+model families; the right measures the stability lost after removing each feature
+block. Both use the five development folds, separate from the final evaluation below.
+
 ## Final frozen evaluation
 
 | Diagnostic | Reserved weeks 73-91 |
@@ -133,11 +139,13 @@ raw test files supplied by Kaggle. It discovers the attached model dataset, inst
 validated `submission.csv` with a lineage receipt. Outside Kaggle, CSV generation
 is disabled by default. [Submission runbook](docs/kaggle_submission.md).
 
-The offline export passed two runs on the ten public examples: identical CSV bytes,
-four unchanged prediction batches reused, and zero model fits. These examples are
-an integration fixture. Kaggle's saved notebook execution and hidden-test result
-remain pending private dataset upload approval. No Kaggle score is claimed; the
-project's observed holdout metric is separate evidence.
+Kaggle saved notebook **version 1** completed offline and matched both verified AWS
+exports byte for byte, with zero model fits. The ten public examples are an
+integration fixture. The saved version has now been submitted; Kaggle reports
+**Notebook Running (after deadline)** on the
+[submissions page](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/submissions).
+Its hidden-test score is pending. The project's observed holdout metric remains
+separate evidence.
 
 ## Research scope
 

@@ -31,3 +31,6 @@ submission*.csv
 /build/
 repository-source.tar
 repository-source.zip
+
+# Raster preview of the reproducible employer-facing SVG
+/reports/portfolio/overview.png
