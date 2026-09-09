@@ -104,6 +104,15 @@ def test_raw_multishard_dates_and_missing_history_match_batches(raw_fixture):
     assert_frame_equal(frame, small)
 
 
+def test_text_decision_dates_preserve_raw_features(raw_fixture, capfd):
+    expected = frame_from_fixture(raw_fixture)
+    raw, _, _, _ = raw_fixture
+    path = raw / "test_base.parquet"
+    pl.read_parquet(path).with_columns(pl.col("date_decision").cast(pl.String)).write_parquet(path)
+    assert_frame_equal(frame_from_fixture(raw_fixture), expected)
+    assert "DeprecationWarning" not in capfd.readouterr().err
+
+
 @pytest.mark.parametrize(
     "mutation",
     [

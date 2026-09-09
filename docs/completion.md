@@ -194,6 +194,15 @@ Further modeling should begin as a separately scoped study with a new promotion
 decision and independent evaluation population. It is not necessary to add every
 possible model family or engineered formula to close this research release.
 
+The current-source date-parsing cleanup is independently verified on the original
+public inputs: 93 file identities, 700 feature columns, identical encoded matrices
+and ten identical predictions, with zero warnings from the candidate implementation.
+The resulting CSV hash matches the accepted public integration run. The
+[comparison receipt](../reports/kaggle_submission/date_parsing_verification.json)
+identifies the exact source and verifier. This check ran locally under locked
+Python 3.12.14 with zero model fits. It does not update the frozen Kaggle assets,
+erase their historical warnings or claim a new hidden-test evaluation.
+
 One account-side presentation edit remains: the repository's About description still
 mentions neural challengers and drift monitoring, which exceed the demonstrated
 scope. The connected repository tools do not expose an About editor, so that account

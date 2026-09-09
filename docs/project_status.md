@@ -17,6 +17,8 @@ has been tried.
 | Temporal comparison | Four model families, five expanding folds; 727,187 OOF cases |
 | Release | Frozen 90/10 LightGBM blend; 203,345 later applications evaluated |
 | Inference | Native models and raw-feature parity tested on ten public examples |
+| Kaggle submission | Saved notebook v1 succeeded after deadline; public 0.56062 / private 0.47429 |
+| Date parsing maintenance | Current source has zero warnings; 700 features and ten predictions match the frozen public example exactly |
 | Recovery | Completed studies resume from verified checkpoints with zero new fits |
 
 The three screens account for **7,649 hypotheses**. The 256 engineered additions
@@ -75,6 +77,12 @@ outcome-maturity controls. Native CatBoost categorical statistics were benchmark
 the LightGBM release uses training-only frequency maps.
 
 ## Optional monitoring
+
+The [date-parsing comparison](../reports/kaggle_submission/date_parsing_verification.json)
+records the current-source cleanup separately from the accepted Kaggle evaluation.
+The accepted model bundle and submission remain frozen. The only account-side
+presentation cleanup is the About description described in the
+[completion record](completion.md); it requires GitHub's repository settings access.
 
 Run from an existing, prepared checkout. Nothing needs to run to keep the saved
 results valid; there is no need to start a paid Studio instance just to monitor.

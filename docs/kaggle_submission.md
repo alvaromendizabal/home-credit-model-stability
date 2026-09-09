@@ -12,6 +12,20 @@ submission. Kaggle must rerun the saved notebook on its supplied evaluation data
 
 ## Current delivery status
 
+| Submission identity | Recorded value |
+|---|---|
+| Notebook | Home Credit — Frozen LightGBM Inference |
+| Saved version / script version | 1 / 348432382 |
+| Private model dataset version | 2 |
+| File generated during Kaggle evaluation | `submission.csv` |
+| Submitted | 9 September 2026 |
+| Terminal status | Succeeded (after deadline) |
+| Public / private score | 0.56062 / 0.47429 |
+
+This release has one successful submitted notebook. Reproduction below is optional;
+do not submit an identical run again. A dataset version is an input revision, not
+an additional competition submission.
+
 The final 205.82 MB package passed two complete offline AWS export runs on
 9 September 2026. Both produced the same ten-example CSV, reused four unchanged
 prediction batches, and fitted zero models. A separately built archive matched
@@ -37,7 +51,7 @@ observed stages separately.
 The first dataset version is superseded: Kaggle expanded its nested ZIP, which
 prevented inference. Version 2 publishes native model members explicitly.
 
-## Reproduce the submission
+## Optional reproduction
 
 1. Open [Home Credit — Frozen LightGBM Inference](https://www.kaggle.com/code/alvaromendizabal/home-credit-frozen-lightgbm-inference).
 2. Attach version **2** of the **Home Credit Frozen Inference** dataset and the competition input.
@@ -66,6 +80,44 @@ sample's IDs, order and column names, checks finite probabilities in [0, 1], rea
 the saved CSV back, and records its hash. A different existing CSV is preserved.
 
 ## Evidence and limits
+
+### Current-source date parsing
+
+The current feature builder parses ISO decision-date strings explicitly with
+[`str.to_date`](https://docs.pola.rs/api/python/stable/reference/expressions/api/polars.Expr.str.to_date.html),
+preserving the original null, invalid-date and typed-date behavior. Regression
+tests capture native stderr as well as using warnings-as-errors, because the
+Polars streaming warning was printed rather than raised as a Python exception.
+
+On 9 September 2026, a separate local comparison under locked Python 3.12.14
+verified 93 immutable files, all 700 feature columns, both encoded matrices and
+all ten public-example predictions. The comparison reproduced the accepted CSV
+hash exactly, with zero candidate warnings and zero model fits. Its
+[aggregate receipt](../reports/kaggle_submission/date_parsing_verification.json)
+pins the builder and verifier hashes.
+
+This maintenance check does not replace the accepted notebook's frozen source,
+dataset version 2, model bundle or historical warning record. The updated source
+has not been rerun on Kaggle's hidden data. The original bundle still requires
+its own original source; the source-identity guard has not been relaxed.
+
+To reproduce with the original artifacts already restored locally:
+
+```bash
+uv run --locked python -W error scripts/verify_date_parsing.py \
+  --bundle artifacts/date_compatibility/bundle \
+  --raw artifacts/date_compatibility/raw \
+  --manifest artifacts/date_compatibility/raw_manifest.jsonl \
+  --work artifacts/date_compatibility/comparison
+```
+
+The verifier first builds candidate features in a separate process. The original
+frozen process validates its bundle, compares the matrices exactly, and scores
+both with the unchanged native models. It checks the original sample order and
+accepted CSV hash. Work files remain outside Git; only the aggregate receipt is
+published. No model is trained or repackaged by this command.
+
+### Evaluation populations
 
 The original ten-example integration and all-label model verification remain in
 `reports/model_release/verification.json`. Offline package execution and Kaggle
