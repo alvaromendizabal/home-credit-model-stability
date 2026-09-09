@@ -9,6 +9,7 @@ import importlib.metadata
 import importlib.util
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -154,7 +155,14 @@ def main() -> None:
     package_directory = args.work / "site-packages"
     pip_spec = importlib.util.find_spec("pip")
     if pip_spec is not None and pip_spec.origin is not None:
-        pip_source = Path(pip_spec.origin).parent.parent
+        pip_source = args.work / "installer"
+        # Copy pip alone so its resolver cannot inspect unrelated host distributions.
+        shutil.copytree(
+            Path(pip_spec.origin).parent,
+            pip_source / "pip",
+            dirs_exist_ok=True,
+            ignore=shutil.ignore_patterns("__pycache__", "*.pyc"),
+        )
     else:
         ensurepip_spec = importlib.util.find_spec("ensurepip")
         if ensurepip_spec is None or ensurepip_spec.origin is None:
@@ -177,6 +185,7 @@ def main() -> None:
             str(package_directory),
             "--upgrade",
             "--ignore-installed",
+            "--root-user-action=ignore",  # --target never modifies the host environment.
             "--disable-pip-version-check",
             "--no-index",
             "--no-cache-dir",
