@@ -1,6 +1,6 @@
 # Project status and optional monitoring
 
-**The bounded employer-facing research portfolio is complete.** The frozen model
+**The bounded employer-facing research portfolio was closed on 9 September 2026.** The frozen model
 has a future-period evaluation, the additional feature studies are executed and
 verified, and the canonical notebooks expose the evidence. Completion means the
 registered scope is addressed; it does not mean every possible feature or model
@@ -59,6 +59,11 @@ The next step is employer review: read notebooks **02 → 05 → 09**, then use
 notebooks 11–12 for the feature and calibration research. No further paid training
 is required to present this release. The completion record links the actual
 verification and cloud execution receipts.
+
+The [closeout checks](completion.md#closeout-checks--9-september-2026) record the
+accepted submission, successful implementation CI and the final scoped AWS check.
+Future robustness, promotion or deployment studies are optional new projects;
+they are not pending requirements of this release.
 
 The frozen Kaggle notebook has been submitted. Saved version 1 completed offline,
 matched the verified AWS prediction bytes and fitted zero models. The competition's

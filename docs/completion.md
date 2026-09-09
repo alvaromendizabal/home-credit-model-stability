@@ -13,6 +13,32 @@ rating cannot be guaranteed. Start with the [README](../README.md) and notebooks
 [05](../notebooks/05_benchmark_review.ipynb) and
 [09](../notebooks/09_model_release.ipynb). The full research trail is linked there.
 
+## Closeout checks — 9 September 2026
+
+This bounded research release is closed as of 9 September 2026. The accepted
+submission, frozen models, research metrics and executed visual reviews are
+preserved. No further submission or model training is required for closure.
+
+| Check | Observed result |
+|---|---|
+| Kaggle evaluation | Saved notebook v1, script version 348432382: **Succeeded (after deadline)**; **0.56062 public / 0.47429 private**, reconfirmed on 9 September 2026 |
+| Submission identity | One accepted evaluation; private input dataset v2 is an input revision, not a second submission |
+| Validated implementation | Commit [`75b4565`](https://github.com/alvaromendizabal/home-credit-model-stability/commit/75b45653e9631e10d281386b0fb49fe37f1a58f6), published through [PR #14](https://github.com/alvaromendizabal/home-credit-model-stability/pull/14) |
+| Implementation CI | [Run 34382253954](https://github.com/alvaromendizabal/home-credit-model-stability/actions/runs/34382253954): **499 tests, zero skips**, Ruff, strict mypy, real notebook execution, byte-identical publication reproduction and unchanged-review reuse passed |
+| Scoped AWS check | At **2026-09-09 19:07:17 UTC**, no `home-credit` processing or training jobs were `InProgress` or `Stopping` in `us-west-2`; all four list calls succeeded |
+| Submission export job | `home-credit-kaggle-offline-20260909-0314` was `Completed`, ending at 2026-09-09 03:17:13 UTC |
+| Follow-up | The completed Kaggle-result follow-up is paused; no repeat submission was made during closeout |
+
+The AWS check excludes Studio apps and other services; it is not a statement that
+all account charges have stopped. The CI record above identifies the implementation
+revision checked at closeout. Subsequent documentation changes must pass their own
+exact-head CI and notebook gates before merge.
+
+The one known account-side presentation correction is the repository About text
+described at the end of this record. It does not block the research release.
+Additional robustness audits, fully nested promotion and production validation are
+separately scoped future work, not remaining completion gates.
+
 ## 1. What was completed
 
 The work closes the feature-budget comparison, engineered and raw-history searches,
