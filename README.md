@@ -133,6 +133,11 @@ Do not rerun training merely to view results.
 
 ## Kaggle inference and submission
 
+**The submission is complete.** The submitted artifact is
+[saved notebook version 1](https://www.kaggle.com/code/alvaromendizabal/home-credit-frozen-lightgbm-inference?scriptVersionId=348432382),
+which Kaggle reruns on hidden test data to generate `submission.csv`. One successful
+late submission is recorded; no additional submission is required for this release.
+
 [Notebook 10](notebooks/10_submission.ipynb) runs the frozen all-label model on the
 raw test files supplied by Kaggle. It discovers the attached model dataset, installs
 21 hash-locked inference wheels in an isolated offline environment, and writes a

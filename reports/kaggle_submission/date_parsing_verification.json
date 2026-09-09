@@ -1,0 +1,30 @@
+{
+  "rows": 10,
+  "features": 700,
+  "raw_test_shards": 36,
+  "features_exact": true,
+  "encoded_matrices_exact": true,
+  "predictions_exact": true,
+  "prediction_max_absolute_error": 0.0,
+  "csv_sha256": "c48d8111604d62895e9ffff643bcf42a52b59c2b110385d78a10d95389f3c799",
+  "matches_accepted_public_example": true,
+  "model_sha256": {
+    "lightgbm": "78467ce8d957892036d568f958623121d25d7066381bbf460f715aea02b4a32b",
+    "tuned_lightgbm": "9f1b93673738b64dca9f631b745625487e0b0ab970db37f6de084bcec5268a5b"
+  },
+  "schema_version": 1,
+  "scope": "public_example_compatibility_comparison",
+  "started_utc": "2026-09-09T17:12:52.881132+00:00",
+  "completed_utc": "2026-09-09T17:12:57.640864+00:00",
+  "python": "3.12.14",
+  "candidate_builder_sha256": "c203addc623aa639d79d7036dc8c99dd199a8589ad11d6b82fd9f26a228a8b04",
+  "verifier_sha256": "e39d0daefe0085a3d06259bee41f33b15eaacf79356d5610b616057656ad79d6",
+  "frozen_bundle_sha256": "71f338a66b15d0f8b549c3a9c9defe4defdd4169f5f57be3c65036ac9bcbf84a",
+  "raw_manifest_sha256": "e1e1786b263537e75a906ec835395ae35acbf7abd8e4ad601b3c78c5320a5b33",
+  "verified_files": 93,
+  "candidate_warnings": 0,
+  "model_fits": 0,
+  "kaggle_submitted": false,
+  "hidden_test_executed": false,
+  "frozen_bundle_modified": false
+}

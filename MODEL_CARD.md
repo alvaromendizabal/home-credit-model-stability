@@ -122,3 +122,9 @@ downloads a file explicitly; there is no automatic Kaggle upload.
 
 See the [release runbook](docs/model_release.md) for artifact lineage and commands,
 and [the project status](PROJECT_PLAN.md) for the completed research record.
+
+The subsequent [date-parsing compatibility check](reports/kaggle_submission/date_parsing_verification.json)
+compares current-source features with the original frozen inference on ten public
+examples. All 700 columns and predictions match exactly, with zero candidate
+warnings. It is a maintenance comparison, not another hidden-test evaluation;
+the accepted models, bundle, notebook version and Kaggle scores remain unchanged.

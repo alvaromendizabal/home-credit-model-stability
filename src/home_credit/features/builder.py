@@ -491,20 +491,31 @@ def _scan_base(source: LogicalSource, store: S3RawStore, recipe: FeatureRecipe) 
     )
 
 
+def _decision_date_expression(dtype: pl.DataType) -> pl.Expr:
+    """Preserve the original ISO-date cast semantics without deprecated text casts."""
+    column = pl.col(DATE_DECISION)
+    if dtype == pl.String:
+        # An explicit format also handles empty/all-invalid batches deterministically;
+        # inference could accept other formats or fail when no valid date is present.
+        return column.str.to_date(format="%Y-%m-%d", strict=False)
+    return column.cast(pl.Date, strict=False)
+
+
 def _decision_frame(base: pl.LazyFrame) -> pl.LazyFrame:
-    schema_names = base.collect_schema().names()
+    schema = base.collect_schema()
     required = {CASE_ID, DATE_DECISION}
-    missing = sorted(required - set(schema_names))
+    missing = sorted(required - set(schema.names()))
     if missing:
         raise ValueError(f"base table is missing decision columns: {missing}")
     return base.select(
         pl.col(CASE_ID).cast(pl.Int64, strict=False),
-        pl.col(DATE_DECISION).cast(pl.Date, strict=False).alias("_decision_date"),
+        _decision_date_expression(schema[DATE_DECISION]).alias("_decision_date"),
     )
 
 
 def _base_block(base: pl.LazyFrame, *, split: Split) -> pl.LazyFrame:
-    schema_names = set(base.collect_schema().names())
+    schema = base.collect_schema()
+    schema_names = set(schema.names())
     required = {CASE_ID, DATE_DECISION, WEEK_NUM, MONTH}
     if split == "train":
         required.add(TARGET)
@@ -514,7 +525,7 @@ def _base_block(base: pl.LazyFrame, *, split: Split) -> pl.LazyFrame:
     if split == "test" and TARGET in schema_names:
         raise ValueError("test base unexpectedly contains target")
 
-    decision = pl.col(DATE_DECISION).cast(pl.Date, strict=False)
+    decision = _decision_date_expression(schema[DATE_DECISION])
     expressions: list[pl.Expr] = [
         pl.col(CASE_ID).cast(pl.Int64, strict=False),
         pl.col(WEEK_NUM).cast(pl.Int32, strict=False),

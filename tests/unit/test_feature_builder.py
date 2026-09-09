@@ -1,18 +1,74 @@
 from __future__ import annotations
 
 import json
+from datetime import date
 from pathlib import Path
 
+import polars as pl
 import pytest
+from polars.testing import assert_frame_equal
 
 from home_credit.data.loader import RawManifestRecord
 from home_credit.features.builder import (
     FeatureRecipe,
+    _base_block,
+    _decision_frame,
     group_logical_sources,
     load_validation_protocol,
     select_sources,
 )
 from home_credit.validation.protocol import attach_protocol_sha256
+
+
+@pytest.mark.parametrize("split", ["train", "test"])
+@pytest.mark.parametrize("representation", ["string", "date", "datetime", "zoned", "days", "null"])
+def test_decision_dates_preserve_calendar_features(split, representation, capfd) -> None:
+    dates = pl.Series("date_decision", [date(2020, 2, 29), date(2020, 12, 31), None])
+    expected = dates
+    if representation == "string":
+        dates = dates.cast(pl.String)
+    elif representation == "datetime":
+        dates = dates.cast(pl.Datetime("ms"))
+    elif representation == "zoned":
+        dates = dates.cast(pl.Datetime("us", "America/Los_Angeles"))
+        expected = dates.cast(pl.Date)
+    elif representation == "days":
+        dates = dates.cast(pl.Int32)
+    elif representation == "null":
+        dates = pl.Series("date_decision", [None] * 3)
+        expected = dates.cast(pl.Date)
+    columns = {"case_id": [1, 2, 3], "WEEK_NUM": [1] * 3, "MONTH": [1] * 3}
+    if split == "train":
+        columns["target"] = [0, 1, 0]
+    base = pl.DataFrame(columns).with_columns(dates).lazy()
+    decision = _decision_frame(base).collect(engine="streaming")
+    assert decision["_decision_date"].equals(expected.alias("_decision_date"))
+    assert_frame_equal(
+        _base_block(base, split=split).collect(engine="streaming"),
+        _base_block(base.with_columns(expected), split=split).collect(engine="streaming"),
+    )
+    assert "DeprecationWarning" not in capfd.readouterr().err
+
+
+@pytest.mark.parametrize(
+    "values, expected",
+    [
+        (
+            ["2020-02-29", "2019-02-29", "2020/01/31", "2020-01-31 00:00:00", "", None],
+            [date(2020, 2, 29), None, None, None, None, None],
+        ),
+        (["invalid", None], [None, None]),
+        ([], []),
+    ],
+)
+def test_text_decision_dates_use_iso_format_without_inference(values, expected, capfd) -> None:
+    base = pl.DataFrame(
+        {"case_id": range(len(values)), "date_decision": pl.Series(values, dtype=pl.String)}
+    ).lazy()
+    result = _decision_frame(base).collect(engine="streaming")
+    assert result["_decision_date"].to_list() == expected
+    assert result.schema["_decision_date"] == pl.Date
+    assert "DeprecationWarning" not in capfd.readouterr().err
 
 
 def _record(file: str, key: str) -> RawManifestRecord:
