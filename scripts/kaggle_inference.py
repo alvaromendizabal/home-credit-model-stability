@@ -6,12 +6,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import importlib.metadata
+import importlib.util
 import json
 import os
 import subprocess
 import sys
 import time
-import venv
 from pathlib import Path
 from typing import Any
 
@@ -77,6 +77,7 @@ def verify_versions(versions: dict[str, str]) -> None:
 
 def worker(args: argparse.Namespace, manifest: dict[str, Any]) -> None:
     """Score the test population supplied to this run; never fit or contact Kaggle."""
+    sys.path.insert(0, str(args.work / "site-packages"))
     verify_versions(manifest["versions"])
     bundle = args.assets / "bundle"
     sys.path.insert(0, str(bundle / "source"))
@@ -143,20 +144,39 @@ def main() -> None:
         worker(args, manifest)
         return
     environment = dict(os.environ)
+    # Keep host path injection out of the isolated model process.
+    environment.pop("PYTHONPATH", None)
+    environment.pop("PYTHONHOME", None)
+    environment["PYTHONNOUSERSITE"] = "1"
     environment.update(
         POLARS_MAX_THREADS="4", OMP_NUM_THREADS="4", PYTHONWARNINGS="error", PYTHONUNBUFFERED="1"
     )
-    runtime = args.work / "venv"
-    python = runtime / "bin/python"
-    if not python.is_file():
-        venv.EnvBuilder(with_pip=True).create(runtime)
+    package_directory = args.work / "site-packages"
+    pip_spec = importlib.util.find_spec("pip")
+    if pip_spec is not None and pip_spec.origin is not None:
+        pip_source = Path(pip_spec.origin).parent.parent
+    else:
+        ensurepip_spec = importlib.util.find_spec("ensurepip")
+        if ensurepip_spec is None or ensurepip_spec.origin is None:
+            raise RuntimeError("Python needs pip or its bundled offline bootstrap wheel")
+        wheels = list((Path(ensurepip_spec.origin).parent / "_bundled").glob("pip-*.whl"))
+        if len(wheels) != 1:
+            raise RuntimeError("cannot identify the bundled offline pip wheel")
+        pip_source = wheels[0]
+    # -S prevents host sitecustomize hooks from running in the isolated process.
+    bootstrap = (
+        "import sys, runpy; sys.path.insert(0, sys.argv.pop(1)); "
+        "runpy.run_module('pip', run_name='__main__')"
+    )
+    installer = [sys.executable, "-I", "-S", "-c", bootstrap, str(pip_source)]
     run_command(
         [
-            str(python),
-            "-I",
-            "-m",
-            "pip",
+            *installer,
             "install",
+            "--target",
+            str(package_directory),
+            "--upgrade",
+            "--ignore-installed",
             "--disable-pip-version-check",
             "--no-index",
             "--no-cache-dir",
@@ -170,7 +190,17 @@ def main() -> None:
         environment=environment,
     )
     run_command(
-        [str(python), "-I", str(Path(__file__).resolve()), *sys.argv[1:], "--worker"],
+        [
+            sys.executable,
+            "-I",
+            "-S",
+            "-W",
+            "error",
+            "-u",
+            str(Path(__file__).resolve()),
+            *sys.argv[1:],
+            "--worker",
+        ],
         environment=environment,
     )
 
