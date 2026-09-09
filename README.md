@@ -28,7 +28,7 @@ the observed limits relevant to interpreting the results.
 The [completion record](docs/completion.md) maps the finished work to its verification evidence.
 
 For the current state and optional AWS monitoring, see [project status](docs/project_status.md).
-**The bounded research portfolio is complete.** Its expanded feature gate is
+**The bounded research portfolio was closed on 9 September 2026.** Its expanded feature gate is
 closed with executed distribution comparisons, documented chronology exclusions
 and a registered future promotion protocol. The protocol itself is not an
 executed experiment. No cloud job needs to stay running to review these results.
