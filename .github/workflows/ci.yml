@@ -136,6 +136,7 @@ jobs:
             reports/model_release
             reports/calibration
             reports/feature_research
+            reports/history_research
             logs/*review*.jsonl
           if-no-files-found: error
       - name: Publish executed reviews on feature branches

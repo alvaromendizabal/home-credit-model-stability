@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "source_commit": "5c18beceffbe5e79f2bf193ec4478eb71cd63f3e",
+  "verifier_sha256": "5a5a6075142e6f6baf75a50022d2dba9bb6541a65b9fc82c9bd2be0f56e8fe70",
+  "files": {
+    "comparison.json": {
+      "bytes": 33251,
+      "sha256": "14ba104ca2a082b086dfc789e61185873241897cd147f95c297a00ca11240d76"
+    },
+    "study.json": {
+      "bytes": 173214,
+      "sha256": "a740fb05154595448fb870a54c73f73cb3c760103c206a34c861a3858444306f"
+    },
+    "screen.json": {
+      "bytes": 446974,
+      "sha256": "56538b74f6aa0685c360b1aa22addad0a0ef3ae5a281e2079d9fe16697cc433f"
+    },
+    "history_manifest.json": {
+      "bytes": 31714,
+      "sha256": "be2821c72dfbd6e5c7bffe488bc537a0d44fee3bf6217fccf9b2231f8573da05"
+    },
+    "verification.json": {
+      "bytes": 1059,
+      "sha256": "4ac0c6b7a39028ec886818204e392ac7df2e64221700e79a8603735202359ecd"
+    }
+  }
+}

@@ -68,8 +68,10 @@ def main() -> int:
             print(
                 f"Features: {features['combined_hypotheses']:,} hypotheses; "
                 f"{features['release_retained']:,} in the release; "
-                f"{features['additional_retained_for_experiment']} tested additions, none promoted."
+                f"{features['additional_retained_for_experiment']} engineered and "
+                f"{features['raw_history_retained_for_experiment']} history additions tested."
             )
+            print("Both feature-extension studies are complete; the frozen release is preserved.")
             print(f"Frozen holdout stability: {result['frozen_evaluation']['stability_score']:.6f}")
             print("Holdout weeks 73-91 are observed and unavailable for new selection.")
             for row in result["remaining_requirements"]:
@@ -77,6 +79,8 @@ def main() -> int:
             cloud = result["cloud"]
             if cloud["checked"]:
                 print(f"Active Home Credit processing/training jobs: {len(cloud['active_jobs'])}")
+                if not cloud["active_jobs"]:
+                    print("No matching jobs are running. Saved research results remain verified.")
                 for job in cloud["jobs"]:
                     print(f"  {job['status']:12} {job['name']}")
                 if "artifacts" in cloud:

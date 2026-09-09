@@ -187,6 +187,17 @@ FEATURE_CELLS = [
 
     This notebook audits the original experiment. It does not rerun screening or use
     the now-observed final holdout to change the released model.
+
+    **Data context:** 1,526,659 labeled applications span 92 application weeks. The
+    target is uncommon (about 3.14% overall), and prevalence differs across periods:
+    3.29% in the original development population versus 2.19% in the later holdout.
+    This motivates temporal validation and average precision/probability diagnostics
+    alongside AUC. The competition's ten public test examples verify the inference
+    interface; they cannot estimate hidden-test performance.
+
+    Five expanding training windows predict later eight-week blocks. All feature
+    screening finishes before those validation blocks begin. The final trailing
+    nineteen-week evaluation is reported separately in notebook 09.
     """,
     ),
     (
@@ -288,8 +299,13 @@ display(pd.DataFrame(evidence["ablation"]["rows"])[[
     Better pooled metrics did not translate into better temporal stability, so the
     frozen release remains unchanged. The observed holdout was not reused.
 
-    Raw-history quantiles/skew and verified chronological trends remain future
-    hypotheses. Peer quantiles describe training populations. CatBoost's native
+    Notebook 11 also contains a separately registered raw-history study: within-applicant
+    medians, interquartile ranges, upper-tail quantiles and skew, tested against the same
+    control and with a skew-removal ablation. Its catalog, five-fold comparison and
+    independent native-model replay retain their own identities.
+
+    The raw schema audit excludes chronological trends without verified event and
+    availability semantics. Peer quantiles describe training populations. CatBoost's native
     target statistics were evaluated in the original model benchmark; online
     default-rate histories would require outcome-availability controls. No finite
     candidate catalog establishes exhaustive discovery.

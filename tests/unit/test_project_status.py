@@ -18,12 +18,15 @@ from home_credit.observability.project import (
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_real_status_separates_completed_study_from_expanded_research_gate():
+def test_real_status_closes_evidenced_gate_and_preserves_release_boundary():
     status = published_status(ROOT)
     assert status["release_complete"] and status["expanded_study_complete"]
-    assert not status["feature_completion_gate_passed"]
+    assert status["raw_history_study_complete"]
+    assert status["feature_completion_gate_passed"] and not status["remaining_requirements"]
     assert status["holdout"]["observed"] and not status["holdout"]["available_for_new_selection"]
-    assert status["features"]["combined_hypotheses"] == 7125
+    assert status["features"]["combined_hypotheses"] == 7649
+    assert status["features"]["raw_history_candidates"] == 524
+    assert status["features"]["raw_history_retained_for_experiment"] == 96
     assert status["features"]["release_retained"] == 700
     assert status["features"]["additions_promoted_to_release"] == 0
     assert status["cloud"] == {"checked": False}
@@ -118,3 +121,4 @@ def test_cloud_members_are_unique_and_belong_to_the_verified_project():
     assert any(m["key"].endswith("inference_bundle.zip") for m in members)
     assert any("feature-research/" in m["key"] for m in members)
     assert any("calibration-research/" in m["key"] for m in members)
+    assert any("history-research/" in m["key"] for m in members)

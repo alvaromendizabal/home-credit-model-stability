@@ -79,7 +79,27 @@ maturity have not been certified.
 
 The later [feature research](notebooks/11_feature_research.ipynb) tested 4,617 new
 hypotheses and completed 20 comparison fits. Its engineered condition improved
-pooled AUC while reducing temporal stability. It was not promoted.
+pooled AUC while reducing temporal stability. It was not promoted. A separate
+raw-history study tested 524 median/IQR/p90/skew candidates, retained 96 and
+completed ten full comparisons. The 796-feature condition reaches 0.584195 mean
+stability (-0.000994 vs the original control); removing its 13 skew features
+reaches 0.588678 (+0.003490).
+
+Both history conditions improve the weakest fold but win on only three of five
+folds. Their fold-omission ranges cross zero; without skew, the range is
+-0.002966 to +0.007128. The modest mean benefit depends on which periods
+are included. Together with the weaker engineered extension and the fragile
+1,400-feature gain, this supports closing the registered search without further
+ad hoc expansion or retuning. It does not establish exhaustive discovery of every
+possible feature. Any later promotion requires its own protocol and new independent
+evaluation evidence.
+
+All 1,454,374 predictions were replayed from saved native models. These are
+post-release development results, not a new independent evaluation; they do
+not alter the released recipe. The history view has no raw-test feature contract.
+The accompanying audit records 33 date fields across 14 sources and explicitly
+excludes chronological features without a verified availability contract.
+
 The [calibration research](notebooks/12_calibration.ipynb) uses development
 data only. Neither tested map improved pooled Brier or log loss; it does not
 change this frozen release. Further research requires its own promotion decision
