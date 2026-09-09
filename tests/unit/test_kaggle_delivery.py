@@ -12,20 +12,29 @@ import pytest
 _runner = runpy.run_path(str(Path(__file__).resolve().parents[2] / "scripts/kaggle_inference.py"))
 BUNDLE_SHA256 = _runner["BUNDLE_SHA256"]
 digest = _runner["digest"]
-unpack_bundle = _runner["unpack_bundle"]
+_builder = runpy.run_path(
+    str(Path(__file__).resolve().parents[2] / "scripts/build_kaggle_assets.py")
+)
+unpack_bundle = _builder["unpack_bundle"]
 verify_assets = _runner["verify_assets"]
 
 
 @pytest.fixture
 def assets(tmp_path: Path) -> tuple[Path, str]:
-    for name in ("inference_bundle.zip", "requirements.txt", "kaggle_inference.py"):
+    (tmp_path / "bundle").mkdir()
+    for name in ("bundle/bundle.json", "requirements.txt", "kaggle_inference.py"):
         (tmp_path / name).write_bytes(name.encode())
     manifest = {
         "schema_version": 1,
         "bundle_sha256": BUNDLE_SHA256,
         "files": [
-            {"path": p.name, "bytes": p.stat().st_size, "sha256": digest(p)}
-            for p in sorted(tmp_path.iterdir())
+            {
+                "path": p.relative_to(tmp_path).as_posix(),
+                "bytes": p.stat().st_size,
+                "sha256": digest(p),
+            }
+            for p in sorted(tmp_path.rglob("*"))
+            if p.is_file()
         ],
     }
     (tmp_path / "runtime.json").write_text(json.dumps(manifest))
@@ -80,3 +89,34 @@ def test_bundle_archive_preserves_native_bytes(tmp_path):
         stream.writestr("models/native.txt", b"native model\n")
     unpack_bundle(archive, tmp_path / "output")
     assert (tmp_path / "output/models/native.txt").read_bytes() == b"native model\n"
+
+
+def test_package_has_explicit_native_members_and_no_nested_zip(tmp_path, monkeypatch):
+    root = tmp_path / "project"
+    (root / "reports/model_release").mkdir(parents=True)
+    (root / "scripts").mkdir()
+    (root / "scripts/kaggle_inference.py").write_text("# synthetic packaging fixture\n")
+    (root / "uv.lock").write_text("# synthetic dependency fixture\n")
+    bundle = tmp_path / "native.zip"
+    with zipfile.ZipFile(bundle, "w") as stream:
+        stream.writestr("bundle.json", '{"phase":"all_labels"}')
+        stream.writestr("model.txt", b"synthetic native bytes\n")
+    state = {
+        "stages": {
+            "bundle": {
+                "archive": {"sha256": digest(bundle)},
+                "manifest": {"sha256": BUNDLE_SHA256},
+            },
+            "all_labels/lightgbm": {"fit_git_commit": "a" * 40},
+        }
+    }
+    (root / "reports/model_release/state.json").write_text(json.dumps(state))
+    build = _builder["build"]
+    monkeypatch.setitem(build.__globals__, "locked_wheels", lambda _: [])
+    destination = tmp_path / "delivery"
+    receipt = build(root, bundle, destination)
+    verify_assets(destination, receipt["runtime_sha256"])
+    with zipfile.ZipFile(destination.with_suffix(".zip")) as stream:
+        assert "bundle/bundle.json" in stream.namelist()
+        assert stream.read("bundle/model.txt") == b"synthetic native bytes\n"
+        assert not any(name.endswith(".zip") for name in stream.namelist())

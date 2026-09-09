@@ -12,7 +12,6 @@ import subprocess
 import sys
 import time
 import venv
-import zipfile
 from pathlib import Path
 from typing import Any
 
@@ -42,24 +41,10 @@ def verify_assets(directory: Path, expected: str) -> dict[str, Any]:
             raise ValueError("unsafe runtime member path")
         if digest(path) != member["sha256"] or path.stat().st_size != member["bytes"]:
             raise ValueError(f"offline runtime member changed: {member['path']}")
-    required = {"inference_bundle.zip", "requirements.txt", "kaggle_inference.py"}
+    required = {"bundle/bundle.json", "requirements.txt", "kaggle_inference.py"}
     if not required <= set(paths):
         raise ValueError("incomplete offline runtime")
     return data
-
-
-def unpack_bundle(archive: Path, destination: Path) -> None:
-    """Extract a verified model archive while rejecting unsafe or repeated paths."""
-    with zipfile.ZipFile(archive) as stream:
-        names = stream.namelist()
-        if len(names) != len(set(names)):
-            raise ValueError("duplicate model archive member")
-        for member in stream.infolist():
-            if not (destination / member.filename).resolve().is_relative_to(destination.resolve()):
-                raise ValueError("unsafe model archive member")
-            if (member.external_attr >> 16) & 0o170000 == 0o120000:
-                raise ValueError("model archive symlink is not allowed")
-        stream.extractall(destination)
 
 
 def run_command(command: list[str], *, environment: dict[str, str]) -> None:
@@ -93,8 +78,7 @@ def verify_versions(versions: dict[str, str]) -> None:
 def worker(args: argparse.Namespace, manifest: dict[str, Any]) -> None:
     """Score the test population supplied to this run; never fit or contact Kaggle."""
     verify_versions(manifest["versions"])
-    bundle = args.work / "bundle"
-    unpack_bundle(args.assets / "inference_bundle.zip", bundle)
+    bundle = args.assets / "bundle"
     sys.path.insert(0, str(bundle / "source"))
 
     import pandas as pd

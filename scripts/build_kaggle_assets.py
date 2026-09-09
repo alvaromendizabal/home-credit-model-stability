@@ -30,6 +30,20 @@ ROOT_PACKAGES = (
 )
 
 
+def unpack_bundle(archive: Path, destination: Path) -> None:
+    """Extract a verified model archive while rejecting unsafe or repeated paths."""
+    with zipfile.ZipFile(archive) as stream:
+        names = stream.namelist()
+        if len(names) != len(set(names)):
+            raise ValueError("duplicate model archive member")
+        for member in stream.infolist():
+            if not (destination / member.filename).resolve().is_relative_to(destination.resolve()):
+                raise ValueError("unsafe model archive member")
+            if (member.external_attr >> 16) & 0o170000 == 0o120000:
+                raise ValueError("model archive symlink is not allowed")
+        stream.extractall(destination)
+
+
 def locked_wheels(root: Path) -> list[dict[str, Any]]:
     """Resolve the complete locked inference dependency closure for this platform."""
     packages = {p["name"]: p for p in tomllib.loads((root / "uv.lock").read_text())["package"]}
@@ -82,7 +96,9 @@ def build(root: Path, bundle: Path, destination: Path) -> dict[str, Any]:
     (destination / "requirements.txt").write_text(
         "".join(f"{w['name']}=={w['version']} --hash={w['hash']}\n" for w in wheels)
     )
-    shutil.copy2(bundle, destination / "inference_bundle.zip")
+    # Kaggle expands nested ZIP files on upload; publish native members explicitly.
+    model_directory = destination / "bundle"
+    unpack_bundle(bundle, model_directory)
     shutil.copy2(root / "scripts/kaggle_inference.py", destination / "kaggle_inference.py")
     manifest = {
         "schema_version": 1,
@@ -104,11 +120,12 @@ def build(root: Path, bundle: Path, destination: Path) -> dict[str, Any]:
     }
     (destination / "runtime.json").write_bytes(canonical_json_bytes(manifest))
     archive = destination.with_suffix(".zip")
-    with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_STORED) as stream:
+    with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as stream:
         for path in sorted(destination.rglob("*")):
             if path.is_file():
                 info = zipfile.ZipInfo(path.relative_to(destination).as_posix())
                 info.external_attr = 0o100644 << 16
+                info.compress_type = zipfile.ZIP_DEFLATED
                 stream.writestr(info, path.read_bytes())
     receipt = {
         "schema_version": 1,
