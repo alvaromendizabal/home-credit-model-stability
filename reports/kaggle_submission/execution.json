@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "job": "home-credit-kaggle-offline-20260909-0314",
+  "region": "us-west-2",
+  "source_commit": "efc29ed991514db1f287d7cd85840bdb71fd0350",
+  "source_ci_run": 34306108790,
+  "source_ci_tests": 478,
+  "source_ci_mypy_files": 84,
+  "independently_built_archive_matches_aws_bytes": true,
+  "verified_archive_members": 78,
+  "job_status": "Completed",
+  "started_utc": "2026-09-09T03:14:19.158000+00:00",
+  "completed_utc": "2026-09-09T03:17:13.330000+00:00",
+  "kaggle_notebook": "https://www.kaggle.com/code/alvaromendizabal/home-credit-frozen-lightgbm-inference",
+  "kaggle_dataset": "https://www.kaggle.com/datasets/alvaromendizabal/home-credit-frozen-inference",
+  "kaggle_dataset_visibility": "private",
+  "kaggle_stage": "package_version_2_staged_awaiting_upload_approval",
+  "kaggle_saved_version": null,
+  "kaggle_submitted": false,
+  "hidden_test_executed": false,
+  "kaggle_score": null,
+  "kaggle_offline_dependency_probe": {
+    "status": "passed",
+    "python": "3.12.13",
+    "internet": false,
+    "locked_wheels_installed": 21,
+    "numpy": "2.5.2",
+    "polars": "1.44.1",
+    "lightgbm": "4.7.0"
+  },
+  "initial_attempt": {
+    "job": "home-credit-kaggle-delivery-20260909-0242",
+    "source_commit": "758237bd89fda588f443c0847004c795e1baf6dd",
+    "aws_offline_verification": "passed",
+    "kaggle_draft_inference": "failed",
+    "reason": "Kaggle expanded the nested model ZIP; its Python also lacks ensurepip and includes host startup hooks.",
+    "resolution": "Publish native model members explicitly and bootstrap only pip under Python -I -S into a private target directory."
+  },
+  "blocker": {
+    "source": "automatic_approval_review",
+    "action": "Create version 2 of the existing private Kaggle dataset",
+    "reason": "Explicit user re-approval is required for this exact 205.82 MB model/dependency upload.",
+    "raw_borrower_files_in_package": false,
+    "credential_files_in_package": false
+  }
+}

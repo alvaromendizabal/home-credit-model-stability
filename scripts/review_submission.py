@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Execute the owner-controlled submission notebook with export disabled."""
+"""Execute the submission notebook in review mode; Kaggle runs offline inference."""
 
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 
 from home_credit.modeling.checkpoints import atomic_write
@@ -19,21 +20,25 @@ CELLS = [
 
     The frozen native bundle has been fitted on all 1,526,659 labeled applications.
     This notebook runs the same raw feature transformations and encoders as training.
-    It never uploads to Kaggle. **Submission generation is off by default.**
+    On Kaggle, attach the **Home Credit Frozen Inference** dataset and the competition
+    data, select CPU with **Internet off**, then Save & Run All. This notebook discovers
+    the attached inputs, installs hash-locked wheels into an isolated offline environment,
+    and writes `/kaggle/working/submission.csv` plus a lineage receipt. Submit the saved
+    notebook version through Kaggle so it reruns on the hidden test data.
 
-    Set the bundle, raw test and sample-submission paths below. When you are ready,
-    change `GENERATE_SUBMISSION` to `True` and run all cells. The output is validated,
-    saved with a lineage receipt and presented as a download link.
-
-    On Kaggle, point `RAW_TEST_DIRECTORY` to that run's competition input and attach
-    the verified model bundle as an input dataset. The ten downloadable public example
-    cases are only a local integration fixture; they are not the hidden evaluation set.
+    Outside Kaggle, review mode remains the default. Local exports can be enabled below.
+    The ten public example cases validate integration; they are not a leaderboard result.
+    No training, feature selection or calibration occurs in this notebook.
     """,
     ),
     (
         "code",
         """
+import hashlib
+import json
 import os
+import subprocess
+import sys
 from pathlib import Path
 
 from IPython.display import FileLink, display
@@ -51,7 +56,19 @@ RAW_TEST_DIRECTORY = Path(os.environ.get(
 ))
 SAMPLE_SUBMISSION = root / "data/raw/sample_submission.csv"
 DESTINATION = root / "submissions/submission.csv"
-GENERATE_SUBMISSION = False
+ON_KAGGLE = Path("/kaggle/input").is_dir()
+GENERATE_SUBMISSION = ON_KAGGLE
+runtime_sha256 = "RUNTIME_MANIFEST_SHA256"
+if ON_KAGGLE:
+    competition_roots = [
+        p.parent for p in Path("/kaggle/input").rglob("sample_submission.csv")
+        if p.parent.name == "home-credit-credit-risk-model-stability"
+    ]
+    if len(competition_roots) != 1:
+        raise ValueError("Attach the Home Credit competition data exactly once")
+    RAW_TEST_DIRECTORY = competition_roots[0] / "parquet_files/test"
+    SAMPLE_SUBMISSION = competition_roots[0] / "sample_submission.csv"
+    DESTINATION = Path("/kaggle/working/submission.csv")
 
 bundle_sha256 = "71f338a66b15d0f8b549c3a9c9defe4defdd4169f5f57be3c65036ac9bcbf84a"
 print("Expected frozen bundle identity:", bundle_sha256)
@@ -76,9 +93,29 @@ print("CSV generation enabled:", GENERATE_SUBMISSION)
         "code",
         """
 verify_raw = os.environ.get("HOME_CREDIT_VERIFY_INFERENCE", "0") == "1"
-if GENERATE_SUBMISSION or verify_raw:
-    import sys
-
+if ON_KAGGLE:
+    matches = [
+        p for p in Path("/kaggle/input").rglob("runtime.json")
+        if hashlib.sha256(p.read_bytes()).hexdigest() == runtime_sha256
+    ]
+    if len(matches) != 1:
+        raise ValueError("Attach the verified Home Credit Frozen Inference dataset exactly once")
+    assets = matches[0].parent
+    manifest = json.loads(matches[0].read_text())
+    runner = assets / "kaggle_inference.py"
+    member = next(m for m in manifest["files"] if m["path"] == runner.name)
+    if hashlib.sha256(runner.read_bytes()).hexdigest() != member["sha256"]:
+        raise ValueError("Offline inference launcher digest mismatch")
+    subprocess.run([
+        sys.executable, "-I", str(runner), "--assets", str(assets),
+        "--runtime-sha256", runtime_sha256, "--raw", str(RAW_TEST_DIRECTORY),
+        "--sample", str(SAMPLE_SUBMISSION),
+        "--work", str(Path("/kaggle/temp/home_credit") / runtime_sha256),
+        "--output", str(DESTINATION.parent),
+    ], check=True)
+    receipt = json.loads(DESTINATION.with_suffix(".json").read_text())
+    print("Validated submission:", receipt["rows"], "rows; SHA-256:", receipt["sha256"])
+elif GENERATE_SUBMISSION or verify_raw:
     import pandas as pd
 
     source_directory = BUNDLE_DIRECTORY / "source"
@@ -119,7 +156,7 @@ else:
     case, the same case order as the sample, and finite probabilities in [0, 1].
     The saved file is read back and checked. A different existing CSV is preserved
     rather than silently overwritten. Its JSON receipt records the bundle, input and
-    output hashes. Your notebook environment must use persistent storage for this path.
+    output hashes. Kaggle preserves these files in the saved notebook version.
     """,
     ),
     (
@@ -133,6 +170,15 @@ else:
     print("No submission CSV was generated. No Kaggle upload was performed.")
 """,
     ),
+]
+
+
+_runtime_policy = json.loads(
+    (Path(__file__).resolve().parents[1] / "configs/kaggle_submission.json").read_text()
+)
+CELLS = [
+    (kind, source.replace("RUNTIME_MANIFEST_SHA256", _runtime_policy["runtime_sha256"]))
+    for kind, source in CELLS
 ]
 
 
@@ -153,6 +199,7 @@ def review(root: Path, *, force: bool = False, write_only: bool = False) -> bool
                 root / "uv.lock",
                 root / "configs/portfolio_review.json",
                 root / "src/home_credit/modeling/inference.py",
+                root / "configs/kaggle_submission.json",
             ],
             receipt_path=directory / "receipt.json",
             execution_root=root,

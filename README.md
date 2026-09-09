@@ -125,17 +125,19 @@ The dependency lock uses Python 3.12.14. The [operating contract](AGENTS.md),
 [release runbook](docs/model_release.md) describe the validation boundaries.
 Do not rerun training merely to view results.
 
-## Inference and owner-controlled submission
+## Kaggle inference and submission
 
-[Notebook 10](notebooks/10_submission.ipynb) rebuilds features from the raw test files
-supplied to the run, checks the native bundle, resumes predictions and lets the owner
-explicitly generate, validate, save and download a `case_id,score` CSV. It checks exact
-sample coverage/order, unique IDs, finite probabilities, saved-file round trips and
-artifact lineage. **CSV generation defaults to off; nothing uploads to Kaggle.**
+[Notebook 10](notebooks/10_submission.ipynb) runs the frozen all-label model on the
+raw test files supplied by Kaggle. It discovers the attached model dataset, installs
+21 hash-locked inference wheels in an isolated offline environment, and writes a
+validated `submission.csv` with a lineage receipt. Outside Kaggle, CSV generation
+is disabled by default. [Submission runbook](docs/kaggle_submission.md).
 
-The ten public competition example cases have passed raw-feature parity and packaged
-inference checks. They are an integration fixture. Hidden-test execution, hidden-test
-resource limits and a leaderboard score have not been verified.
+The offline export passed two runs on the ten public examples: identical CSV bytes,
+four unchanged prediction batches reused, and zero model fits. These examples are
+an integration fixture. Kaggle's saved notebook execution and hidden-test result
+remain pending private dataset upload approval. No Kaggle score is claimed; the
+project's observed holdout metric is separate evidence.
 
 ## Research scope
 

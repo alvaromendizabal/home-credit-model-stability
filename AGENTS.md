@@ -24,8 +24,9 @@ a changed report must not retrain a model. Never hide unexpected warnings global
 Do not rerun the completed tuning launcher merely to review its results. The accepted
 study is pinned to commit 2e52dd908f2b30a783e37157ae9801e0679cc666.
 
-The owner generates and downloads Kaggle submissions from notebook code. Do not supply
-pre-made submissions or automatically upload to Kaggle. A later inference release must
+The owner explicitly authorized submission preparation and Kaggle submission on
+2026-09-09. Generate from the frozen all-label inference release, verify the saved
+notebook execution, and record Kaggle's actual acceptance or failure. The inference release must
 validate train/test feature parity, unique case IDs, exact sample schema/order, finite
 probabilities, artifact lineage and durable export before displaying a download link.
 Do not describe that release as implemented before its complete path is tested.
