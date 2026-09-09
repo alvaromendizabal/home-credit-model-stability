@@ -171,13 +171,15 @@ chronological lags, trends and acceleration are therefore excluded. This is a
 scope decision, not evidence that those features are ineffective. Event-time
 availability and outcome maturity need separate controls for deployment.
 
-## 12. Owner-only boundary and future work
+## 12. Submission delivery and future work
 
 [Notebook 10](../notebooks/10_submission.ipynb) validates raw feature parity, native
 artifacts, unique case IDs, exact sample coverage/order and finite probabilities.
 Its real raw-data integration covers the ten public examples. Hidden-test execution
-and its resource limits are unverified. CSV generation is off by default and nothing
-uploads to Kaggle. The owner alone enables, generates, downloads and submits a file.
+and its resource limits require a separate Kaggle execution. On 9 September 2026,
+the owner authorized submission preparation and submission. The offline delivery
+package passed two export runs with four unchanged prediction batches reused.
+See the [submission runbook](kaggle_submission.md) and `reports/kaggle_submission/`.
 
 Further modeling should begin as a separately scoped study with a new promotion
 decision and independent evaluation population. It is not necessary to add every

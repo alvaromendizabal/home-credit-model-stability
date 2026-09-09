@@ -27,8 +27,9 @@ No model, feature, weight, iteration or calibration choice may be selected on we
    earlier holdout score to this all-label model as though that model was evaluated there.
 4. Verify inference against the known raw test files and frozen feature snapshot,
    then test multi-shard inputs, missing-history tables, row alignment and resumption.
-5. Execute the final notebook in non-export mode. The owner alone enables CSV
-   generation and downloads it; no automatic Kaggle upload or submission is implemented.
+5. Execute the final notebook in non-export mode for the original release verification.
+   The owner subsequently authorized Kaggle submission on 9 September 2026; that
+   delivery has separate [package and execution evidence](kaggle_submission.md).
 
 The downloadable competition test files contain ten public example cases. A CSV
 for those cases is not evidence of hidden-test execution or a leaderboard score.
@@ -55,11 +56,11 @@ access. `scripts/verify_model_release.py --bucket ...` independently restores an
 hash-checks all release members, recomputes saved prediction metrics, runs packaged
 raw inference and executes notebook 10 with export disabled. It never refits a model.
 
-For owner-controlled CSV generation, extract the verified `inference_bundle.zip`,
-set the three input paths in notebook 10 and enable its generation flag. On Kaggle,
-attach the model bundle and use that run's competition test files and sample schema.
-The notebook can import the matching source included in the bundle without requiring
-a repository checkout. The execution environment still needs compatible dependencies.
+For local CSV generation, extract the verified `inference_bundle.zip`, set the input
+paths in notebook 10, and enable its generation flag. The later Kaggle delivery
+automatically discovers the competition input and frozen model dataset, installs
+21 hash-locked inference wheels offline, and exports a validated CSV. See the
+[submission runbook](kaggle_submission.md) for the separate execution record.
 
 ## Independent release verification
 

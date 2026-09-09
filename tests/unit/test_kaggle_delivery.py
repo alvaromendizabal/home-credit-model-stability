@@ -120,3 +120,7 @@ def test_package_has_explicit_native_members_and_no_nested_zip(tmp_path, monkeyp
         assert "bundle/bundle.json" in stream.namelist()
         assert stream.read("bundle/model.txt") == b"synthetic native bytes\n"
         assert not any(name.endswith(".zip") for name in stream.namelist())
+    (destination / "bundle/__pycache__").mkdir()
+    (destination / "bundle/__pycache__/module.pyc").write_bytes(b"stale cache")
+    (destination / "obsolete.zip").write_bytes(b"previous package format")
+    assert build(root, bundle, destination) == receipt

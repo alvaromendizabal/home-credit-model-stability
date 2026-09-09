@@ -30,7 +30,7 @@ ROOT_PACKAGES = (
 )
 
 
-def unpack_bundle(archive: Path, destination: Path) -> None:
+def unpack_bundle(archive: Path, destination: Path) -> list[Path]:
     """Extract a verified model archive while rejecting unsafe or repeated paths."""
     with zipfile.ZipFile(archive) as stream:
         names = stream.namelist()
@@ -42,6 +42,9 @@ def unpack_bundle(archive: Path, destination: Path) -> None:
             if (member.external_attr >> 16) & 0o170000 == 0o120000:
                 raise ValueError("model archive symlink is not allowed")
         stream.extractall(destination)
+        return [
+            destination / member.filename for member in stream.infolist() if not member.is_dir()
+        ]
 
 
 def locked_wheels(root: Path) -> list[dict[str, Any]]:
@@ -98,8 +101,17 @@ def build(root: Path, bundle: Path, destination: Path) -> dict[str, Any]:
     )
     # Kaggle expands nested ZIP files on upload; publish native members explicitly.
     model_directory = destination / "bundle"
-    unpack_bundle(bundle, model_directory)
+    model_files = unpack_bundle(bundle, model_directory)
     shutil.copy2(root / "scripts/kaggle_inference.py", destination / "kaggle_inference.py")
+    # Rebuilds ignore stale downloads, removed members and Python import caches.
+    files = sorted(
+        [
+            *model_files,
+            *(wheel_directory / w["url"].rsplit("/", 1)[1] for w in wheels),
+            destination / "requirements.txt",
+            destination / "kaggle_inference.py",
+        ]
+    )
     manifest = {
         "schema_version": 1,
         "python": "3.12",
@@ -114,19 +126,17 @@ def build(root: Path, bundle: Path, destination: Path) -> dict[str, Any]:
                 "bytes": path.stat().st_size,
                 "sha256": sha256_file(path),
             }
-            for path in sorted(destination.rglob("*"))
-            if path.is_file() and path.name != "runtime.json"
+            for path in files
         ],
     }
     (destination / "runtime.json").write_bytes(canonical_json_bytes(manifest))
     archive = destination.with_suffix(".zip")
     with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as stream:
-        for path in sorted(destination.rglob("*")):
-            if path.is_file():
-                info = zipfile.ZipInfo(path.relative_to(destination).as_posix())
-                info.external_attr = 0o100644 << 16
-                info.compress_type = zipfile.ZIP_DEFLATED
-                stream.writestr(info, path.read_bytes())
+        for path in sorted([*files, destination / "runtime.json"]):
+            info = zipfile.ZipInfo(path.relative_to(destination).as_posix())
+            info.external_attr = 0o100644 << 16
+            info.compress_type = zipfile.ZIP_DEFLATED
+            stream.writestr(info, path.read_bytes())
     receipt = {
         "schema_version": 1,
         "runtime_sha256": sha256_file(destination / "runtime.json"),
