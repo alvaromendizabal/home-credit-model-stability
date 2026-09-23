@@ -1,10 +1,10 @@
 # Project status and optional monitoring
 
-**The bounded employer-facing research portfolio was closed on 9 September 2026.** The frozen model
-has a future-period evaluation, the additional feature studies are executed and
-verified, and the canonical notebooks expose the evidence. Completion means the
-registered scope is addressed; it does not mean every possible feature or model
-has been tried.
+**The evaluated employer-facing release was closed on 9 September 2026 and remains
+frozen.** The frozen model has a future-period evaluation, the original feature
+studies are executed and verified, and the canonical notebooks expose the evidence.
+A separate post-release frontier track now records later experiments without changing
+the historical release or reusing the observed holdout as a fresh test.
 
 ## What is finished
 
@@ -20,6 +20,7 @@ has been tried.
 | Kaggle submission | Saved notebook v1 succeeded after deadline; public 0.56062 / private 0.47429 |
 | Date parsing maintenance | Current source has zero warnings; 700 features and ten predictions match the frozen public example exactly |
 | Recovery | Completed studies resume from verified checkpoints with zero new fits |
+| Post-release categorical frontier | 13 fits; `blend_native` selected on folds 1–3, then rejected on frozen folds 4–5; +0.000062 mean stability vs saved champion; no refit or submission |
 
 The three screens account for **7,649 hypotheses**. The 256 engineered additions
 and 96 raw-history additions are experimental representations; the evaluated
@@ -42,8 +43,15 @@ folds. Their fold-omission ranges cross zero; without skew, the range is
 are included. Together with the weaker engineered extension and the fragile
 1,400-feature gain, this supports closing the registered search without further
 ad hoc expansion or retuning. It does not establish exhaustive discovery of every
-possible feature. The frozen release is preserved; any later promotion requires
-its own protocol and new independent evaluation evidence.
+possible feature.
+
+Post-release research then tested native LightGBM categorical identity and
+identity+frequency. Folds 1–3 selected `blend_native`, but folds 4–5 produced only
++0.000062 mean stability versus the saved champion, with one win and one loss.
+The predeclared confirmation gate failed, so the candidate was not refit or submitted.
+[Notebook 13](../notebooks/13_categorical_identity_frontier.ipynb) and the
+[categorical-identity report](../reports/categorical_identity/README.md) preserve the
+negative result. The frozen release remains unchanged.
 
 Full results include each fold, pooled probability metrics and omission sensitivity.
 The latter removes one fold at a time from the mean difference; it is descriptive, not a confidence
@@ -55,10 +63,16 @@ leaderboard. Weeks 73–91 have been observed and cannot become a new untouched 
 
 ## What comes next
 
-The next step is employer review: read notebooks **02 → 05 → 09**, then use
-notebooks 11–12 for the feature and calibration research. No further paid training
-is required to present this release. The completion record links the actual
-verification and cloud execution receipts.
+For employer review, read notebooks **02 → 05 → 09**, then use notebooks 11–12
+for the feature and calibration research and notebook 13 for the post-release
+frontier decision. No additional training is required to understand the published
+release or the rejected categorical-identity candidate.
+
+Further competitive research is optional and separately scoped. The highest-value
+open gaps are documented in [post-release frontier research](post_release_research.md):
+previous-application category occurrence histograms, a DenseLight neural challenger,
+and heterogeneous ensembling only after a genuinely complementary signal exists.
+The completion record links the release verification and cloud execution receipts.
 
 The [closeout checks](completion.md#closeout-checks--9-september-2026) record the
 accepted submission, successful implementation CI and the final scoped AWS check.
