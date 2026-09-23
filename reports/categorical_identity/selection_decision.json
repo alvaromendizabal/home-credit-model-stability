@@ -1,0 +1,79 @@
+{
+  "configuration_hash": "5445df9bc6633817a9a313c47ae007d3ca94d0b3a4814c9a5f7abee0d2de8e4d",
+  "decision_scope": "folds_1_to_3_only",
+  "evidence_hash": "97552c6cdaa5d5e7dab0317ecc34c3634b72537ccd016588710b1778a47b7333",
+  "experiment_identity": "eb5b82cf9da7a5565e9279cfb1e395d705a49c9f838eaf55790091edbd2032b8",
+  "frozen_before_new_confirmation_fits": true,
+  "gates": {
+    "blend_dual": {
+      "comparisons": {
+        "matched_frequency": {
+          "mean_delta": 0.04039623924629365,
+          "passed": true,
+          "wins": 2,
+          "worst_delta": -0.0016681031420204828
+        },
+        "saved_champion": {
+          "mean_delta": 0.026812289260090678,
+          "passed": true,
+          "wins": 2,
+          "worst_delta": -0.00055514790183675
+        }
+      },
+      "passed": true
+    },
+    "blend_native": {
+      "comparisons": {
+        "matched_frequency": {
+          "mean_delta": 0.042597729420146724,
+          "passed": true,
+          "wins": 2,
+          "worst_delta": -0.0019891447772578674
+        },
+        "saved_champion": {
+          "mean_delta": 0.02901377943394375,
+          "passed": true,
+          "wins": 2,
+          "worst_delta": -0.0008761895370741346
+        }
+      },
+      "passed": true
+    },
+    "dual": {
+      "comparisons": {
+        "matched_frequency": {
+          "mean_delta": 0.06240453587434539,
+          "passed": false,
+          "wins": 2,
+          "worst_delta": -0.041039606893323755
+        },
+        "saved_champion": {
+          "mean_delta": 0.04882058588814242,
+          "passed": false,
+          "wins": 2,
+          "worst_delta": -0.03992665165314002
+        }
+      },
+      "passed": false
+    },
+    "native": {
+      "comparisons": {
+        "matched_frequency": {
+          "mean_delta": 0.06184482602252058,
+          "passed": false,
+          "wins": 2,
+          "worst_delta": -0.04252304118544559
+        },
+        "saved_champion": {
+          "mean_delta": 0.0482608760363176,
+          "passed": false,
+          "wins": 2,
+          "worst_delta": -0.041410085945261854
+        }
+      },
+      "passed": false
+    }
+  },
+  "selected": "blend_native",
+  "warning": "Previously explored calendar windows; not an independent external assessment."
+}
