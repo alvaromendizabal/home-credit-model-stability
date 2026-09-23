@@ -1,0 +1,24 @@
+{
+  "frequency": {
+    "conditional_interval_95": [
+      -0.027355179102824936,
+      0.041935583892959545
+    ],
+    "fraction_positive": 0.6533333333333333,
+    "limitation": "Short, previously explored windows; trend assumptions are uncertain. Descriptive only; not an independent-test confidence claim.",
+    "method": "paired circular moving-block residual bootstrap; 2-week blocks; fixed fitted trends",
+    "observed_mean_delta": 0.008452002485289267,
+    "repetitions": 1500
+  },
+  "saved_champion": {
+    "conditional_interval_95": [
+      -0.013200317983671672,
+      0.03638545124835903
+    ],
+    "fraction_positive": 0.246,
+    "limitation": "Short, previously explored windows; trend assumptions are uncertain. Descriptive only; not an independent-test confidence claim.",
+    "method": "paired circular moving-block residual bootstrap; 2-week blocks; fixed fitted trends",
+    "observed_mean_delta": 6.229249958655814e-05,
+    "repetitions": 1500
+  }
+}
