@@ -31,7 +31,9 @@ def test_real_status_closes_evidenced_gate_and_preserves_release_boundary():
     assert status["features"]["additions_promoted_to_release"] == 0
     assert status["cloud"] == {"checked": False}
     assert all(r["has_complete_saved_outputs"] for r in status["notebooks"])
-    assert len(status["notebooks"]) == 9
+    assert len(status["notebooks"]) == 10
+    notebook_paths = {r["path"] for r in status["notebooks"]}
+    assert "notebooks/13_categorical_identity_frontier.ipynb" in notebook_paths
     rows = {r["experiment"]: r for r in status["fold_sensitivity"]}
     assert rows["wider_original"]["improved_folds"] == 2
     assert rows["wider_original"]["leave_one_fold_out_delta_min"] < 0
