@@ -1,0 +1,20 @@
+{
+  "comparisons": {
+    "matched_frequency": {
+      "mean_delta": 0.008452002485289267,
+      "passed": true,
+      "wins": 1,
+      "worst_delta": -0.0025534420900475974
+    },
+    "saved_champion": {
+      "mean_delta": 6.229249958655814e-05,
+      "passed": false,
+      "wins": 1,
+      "worst_delta": -0.0026714911017059473
+    }
+  },
+  "passed": false,
+  "scope": "Fixed candidate on later, previously explored development windows; not fresh independent labels",
+  "selected": "blend_native",
+  "selection_sha256": "5babdb33cabd96c23b9190d1b013c39bbc8b01cd91bf4575db81f7a8ae463605"
+}
