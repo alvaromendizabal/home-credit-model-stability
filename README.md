@@ -21,6 +21,11 @@ The later [feature study](notebooks/11_feature_research.ipynb) tests a wider bud
 permutation, redundancy diagnostics and an explicit event-date availability audit.
 The [calibration study](notebooks/12_calibration.ipynb) tests whether probability
 mappings transfer across development periods. Both retain unsuccessful comparisons.
+The post-release [categorical-identity frontier](notebooks/13_categorical_identity_frontier.ipynb)
+tests native LightGBM identity and identity+frequency representations under a frozen
+later-window gate; the candidate was rejected. Its compact
+[research report](reports/categorical_identity/README.md) preserves the decision,
+fold metrics, uncertainty and leading-solution reproduction matrix.
 The notebooks embed readable tables, interactive Plotly figures and static GitHub
 fallbacks. Reading the evidence requires no cloud account or borrower-level data.
 The [model card](MODEL_CARD.md) summarizes intended use, artifact distinctions and
@@ -28,10 +33,11 @@ the observed limits relevant to interpreting the results.
 The [completion record](docs/completion.md) maps the finished work to its verification evidence.
 
 For the current state and optional AWS monitoring, see [project status](docs/project_status.md).
-**The bounded research portfolio was closed on 9 September 2026.** Its expanded feature gate is
-closed with executed distribution comparisons, documented chronology exclusions
-and a registered future promotion protocol. The protocol itself is not an
-executed experiment. No cloud job needs to stay running to review these results.
+**The evaluated September release remains frozen and closed.** Post-release frontier
+research is tracked separately in [post-release research](docs/post_release_research.md);
+it does not rewrite the historical release or convert previously explored development
+windows into a new independent test. No cloud job needs to stay running to review
+the published evidence.
 
 ![Development benchmark and controlled feature-block removal results](reports/portfolio/overview.svg)
 
@@ -91,6 +97,11 @@ fold scores.
 - **Calibration:** eight past-fold sigmoid/isotonic fits evaluated 544,611 later
   development cases. Neither improved pooled Brier score or log loss. This four-fold
   comparison has a different population from the five-fold model-selection study.
+- **Post-release categorical identity:** 13 substantive fits compared frequency-only,
+  native categorical identity, identity+frequency and fixed blends. Folds 1–3 selected
+  `blend_native`, but frozen folds 4–5 improved mean stability by only **0.000062**
+  versus the saved champion, with one win and one loss. The promotion gate failed;
+  the candidate was not refit or submitted.
 
 The official metric is:
 
@@ -163,8 +174,9 @@ screens, 7,649 hypotheses are accounted for; the release still uses 700 features
 A finite search does not establish exhaustive discovery. Thirty-three resolved
 date fields lack the field-level event/availability contract needed for verified
 chronological lags and trends, so that avenue is explicitly excluded. Numeric
-calendar parts are not proof of event ordering. Native categorical target
-statistics were evaluated through CatBoost. Neural challengers and fully nested
+calendar parts are not proof of event ordering. Native categorical target statistics were evaluated through CatBoost. A later
+post-release LightGBM categorical-identity experiment was also executed and rejected
+after its frozen confirmation gate failed. Neural challengers and fully nested
 promotion experiments were not performed.
 
 The original holdout is now observed and bound to the frozen release. Further feature

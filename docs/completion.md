@@ -39,6 +39,23 @@ described at the end of this record. It does not block the research release.
 Additional robustness audits, fully nested promotion and production validation are
 separately scoped future work, not remaining completion gates.
 
+## Post-release research appendix — 22 September 2026
+
+A separately scoped categorical-identity experiment was executed after closeout.
+It preserved the release and used only previously explored development windows.
+Thirteen substantive fits compared frequency-only LightGBM, native categorical
+identity, identity+frequency and fixed blends. Folds 1–3 selected `blend_native`;
+the candidate was frozen before folds 4–5. Confirmation produced only **+0.000062**
+mean stability versus the saved champion, with one win and one loss, so the
+predeclared promotion gate failed. The candidate was not refit and no submission
+was created.
+
+See [notebook 13](../notebooks/13_categorical_identity_frontier.ipynb), the
+[categorical-identity report](../reports/categorical_identity/README.md) and the
+[post-release research plan](post_release_research.md). This negative result closes
+native LightGBM categorical identity as a current frontier direction; it does not
+change the September release.
+
 ## 1. What was completed
 
 The work closes the feature-budget comparison, engineered and raw-history searches,
@@ -156,15 +173,16 @@ per-fit receipts support recovery after a coordinator interruption.
 ## 9. Notebooks and visual review
 
 The review path includes feature engineering, benchmark, archived family ablation,
-tuning, selection, frozen release, owner-controlled inference, expanded research
-and calibration. Interactive figures include static GitHub fallbacks. Tables expose
+tuning, selection, frozen release, owner-controlled inference, expanded research,
+calibration and the post-release categorical-identity frontier. Interactive figures
+include static GitHub fallbacks where published. Tables expose
 fold support, worst-fold behavior, probability metrics, rejected features and model
 complexity. SHAP sampling was corrected after an audit found a biased sorted prefix;
 the publication preserves the original diagnostic lineage and sampled week counts.
 The README adds a compact comparison of model families and controlled feature-block
 removals. CI regenerates that SVG from accepted aggregate reports and requires a
-byte-identical result. The eight canonical notebooks contain 22 static figures and
-17 interactive charts, alongside the archived ablation review.
+byte-identical result. The nine canonical notebooks contain 22 static figures and
+18 interactive charts, alongside the archived ablation review.
 
 ## 10. Quality and publication gates
 
@@ -216,9 +234,11 @@ leaderboard scores evaluate the separate all-label inference refit and must not 
 substituted for the development-trained model's 0.729674 local holdout stability.
 See the [submission runbook](kaggle_submission.md) and `reports/kaggle_submission/`.
 
-Further modeling should begin as a separately scoped study with a new promotion
-decision and independent evaluation population. It is not necessary to add every
-possible model family or engineered formula to close this research release.
+Further modeling remains a separately scoped study. Notebook 13 has now closed one
+post-release hypothesis—native LightGBM categorical identity—without changing the
+release. The next high-value gaps are previous-application category occurrence
+histograms and a complementary DenseLight neural challenger; neither is described
+as validated until its own controlled evidence exists.
 
 The current-source date-parsing cleanup is independently verified on the original
 public inputs: 93 file identities, 700 feature columns, identical encoded matrices
