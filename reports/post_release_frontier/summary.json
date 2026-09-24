@@ -1,0 +1,44 @@
+{
+  "applprev_histogram": {
+    "all_label_fit_completed": true,
+    "external_probe_candidate": "blend_hist_25",
+    "external_probe_internal_promotion_passed": false,
+    "five_fold_stability_wins": 5,
+    "hidden_test_status": "not_yet_scored_in_published_evidence",
+    "mean_five_fold_auc_delta": 0.00044893118878874816,
+    "mean_five_fold_gini_delta": 0.0009427003314278481,
+    "mean_five_fold_stability_delta": 0.0039655032076041374,
+    "registered_standalone_status": "rejected_on_confirmation",
+    "standalone_confirmation_mean_stability_delta": 0.00010649760757697191
+  },
+  "categorical_identity": {
+    "mean_confirmation_stability_delta": 6.229249958655814e-05,
+    "status": "rejected_on_confirmation"
+  },
+  "denselight": {
+    "holdout_weeks_73_91": "prohibited_for_selection",
+    "maximum_substantive_fits": 6,
+    "status": "registered_not_executed"
+  },
+  "frozen_release": {
+    "development_mean_stability": 0.601898890294407,
+    "kaggle_private": 0.47429,
+    "kaggle_public": 0.56062,
+    "local_holdout_stability": 0.729674
+  },
+  "schema_version": 1,
+  "zero_fit_ensemble_audit": {
+    "five_fold_winner_count": 2,
+    "grid_candidates": 47,
+    "new_model_fits": 0,
+    "prequential_auc_delta": 0.0004469927536138729,
+    "prequential_gini_delta": 0.0009558351246294339,
+    "prequential_stability_delta": 0.004193182082020144,
+    "top_descriptive_weights": {
+      "catboost": 0.0,
+      "histogram": 0.25,
+      "saved_champion": 0.75,
+      "xgboost": 0.0
+    }
+  }
+}
