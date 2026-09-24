@@ -1,0 +1,43 @@
+{
+  "comparisons": {
+    "saved_champion": {
+      "checks": {
+        "mean_auc_guard": false,
+        "mean_gini_guard": true,
+        "mean_stability_gain": false,
+        "stability_wins": true,
+        "worst_auc_guard": true,
+        "worst_stability_loss": true
+      },
+      "mean_auc_delta": -0.00037784639711901935,
+      "mean_gini_delta": -0.00047008030956874336,
+      "mean_stability_delta": 0.00010649760757697191,
+      "passed": false,
+      "stability_wins": 1,
+      "worst_auc_delta": -0.000488437022798327,
+      "worst_stability_delta": -0.0029096011708111824
+    },
+    "tuned_control": {
+      "checks": {
+        "mean_auc_guard": true,
+        "mean_gini_guard": true,
+        "mean_stability_gain": true,
+        "stability_wins": true,
+        "worst_auc_guard": true,
+        "worst_stability_loss": true
+      },
+      "mean_auc_delta": -0.00022209367662912038,
+      "mean_gini_delta": -0.00011371388916814329,
+      "mean_stability_delta": 0.002799789139292186,
+      "passed": true,
+      "stability_wins": 1,
+      "worst_auc_delta": -0.00037933873105155946,
+      "worst_stability_delta": -0.0028900230332467025
+    }
+  },
+  "new_model_weight": 1.0,
+  "passed": false,
+  "scope": "Fixed candidate on later, previously explored development windows; not fresh independent labels",
+  "selected": "hist_augmented",
+  "selection_sha256": "0216c8a0859c7479bbf77a9cd7f56c8385903aa9a09d036d1e7242c19eb029d0"
+}
