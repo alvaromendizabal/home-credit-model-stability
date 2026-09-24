@@ -1,0 +1,51 @@
+{
+  "diagnostics": {
+    "blend_hist_10": {
+      "confirmation_stability_deltas": [0.0032099160196775722, 0.00011246536547071528],
+      "external_probe_eligible": true,
+      "five_fold_stability_wins": 5,
+      "mean_confirmation_auc_delta": 0.00017089906957085121,
+      "mean_confirmation_gini_delta": 0.00032950537861475837,
+      "mean_confirmation_stability_delta": 0.0016611906925741438,
+      "mean_five_fold_auc_delta": 0.00021640926238390977,
+      "mean_five_fold_gini_delta": 0.0004324619855920364,
+      "mean_five_fold_stability_delta": 0.0020949163879055875,
+      "original_selection_gate_passed": true
+    },
+    "blend_hist_25": {
+      "confirmation_stability_deltas": [0.004637276301887039, 0.00017482696984061352],
+      "external_probe_eligible": true,
+      "five_fold_stability_wins": 5,
+      "mean_confirmation_auc_delta": 0.0003357057966400512,
+      "mean_confirmation_gini_delta": 0.0007690423243448818,
+      "mean_confirmation_stability_delta": 0.002406051635863826,
+      "mean_five_fold_auc_delta": 0.00044893118878865936,
+      "mean_five_fold_gini_delta": 0.0009427003314279369,
+      "mean_five_fold_stability_delta": 0.00396550320760416,
+      "original_selection_gate_passed": true
+    },
+    "blend_hist_50": {
+      "confirmation_stability_deltas": [0.004782952914599736, -0.0003299851575959689],
+      "external_probe_eligible": false,
+      "five_fold_stability_wins": 4,
+      "mean_confirmation_auc_delta": 0.00037536247309022386,
+      "mean_confirmation_gini_delta": 0.0008241202939043846,
+      "mean_confirmation_stability_delta": 0.0022264838785018837,
+      "mean_five_fold_auc_delta": 0.0006049535796032845,
+      "mean_five_fold_gini_delta": 0.0012455271874264539,
+      "mean_five_fold_stability_delta": 0.005699393947439102,
+      "original_selection_gate_passed": true
+    }
+  },
+  "internal_promotion_passed": false,
+  "new_model_weight": 0.25,
+  "original_confirmation_passed": false,
+  "original_registered_selection": "hist_augmented",
+  "post_selection": true,
+  "purpose": "after-deadline hidden-test transfer measurement only",
+  "schema_version": 1,
+  "selected": "blend_hist_25",
+  "selection_policy": "Among pre-registered blends that passed the original selection gate, require positive stability on both confirmation folds and nonnegative mean confirmation AUC/Gini deltas vs saved champion; choose highest mean confirmation stability delta.",
+  "status": "EXPLORATORY_EXTERNAL_PROBE_REGISTERED",
+  "warning": "This candidate is chosen after observing the original confirmation folds. It is not a valid internal promotion or replacement release. Kaggle hidden-test scoring is used only as an external transfer probe."
+}

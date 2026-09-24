@@ -26,6 +26,14 @@ tests native LightGBM identity and identity+frequency representations under a fr
 later-window gate; the candidate was rejected. Its compact
 [research report](reports/categorical_identity/README.md) preserves the decision,
 fold metrics, uncertainty and leading-solution reproduction matrix.
+The next [previous-application histogram frontier](reports/applprev_histogram/README.md)
+adds 39 frozen per-category count/share features. The registered standalone model was
+rejected on confirmation, while a clearly disclosed post-selection 25% histogram /
+75% champion blend improved stability on all five development folds and was prepared
+as an exploratory hidden-test transfer probe. The
+[DenseLight frontier](reports/denselight_frontier/README.md) is preregistered before
+execution and preserves a six-fit temporal promotion budget with weeks 73–91 excluded
+from selection.
 The notebooks embed readable tables, interactive Plotly figures and static GitHub
 fallbacks. Reading the evidence requires no cloud account or borrower-level data.
 The [model card](MODEL_CARD.md) summarizes intended use, artifact distinctions and
@@ -102,6 +110,21 @@ fold scores.
   `blend_native`, but frozen folds 4–5 improved mean stability by only **0.000062**
   versus the saved champion, with one win and one loss. The promotion gate failed;
   the candidate was not refit or submitted.
+- **Previous-application histograms:** 39 frozen count/share features were added to the
+  700-feature snapshot. The registered standalone model failed its folds 4–5 gate
+  (+0.000106 stability, -0.000378 AUC versus the champion). A pre-existing 25% blend,
+  chosen only after that failure and therefore labeled post-selection, improved
+  stability on **5/5** development folds with mean deltas of **+0.003966 stability**,
+  **+0.000449 AUC** and **+0.000943 mean Gini**. One all-label fit and portable
+  inference overlay were prepared for an exploratory external transfer measurement.
+- **Zero-fit heterogeneous audit:** 47 saved-prediction blends were evaluated with no
+  new fits. The strongest descriptive candidate remained 75% champion / 25% histogram;
+  XGBoost and CatBoost both received zero weight. The prequential diagnostic remained
+  positive (+0.004193 stability, +0.000447 AUC, +0.000956 Gini).
+- **DenseLight:** the neural challenger is preregistered but not yet executed in the
+  committed evidence. Selection is restricted to weeks 33–56, confirmation to 57–72,
+  and weeks 73–91 are prohibited for selection. The maximum substantive budget is six
+  fits.
 
 The official metric is:
 
@@ -144,10 +167,12 @@ Do not rerun training merely to view results.
 
 ## Kaggle inference and submission
 
-**The submission is complete.** The submitted artifact is
+**The frozen-release submission is complete.** The submitted artifact is
 [saved notebook version 1](https://www.kaggle.com/code/alvaromendizabal/home-credit-frozen-lightgbm-inference?scriptVersionId=348432382),
 which Kaggle reruns on hidden test data to generate `submission.csv`. One successful
-late submission is recorded; no additional submission is required for this release.
+late submission is recorded for the evaluated release. A separate 25% histogram
+external-transfer probe has been trained and packaged; the committed repository
+evidence does not yet claim a second hidden-test score.
 
 [Notebook 10](notebooks/10_submission.ipynb) runs the frozen all-label model on the
 raw test files supplied by Kaggle. It discovers the attached model dataset, installs
@@ -175,9 +200,10 @@ A finite search does not establish exhaustive discovery. Thirty-three resolved
 date fields lack the field-level event/availability contract needed for verified
 chronological lags and trends, so that avenue is explicitly excluded. Numeric
 calendar parts are not proof of event ordering. Native categorical target statistics were evaluated through CatBoost. A later
-post-release LightGBM categorical-identity experiment was also executed and rejected
-after its frozen confirmation gate failed. Neural challengers and fully nested
-promotion experiments were not performed.
+post-release LightGBM categorical-identity experiment was executed and rejected,
+followed by the previous-application histogram study described above. The DenseLight
+neural challenger is preregistered before execution; no DenseLight performance claim
+appears in this published snapshot.
 
 The original holdout is now observed and bound to the frozen release. Further feature
 or model exploration must use development data and be labeled accordingly; it cannot

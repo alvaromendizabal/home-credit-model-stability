@@ -1,0 +1,77 @@
+{
+  "blend_diagnostics_if_available": [
+    {"champion_weight": 0.9, "dense_weight": 0.1},
+    {"champion_weight": 0.75, "dense_weight": 0.25},
+    {"champion_weight": 0.5, "dense_weight": 0.5}
+  ],
+  "data": {
+    "base_features": 700,
+    "confirmation_folds": [[57, 64], [65, 72]],
+    "holdout_weeks_73_91": "prohibited_for_selection",
+    "selection_folds": [[33, 40], [41, 48], [49, 56]],
+    "snapshot_sha256": "76e95d74fe1317e62a32e1adcee3479ce60552cad05e4972734a1a972563f587",
+    "target": "target",
+    "time_key": "WEEK_NUM"
+  },
+  "execution_target": {
+    "required": "CUDA-capable isolated GPU environment",
+    "suggested_instance_family": "ml.g6e.4xlarge or equivalent"
+  },
+  "experiment": "denselight_frontier_v1",
+  "fit_budget": {
+    "all_label_refit_if_confirmed": 1,
+    "confirmation_fits_if_selected": 2,
+    "maximum_substantive_fits": 6,
+    "selection_fits": 3,
+    "wall_clock_cutoff": null
+  },
+  "limitations": [
+    "This contract is staged before DenseLight results exist; it makes no performance claim.",
+    "Previously explored development folds remain development evidence, not a new independent test.",
+    "The observed weeks 73-91 holdout remains unavailable for new selection.",
+    "Kaggle hidden-test performance must remain separate from local validation."
+  ],
+  "model": {
+    "activation": "SiLU",
+    "batch_size": 1024,
+    "block_config": [2, 2],
+    "categorical_embedder": "weighted",
+    "compression": 0.5,
+    "continuous_embedder": "plr",
+    "drop_rate": 0.1,
+    "early_stopping": true,
+    "early_stopping_patience": 1,
+    "epochs_max": 10,
+    "family": "DenseLight",
+    "growth_size": 256,
+    "hidden_size": [512, 128],
+    "implementation": "independent PyTorch recreation of LightAutoML DenseLight mechanism",
+    "quantile_pipeline": true,
+    "seed": 42,
+    "swa": true,
+    "target_encoding_pipeline": false
+  },
+  "promotion_gates": {
+    "confirmation": {
+      "mean_auc_delta_min": -0.0005,
+      "mean_stability_delta_vs_saved_champion_min": 0.001,
+      "wins_min": 1,
+      "worst_fold_stability_delta_min": -0.005
+    },
+    "selection": {
+      "mean_auc_delta_min": -0.0005,
+      "mean_stability_delta_vs_saved_champion_min": 0.002,
+      "wins_min": 2,
+      "worst_fold_stability_delta_min": -0.01
+    }
+  },
+  "purpose": "independently recreate the DenseLight tabular-neural capability documented in leading public Home Credit solution work and measure complementarity to the frozen tree champion",
+  "registered_before_execution": true,
+  "schema_version": 2,
+  "sources": [
+    {"name": "Home Credit first-place writeup", "url": "https://www.kaggle.com/c/home-credit-credit-risk-model-stability/discussion/508337"},
+    {"name": "LightAutoML DenseLight implementation", "url": "https://github.com/sb-ai-lab/LightAutoML"},
+    {"name": "PLR numerical embeddings", "url": "https://arxiv.org/abs/2203.05556"}
+  ],
+  "status": "registered_not_executed"
+}

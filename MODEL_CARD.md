@@ -108,6 +108,22 @@ data only. Neither tested map improved pooled Brier or log loss; it does not
 change this frozen release. Further research requires its own promotion decision
 and independent evaluation population.
 
+## Post-release frontier status
+
+Later research remains explicitly separate from this frozen model card. Native
+LightGBM categorical identity was rejected on its frozen confirmation windows. A
+previous-application histogram study added 39 count/share features; its registered
+standalone model was also rejected on confirmation. A 25% histogram / 75% champion
+blend improved stability on all five development folds, but it was selected only
+after confirmation had been observed and is therefore labeled a post-selection
+external transfer probe rather than a promoted model.
+
+A zero-fit audit of 47 saved-prediction blends did not justify adding XGBoost or
+CatBoost weight. The next DenseLight neural study is preregistered before execution,
+limits selection to weeks 33–72, prohibits weeks 73–91 from selection and caps the
+substantive budget at six fits. No DenseLight performance claim is made in this
+published snapshot. See [post-release research](docs/post_release_research.md).
+
 ## Reproduction and inference
 
 [Notebook 09](notebooks/09_model_release.ipynb) reproduces the release evidence

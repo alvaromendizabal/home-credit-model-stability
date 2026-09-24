@@ -56,6 +56,35 @@ See [notebook 13](../notebooks/13_categorical_identity_frontier.ipynb), the
 native LightGBM categorical identity as a current frontier direction; it does not
 change the September release.
 
+## Post-release research appendix — 23 September 2026
+
+A second separately scoped frontier tested per-applicant occurrence histograms for
+low-cardinality previous-application categories. Thirty-nine frozen count/share
+features were added to the 700-feature snapshot. The registered standalone
+`hist_augmented` candidate passed folds 1–3 but failed its frozen folds 4–5
+confirmation gate versus the saved champion (+0.000106 mean stability and
+-0.000378 mean AUC), so it was not promoted.
+
+A 25% histogram / 75% saved-champion blend had already been included in the
+registered candidate grid. After the standalone failure, that blend was selected
+post-selection for an explicitly exploratory external transfer probe. It improves
+stability on all five development folds with mean deltas of +0.003966 stability,
++0.000449 AUC and +0.000943 mean Gini. Exactly one all-label histogram fit completed
+and portable private Kaggle overlay assets were prepared. This does not convert the
+post-selection choice into internal confirmation, and this publication does not claim
+a second hidden-test score.
+
+A zero-fit audit of 47 saved-prediction combinations found that the strongest
+descriptive candidate still assigns zero weight to XGBoost and CatBoost. The next
+architecture study, DenseLight, was preregistered before execution with three
+selection fits, two conditional confirmation fits and one conditional all-label
+refit; weeks 73–91 are prohibited for selection. The committed DenseLight status is
+`registered_not_executed`.
+
+See the [histogram report](../reports/applprev_histogram/README.md),
+[DenseLight contract](../reports/denselight_frontier/README.md), and
+[frontier summary](../reports/post_release_frontier/summary.json).
+
 ## 1. What was completed
 
 The work closes the feature-budget comparison, engineered and raw-history searches,

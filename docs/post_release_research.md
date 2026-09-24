@@ -1,33 +1,95 @@
 # Post-release frontier research
 
-The evaluated September 2026 release remains frozen. This document tracks later research that attempts to close the gap to stronger public competition systems without rewriting the historical release or converting exploratory development evidence into a new independent-test claim.
+The evaluated September 2026 release remains frozen. This document tracks later
+research intended to close the gap to stronger public competition systems without
+rewriting the historical release or converting exploratory development evidence into
+a new independent-test claim.
 
 ## Current verified state
 
-The frozen release remains a 90% tuned / 10% original LightGBM blend. Its accepted development mean stability is 0.601899 and its reserved weeks 73–91 local stability is 0.729674. The recorded late Kaggle evaluation is 0.56062 public / 0.47429 private. Those evaluation settings are not interchangeable.
+The frozen release remains a 90% tuned / 10% original LightGBM blend. Its accepted
+development mean stability is 0.601899, its reserved weeks 73–91 local stability is
+0.729674, and the recorded late Kaggle evaluation is 0.56062 public / 0.47429
+private. These evaluation settings are not interchangeable.
+
+A deterministic repository check,
+`python scripts/review_post_release_frontier.py`, recomputes the current frontier
+summary from committed CSV/JSON evidence.
 
 ## Frontier round 1 — categorical identity
 
-[Notebook 13](../notebooks/13_categorical_identity_frontier.ipynb) independently tested native LightGBM categorical identity and identity+frequency representations against both a matched frequency control and the saved champion. Folds 1–3 produced a promising candidate, so `blend_native` was frozen before folds 4–5. Confirmation then produced only +0.000062 mean stability versus the saved champion, with one win and one loss; the predeclared promotion gate failed.
+[Notebook 13](../notebooks/13_categorical_identity_frontier.ipynb) independently
+tested native LightGBM categorical identity and identity+frequency representations.
+Folds 1–3 selected `blend_native`; the candidate was frozen before folds 4–5.
+Confirmation then produced only +0.000062 mean stability versus the saved champion,
+with one win and one loss, so the predeclared promotion gate failed.
 
-**Decision:** reject the candidate, preserve the frozen release, and stop this direction. The experiment is useful because it removes a credible representation hypothesis from the search space.
+**Decision:** reject the candidate, preserve the frozen release, and close this
+direction.
 
-## Leading-solution reproduction status
+## Frontier round 2 — previous-application occurrence histograms
 
-The project now has explicit evidence for relational feature engineering, applicant/related-person separation, tree-family benchmarks, fixed blend selection, robust-history summaries, calibration, and the categorical-identity hypothesis. Important transferable mechanisms are still incomplete; therefore the repository does not claim full reproduction of the strongest public systems.
+The [histogram report](../reports/applprev_histogram/README.md) tests a mechanism
+reported by a strong public solution: per-applicant counts/shares for low-cardinality
+`applprev_1` categories. The vocabulary was learned only on weeks 0–32 and frozen.
+Thirty-nine histogram features were added to the existing 700-feature snapshot.
 
-The highest-value open gaps are:
+The registered standalone `hist_augmented` model passed folds 1–3 but failed the
+frozen folds 4–5 confirmation gate versus the saved champion: +0.000106 mean
+stability and -0.000378 mean AUC. It was not promoted.
 
-1. **Previous-application category occurrence histograms.** The 59th-place writeup reports a +0.013 leaderboard gain from counting occurrences of each `applprev_1` category per applicant. The current aggregator keeps non-null count, number of unique values, first/last values and diversity ratio, but not a full per-category occurrence vector. This is a new feature capability, not another encoding variant.
-2. **DenseLight neural challenger.** The first-place writeup identifies DenseLight (LightAutoML) as its DNN component and reports that tested transformer-style tabular alternatives did not beat it. The inspected release has no neural challenger. A neural tabular model is valuable only if it supplies complementary errors under the same temporal validation design.
-3. **Heterogeneous ensemble after new signal exists.** Existing CatBoost/XGBoost blends did not beat the tuned LightGBM system. Another blend is justified only after a genuinely different feature or architecture family produces complementary out-of-fold predictions.
+A 25% histogram / 75% saved-champion blend had already been part of the registered
+candidate grid. After the standalone candidate failed, that blend was chosen
+post-selection for an explicitly exploratory external transfer probe because it
+improved stability on both confirmation folds while retaining nonnegative mean
+confirmation AUC/Gini deltas. This is not valid internal promotion evidence.
+
+Across all five development folds the 25% blend improves stability on 5/5 folds,
+with mean deltas of +0.003966 stability, +0.000449 AUC and +0.000943 mean Gini.
+One all-label histogram fit completed and portable private Kaggle overlay assets were
+prepared. The committed evidence does not claim a new hidden-test score.
+
+## Zero-fit ensemble audit
+
+A follow-up used saved predictions only and evaluated 47 champion/histogram/XGBoost/
+CatBoost combinations with zero new model fits. The strongest descriptive candidate
+remained exactly 75% saved champion / 25% histogram, with zero weight on XGBoost and
+CatBoost. A prequential diagnostic remained positive at +0.004193 stability,
++0.000447 AUC and +0.000956 Gini, but base models were themselves selected on
+development data, so this is not nested unbiased validation.
+
+## Frontier round 3 — DenseLight
+
+The [DenseLight contract](../reports/denselight_frontier/README.md) was frozen before
+any DenseLight result existed. It independently recreates the DenseLight tabular
+neural mechanism documented by leading public work and measures complementarity to
+the tree champion.
+
+Selection uses weeks 33–56 (three fits). Only a passing candidate proceeds to weeks
+57–72 (two confirmation fits). A single all-label refit is allowed only after
+confirmation. Weeks 73–91 are prohibited for selection. The maximum substantive
+budget is six fits and there is no artificial wall-clock cutoff.
+
+The readiness record verifies the 700-feature snapshot and prior-probe identities.
+At publication time the inspected CPU environment had no CUDA/Torch/LightAutoML
+available, so the contract remains `registered_not_executed` in committed evidence.
 
 ## Promotion discipline
 
-Post-release candidates must remain development research unless a separately registered procedure and genuinely independent evaluation population justify a new release claim. The observed September holdout cannot be reused as a fresh untouched test.
+Post-release candidates remain development research unless a separately registered
+procedure and genuinely independent evaluation population justify a new release
+claim. The observed September holdout cannot be reused as a fresh untouched test.
+An after-deadline Kaggle hidden-test measurement is recorded separately as an
+external transfer probe; it does not retroactively make post-selection development
+choices internally confirmed.
 
 ## Public solution sources
 
-- 59th-place solution: https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/discussion/508202
-- First-place solution: https://www.kaggle.com/c/home-credit-credit-risk-model-stability/discussion/508337
-- Final leaderboard: https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/leaderboard
+- 59th-place solution:
+  https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/discussion/508202
+- First-place solution:
+  https://www.kaggle.com/c/home-credit-credit-risk-model-stability/discussion/508337
+- LightAutoML DenseLight implementation:
+  https://github.com/sb-ai-lab/LightAutoML
+- Final leaderboard:
+  https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/leaderboard
