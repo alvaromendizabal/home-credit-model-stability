@@ -21,6 +21,9 @@ the historical release or reusing the observed holdout as a fresh test.
 | Date parsing maintenance | Current source has zero warnings; 700 features and ten predictions match the frozen public example exactly |
 | Recovery | Completed studies resume from verified checkpoints with zero new fits |
 | Post-release categorical frontier | 13 fits; `blend_native` selected on folds 1–3, then rejected on frozen folds 4–5; +0.000062 mean stability vs saved champion; no refit or submission |
+| Previous-application histogram frontier | 5 temporal fits; standalone candidate rejected on confirmation; 25% post-selection external probe improved stability on 5/5 development folds and completed one all-label fit |
+| Zero-fit ensemble audit | 47 saved-prediction blends; no new fits; strongest descriptive weights remain 75% champion / 25% histogram / 0% XGBoost / 0% CatBoost |
+| DenseLight frontier | Contract registered before execution; six-fit maximum; weeks 73–91 prohibited for selection; committed evidence contains no DenseLight result |
 
 The three screens account for **7,649 hypotheses**. The 256 engineered additions
 and 96 raw-history additions are experimental representations; the evaluated
@@ -51,7 +54,16 @@ identity+frequency. Folds 1–3 selected `blend_native`, but folds 4–5 produce
 The predeclared confirmation gate failed, so the candidate was not refit or submitted.
 [Notebook 13](../notebooks/13_categorical_identity_frontier.ipynb) and the
 [categorical-identity report](../reports/categorical_identity/README.md) preserve the
-negative result. The frozen release remains unchanged.
+negative result.
+
+The next histogram study added 39 frozen previous-application category count/share
+features. Its registered standalone candidate also failed confirmation, but a
+pre-existing 25% blend improved stability on all five development folds. Because the
+blend was chosen only after viewing confirmation, it is explicitly labeled
+post-selection and was prepared only as an exploratory external transfer probe.
+A zero-fit follow-up found no reason to add XGBoost or CatBoost weight. The
+[histogram report](../reports/applprev_histogram/README.md) preserves the evidence.
+The frozen release remains unchanged.
 
 Full results include each fold, pooled probability metrics and omission sensitivity.
 The latter removes one fold at a time from the mean difference; it is descriptive, not a confidence
@@ -68,11 +80,12 @@ for the feature and calibration research and notebook 13 for the post-release
 frontier decision. No additional training is required to understand the published
 release or the rejected categorical-identity candidate.
 
-Further competitive research is optional and separately scoped. The highest-value
-open gaps are documented in [post-release frontier research](post_release_research.md):
-previous-application category occurrence histograms, a DenseLight neural challenger,
-and heterogeneous ensembling only after a genuinely complementary signal exists.
-The completion record links the release verification and cloud execution receipts.
+Further competitive research is optional and separately scoped. Previous-application
+histograms have now been executed and the tree-family reblend question was closed by
+a zero-fit audit. The next registered architecture study is DenseLight; its protocol
+is frozen before execution and is documented in
+[post-release frontier research](post_release_research.md). The completion record
+links the release verification and cloud execution receipts.
 
 The [closeout checks](completion.md#closeout-checks--9-september-2026) record the
 accepted submission, successful implementation CI and the final scoped AWS check.
