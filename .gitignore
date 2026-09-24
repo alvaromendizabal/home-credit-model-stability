@@ -34,3 +34,8 @@ repository-source.zip
 
 # Raster preview of the reproducible employer-facing SVG
 /reports/portfolio/overview.png
+
+# Post-release local handoffs and transfer products
+*.pyz
+*_return_*.zip
+/home-credit-*-publication/
