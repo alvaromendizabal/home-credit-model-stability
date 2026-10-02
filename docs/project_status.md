@@ -17,13 +17,15 @@ the historical release or reusing the observed holdout as a fresh test.
 | Temporal comparison | Four model families, five expanding folds; 727,187 OOF cases |
 | Release | Frozen 90/10 LightGBM blend; 203,345 later applications evaluated |
 | Inference | Native models and raw-feature parity tested on ten public examples |
-| Kaggle submission | Saved notebook v1 succeeded after deadline; public 0.56062 / private 0.47429 |
+| Kaggle submission | Frozen notebook v1: public 0.56062 / private 0.47429; later confirmed post-release ensemble: public 0.56035 / private **0.47652** |
 | Date parsing maintenance | Current source has zero warnings; 700 features and ten predictions match the frozen public example exactly |
 | Recovery | Completed studies resume from verified checkpoints with zero new fits |
 | Post-release categorical frontier | 13 fits; `blend_native` selected on folds 1–3, then rejected on frozen folds 4–5; +0.000062 mean stability vs saved champion; no refit or submission |
 | Previous-application histogram frontier | 5 temporal fits; standalone candidate rejected on confirmation; 25% post-selection external probe improved stability on 5/5 development folds and completed one all-label fit |
 | Zero-fit ensemble audit | 47 saved-prediction blends; no new fits; strongest descriptive weights remain 75% champion / 25% histogram / 0% XGBoost / 0% CatBoost |
-| DenseLight frontier | Contract registered before execution; six-fit maximum; weeks 73–91 prohibited for selection; committed evidence contains no DenseLight result |
+| DenseLight frontier | GPU study executed under the preregistered temporal boundary; multi-seed neural component contributed to the later 0.47652 private external-transfer result |
+| Enriched-tree frontier | 14 planned fits completed; source-aware LightGBM expansion improved selection, recency weighting hurt stability, selected blend failed confirmation |
+| Sparse/categorical ceiling-escape | 14 substantive fits completed; sparse recovery was the strongest new signal, but the selected sparse-enhanced blend failed locked confirmation |
 
 The three screens account for **7,649 hypotheses**. The 256 engineered additions
 and 96 raw-history additions are experimental representations; the evaluated
@@ -80,12 +82,16 @@ for the feature and calibration research and notebook 13 for the post-release
 frontier decision. No additional training is required to understand the published
 release or the rejected categorical-identity candidate.
 
-Further competitive research is optional and separately scoped. Previous-application
-histograms have now been executed and the tree-family reblend question was closed by
-a zero-fit audit. The next registered architecture study is DenseLight; its protocol
-is frozen before execution and is documented in
-[post-release frontier research](post_release_research.md). The completion record
-links the release verification and cloud execution receipts.
+Further competitive research remains separately scoped from the frozen September
+release. DenseLight has now been executed and externally scored, followed by bounded
+source-aware tree and sparse/categorical studies. The latter studies preserved their
+negative confirmation decisions rather than promoting unstable selection gains.
+
+The current registered frontier combines temporally stable sparse recovery,
+max-minus-min range features, a fresh XGBoost challenger and recovered categorical
+CatBoost. It is planned, not yet reported as executed. See
+[post-release frontier research](post_release_research.md) and the
+[October 2026 report](../reports/post_release_frontier/october_2026.md).
 
 The [closeout checks](completion.md#closeout-checks--9-september-2026) record the
 accepted submission, successful implementation CI and the final scoped AWS check.
@@ -95,12 +101,13 @@ they are not pending requirements of this release.
 The frozen Kaggle notebook has been submitted. Saved version 1 completed offline,
 matched the verified AWS prediction bytes and fitted zero models. The competition's
 hidden-test rerun **Succeeded (after deadline)** and scored **0.56062 public /
-0.47429 private**. The [submission runbook](kaggle_submission.md) and
-[execution receipt](../reports/kaggle_submission/execution.json) record this separately
-from the local holdout evaluation. No further submission action is needed for this
-frozen release. A later research iteration would use the separately registered
-[future promotion protocol](../configs/future_promotion.json), which is **not
-executed**, and a new independent evaluation population for a new release claim.
+0.47429 private**. A later post-release ensemble was separately frozen after its
+development confirmation gate and scored **0.56035 public / 0.47652 private**.
+These are external-transfer measurements and remain separate from the local holdout
+evaluation. The [submission runbook](kaggle_submission.md), frozen-release
+[execution receipt](../reports/kaggle_submission/execution.json), and
+[October frontier report](../reports/post_release_frontier/october_2026.md) preserve
+that distinction.
 
 The feature gate in `configs/research_gate.json` is closed only by hash-pinned
 evidence. The date audit records explicit exclusions instead of interpreting
