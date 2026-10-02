@@ -31,9 +31,12 @@ adds 39 frozen per-category count/share features. The registered standalone mode
 rejected on confirmation, while a clearly disclosed post-selection 25% histogram /
 75% champion blend improved stability on all five development folds and was prepared
 as an exploratory hidden-test transfer probe. The
-[DenseLight frontier](reports/denselight_frontier/README.md) is preregistered before
-execution and preserves a six-fit temporal promotion budget with weeks 73–91 excluded
-from selection.
+[DenseLight frontier](reports/denselight_frontier/README.md) was subsequently executed
+on GPU and extended to a multi-seed neural component. It passed the locked development
+confirmation gate and contributed to a later externally scored ensemble. The
+[October frontier report](reports/post_release_frontier/october_2026.md) records that
+result together with the later enriched-tree and sparse-recovery studies, while keeping
+private checkpoints and active competition recipes outside Git.
 The notebooks embed readable tables, interactive Plotly figures and static GitHub
 fallbacks. Reading the evidence requires no cloud account or borrower-level data.
 The [model card](MODEL_CARD.md) summarizes intended use, artifact distinctions and
@@ -121,10 +124,13 @@ fold scores.
   new fits. The strongest descriptive candidate remained 75% champion / 25% histogram;
   XGBoost and CatBoost both received zero weight. The prequential diagnostic remained
   positive (+0.004193 stability, +0.000447 AUC, +0.000956 Gini).
-- **DenseLight:** the neural challenger is preregistered but not yet executed in the
-  committed evidence. Selection is restricted to weeks 33–56, confirmation to 57–72,
-  and weeks 73–91 are prohibited for selection. The maximum substantive budget is six
-  fits.
+- **DenseLight and later frontier:** the preregistered neural challenger was executed
+  on GPU, extended to a multi-seed component and combined with the tree/histogram
+  frontier. The resulting candidate reached **0.618940** mean development stability
+  and later scored **0.56035 public / 0.47652 private**. Subsequent enriched-tree and
+  sparse-recovery studies completed their bounded fit budgets but failed their frozen
+  confirmation gates; the negative results are retained in the
+  [October frontier report](reports/post_release_frontier/october_2026.md).
 
 The official metric is:
 
@@ -182,11 +188,14 @@ is disabled by default. [Submission runbook](docs/kaggle_submission.md).
 
 Kaggle saved notebook **version 1** completed offline and matched both verified AWS
 exports byte for byte, with zero model fits. The ten public examples are an
-integration fixture. Kaggle completed the submitted hidden-test rerun with status
+integration fixture. Kaggle completed the frozen-release hidden-test rerun with status
 **Succeeded (after deadline)** and reported **0.56062 public / 0.47429 private** on the
 [submissions page](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/submissions).
-These leaderboard scores evaluate the separate all-label inference refit; the
-project's observed local holdout metric remains separate evidence.
+A later post-release ensemble, frozen after its development confirmation gate, was
+also submitted through the portable inference path and scored **0.56035 public /
+0.47652 private**. These leaderboard scores are external-transfer measurements of
+all-label inference artifacts; the project's observed local holdout metric remains
+separate evidence.
 
 ## Research scope
 
@@ -201,9 +210,12 @@ date fields lack the field-level event/availability contract needed for verified
 chronological lags and trends, so that avenue is explicitly excluded. Numeric
 calendar parts are not proof of event ordering. Native categorical target statistics were evaluated through CatBoost. A later
 post-release LightGBM categorical-identity experiment was executed and rejected,
-followed by the previous-application histogram study described above. The DenseLight
-neural challenger is preregistered before execution; no DenseLight performance claim
-appears in this published snapshot.
+followed by the previous-application histogram study described above. DenseLight was
+then executed under its preregistered temporal protocol, followed by bounded
+source-aware tree and sparse-recovery studies. Their aggregate evidence and negative
+confirmation decisions are published in the
+[October frontier report](reports/post_release_frontier/october_2026.md); private
+runtime matrices, checkpoints and active feature identities remain outside Git.
 
 The original holdout is now observed and bound to the frozen release. Further feature
 or model exploration must use development data and be labeled accordingly; it cannot
