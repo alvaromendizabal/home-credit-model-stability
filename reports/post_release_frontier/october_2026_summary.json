@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "published_utc": "2026-10-02",
+  "frozen_release": {
+    "development_mean_stability": 0.601898890294407,
+    "local_holdout_stability": 0.729674,
+    "kaggle_public": 0.56062,
+    "kaggle_private": 0.47429
+  },
+  "later_external_transfer": {
+    "development_mean_stability": 0.6189403,
+    "kaggle_public": 0.56035,
+    "kaggle_private": 0.47652,
+    "private_delta_vs_frozen": 0.00223,
+    "status": "scored_external_transfer"
+  },
+  "denselight": {
+    "status": "executed_and_externally_scored",
+    "aggregation": "multi_seed_probability_aggregation",
+    "gpu": "NVIDIA L4",
+    "cross_device_max_abs_error": 2.9802322387695312e-8
+  },
+  "enriched_tree_frontier": {
+    "status": "complete_no_promotion",
+    "substantive_fits": 14,
+    "expanded_lgbm_selection_stability_delta_vs_control": 0.009229,
+    "expanded_lgbm_selection_auc_delta_vs_control": 0.001354,
+    "recency_weighting_stability_delta_vs_unweighted": -0.014187
+  },
+  "ceiling_escape_frontier": {
+    "status": "complete_no_promotion",
+    "substantive_fits": 14,
+    "direct_feature_stability_delta_vs_prior_expanded_lgbm": -0.031755,
+    "direct_feature_auc_delta_vs_prior_expanded_lgbm": -0.002055,
+    "sparse_stability_delta_vs_direct_lgbm": 0.037661,
+    "sparse_auc_delta_vs_direct_lgbm": 0.001951,
+    "selected_blend_selection_stability_delta": 0.011655,
+    "selected_blend_confirmation_stability_delta": -0.000577
+  },
+  "next_frontier": {
+    "status": "planned_not_executed",
+    "capabilities": [
+      "temporally_stable_sparse_recovery",
+      "max_minus_min_range_features",
+      "xgboost_sparse_range_challenger",
+      "recovered_categorical_catboost"
+    ]
+  },
+  "publication_boundary": "aggregate evidence only; private runtime bundles, exact active feature identities and checkpoints excluded"
+}

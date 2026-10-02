@@ -71,11 +71,13 @@ untouched test for subsequent work.
   weeks, subpopulations and probability ranges; the notebooks expose weekly results.
 - No operational decision threshold, lending-cost function, policy impact or
   protected-group fairness evaluation has been validated.
-- The saved Kaggle notebook reproduced the verified ten-example integration export
-  offline. Its submitted hidden-test rerun succeeded after the deadline and scored
-  0.56062 public / 0.47429 private. Those leaderboard scores evaluate the separate
-  all-label inference refit, not the local holdout model. See the
-  [submission record](reports/kaggle_submission/execution.json).
+- The saved frozen-release Kaggle notebook reproduced the verified ten-example
+  integration export offline and scored 0.56062 public / 0.47429 private. A later
+  post-release ensemble, frozen after its own confirmation gate, scored 0.56035
+  public / 0.47652 private. These leaderboard scores are external-transfer
+  measurements of separate all-label inference artifacts, not the local holdout model.
+  See the [submission record](reports/kaggle_submission/execution.json) and
+  [October frontier report](reports/post_release_frontier/october_2026.md).
 
 Application periods define the folds; production event-time availability and label
 maturity have not been certified.
@@ -111,18 +113,34 @@ and independent evaluation population.
 ## Post-release frontier status
 
 Later research remains explicitly separate from this frozen model card. Native
-LightGBM categorical identity was rejected on its frozen confirmation windows. A
-previous-application histogram study added 39 count/share features; its registered
-standalone model was also rejected on confirmation. A 25% histogram / 75% champion
-blend improved stability on all five development folds, but it was selected only
-after confirmation had been observed and is therefore labeled a post-selection
-external transfer probe rather than a promoted model.
+LightGBM categorical identity and the registered standalone histogram challenger were
+both rejected on their locked confirmation windows. The histogram mechanism remained
+useful as a complementary component and was carried into later development research.
 
-A zero-fit audit of 47 saved-prediction blends did not justify adding XGBoost or
-CatBoost weight. The next DenseLight neural study is preregistered before execution,
-limits selection to weeks 33–72, prohibits weeks 73–91 from selection and caps the
-substantive budget at six fits. No DenseLight performance claim is made in this
-published snapshot. See [post-release research](docs/post_release_research.md).
+DenseLight was then executed under its preregistered temporal protocol and extended
+to a multi-seed neural component. A later tree + histogram + DenseLight ensemble
+reached **0.618940 mean development stability**, passed locked confirmation and was
+measured externally at **0.56035 public / 0.47652 private**.
+
+Subsequent source-aware tree and categorical/sparse frontiers completed bounded fit
+budgets but failed their confirmation gates. The most useful new evidence was:
+
+- unweighted source-aware LightGBM improved its same-family selection control;
+- recency weighting hurt temporal stability and was closed;
+- direct payment/risk additions underperformed in their tested representation;
+- sparse recovery produced a large selection improvement but did not confirm robustly;
+- recovered categorical representation improved CatBoost relative to its earlier
+  representation, without producing a promoted model.
+
+The next frontier is planned around temporally stable sparse recovery, explicit
+max-minus-min range features, fresh XGBoost diversity and recovered categorical
+CatBoost. It is not reported as executed in this publication.
+
+Aggregate results are published in the
+[October frontier report](reports/post_release_frontier/october_2026.md). Exact active
+feature identities, private matrices, model checkpoints and portable competition
+runtime bundles remain outside Git. This keeps the portfolio scientifically auditable
+without publishing the full competition recipe.
 
 ## Reproduction and inference
 
