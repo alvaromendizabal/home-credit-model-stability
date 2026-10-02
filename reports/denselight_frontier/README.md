@@ -22,3 +22,15 @@ publication time.
 This separation is intentional: Git contains the scientific contract and compact
 reproducibility evidence; GPU checkpoints and borrower-level matrices remain private
 runtime artifacts.
+
+## Later execution note
+
+This file preserves the **pre-execution contract** exactly as it existed when the
+study was registered. DenseLight was subsequently executed under that boundary and
+extended to a multi-seed component. The aggregate outcome, later external-transfer
+score and follow-on tree/sparse studies are recorded in the
+[October 2026 frontier report](../post_release_frontier/october_2026.md).
+
+Private checkpoints, borrower-level matrices and the active competition recipe remain
+outside Git; this contract is retained to show that the validation boundary preceded
+the observed DenseLight result.
