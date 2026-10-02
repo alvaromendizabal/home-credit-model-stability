@@ -85,6 +85,39 @@ See the [histogram report](../reports/applprev_histogram/README.md),
 [DenseLight contract](../reports/denselight_frontier/README.md), and
 [frontier summary](../reports/post_release_frontier/summary.json).
 
+## Post-release research appendix — 1–2 October 2026
+
+The preregistered DenseLight direction was subsequently executed under the frozen
+weeks 33–72 temporal protocol and extended to a multi-seed neural component. A later
+tree + histogram + DenseLight ensemble reached **0.618940 mean development stability**
+and passed its locked confirmation gate before all-label inference packaging.
+
+That candidate was measured through the competition's late-submission path and scored
+**0.56035 public / 0.47652 private**, compared with **0.56062 / 0.47429** for the
+frozen September inference refit. The private gain is an external-transfer result; it
+does not change the frozen release or create a new untouched local holdout.
+
+Two additional bounded frontiers then completed without promotion:
+
+- **Source-aware tree expansion:** 14 planned fits completed. The unweighted expanded
+  LightGBM improved its same-family selection control by +0.009229 mean stability and
+  +0.001354 mean AUC. Recency weighting reduced stability; the selected blend failed
+  the frozen confirmation gate.
+- **Categorical/sparse ceiling-escape:** 14 substantive fits completed. The direct
+  payment/risk feature branch underperformed, while sparse recovery produced the
+  strongest new selection signal (+0.037661 stability and +0.001951 AUC relative to
+  that direct model). The selected sparse-enhanced blend nevertheless failed
+  confirmation and was rejected.
+
+The next registered frontier removes the rejected direct-feature branch and tests
+temporally stable sparse selection, max-minus-min range features, XGBoost diversity
+and recovered categorical CatBoost. It is **planned, not yet reported as executed**.
+
+The public repository records aggregate employer-facing evidence only. Exact active
+feature identities, borrower-level matrices, all-label checkpoints and portable
+competition runtimes remain private AWS artifacts. See the
+[October frontier report](../reports/post_release_frontier/october_2026.md).
+
 ## 1. What was completed
 
 The work closes the feature-budget comparison, engineered and raw-history searches,
