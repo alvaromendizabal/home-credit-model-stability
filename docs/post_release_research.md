@@ -10,7 +10,9 @@ a new independent-test claim.
 The frozen release remains a 90% tuned / 10% original LightGBM blend. Its accepted
 development mean stability is 0.601899, its reserved weeks 73–91 local stability is
 0.729674, and the recorded late Kaggle evaluation is 0.56062 public / 0.47429
-private. These evaluation settings are not interchangeable.
+private. A later post-release ensemble, frozen after its own development confirmation
+gate, scored 0.56035 public / 0.47652 private. These evaluation settings are not
+interchangeable, and neither Kaggle score rewrites the historical release.
 
 A deterministic repository check,
 `python scripts/review_post_release_frontier.py`, recomputes the current frontier
@@ -73,6 +75,62 @@ budget is six fits and there is no artificial wall-clock cutoff.
 The readiness record verifies the 700-feature snapshot and prior-probe identities.
 At publication time the inspected CPU environment had no CUDA/Torch/LightAutoML
 available, so the contract remains `registered_not_executed` in committed evidence.
+
+## Frontier round 3 — DenseLight execution and external transfer
+
+The preregistered DenseLight contract was executed on GPU under the frozen temporal
+protocol and then extended to a multi-seed neural component. A later tree + histogram
++ DenseLight ensemble reached **0.618940** mean development stability and passed the
+locked folds 4–5 confirmation gate before its all-label inference artifact was built.
+
+That candidate was subsequently measured through the late Kaggle submission path and
+scored **0.56035 public / 0.47652 private**, compared with **0.56062 / 0.47429** for
+the frozen September inference refit. The private improvement is real external-transfer
+evidence, but it is modest relative to the internal stability gain and does not make the
+observed weeks 73–91 a fresh test.
+
+Engineering evidence includes L4 inference benchmarking, multi-seed checkpointing,
+hash-pinned preprocessing and CPU/GPU probability parity below 3e-8 maximum absolute
+error. Exact private checkpoints and the active competition recipe remain runtime
+artifacts rather than committed source.
+
+## Frontier round 4 — source-aware tree expansion
+
+A bounded tree study then expanded the source-aware representation and compared fresh
+LightGBM/CatBoost variants under the same selection/confirmation boundary.
+
+The unweighted expanded LightGBM improved its same-family control on the selection
+folds by **+0.009229 mean stability** and **+0.001354 mean AUC**. A recency-weighted
+variant reduced stability by **0.014187** relative to the unweighted expansion, so that
+weighting direction was closed.
+
+The selected blend passed folds 1–3 but failed the frozen folds 4–5 confirmation gate.
+All 14 planned fits completed and no model was promoted.
+
+## Frontier round 5 — categorical and sparse ceiling-escape
+
+A later study independently recreated a larger categorical representation, depth-two
+payment-history summaries, a competition risk-assessment field and an early-screened
+sparse-feature family.
+
+The direct payment/risk feature branch underperformed the prior expanded LightGBM
+(**-0.031755 mean stability**, **-0.002055 mean AUC**). In contrast, the sparse
+recovery branch improved that direct LightGBM by **+0.037661 mean stability** and
+**+0.001951 mean AUC** on selection.
+
+Recovered categorical representation also materially improved CatBoost relative to
+the earlier CatBoost representation, but the selected sparse-enhanced blend failed its
+locked confirmation gate: **+0.011655 mean stability** with 3/3 selection wins became
+**-0.000577 mean stability** with 1/2 confirmation wins. All 14 substantive fits
+completed and the candidate was rejected.
+
+The next registered frontier removes the rejected direct-feature branch and tests
+temporally stable sparse recovery, explicit max-minus-min ranges, a fresh XGBoost
+challenger and recovered categorical CatBoost. It is planned, not yet reported as
+executed in this publication.
+
+See the [October 2026 frontier report](../reports/post_release_frontier/october_2026.md)
+for the aggregate employer-facing evidence.
 
 ## Promotion discipline
 
