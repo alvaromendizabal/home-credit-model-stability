@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "published_utc": "2026-10-02",
+  "publication_boundary": "aggregate employer-facing evidence only; exact active features, borrower-level matrices, checkpoints and competition runtime details excluded",
+  "externally_measured_post_release_artifact": {
+    "development_mean_stability": 0.6189403,
+    "kaggle_public": 0.56035,
+    "kaggle_private": 0.47652,
+    "status": "confirmed_and_externally_measured"
+  },
+  "later_frontiers": {
+    "clean_sparse": {
+      "selection_mean_stability_delta": 0.005673,
+      "confirmation_mean_stability_delta": 0.000346,
+      "status": "rejected_on_confirmation_threshold"
+    },
+    "relational_lightgbm": {
+      "selection_mean_stability_delta": 0.009707,
+      "confirmation_mean_stability_delta": -0.0000448,
+      "status": "rejected_on_confirmation"
+    },
+    "categorical_catboost": {
+      "selection_mean_stability_delta": 0.001311,
+      "selection_wins": 3,
+      "status": "rejected_on_selection_threshold"
+    },
+    "wide_temporal_lightgbm": {
+      "new_features": 637,
+      "selection_mean_stability_delta": 0.018358,
+      "confirmation_mean_stability_delta": -0.001279,
+      "status": "rejected_on_confirmation"
+    },
+    "heterogeneous_bridge": {
+      "selection_mean_stability_delta": 0.011541,
+      "confirmation_mean_stability_delta": -0.000141,
+      "status": "rejected_on_confirmation"
+    },
+    "stability_aware_training": {
+      "selection_mean_stability_delta": 0.016311,
+      "confirmation_mean_stability_delta": -0.000709,
+      "status": "rejected_on_confirmation"
+    },
+    "nested_stack": {
+      "selection_mean_stability_delta": 0.013934,
+      "confirmation_mean_stability_delta": -0.001,
+      "status": "rejected_on_confirmation"
+    },
+    "adversarial_drift": {
+      "period_classifier_auc": 0.99795,
+      "selected_pruning_selection_delta": 0.008711,
+      "selected_pruning_confirmation_delta": -0.000677,
+      "status": "diagnostic_retained_pruning_rejected"
+    },
+    "temporal_reconstruction": {
+      "heldout_correlation": 0.999575,
+      "heldout_mae_weeks": 0.24,
+      "within_one_week_rate": 1,
+      "status": "portable_reconstruction_validated_postprocessing_rejected"
+    },
+    "reduced_sample_xgboost": {
+      "selection_mean_stability_delta": 0.003274,
+      "worst_fold_delta": -0.0000618,
+      "status": "near_gate_not_promoted"
+    },
+    "ridge_meta_model": {
+      "selection_mean_stability_delta": 0.018741,
+      "selection_wins": 3,
+      "worst_fold_delta": 0.000803,
+      "status": "selection_passed_confirmation_pending"
+    }
+  }
+}
