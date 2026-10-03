@@ -118,6 +118,33 @@ feature identities, borrower-level matrices, all-label checkpoints and portable
 competition runtimes remain private AWS artifacts. See the
 [October frontier report](../reports/post_release_frontier/october_2026.md).
 
+## Post-release research appendix — continued October 2026
+
+The post-release program continued after the first October publication with a sequence
+of bounded temporal-robustness and model-diversity studies. These experiments preserve
+the frozen September release and never reuse weeks 73–91 as a fresh selection set.
+
+The additional program now includes clean sparse recovery, relational source mining,
+a larger categorical CatBoost representation, a 637-feature broad temporal expansion,
+heterogeneous LightGBM/CatBoost bridges, stability-aware training, nested stacking,
+adversarial period-shift diagnostics, portable temporal reconstruction and
+reduced-sample XGBoost.
+
+A repeated pattern emerged: several candidates delivered substantial selection-period
+gains but did not retain them on later confirmation periods. Those candidates were
+rejected under the predeclared gate. The public record retains these negative results
+because they demonstrate temporal decision discipline rather than post-hoc promotion.
+
+The current Ridge meta-model is the strongest still-active **selection-stage** result,
+at approximately **+0.01874 mean stability with 3/3 wins** and a positive worst-fold
+delta. Its confirmation has not yet completed, so it is not described as promoted.
+A stable-411 heterogeneous fallback is registered if confirmation fails.
+
+See the
+[October frontier continuation](../reports/post_release_frontier/october_2026_continuation.md)
+and [research engineering](research_engineering.md). Private checkpoints, exact active
+feature identities and portable runtime bundles remain outside Git.
+
 ## 1. What was completed
 
 The work closes the feature-budget comparison, engineered and raw-history searches,
