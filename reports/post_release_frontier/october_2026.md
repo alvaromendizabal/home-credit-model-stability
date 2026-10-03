@@ -124,3 +124,12 @@ Private AWS runtime artifacts preserve:
 
 This split keeps the portfolio reviewable and scientifically auditable without
 publishing the full competition recipe.
+
+## Later continuation
+
+This file remains the historical snapshot published with PR #18. Later October work
+extended the research into clean sparse recovery, broad relational and temporal
+representations, distribution-shift diagnostics, reduced-sample XGBoost and learned
+heterogeneous stacking. Those results are recorded separately in the
+[October frontier continuation](october_2026_continuation.md), preserving this
+snapshot's original evidence boundary.
