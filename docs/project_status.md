@@ -26,6 +26,14 @@ the historical release or reusing the observed holdout as a fresh test.
 | DenseLight frontier | GPU study executed under the preregistered temporal boundary; multi-seed neural component contributed to the later 0.47652 private external-transfer result |
 | Enriched-tree frontier | 14 planned fits completed; source-aware LightGBM expansion improved selection, recency weighting hurt stability, selected blend failed confirmation |
 | Sparse/categorical ceiling-escape | 14 substantive fits completed; sparse recovery was the strongest new signal, but the selected sparse-enhanced blend failed locked confirmation |
+| Clean sparse/range frontier | Clean sparse signal retained; explicit range representation and sparse/range XGBoost closed after failing stability transfer |
+| Relational frontier | Auxiliary relational LightGBM passed selection strongly, then produced effectively flat confirmation evidence |
+| Recovered-categorical CatBoost | Broader categorical identity improved all three selection folds but remained below the preregistered selection threshold |
+| Wide temporal frontier | 637 new features; selected candidate gained +0.018358 mean selection stability, then failed confirmation |
+| Temporal-shift diagnostics | Early-vs-late adversarial classifier reached ~0.998 AUC; pruning and recent-likeness weighting were tested and rejected |
+| Portable temporal reconstruction | Held-out chronology reconstructed at ~0.9996 correlation and 0.24-week MAE; tested score transforms were rejected |
+| Reduced-sample XGBoost | XGB100-global produced one of the strongest complementary selection signals but missed one worst-fold gate by ~6e-5 |
+| Learned Ridge stack | Current selection-stage candidate: +0.018741 mean stability, 3/3 wins; confirmation pending |
 
 The three screens account for **7,649 hypotheses**. The 256 engineered additions
 and 96 raw-history additions are experimental representations; the evaluated
@@ -87,11 +95,16 @@ release. DenseLight has now been executed and externally scored, followed by bou
 source-aware tree and sparse/categorical studies. The latter studies preserved their
 negative confirmation decisions rather than promoting unstable selection gains.
 
-The current registered frontier combines temporally stable sparse recovery,
-max-minus-min range features, a fresh XGBoost challenger and recovered categorical
-CatBoost. It is planned, not yet reported as executed. See
-[post-release frontier research](post_release_research.md) and the
-[October 2026 report](../reports/post_release_frontier/october_2026.md).
+The later frontier has now exercised clean sparse recovery, broad relational and
+temporal representations, recovered categorical CatBoost, reduced-sample XGBoost,
+shift-aware diagnostics and learned heterogeneous stacking. The strongest current
+selection-stage candidate is the Ridge meta-model described above; confirmation is
+still pending and therefore no promotion claim is made.
+
+See [post-release frontier research](post_release_research.md), the historical
+[October report](../reports/post_release_frontier/october_2026.md), the
+[October continuation](../reports/post_release_frontier/october_2026_continuation.md)
+and [research engineering](research_engineering.md).
 
 The [closeout checks](completion.md#closeout-checks--9-september-2026) record the
 accepted submission, successful implementation CI and the final scoped AWS check.
