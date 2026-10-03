@@ -35,8 +35,14 @@ as an exploratory hidden-test transfer probe. The
 on GPU and extended to a multi-seed neural component. It passed the locked development
 confirmation gate and contributed to a later externally scored ensemble. The
 [October frontier report](reports/post_release_frontier/october_2026.md) records that
-result together with the later enriched-tree and sparse-recovery studies, while keeping
-private checkpoints and active competition recipes outside Git.
+result together with the later enriched-tree and sparse-recovery studies. The
+[frontier continuation](reports/post_release_frontier/october_2026_continuation.md)
+extends the record through broad temporal representations, relational modeling,
+distribution-shift diagnostics, reduced-sample XGBoost and learned heterogeneous
+stacking. The companion [research-engineering note](docs/research_engineering.md)
+documents the validation lifecycle, resumability, lineage, hardware checks and
+public/private reproducibility boundary. Private checkpoints and active competition
+recipes remain outside Git.
 The notebooks embed readable tables, interactive Plotly figures and static GitHub
 fallbacks. Reading the evidence requires no cloud account or borrower-level data.
 The [model card](MODEL_CARD.md) summarizes intended use, artifact distinctions and
@@ -138,6 +144,21 @@ The official metric is:
 
 Gini is `2 * ROC AUC - 1`. Probability metrics and reliability complement the
 ranking metric. No calibrated production default-probability claim is made.
+
+## What this project demonstrates
+
+- **Temporal ML discipline:** expanding-window model selection, later-period confirmation,
+  and a hard boundary around the already-observed final holdout.
+- **Heterogeneous modeling:** LightGBM, CatBoost, reduced-sample XGBoost, DenseLight,
+  HistGradientBoosting and learned second-level ensembles.
+- **Research engineering:** hash-pinned artifacts, resumable checkpoints, immutable
+  run manifests, structured heartbeats, cost/resource telemetry and fail-fast gates.
+- **Shift-aware diagnosis:** explicit period-shift classification, stability-focused
+  feature studies and controlled negative-result retention.
+- **Portable inference:** isolated, validated inference dependencies and byte-level
+  parity checks before external evaluation.
+- **Evidence over cherry-picking:** promising selection-stage gains are rejected when
+  they fail the later confirmation contract.
 
 ## Engineering and reproducibility
 
