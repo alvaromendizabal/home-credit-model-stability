@@ -142,6 +142,35 @@ feature identities, private matrices, model checkpoints and portable competition
 runtime bundles remain outside Git. This keeps the portfolio scientifically auditable
 without publishing the full competition recipe.
 
+## October 2026 research-system update
+
+Later research expanded the evidence beyond the first October frontier publication
+without changing the frozen release described above. Controlled studies now cover
+clean sparse recovery, broader relational and temporal representations, recovered
+categorical CatBoost, reduced-sample XGBoost, explicit temporal-shift diagnostics and
+learned heterogeneous stacking.
+
+The recurring finding is scientifically important: several candidates produced large
+gains on earlier development periods and still failed the later confirmation gate.
+Those results are retained rather than promoted. An adversarial period classifier
+reached approximately **0.998 AUC**, quantifying strong covariate shift and motivating
+the later robustness studies.
+
+A refresh-date-based temporal reconstruction also recovered held-out week structure
+with approximately **0.9996 correlation** and **0.24-week MAE**. Competition-specific
+score transformations tested on that reconstructed timeline were rejected when they
+reduced the validated metrics.
+
+The strongest current post-release meta-model is still **selection-stage only**:
+a leakage-aware Ridge stack reached approximately **+0.01874 mean stability** with
+3/3 selection wins and a positive worst-fold delta. Confirmation remains pending, so
+this model card makes no promotion or deployment claim for it.
+
+See the
+[frontier continuation](reports/post_release_frontier/october_2026_continuation.md)
+and [research engineering](docs/research_engineering.md). Exact active feature lists,
+private checkpoints and runtime bundles remain outside Git.
+
 ## Reproduction and inference
 
 [Notebook 09](notebooks/09_model_release.ipynb) reproduces the release evidence
