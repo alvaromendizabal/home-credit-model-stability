@@ -1,9 +1,33 @@
 # Home Credit Model Stability
 
+[![CI](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/ci.yml/badge.svg)](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/ci.yml)
+
 An evaluated credit-risk ML system built around one question: **does predictive
 performance survive a move into future application periods?** The project combines
 relational feature engineering, temporal model comparison, controlled ablations,
 resumable AWS execution and a portable inference pipeline.
+
+## Review in 30 seconds
+
+| Dimension | Project evidence |
+|---|---|
+| **Scale** | 1,526,659 labeled applications across 17 relational source groups |
+| **Feature system** | 2,508 initial candidates → 700-feature frozen core, plus controlled post-release research |
+| **Validation** | Five expanding temporal folds, later confirmation gates and a separately frozen 203,345-case future-period evaluation |
+| **Modeling** | LightGBM, XGBoost, CatBoost, logistic SGD, DenseLight, HistGradientBoosting and heterogeneous meta-models |
+| **Cloud / GPU** | AWS SageMaker, S3-backed checkpoints and NVIDIA L4 research workloads |
+| **Reliability** | Immutable manifests, content hashes, resumable fits, hardware checks, telemetry and fail-fast gates |
+| **Inference** | Portable offline bundle with raw-feature parity and byte-level prediction reproduction |
+| **Research discipline** | Negative results retained; earlier-window gains are rejected when later confirmation fails |
+
+**Frozen future-period result:** 0.729674 weekly-Gini stability, 0.875759 ROC AUC
+on weeks 73–91. This is a local temporal evaluation of the development-trained release,
+not a leaderboard result.
+
+For the fastest employer-oriented walkthrough, see the
+[employer review guide](docs/employer_review.md) and the system architecture below.
+
+![Home Credit ML research system architecture](reports/portfolio/system_architecture.svg)
 
 ## Review in five minutes
 

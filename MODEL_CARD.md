@@ -132,15 +132,17 @@ budgets but failed their confirmation gates. The most useful new evidence was:
 - recovered categorical representation improved CatBoost relative to its earlier
   representation, without producing a promoted model.
 
-The next frontier is planned around temporally stable sparse recovery, explicit
-max-minus-min range features, fresh XGBoost diversity and recovered categorical
-CatBoost. It is not reported as executed in this publication.
+Those sparse, range, XGBoost and recovered-categorical branches were subsequently
+executed under the same bounded research lifecycle. The exact range/XGBoost branch,
+later broad-temporal variants and several heterogeneous challengers were rejected when
+their earlier development gains did not survive the later confirmation contract.
 
 Aggregate results are published in the
-[October frontier report](reports/post_release_frontier/october_2026.md). Exact active
-feature identities, private matrices, model checkpoints and portable competition
-runtime bundles remain outside Git. This keeps the portfolio scientifically auditable
-without publishing the full competition recipe.
+[October frontier report](reports/post_release_frontier/october_2026.md) and
+[frontier continuation](reports/post_release_frontier/october_2026_continuation.md).
+Exact active feature identities, borrower-level matrices, private checkpoints and
+portable competition runtime bundles remain outside Git. This keeps the portfolio
+scientifically auditable without publishing the full competition recipe.
 
 ## October 2026 research-system update
 

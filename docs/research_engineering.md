@@ -4,6 +4,10 @@ This repository is designed to show more than model fitting. The research system
 temporal validation, artifact identity, recoverability, hardware utilization and negative
 results as first-class engineering requirements.
 
+For an employer-oriented map of the system, evidence and role-specific review paths,
+start with the [employer review guide](employer_review.md) and the
+[architecture diagram](../reports/portfolio/system_architecture.svg).
+
 ## Evaluation architecture
 
 All post-release experiments use a fixed temporal promotion lifecycle:

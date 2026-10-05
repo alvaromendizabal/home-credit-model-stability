@@ -133,8 +133,8 @@ before evaluating weeks 73-91. Its reliability and raw probability metrics remai
 explicit diagnostics, without a production probability claim. The subsequent
 [calibration study](calibration.md) fitted earlier development folds and evaluated
 later folds. Neither tested map improved pooled Brier or log loss, and neither
-used the observed holdout or changed the release. Neural
-challengers are optional research and were not part of the accepted four-family benchmark.
+used the observed holdout or changed the release. Neural modeling was outside the
+accepted four-family benchmark and is evaluated separately in later post-release research.
 
 The separate [release](model_release.md) completed development and all-label refits,
 raw feature parity and packaged inference. Notebook 10 lets the owner explicitly
