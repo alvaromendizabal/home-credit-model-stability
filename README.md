@@ -137,6 +137,15 @@ fold scores.
   sparse-recovery studies completed their bounded fit budgets but failed their frozen
   confirmation gates; the negative results are retained in the
   [October frontier report](reports/post_release_frontier/october_2026.md).
+- **Later robustness frontier:** the research program then tested a learned
+  heterogeneous Ridge stack, target-free stable-feature diversity, an independently
+  processed model family, learned payment-history representations and coherent GPU
+  ranking objectives. The Ridge stack produced a large earlier-window gain but failed
+  later confirmation; stable-feature diversity also reversed on confirmation. The
+  independent processor, learned chronology and pairwise-ranking studies all completed
+  their registered selection budgets without a promotable candidate. These results are
+  preserved in the [October frontier continuation](reports/post_release_frontier/october_2026_continuation.md)
+  because rejecting unstable or metric-misaligned gains is part of the project outcome.
 
 The official metric is:
 
