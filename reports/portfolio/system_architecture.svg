@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Home Credit ML research system architecture</title>
+  <desc id="desc">Employer-facing diagram showing relational data, feature engineering, temporal validation, model research, promotion gates, portable inference and reproducibility controls.</desc>
+  <defs>
+    <style>
+      .bg { fill:#f5f8fc; }
+      .card { fill:#ffffff; stroke:#cbd6e2; stroke-width:2; rx:18; }
+      .accent { fill:#eaf2ff; stroke:#6a8fc8; stroke-width:2; rx:18; }
+      .gate { fill:#fff4df; stroke:#d49a35; stroke-width:2; rx:18; }
+      .success { fill:#eaf7ef; stroke:#5c9a70; stroke-width:2; rx:18; }
+      .private { fill:#f4eefb; stroke:#8b6cab; stroke-width:2; rx:18; }
+      .title { font: 700 30px Arial, sans-serif; fill:#1f3349; }
+      .subtitle { font: 400 16px Arial, sans-serif; fill:#526579; }
+      .h { font: 700 18px Arial, sans-serif; fill:#20364d; }
+      .t { font: 400 14px Arial, sans-serif; fill:#43586d; }
+      .small { font: 400 12px Arial, sans-serif; fill:#5e7082; }
+      .arrow { stroke:#7890aa; stroke-width:3; fill:none; marker-end:url(#arrow); }
+      .rail { stroke:#a8b7c7; stroke-width:2; stroke-dasharray:7 6; fill:none; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#7890aa"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1400" height="760"/>
+  <text class="title" x="70" y="58">Home Credit ML research system</text>
+  <text class="subtitle" x="70" y="88">Temporal generalization, recoverable AWS execution, controlled promotion and portable inference</text>
+
+  <rect class="accent" x="70" y="135" width="220" height="145"/>
+  <text class="h" x="95" y="170">Relational source data</text>
+  <text class="t" x="95" y="202">1.5M+ labeled applications</text>
+  <text class="t" x="95" y="227">17 source groups</text>
+  <text class="t" x="95" y="252">Raw schema + identities</text>
+
+  <rect class="card" x="350" y="135" width="230" height="145"/>
+  <text class="h" x="375" y="170">Feature system</text>
+  <text class="t" x="375" y="202">34 train/test blocks</text>
+  <text class="t" x="375" y="227">2,508 initial candidates</text>
+  <text class="t" x="375" y="252">700-feature frozen core</text>
+
+  <rect class="card" x="640" y="135" width="260" height="145"/>
+  <text class="h" x="665" y="170">Temporal validation</text>
+  <text class="t" x="665" y="202">Expanding-window folds</text>
+  <text class="t" x="665" y="227">Later confirmation stage</text>
+  <text class="t" x="665" y="252">Frozen future-period boundary</text>
+
+  <rect class="accent" x="960" y="135" width="365" height="145"/>
+  <text class="h" x="985" y="170">Model and representation research</text>
+  <text class="t" x="985" y="202">LightGBM · XGBoost · CatBoost · DenseLight</text>
+  <text class="t" x="985" y="227">HistGBM · Ridge/meta-models · history encoders</text>
+  <text class="t" x="985" y="252">Ablations · calibration · drift diagnostics</text>
+
+  <path class="arrow" d="M290 207 H340"/>
+  <path class="arrow" d="M580 207 H630"/>
+  <path class="arrow" d="M900 207 H950"/>
+
+  <rect class="gate" x="420" y="355" width="250" height="145"/>
+  <text class="h" x="445" y="390">Promotion gate</text>
+  <text class="t" x="445" y="422">Fold consistency</text>
+  <text class="t" x="445" y="447">Mean stability threshold</text>
+  <text class="t" x="445" y="472">AUC floor + later confirmation</text>
+
+  <rect class="success" x="735" y="355" width="250" height="145"/>
+  <text class="h" x="760" y="390">Frozen candidate</text>
+  <text class="t" x="760" y="422">All-label inference refit</text>
+  <text class="t" x="760" y="447">Artifact parity</text>
+  <text class="t" x="760" y="472">Portable offline execution</text>
+
+  <path class="arrow" d="M1145 280 V322 H545 V345"/>
+  <path class="arrow" d="M670 428 H725"/>
+
+  <rect class="card" x="70" y="565" width="390" height="130"/>
+  <text class="h" x="95" y="600">AWS research engineering</text>
+  <text class="t" x="95" y="632">SageMaker · S3 checkpoints · NVIDIA L4</text>
+  <text class="t" x="95" y="657">Heartbeats · telemetry · bounded cost/runtime</text>
+  <text class="t" x="95" y="682">Resume completed work instead of retraining</text>
+
+  <rect class="card" x="505" y="565" width="390" height="130"/>
+  <text class="h" x="530" y="600">Reproducibility and CI</text>
+  <text class="t" x="530" y="632">Pinned Python · Ruff · mypy · tests</text>
+  <text class="t" x="530" y="657">Executed notebooks · byte-level reproduction</text>
+  <text class="t" x="530" y="682">Immutable manifests · source/data/config hashes</text>
+
+  <rect class="private" x="940" y="565" width="385" height="130"/>
+  <text class="h" x="965" y="600">Public / private boundary</text>
+  <text class="t" x="965" y="632">Public: architecture, metrics, decisions, reviews</text>
+  <text class="t" x="965" y="657">Private: borrower matrices, checkpoints, active recipe</text>
+  <text class="t" x="965" y="682">Semi-reproducible by design</text>
+
+  <path class="rail" d="M265 565 V520 H545 V500"/>
+  <path class="rail" d="M700 565 V520 H860 V500"/>
+  <path class="rail" d="M1130 565 V520 H860 V500"/>
+</svg>
