@@ -33,7 +33,7 @@ the historical release or reusing the observed holdout as a fresh test.
 | Temporal-shift diagnostics | Early-vs-late adversarial classifier reached ~0.998 AUC; pruning and recent-likeness weighting were tested and rejected |
 | Portable temporal reconstruction | Held-out chronology reconstructed at ~0.9996 correlation and 0.24-week MAE; tested score transforms were rejected |
 | Reduced-sample XGBoost | XGB100-global produced one of the strongest complementary selection signals but missed one worst-fold gate by ~6e-5 |
-| Learned Ridge stack | Current selection-stage candidate: +0.018741 mean stability, 3/3 wins; confirmation pending |
+| Learned Ridge stack | +0.018741 mean selection stability with 3/3 wins; later rejected on confirmation at approximately -0.00120 mean stability |
 
 The three screens account for **7,649 hypotheses**. The 256 engineered additions
 and 96 raw-history additions are experimental representations; the evaluated
