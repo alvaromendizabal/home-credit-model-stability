@@ -125,13 +125,12 @@ locked confirmation gate: **+0.011655 mean stability** with 3/3 selection wins b
 **-0.000577 mean stability** with 1/2 confirmation wins. All 14 substantive fits
 completed and the candidate was rejected.
 
-The next registered frontier removes the rejected direct-feature branch and tests
-temporally stable sparse recovery, explicit max-minus-min ranges, a fresh XGBoost
-challenger and recovered categorical CatBoost. It is planned, not yet reported as
-executed in this publication.
+That registered sparse/range/XGBoost/categorical frontier was subsequently executed;
+its aggregate outcomes are summarized in the later rounds below and in the
+[October frontier continuation](../reports/post_release_frontier/october_2026_continuation.md).
 
 See the [October 2026 frontier report](../reports/post_release_frontier/october_2026.md)
-for the aggregate employer-facing evidence.
+for the earlier snapshot and the continuation for the later employer-facing evidence.
 
 ## Frontier rounds 6–10 — sparse, relational, categorical and broad temporal systems
 
