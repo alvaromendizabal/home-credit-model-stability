@@ -329,6 +329,26 @@ release. The next high-value gaps are previous-application category occurrence
 histograms and a complementary DenseLight neural challenger; neither is described
 as validated until its own controlled evidence exists.
 
+## 13. Later temporal-robustness research
+
+After the externally measured tree + histogram + DenseLight ensemble, the project
+continued with a sequence of bounded, development-only robustness studies. These did
+not rewrite the frozen September release.
+
+A learned Ridge stack and a target-free stable-feature diversity pool both produced
+positive earlier-window selection results and were rejected on later confirmation.
+An independent preprocessing/model pipeline completed its registered selection budget
+without a qualifying candidate. A matched payment-history study found that the tested
+chronology increased mean AUC slightly while materially reducing the official stability
+metric. A coherent GPU ranking-objective study then completed all nine model fits and
+16 candidate comparisons without a promotable stream.
+
+The project therefore preserves several scientifically useful negative results instead
+of converting selection-stage gains into release claims. Aggregate evidence is recorded
+in the [October frontier continuation](../reports/post_release_frontier/october_2026_continuation.md).
+The next neural representation batch is registered but not yet reported as a completed
+scientific result.
+
 The current-source date-parsing cleanup is independently verified on the original
 public inputs: 93 file identities, 700 feature columns, identical encoded matrices
 and ten identical predictions, with zero warnings from the candidate implementation.
