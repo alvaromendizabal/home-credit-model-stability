@@ -52,6 +52,24 @@ This makes resource telemetry part of correctness: a job that silently falls bac
 different execution path is treated as a scientific and engineering issue, not merely a
 speed problem.
 
+## Runtime isolation and recovery hardening
+
+Later GPU research made runtime identity an explicit part of the experiment contract.
+Tree-model and neural workloads may use different pre-existing interpreters on the same
+SageMaker instance, but the runner records and validates each interpreter, package stack,
+CUDA capability and artifact handoff before scientific work begins.
+
+The recovery system also distinguishes completed training from completed evaluation.
+For example, a saved booster or neural checkpoint can be reused after a downstream
+validation or packaging interruption without silently retraining the completed model.
+Checkpoint receipts bind model state, optimizer or boosting progress, random-state
+lineage and source identities. Smoke-test state is kept separate from substantive
+model state.
+
+These controls are private-runtime engineering details. Public Git records the system
+contract and aggregate outcomes, not the active competition checkpoints or exact
+recovery recipes.
+
 ## Model and representation diversity
 
 The research program has exercised complementary model families and representations,
