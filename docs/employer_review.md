@@ -133,7 +133,7 @@ external evaluation path was used.
 | DenseLight | GPU neural challenger passed development confirmation and joined the later ensemble | Retained as component |
 | Broad temporal / relational studies | Several large selection gains reversed on later confirmation | Rejected |
 | Ridge meta-model | Strong selection gain failed later confirmation | Rejected |
-| Learned chronological history | Small AUC gain accompanied a large stability loss | Rejected |
+| Chronological history representation | Small AUC gain accompanied a large stability loss | Rejected |
 | GPU ranking objectives | Completed matched pointwise/global/within-week comparison; no promotable stream | Rejected |
 
 The repository deliberately separates accepted evidence, rejected hypotheses and
