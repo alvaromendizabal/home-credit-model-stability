@@ -47,7 +47,7 @@
   <rect class="accent" x="960" y="135" width="365" height="145"/>
   <text class="h" x="985" y="170">Model and representation research</text>
   <text class="t" x="985" y="202">LightGBM · XGBoost · CatBoost · DenseLight</text>
-  <text class="t" x="985" y="227">HistGBM · Ridge/meta-models · history encoders</text>
+  <text class="t" x="985" y="227">HistGBM · Ridge/meta-models · history studies</text>
   <text class="t" x="985" y="252">Ablations · calibration · drift diagnostics</text>
 
   <path class="arrow" d="M290 207 H340"/>
