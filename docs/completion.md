@@ -323,11 +323,12 @@ leaderboard scores evaluate the separate all-label inference refit and must not 
 substituted for the development-trained model's 0.729674 local holdout stability.
 See the [submission runbook](kaggle_submission.md) and `reports/kaggle_submission/`.
 
-Further modeling remains a separately scoped study. Notebook 13 has now closed one
-post-release hypothesis—native LightGBM categorical identity—without changing the
-release. The next high-value gaps are previous-application category occurrence
-histograms and a complementary DenseLight neural challenger; neither is described
-as validated until its own controlled evidence exists.
+Further modeling remains separately scoped from the frozen release. The previously
+registered histogram and DenseLight directions were subsequently executed: histogram
+features became a complementary component in later research, and the GPU DenseLight
+challenger passed its development confirmation protocol before joining the later
+externally measured ensemble. Subsequent robustness studies are recorded separately
+and do not rewrite the historical release.
 
 ## 13. Later temporal-robustness research
 
