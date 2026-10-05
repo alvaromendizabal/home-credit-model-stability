@@ -97,9 +97,21 @@ negative confirmation decisions rather than promoting unstable selection gains.
 
 The later frontier has now exercised clean sparse recovery, broad relational and
 temporal representations, recovered categorical CatBoost, reduced-sample XGBoost,
-shift-aware diagnostics and learned heterogeneous stacking. The strongest current
-selection-stage candidate is the Ridge meta-model described above; confirmation is
-still pending and therefore no promotion claim is made.
+shift-aware diagnostics, heterogeneous stacking, target-free stable-feature diversity,
+independent preprocessing, learned payment-history representations and coherent GPU
+ranking objectives.
+
+The Ridge meta-model is no longer pending: its **+0.01874 mean selection stability**
+did not survive later confirmation (approximately **-0.00120**). Stable-feature
+diversity similarly passed selection before reversing on confirmation. The independent
+processor produced no qualifying selection candidate. A matched learned-history
+comparison showed a small AUC improvement from the tested chronology but a large
+stability loss, and the completed pairwise-ranking study produced no candidate that
+won a selection fold consistently. None of these later systems was promoted.
+
+The next registered research batch evaluates efficient neural ensemble diversity and
+learned set/temporal history encoders. It remains planned/active private research, not a
+published model result.
 
 See [post-release frontier research](post_release_research.md), the historical
 [October report](../reports/post_release_frontier/october_2026.md), the

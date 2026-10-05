@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "published_utc": "2026-10-02",
+  "published_utc": "2026-10-04",
   "publication_boundary": "aggregate employer-facing evidence only; exact active features, borrower-level matrices, checkpoints and competition runtime details excluded",
   "externally_measured_post_release_artifact": {
     "development_mean_stability": 0.6189403,
@@ -66,7 +66,43 @@
       "selection_mean_stability_delta": 0.018741,
       "selection_wins": 3,
       "worst_fold_delta": 0.000803,
-      "status": "selection_passed_confirmation_pending"
+      "confirmation_mean_stability_delta": -0.001202,
+      "confirmation_wins": 1,
+      "status": "rejected_on_confirmation"
+    },
+    "stable_feature_diversity": {
+      "selection_mean_stability_delta": 0.003289,
+      "selection_wins": 3,
+      "confirmation_mean_stability_delta": -0.000385,
+      "confirmation_wins": 0,
+      "status": "rejected_on_confirmation"
+    },
+    "independent_processing": {
+      "selection_fits": 6,
+      "candidate_comparisons": 12,
+      "least_negative_mean_stability_delta": -0.001012,
+      "least_negative_selection_wins": 1,
+      "status": "rejected_on_selection"
+    },
+    "learned_history_ablation": {
+      "model_fits": 9,
+      "candidate_comparisons": 12,
+      "chronology_vs_order_free_stability_delta": -0.015621,
+      "chronology_vs_order_free_auc_delta": 0.000599,
+      "status": "rejected_on_selection"
+    },
+    "gpu_ranking_objectives": {
+      "model_fits": 9,
+      "candidate_comparisons": 16,
+      "least_negative_mean_stability_delta": -0.001624,
+      "least_negative_mean_auc_delta": -0.000397,
+      "least_negative_selection_wins": 0,
+      "status": "rejected_on_selection"
+    },
+    "next_neural_frontier": {
+      "arms": 4,
+      "scientific_status": "registered_not_yet_evaluated",
+      "publication_boundary": "architecture and validation contract public; active tensors, checkpoints and competition runtime details private"
     }
   }
 }

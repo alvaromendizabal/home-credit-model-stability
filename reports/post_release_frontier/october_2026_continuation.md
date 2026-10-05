@@ -114,20 +114,70 @@ validation folds.
 
 ## Learned heterogeneous Ridge stack
 
-A leakage-aware Ridge second level combines existing heterogeneous prediction streams.
-The frozen selection-stage candidate currently shows approximately:
+A leakage-aware Ridge second level combined existing heterogeneous prediction streams.
+Its frozen candidate reached approximately **+0.01874 mean selection stability** with
+3/3 wins and a **+0.00080 worst-fold delta**.
 
-- **+0.01874 mean stability**;
-- **3/3 selection wins**;
-- **+0.00080 worst-fold delta**;
-- approximately neutral mean AUC change.
+Confirmation rejected it: one later fold was slightly positive and the other materially
+negative, for approximately **-0.00120 mean confirmation stability**.
 
-This is **selection-stage evidence only**. Confirmation remains pending in the private
-runtime workflow and no promotion claim is made here.
+**Decision:** reject the selected stack; preserve the heterogeneous OOF infrastructure.
 
-If that candidate does not confirm, the registered fallback tests a target-free
-411-feature stability mask with Extra-Trees LightGBM, DART LightGBM and
-HistGradientBoosting.
+## Target-free stable-feature diversity
+
+The registered fallback combined a target-free stable-feature mask with three
+complementary learners. The selected small blend improved all three selection folds at
+about **+0.00329 mean stability**, then lost both confirmation folds at about
+**-0.00039 mean stability**.
+
+**Decision:** reject the exact model pool while retaining the target-free stability
+screen as reusable research infrastructure.
+
+## Independent processing pipeline
+
+A separate processor rebuilt missingness, categorical handling, correlation reduction
+and model inputs independently of the incumbent representation. Six selection fits and
+12 blend candidates completed.
+
+The least-negative candidate was about 95% incumbent plus 5% independent LightGBM:
+approximately **-0.00101 mean stability**, with one of three fold wins.
+
+**Decision:** close this exact independent-processing recipe.
+
+## Learned payment-history representation
+
+A matched study compared order-free and chronology-aware historical representations.
+The chronology-aware arm improved mean AUC by approximately **+0.00060** while reducing
+mean official stability by approximately **-0.01562**.
+
+All registered blend candidates failed selection.
+
+**Decision:** close the tested chronology representation; preserve the normalized
+history cache for genuinely learned set/sequence encoders.
+
+## Coherent GPU ranking objectives
+
+A matched GPU XGBoost study compared pointwise classification, global pairwise ranking
+and within-week pairwise ranking. All nine selection models and 16 candidate comparisons
+completed.
+
+The least-negative candidate was about 95% incumbent plus 5% global pairwise ranking,
+at approximately **-0.00162 mean stability**, **-0.00040 mean AUC**, and **0/3 fold
+wins**.
+
+**Decision:** close the tested ranking-objective recipe.
+
+## Next registered neural frontier
+
+The next bounded study compares:
+
+- a matched single-network static control;
+- an efficient shared-weight neural ensemble;
+- a learned order-invariant payment-history encoder;
+- a learned temporal history encoder.
+
+This study is **registered/not yet scientifically evaluated** in the public record.
+Exact active tensors, checkpoints and competition runtime recipes remain private.
 
 ## Engineering lessons
 

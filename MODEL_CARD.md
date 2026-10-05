@@ -161,15 +161,30 @@ with approximately **0.9996 correlation** and **0.24-week MAE**. Competition-spe
 score transformations tested on that reconstructed timeline were rejected when they
 reduced the validated metrics.
 
-The strongest current post-release meta-model is still **selection-stage only**:
-a leakage-aware Ridge stack reached approximately **+0.01874 mean stability** with
-3/3 selection wins and a positive worst-fold delta. Confirmation remains pending, so
-this model card makes no promotion or deployment claim for it.
+The leakage-aware Ridge stack reached approximately **+0.01874 mean selection
+stability** with 3/3 wins and a positive worst-fold delta, then failed the later
+confirmation gate at approximately **-0.00120 mean stability**. A target-free
+stable-feature diversity fallback likewise passed selection but reversed on
+confirmation. Neither was promoted.
+
+Subsequent controlled studies tested an independently processed model family, learned
+payment-history representations and coherent GPU ranking objectives. The independent
+processor produced no qualifying selection candidate. A matched history ablation found
+that the tested chronological representation improved mean AUC by about **+0.00060**
+while reducing mean stability by about **-0.01562**. The ranking-objective study
+completed all nine model fits and all 16 candidate comparisons; its least-negative
+candidate still lost all three selection folds. These are development research results,
+not new release or deployment claims.
+
+The next registered frontier studies efficient neural ensemble diversity plus learned
+order-invariant and temporal history encoders. It is **not yet reported as a scientific
+result** in this publication.
 
 See the
 [frontier continuation](reports/post_release_frontier/october_2026_continuation.md)
 and [research engineering](docs/research_engineering.md). Exact active feature lists,
-private checkpoints and runtime bundles remain outside Git.
+borrower-level matrices, private checkpoints and competition runtime bundles remain
+outside Git.
 
 ## Reproduction and inference
 

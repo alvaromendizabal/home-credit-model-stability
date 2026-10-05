@@ -205,15 +205,70 @@ therefore verifies the effective device and preserves runtime consistency across
 
 ## Frontier round 18 — learned heterogeneous Ridge stack
 
-A leakage-aware Ridge second level combines the existing heterogeneous prediction
-streams. Its frozen selection-stage candidate currently shows approximately
-**+0.01874 mean stability**, **3/3 selection wins**, a **+0.00080 worst-fold delta**
-and nearly neutral mean AUC change.
+A leakage-aware Ridge second level combines existing heterogeneous prediction streams.
+Its frozen selection-stage candidate reached approximately **+0.01874 mean stability**,
+**3/3 selection wins** and a **+0.00080 worst-fold delta**.
 
-This is **selection-stage evidence only**; confirmation remains pending in the private
-runtime workflow. If it does not confirm, the registered fallback is a target-free
-411-feature stability mask with Extra-Trees LightGBM, DART LightGBM and
-HistGradientBoosting.
+Later confirmation rejected it. One confirmation fold was slightly positive and the
+other materially negative, producing approximately **-0.00120 mean stability** overall.
+
+**Decision:** reject the selected Ridge stack; preserve the heterogeneous OOF
+infrastructure and selection evidence.
+
+## Frontier round 19 — target-free stable-feature diversity
+
+The registered fallback used a target-free stability mask with Extra-Trees-style
+LightGBM, DART LightGBM and HistGradientBoosting.
+
+The selected small blend improved all three selection folds at approximately
+**+0.00329 mean stability**, then lost both confirmation folds at approximately
+**-0.00039 mean stability**.
+
+**Decision:** reject the exact stable-feature/model pool; preserve the target-free
+screening and complementary-model evidence.
+
+## Frontier round 20 — independent processing pipeline
+
+A separate processor rebuilt missingness handling, categorical treatment, correlation
+reduction and model inputs independently of the incumbent matrix. Six selection fits
+and 12 blend candidates completed.
+
+The least-negative candidate was approximately 95% incumbent plus 5% independent
+LightGBM, with about **-0.00101 mean stability** and only one of three fold wins.
+
+**Decision:** close this exact processing/model recipe. Processor diversity remains a
+valid design principle, but this implementation did not improve the frozen metric.
+
+## Frontier round 21 — learned payment-history representation
+
+A matched study compared an order-free history control with a chronology-aware
+representation while preserving the core feature system.
+
+Chronology improved mean AUC by about **+0.00060** but reduced mean official stability
+by about **-0.01562**. All registered blend candidates failed selection.
+
+**Decision:** close the tested fixed chronological-history recipe. Retain the normalized
+history cache and aggregation infrastructure for genuinely learned representations.
+
+## Frontier round 22 — coherent GPU ranking objectives
+
+A coherent GPU XGBoost study compared pointwise classification, global pairwise ranking
+and within-week pairwise ranking on matched populations. All nine selection models and
+16 candidate comparisons completed.
+
+The least-negative candidate was approximately 95% incumbent plus 5% global pairwise
+ranking: about **-0.00162 mean stability**, **-0.00040 mean AUC**, and **0/3 fold wins**.
+
+**Decision:** close the tested ranking-objective recipe; do not spend another round on
+nearby objective/weight sweeps.
+
+## Frontier round 23 — next neural representation batch
+
+The next registered study compares a single-network control, an efficient shared-weight
+neural ensemble, a learned order-invariant payment-history encoder and a learned
+temporal history encoder. Its public status is **registered/not yet scientifically
+evaluated**. Exact checkpoints, active tensors and competition runtime details remain
+private.
 
 The aggregate continuation is published in
 [October frontier continuation](../reports/post_release_frontier/october_2026_continuation.md).
