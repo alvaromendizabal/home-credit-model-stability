@@ -167,17 +167,42 @@ wins**.
 
 **Decision:** close the tested ranking-objective recipe.
 
-## Next registered neural frontier
+## Late frontier — neural, retrieval, robustness and category recovery
 
-The next bounded study compares:
+The later research program completed the previously registered neural frontier and
+continued through several materially different representation classes.
 
-- a matched single-network static control;
-- an efficient shared-weight neural ensemble;
-- a learned order-invariant payment-history encoder;
-- a learned temporal history encoder.
+A matched neural study tested efficient shared-weight ensembling together with learned
+order-invariant and temporal historical representations. None of the tested recipes
+survived the complete temporal promotion contract.
 
-This study is **registered/not yet scientifically evaluated** in the public record.
-Exact active tensors, checkpoints and competition runtime recipes remain private.
+Subsequent studies covered:
+
+- nonlinear numerical encodings with matched architecture controls;
+- contract-preserving history encoders;
+- training-only support and rarity representations;
+- contrastive and denoising-style self-supervised objectives;
+- fixed and learned retrieval over earlier labeled applicants;
+- supervised source dropout and group-robust objectives;
+- independent metric/calibration and validation-ceiling diagnostics;
+- recovered categorical identities and strictly past-only category statistics.
+
+Several candidates again produced positive earlier-period evidence but weakened on later
+confirmation. One learned-retrieval candidate also failed its matched-control attribution
+requirement, showing why a gain versus the incumbent alone is insufficient evidence for a
+new mechanism.
+
+The validation-ceiling review reproduced the relevant scoring and calibration behavior
+and found no metric defect that explained the plateau. The dominant unresolved problem
+remains transfer across substantial temporal distribution shift.
+
+**Decision:** preserve the reusable preprocessing, GPU, recovery, retrieval and
+representation infrastructure; close the exact rejected recipes and avoid near-duplicate
+parameter sweeps.
+
+The public report remains intentionally aggregate. Exact active feature identities,
+private checkpoints, borrower-level matrices and competition runtime recipes stay
+outside Git.
 
 ## Engineering lessons
 
