@@ -86,6 +86,9 @@ including:
 - HistGradientBoosting;
 - fixed and learned heterogeneous ensembles;
 - relational, sparse, temporal, categorical and historical aggregation families.
+- nonlinear numerical encodings and training-only support representations;
+- contrastive/denoising pretraining, retrieval and learned retrieval adapters;
+- source-robust objectives and categorical-information recovery.
 
 The public repository records aggregate evidence and lifecycle decisions. Exact active
 feature lists, borrower-level matrices, private checkpoints and portable competition
@@ -122,4 +125,6 @@ Private:
 - competition-specific implementation details.
 
 This boundary keeps the project technically reviewable and semi-reproducible while
-preserving private research assets.
+preserving private research assets. See
+[public reproducibility and research boundary](public_reproducibility.md) for the
+review matrix and explicit public/private artifact policy.
