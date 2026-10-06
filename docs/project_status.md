@@ -34,6 +34,15 @@ the historical release or reusing the observed holdout as a fresh test.
 | Portable temporal reconstruction | Held-out chronology reconstructed at ~0.9996 correlation and 0.24-week MAE; tested score transforms were rejected |
 | Reduced-sample XGBoost | XGB100-global produced one of the strongest complementary selection signals but missed one worst-fold gate by ~6e-5 |
 | Learned Ridge stack | +0.018741 mean selection stability with 3/3 wins; later rejected on confirmation at approximately -0.00120 mean stability |
+| Neural/history frontier | Efficient neural, set/history and temporal-history studies completed under the frozen temporal gate; promising selection effects did not produce a promoted later-period candidate |
+| Numerical representation frontier | Nonlinear numerical encodings were evaluated with matched controls; one candidate advanced past selection but failed later confirmation |
+| Contract-history frontier | Contract-preserving learned history representations passed selection in one configuration, then failed later confirmation |
+| Support/rarity frontier | Distribution-support diagnostics and training-only rarity representations were built and tested; no confirmed predictive gain |
+| Self-supervision frontier | Contrastive and denoising-style pretraining completed with matched downstream controls; no candidate survived confirmation |
+| Retrieval frontier | Fixed and learned retrieval over earlier applicants was evaluated with chronology and matched-control checks; retrieval did not outperform the appropriate control robustly |
+| Source-robustness frontier | Supervised source dropout and group-robust objectives completed; selection gains did not clear later confirmation and matched-control gates |
+| Validation-ceiling review | Independent metric/calibration checks found no scoring defect; later-period transfer remains the dominant limitation |
+| Categorical-information recovery | Expanded categorical identity and past-only category-statistic representations completed; selected candidate failed later confirmation |
 
 The three screens account for **7,649 hypotheses**. The 256 engineered additions
 and 96 raw-history additions are experimental representations; the evaluated
@@ -109,9 +118,15 @@ comparison showed a small AUC improvement from the tested chronology but a large
 stability loss, and the completed pairwise-ranking study produced no candidate that
 won a selection fold consistently. None of these later systems was promoted.
 
-The next registered research batch evaluates efficient neural ensemble diversity and
-learned set/temporal history encoders. It remains planned/active private research, not a
-published model result.
+The late frontier has now moved beyond that registered neural batch. Controlled
+research has covered neural ensemble diversity, learned historical representations,
+nonlinear numerical encodings, self-supervised objectives, retrieval, source robustness
+and categorical-information recovery. None of the newly tested recipes has displaced
+the accepted post-release ensemble after the full selection/confirmation contract.
+
+The public record is intentionally mechanism-level and aggregate. Exact active feature
+identities, private checkpoints and current competitive runtime recipes remain outside
+Git. See [public reproducibility](public_reproducibility.md) for the review boundary.
 
 See [post-release frontier research](post_release_research.md), the historical
 [October report](../reports/post_release_frontier/october_2026.md), the

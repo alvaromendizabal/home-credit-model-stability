@@ -72,6 +72,24 @@ fallbacks. Reading the evidence requires no cloud account or borrower-level data
 The [model card](MODEL_CARD.md) summarizes intended use, artifact distinctions and
 the observed limits relevant to interpreting the results.
 The [completion record](docs/completion.md) maps the finished work to its verification evidence.
+The [public reproducibility boundary](docs/public_reproducibility.md) explains exactly
+which layers a reviewer can reproduce from GitHub and which private AWS artifacts are
+intentionally withheld.
+
+### Recent research frontier
+
+The post-release program has now executed **100+ bounded predictive or adapter fits**
+across neural ensembles, learned historical representations, nonlinear numerical
+encodings, self-supervised objectives, retrieval-based models, source-robust training
+and categorical-information recovery. Several candidates produced convincing gains on
+earlier periods and were still rejected when those gains did not survive later temporal
+confirmation.
+
+That pattern is a core result of the project: under strong distribution shift, model
+selection quality depends as much on disciplined rejection and reproducibility as on
+finding a locally strong score. The public repository records aggregate mechanisms,
+controls and decisions; exact active feature identities, checkpoints and competitive
+runtime recipes remain private.
 
 For the current state and optional AWS monitoring, see [project status](docs/project_status.md).
 **The evaluated September release remains frozen and closed.** Post-release frontier

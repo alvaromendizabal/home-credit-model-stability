@@ -178,15 +178,22 @@ completed all nine model fits and all 16 candidate comparisons; its least-negati
 candidate still lost all three selection folds. These are development research results,
 not new release or deployment claims.
 
-The next registered frontier studies efficient neural ensemble diversity plus learned
-order-invariant and temporal history encoders. It is **not yet reported as a scientific
-result** in this publication.
+That registered neural frontier has since been executed, followed by controlled
+studies of nonlinear numerical encodings, contract-preserving history, support/rarity
+representations, self-supervised objectives, retrieval, source robustness and
+categorical-information recovery. None of those newly tested recipes displaced the
+accepted post-release ensemble after the complete temporal promotion contract.
+
+The public record intentionally reports mechanism classes, aggregate outcomes and
+promotion decisions rather than exact active feature identities or competitive runtime
+recipes.
 
 See the
-[frontier continuation](reports/post_release_frontier/october_2026_continuation.md)
-and [research engineering](docs/research_engineering.md). Exact active feature lists,
-borrower-level matrices, private checkpoints and competition runtime bundles remain
-outside Git.
+[frontier continuation](reports/post_release_frontier/october_2026_continuation.md),
+[research engineering](docs/research_engineering.md) and
+[public reproducibility boundary](docs/public_reproducibility.md). Exact active feature
+lists, borrower-level matrices, private checkpoints and competition runtime bundles
+remain outside Git.
 
 ## Reproduction and inference
 
