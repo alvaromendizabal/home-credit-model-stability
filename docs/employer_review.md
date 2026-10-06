@@ -29,7 +29,31 @@ future application periods under measurable distribution shift.
 The public repository exposes architecture, validation rules, aggregate metrics,
 reproducibility contracts and lifecycle decisions. Private AWS artifacts retain exact
 active feature identities, borrower-level matrices, model checkpoints and competition
-runtime bundles.
+runtime bundles. The [public reproducibility boundary](public_reproducibility.md)
+documents that split explicitly.
+
+## Recent frontier in one minute
+
+The later research program has moved well beyond ordinary tree tuning. More than one
+hundred bounded predictive or adapter fits have tested efficient neural ensembles,
+learned historical representations, nonlinear numerical encodings, self-supervised
+objectives, retrieval-based models, source-robust training and categorical-information
+recovery.
+
+The repeated finding is scientifically useful: several candidates look strong on
+earlier periods and then weaken on later confirmation periods. The project therefore
+treats **rejection quality** as an engineering outcome. A model is not promoted merely
+because it improves an average development score.
+
+For an employer, this frontier demonstrates:
+
+- how to design expensive experiments with explicit promotion and kill gates;
+- how to separate a new mechanism from a matched control;
+- how to resume model-fold work without silently retraining completed stages;
+- how to attribute failures to data, runtime, validation or modeling rather than
+  collapsing them into one generic "experiment failed" state;
+- how to publish enough evidence for serious review without releasing private data or
+  the active competitive recipe.
 
 ## What to review by role
 
@@ -84,6 +108,7 @@ Signals to look for:
 - temporal-shift diagnostics;
 - robustness versus ordinary AUC tradeoffs;
 - controlled tests of categorical, sparse, historical and ranking representations.
+- later controlled studies of self-supervision, retrieval, source robustness and categorical-information recovery.
 
 ## Selected engineering outcomes
 
