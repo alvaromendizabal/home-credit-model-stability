@@ -261,13 +261,85 @@ ranking: about **-0.00162 mean stability**, **-0.00040 mean AUC**, and **0/3 fol
 **Decision:** close the tested ranking-objective recipe; do not spend another round on
 nearby objective/weight sweeps.
 
-## Frontier round 23 — next neural representation batch
+## Frontier rounds 23–31 — neural, retrieval and robustness ceiling-escape
 
-The next registered study compares a single-network control, an efficient shared-weight
-neural ensemble, a learned order-invariant payment-history encoder and a learned
-temporal history encoder. Its public status is **registered/not yet scientifically
-evaluated**. Exact checkpoints, active tensors and competition runtime details remain
-private.
+The next phase deliberately moved away from ordinary tree tuning and tested materially
+different mechanisms under the same temporal promotion discipline.
+
+### Efficient neural and learned-history systems
+
+A matched neural batch compared a single-network control with efficient shared-weight
+ensembling and learned historical representations. The experiments completed
+successfully, but the selected streams did not survive the full later-period gate.
+
+A subsequent numerical-representation study tested nonlinear encodings under matched
+architecture and initialization controls. One candidate advanced from the earlier
+selection period and then failed later confirmation.
+
+Contract-preserving historical representations were then evaluated to retain information
+that month-level pooling can discard. Again, the strongest earlier-period candidate did
+not remain strong enough on confirmation.
+
+**Decision:** preserve the reusable GPU, history and numerical-representation
+infrastructure; close the exact tested recipes.
+
+### Distribution support and self-supervised objectives
+
+A zero-fit support audit measured missingness, clipping and feature-distribution changes
+across the temporal folds, then built training-only rarity representations. The audit
+confirmed substantial input shift, but the resulting rarity models did not produce a
+confirmed gain.
+
+The project then tested contrastive and denoising-style self-supervised pretraining
+before the ordinary supervised fit. These experiments were bounded and controlled
+against the same downstream architecture. Their selected candidate failed later-period
+confirmation.
+
+**Decision:** retain the support diagnostics and pretraining infrastructure; do not
+promote the tested representations.
+
+### Retrieval and learned retrieval
+
+A retrieval study tested whether earlier labeled applicants could provide complementary
+local information at prediction time. A follow-up replaced fixed neighbor weighting
+with learned attention-like adapters and added query-only controls so that any gain could
+be attributed to retrieval rather than merely to access to a newer labeled period.
+
+The apparent selection gain did not beat its appropriate matched control robustly, so
+confirmation was not warranted for the learned-retrieval candidate.
+
+**Decision:** close the tested retrieval recipes while preserving the chronology,
+reference-memory and inference-replay infrastructure.
+
+### Source robustness and categorical-information recovery
+
+Supervised source dropout and group-robust objectives were evaluated as direct responses
+to the severe period shift. The selected source-dropout blend improved both later
+confirmation folds slightly, but the mean gain remained below the frozen threshold and
+did not beat the matched control robustly.
+
+An independent validation-ceiling review then reproduced the relevant metrics and
+calibration behavior, finding no scoring defect that could explain the plateau. That
+review also identified repeated categorical-vocabulary saturation in the neural
+preprocessing.
+
+The next study therefore recovered additional fitting-supported categorical identities
+and tested strictly past-only category statistics. Its selected candidate passed the
+earlier selection gate but failed later confirmation.
+
+**Decision:** keep the validation, categorical-recovery and recovery-engineering
+capabilities; reject the exact model recipes.
+
+### Aggregate lesson from the late frontier
+
+More than one hundred bounded predictive or adapter fits now span the late frontier.
+The common failure mode is not inability to improve an earlier development window. It
+is **failure to transfer the improvement into later periods under strong distribution
+shift**.
+
+The public repository records mechanisms, aggregate fold decisions and reproducibility
+contracts. Exact private feature identities, checkpoints and active competition runtime
+recipes remain outside Git.
 
 The aggregate continuation is published in
 [October frontier continuation](../reports/post_release_frontier/october_2026_continuation.md).
