@@ -22,6 +22,10 @@ jobs:
           version: "0.12.10"
           python-version: "3.12.14"
           enable-cache: true
+      - name: Reproduce credential-free public evidence
+        run: |
+          python3 -W error scripts/review_public_evidence.py --output reports/public_review
+          git diff --exit-code -- reports/public_review
       - name: Sync locked environment
         run: uv sync --locked --group dev
       - name: Execute canonical tuning review
@@ -137,6 +141,7 @@ jobs:
             notebooks/11_feature_research.ipynb
             artifacts/ci/feature_ablation/06_feature_ablation.ipynb
             reports/benchmark/review.json
+            reports/public_review
             reports/model_selection
             reports/model_release
             reports/calibration

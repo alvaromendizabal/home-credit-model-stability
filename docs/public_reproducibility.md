@@ -1,100 +1,95 @@
-# Public reproducibility and research boundary
+# Reproducing the public evidence
 
-This repository is intentionally **semi-reproducible**: a reviewer can inspect the
-validation design, reproduce the published review layer, verify aggregate results and
-follow the research decisions without receiving borrower-level data, private
-checkpoints or the active competition recipe.
+The public review can be run from a clone with Python 3.12 and no third-party
+packages, cloud credentials, borrower data or training job:
 
-That boundary is deliberate. It mirrors a real ML organization where model review,
-scientific traceability and engineering quality must remain auditable even when raw
-data and production or competitive assets cannot be published.
+```bash
+python3 scripts/review_public_evidence.py --output artifacts/public-review
+```
+
+Open the resulting `index.html` locally. `review.json` contains the same review in
+machine-readable form. Output is deterministic: repeated runs over the same verified
+inputs produce the same bytes, with no machine-specific path or current timestamp.
+The canonical example is [reports/public_review](../reports/public_review).
+
+## What that command verifies
+
+The script consumes only previously published aggregate reports:
+
+- benchmark acceptance evidence and metric corrections;
+- controlled feature-family ablation results;
+- the frozen future-period evaluation summary, release intent and weekly discrimination values.
+
+It checks pinned input hashes before calculation and validates the expected report
+structure, population counts and comparison alignment. It recalculates the weekly-Gini
+stability components and comparison summaries where the public aggregates support
+those calculations. Changed or inconsistent inputs cause a nonzero exit.
+
+A published AUC, average precision, Brier score or log loss is not independently
+recomputed without the underlying labels and predictions. The report distinguishes
+recomputed aggregate statistics from source-reported metrics. Checksums establish
+which published bytes were reviewed; they do not independently establish the truth
+of the original private experiment.
 
 ## Reproducibility matrix
 
-| Layer | Public evidence | Reproducibility level |
+| Layer | Available publicly | What can be verified |
 |---|---|---|
-| Frozen release | Hash-pinned reports, model-release notebook, metrics, manifests and review scripts | **High** — published evidence can be recomputed without retraining |
-| Feature system | Candidate accounting, selected-feature counts, ablations and aggregate feature-family evidence | **High for review; partial for raw rebuild** |
-| Temporal validation | Fold definitions, promotion discipline, aggregate fold metrics and rejection decisions | **High** |
-| Model-family benchmarks | LightGBM, XGBoost, CatBoost, logistic and neural-family comparisons | **High for reported comparisons** |
-| Portable inference | Schema checks, raw-feature parity logic, artifact lineage and offline notebook evidence | **High for the published release path** |
-| Post-release frontier | Hypotheses, model-family descriptions, aggregate fold outcomes, gates and decisions | **Review-reproducible** |
-| Active frontier recipes | Exact private feature identities, current competitive weights, private checkpoints and runtime bundles | **Intentionally private** |
-| Borrower-level data | Competition/raw source records and derived private matrices | **Not redistributed** |
+| Lightweight evidence review | Standard-library script, aggregate input reports, deterministic JSON/HTML | Input integrity, supported aggregate calculations and consistent evaluation scope |
+| Executed research reviews | Python source, lockfile, notebooks and published outputs | Full review execution, lint/type checks, tests and byte-for-byte output reproduction |
+| Temporal methodology | Fold definitions, historical release policy and decision records | Selection/evaluation separation and the documented use of confirmation periods |
+| Historical model research | Benchmark, feature removals, calibration and later aggregate outcomes | Published comparisons and both acceptance and rejection decisions |
+| Raw training and full inference | Historical implementation and artifact contracts | Implementation inspection; exact replay additionally requires restricted data and model artifacts |
+| Active research | Mechanism-level summaries after reconciliation | Published aggregate findings; exact active recipes and checkpoints are not distributed |
 
-## What a reviewer can verify
+## Full notebook and source checks
 
-The repository is designed so review does not require rerunning expensive training.
-Committed scripts and notebooks validate the evidence already produced by the
-AWS-canonical research system.
+The canonical locked environment uses Python 3.12.14:
 
-Useful entry points:
+```bash
+uv sync --locked --group dev
+uv run --locked python scripts/review_model_benchmark.py --force
+uv run --locked python scripts/review_model_release.py --force
+bash scripts/check.sh
+```
 
-- [Employer review guide](employer_review.md)
-- [Research engineering and reproducibility](research_engineering.md)
-- [Model release notebook](../notebooks/09_model_release.ipynb)
-- [Post-release research record](post_release_research.md)
-- [Model card](../MODEL_CARD.md)
+The [CI workflow](../.github/workflows/ci.yml) specifies the complete notebook
+execution and reproduction sequence. It runs review generation before quality gates,
+checks the exact proposed commit and compares canonical output bytes. Notebook
+execution reviews saved aggregate evidence; it does not start private training.
 
-The review layer checks artifact identities, metric calculations, notebook outputs and
-published experiment decisions. Expensive private training is not hidden behind a
-"run everything" instruction.
+To reproduce the lightweight checked-in report directly:
 
-## What remains private and why
+```bash
+python3 scripts/review_public_evidence.py --output reports/public_review
+git diff --exit-code -- reports/public_review
+```
 
-Private AWS artifacts retain:
+## Disclosure boundary
 
-- borrower-level feature matrices and labels;
-- exact active frontier feature identities;
-- trained frontier checkpoints and optimizer state;
-- current competitive blend recipes and runtime bundles;
-- large intermediate caches and resumable private checkpoints.
+The public repository retains previously published historical source and evidence.
+The public review adds only explicitly selected aggregate results. It does not load,
+export or redistribute:
 
-Publishing those assets would add little employer-review value while exposing data or
-competitive implementation details. Public Git instead exposes the architecture,
-validation rules, aggregate evidence, failure/recovery behavior and engineering
-contracts needed to assess the work.
+- borrower-level source records, labels or prediction arrays;
+- private feature matrices or intermediate caches;
+- trained research checkpoints, optimizer state or active feature identities;
+- current ensemble specifications or runtime dependency bundles;
+- owner execution returns, internal handoff prompts or cloud credentials.
 
-## Research traceability
+Those artifacts remain in the research environment. This boundary allows code and
+scientific review while protecting restricted data and unpublished implementation
+details. Historical parameters already present in Git remain historical evidence;
+this update does not rewrite repository history or assert that old disclosures have
+been erased.
 
-Every substantial private run is designed to bind:
+## Interpretation limits
 
-1. source and configuration identity;
-2. data and feature identities;
-3. fold/model progress;
-4. hardware and dependency state;
-5. checkpoints and parent/resume lineage;
-6. aggregate metrics and promotion decisions;
-7. success, rejection, guarded-stop or failure state.
+The original future-period evaluation is now observed and belongs to its frozen
+release. Later research uses development periods and is labeled accordingly. A
+successful report build verifies the public review, not a new trained model or a
+production deployment. Lending-policy utility, protected-group fairness and an
+operational monitoring service remain outside the validated scope.
 
-Completed work is reused after interruption. Negative experiments remain part of the
-record rather than disappearing from the narrative.
-
-## Current frontier publication policy
-
-The frozen evaluated release is stable and reviewable. Later research is published only
-after its evidence has been reconciled. The public record summarizes mechanisms and
-aggregate decisions while withholding the exact active competition recipe.
-
-Recent private research has expanded the frontier across efficient neural ensembles,
-learned historical representations, nonlinear numerical encodings, retrieval-based
-models, self-supervised objectives, source-robust training and categorical-information
-recovery. The public record reports what each class of experiment established without
-publishing private borrower-level artifacts or live competitive recipes.
-
-## Employer-facing interpretation
-
-This boundary demonstrates a practical engineering skill: making an ML system
-reviewable under real constraints.
-
-The project shows how to preserve:
-
-- scientific accountability without publishing restricted data;
-- reproducibility without forcing costly retraining;
-- recoverability without committing private checkpoints;
-- model lineage without exposing an active competitive recipe;
-- negative evidence without weakening the clarity of the main portfolio story.
-
-The goal is not to make every private experiment clonable from GitHub. The goal is to
-make every published claim traceable, testable at the appropriate layer and explicit
-about what remains outside the repository.
+For a short tour, read the [employer review guide](employer_review.md),
+[case study](case_study.md) and [model card](../MODEL_CARD.md).

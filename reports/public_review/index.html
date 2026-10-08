@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,
+initial-scale=1">
+<meta name="description" content="Reproducible aggregate evidence for temporal credit-risk
+modeling.">
+<title>Home Credit · Public evidence review</title>
+<style>
+:root{color-scheme:light;
+--ink:#152d3c;
+--muted:#526674;
+--teal:#146b75;
+--line:#dce6eb}
+
+*{box-sizing:border-box}
+body{margin:0;
+background:#f4f7f9;
+color:var(--ink);
+font:16px/1.6 system-ui,sans-serif}
+
+main{max-width:1140px;
+margin:auto;
+padding:44px 24px 64px}
+header{padding:34px;
+border-radius:18px;
+background:#152d3c;
+color:white}
+
+.eyebrow{color:#9ed8d3;
+text-transform:uppercase;
+letter-spacing:.14em;
+font-size:12px;
+font-weight:700}
+
+h1{font-size:clamp(30px,4vw,48px);
+line-height:1.15;
+margin:14px 0}
+header p{max-width:790px;
+color:#d2e3ec}
+
+h2{font-size:23px;
+line-height:1.3;
+margin:0 0 12px}
+h3{font-size:16px}
+p{margin:10px 0 18px}
+
+.cards{display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:14px;
+margin:24px 0}
+.card,section{background:white;
+border:1px solid var(--line);
+border-radius:12px}
+
+.card{padding:20px}
+.card strong{display:block;
+font-size:28px;
+color:var(--teal)}
+.card span{font-size:13px;
+color:var(--muted)}
+
+section{padding:28px;
+margin:18px 0}
+.note{color:var(--muted);
+font-size:14px}
+.formula{padding:15px;
+background:#edf5f5;
+border-left:4px solid var(--teal);
+font-family:ui-monospace,monospace;
+font-size:14px}
+
+.table-scroll{overflow-x:auto}
+table{width:100%;
+border-collapse:collapse;
+font-size:13px}
+th{background:#edf3f6;
+text-align:left;
+font-size:12px}
+th,td{padding:12px;
+border-bottom:1px solid var(--line)}
+td:first-child{font-weight:600}
+tr:last-child td{border-bottom:0}
+svg{width:100%;
+height:auto;
+font-family:system-ui;
+font-size:12px;
+fill:var(--muted)}
+figure{margin:20px 0 0}
+figcaption{display:flex;
+flex-wrap:wrap;
+gap:16px;
+font-size:13px}
+li{margin:9px 0}
+code{font-size:11px;
+overflow-wrap:anywhere}
+a{color:var(--teal)}
+footer{font-size:13px;
+color:var(--muted);
+margin-top:24px}
+
+@media(max-width:720px){main{padding:18px 12px}
+header,section{padding:22px}
+.cards{grid-template-columns:repeat(2,1fr)}
+}
+
+@media print{body{background:white}
+main{padding:0}
+section{break-inside:avoid}
+}
+
+</style></head><body><main>
+<header><div class="eyebrow">Machine learning engineering · Evidence you can inspect</div>
+<h1>Credit risk, evaluated through time</h1>
+<p>A reproducible review of model stability, controlled feature experiments and a frozen
+historical release. Every result below is tied to committed aggregate evidence.</p>
+<p class="note" style="color:#c6dce5">Python standard library only · Offline · No credentials · No
+training</p></header>
+<div class="cards"><div class="card"><strong>727,187</strong><span>development predictions per
+model</span></div>
+<div class="card"><strong>4 &times; 5</strong><span>model families &times; temporal
+folds</span></div>
+<div class="card"><strong>25</strong><span>stability scores recomputed from weekly Gini</span></div>
+<div class="card"><strong>5</strong><span>hash-pinned public evidence files</span></div></div>
+<section><h2>01 · Evaluate performance through time</h2>
+<p>Discrimination alone can hide deterioration. This review fits the weekly Gini trend and applies
+the frozen stability objective independently, then checks every result against the recorded
+evidence.</p>
+<p class="formula">stability = mean(weekly Gini) + 88 &times; min(0, slope) &minus; 0.5 &times;
+residual standard deviation</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Model</th><th scope="col">Mean fold stability</th><th scope="col">Worst fold</th><th scope="col">Pooled stability</th><th scope="col">ROC AUC</th><th scope="col">AP</th><th scope="col">Brier</th><th scope="col">Log loss</th></tr></thead><tbody><tr><td>lightgbm</td><td>0.585188</td><td>0.393682</td><td>0.678869</td><td>0.846894</td><td>0.204525</td><td>0.032425</td><td>0.126805</td></tr><tr><td>xgboost</td><td>0.558892</td><td>0.343432</td><td>0.678175</td><td>0.846576</td><td>0.204701</td><td>0.032441</td><td>0.126887</td></tr><tr><td>catboost</td><td>0.546330</td><td>0.297149</td><td>0.671162</td><td>0.842745</td><td>0.201164</td><td>0.032512</td><td>0.127740</td></tr><tr><td>linear logistic</td><td>-0.120990</td><td>-0.587616</td><td>0.360777</td><td>0.675620</td><td>0.102616</td><td>0.036354</td><td>0.253834</td></tr></tbody></table></div><figure><svg viewBox="0 0 880 300" role="img" aria-label="Weekly Gini for four development models across weeks 33 to 72"><title>Development weekly Gini</title><line x1="60" y1="195" x2="840" y2="195" stroke="#dde5e9"/><text x="18" y="199">0.2</text><line x1="60" y1="145" x2="840" y2="145" stroke="#dde5e9"/><text x="18" y="149">0.4</text><line x1="60" y1="95" x2="840" y2="95" stroke="#dde5e9"/><text x="18" y="99">0.6</text><line x1="60" y1="45" x2="840" y2="45" stroke="#dde5e9"/><text x="18" y="49">0.8</text><polyline points="60.00,68.77 80.00,71.03 100.00,69.56 120.00,71.03 140.00,71.67 160.00,79.52 180.00,73.66 200.00,72.50 220.00,76.88 240.00,77.23 260.00,77.89 280.00,68.32 300.00,76.45 320.00,83.89 340.00,65.52 360.00,76.97 380.00,69.57 400.00,73.28 420.00,65.71 440.00,65.88 460.00,68.99 480.00,77.92 500.00,72.73 520.00,70.86 540.00,72.82 560.00,66.22 580.00,70.71 600.00,77.37 620.00,77.97 640.00,72.47 660.00,61.36 680.00,74.54 700.00,64.49 720.00,84.69 740.00,67.47 760.00,60.09 780.00,93.13 800.00,46.27 820.00,56.52 840.00,65.96" fill="none" stroke="#146b75" stroke-width="2.2"><title>lightgbm</title></polyline><polyline points="60.00,67.16 80.00,71.32 100.00,70.97 120.00,71.27 140.00,71.14 160.00,80.54 180.00,74.72 200.00,72.28 220.00,76.73 240.00,76.54 260.00,77.58 280.00,67.66 300.00,77.36 320.00,84.14 340.00,66.78 360.00,77.71 380.00,69.52 400.00,74.19 420.00,66.43 440.00,65.95 460.00,69.66 480.00,76.78 500.00,73.65 520.00,72.62 540.00,71.11 560.00,65.89 580.00,71.24 600.00,75.75 620.00,77.79 640.00,72.31 660.00,62.22 680.00,74.58 700.00,65.05 720.00,84.70 740.00,68.53 760.00,64.00 780.00,92.94 800.00,45.35 820.00,56.78 840.00,65.96" fill="none" stroke="#2563a6" stroke-width="2.2"><title>xgboost</title></polyline><polyline points="60.00,70.50 80.00,71.70 100.00,73.04 120.00,74.44 140.00,78.03 160.00,83.71 180.00,79.27 200.00,72.77 220.00,79.27 240.00,79.20 260.00,81.26 280.00,68.60 300.00,78.58 320.00,84.38 340.00,68.73 360.00,79.12 380.00,70.57 400.00,75.51 420.00,68.17 440.00,69.20 460.00,69.94 480.00,78.43 500.00,76.15 520.00,73.69 540.00,73.66 560.00,69.08 580.00,72.90 600.00,77.87 620.00,79.32 640.00,74.51 660.00,63.21 680.00,77.97 700.00,67.00 720.00,83.25 740.00,66.55 760.00,61.63 780.00,95.26 800.00,48.35 820.00,56.41 840.00,64.05" fill="none" stroke="#966331" stroke-width="2.2"><title>catboost</title></polyline><polyline points="60.00,154.98 80.00,155.61 100.00,155.19 120.00,167.84 140.00,160.58 160.00,172.46 180.00,171.34 200.00,163.17 220.00,146.86 240.00,144.31 260.00,149.61 280.00,138.28 300.00,145.76 320.00,152.37 340.00,144.22 360.00,151.03 380.00,140.54 400.00,141.86 420.00,131.06 440.00,145.97 460.00,148.63 480.00,146.81 500.00,147.20 520.00,147.53 540.00,143.23 560.00,129.77 580.00,140.11 600.00,134.31 620.00,147.75 640.00,146.66 660.00,145.20 680.00,160.95 700.00,133.87 720.00,159.12 740.00,159.20 760.00,153.82 780.00,179.85 800.00,147.54 820.00,134.60 840.00,135.52" fill="none" stroke="#877291" stroke-width="2.2"><title>linear_logistic</title></polyline><text x="60" y="275">33</text><text x="220" y="275">41</text><text x="380" y="275">49</text><text x="540" y="275">57</text><text x="700" y="275">65</text><text x="840" y="275">72</text></svg><figcaption><span style="color:#146b75">● lightgbm</span> <span style="color:#2563a6">● xgboost</span> <span style="color:#966331">● catboost</span> <span style="color:#877291">● linear logistic</span></figcaption></figure>
+<p class="note">Development weeks 33&ndash;72. Mean fold and pooled stability are different
+quantities because the objective is nonlinear. ROC AUC, AP, Brier and log loss are recorded
+prediction-level metrics; weekly aggregates cannot reproduce them. Logistic results use the
+published raw-rank correction.</p></section>
+<section><h2>02 · Test whether feature groups earn their place</h2>
+<p>Controlled removal experiments share the same five temporal folds. This review rechecks all 20
+fold component identities, recomputes mean and worst-fold stability, and verifies the control
+against the benchmark.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Controlled experiment</th><th scope="col">Mean fold stability</th><th scope="col">Worst fold</th><th scope="col">Change from control</th></tr></thead><tbody><tr><td>control</td><td>0.585188</td><td>0.393682</td><td>+0.000000</td></tr><tr><td>without depth2</td><td>0.569426</td><td>0.355247</td><td>-0.015762</td></tr><tr><td>without previous applications</td><td>0.553748</td><td>0.292277</td><td>-0.031440</td></tr><tr><td>without credit bureau a</td><td>0.491375</td><td>0.375419</td><td>-0.093813</td></tr></tbody></table></div><p class="note">Negative deltas support retaining the removed feature group in this
+development study. They do not establish causal effects or performance outside the evaluated
+population.</p></section>
+<section><h2>03 · Keep the release boundary explicit</h2>
+<p>The frozen development model trained through week 72 and was evaluated once on weeks
+73&ndash;91: <strong>203,345 observations</strong>. The review rechecks all 19 weekly aggregates
+against the published frozen intent.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Stability</th><th scope="col">ROC AUC</th><th scope="col">Average precision</th><th scope="col">Brier</th><th scope="col">Log loss</th></tr></thead><tbody><tr><td>0.729674</td><td>0.875759</td><td>0.193755</td><td>0.019282</td><td>0.080695</td></tr></tbody></table></div><p class="note">Historical evaluation: September 8, 2026. This holdout is already
+observed. Its population differs from development, so these scores are not a direct
+before-and-after comparison.</p></section>
+<section><h2>04 · Know exactly what this reproduction establishes</h2><ul><li>Development folds informed early stopping and model selection; estimates are not unbiased nested validation.</li><li>The September 8, 2026 frozen release observed weeks 73-91. Those weeks are no longer an untouched holdout and must not be reused for model selection.</li><li>The historical release and development scores have different populations and must not be interpreted as a direct improvement comparison.</li><li>Linear logistic results use the published raw-rank correction; archived clipped aggregate summaries differ. This review uses the corrected metrics.</li><li>Hashes establish consistency with this repository snapshot, not independent verification of private training data, artifacts, or execution.</li><li>This review does not reproduce model fitting or prediction-level metrics.</li></ul>
+<details><summary>Inspect input SHA-256 identities</summary><div
+class="table-scroll"><table><thead><tr><th>Public
+report</th><th>SHA-256</th></tr></thead><tbody><tr><td>reports/benchmark/acceptance.json</td><td><code>d76a0588901f07f80b94254348c7598545f35adb53ca1d5faae7d28314f99798</code></td></tr><tr><td>reports/benchmark/metrics.json</td><td><code>e02e6d30c6559e029402e6b3d6180f759d7d2d5baeb60f1c09dbe377f237f9e3</code></td></tr><tr><td>reports/feature_ablation/comparison.json</td><td><code>d035dc6993bf83dc9f386c23c7f6612275a13c47053758325e7ad1efcdd853ef</code></td></tr><tr><td>reports/model_release/evaluation.json</td><td><code>42fbba1bfa0ee8b15991e85aa5a7b8171d5c69a3d8b29e53c19e24bf1bbf8152</code></td></tr><tr><td>reports/model_release/holdout_intent.json</td><td><code>2c9b7101cae4602862009f0652fad9efc350c21f14e3bf61a68cf4060e90c5be</code></td></tr></tbody></table></div></details></section>
+<footer>Generated deterministically by <code>scripts/review_public_evidence.py</code>. <a
+href="review.json">Machine-readable review</a>. No external assets, scripts, trackers or
+requests.</footer>
+</main></body></html>

@@ -2,294 +2,136 @@
 
 [![CI](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/ci.yml/badge.svg)](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/ci.yml)
 
-An evaluated credit-risk ML system built around one question: **does predictive
-performance survive a move into future application periods?** The project combines
-relational feature engineering, temporal model comparison, controlled ablations,
-resumable AWS execution and a portable inference pipeline.
+**Credit-risk machine learning evaluated across time, with reproducible evidence and recoverable execution.**
 
-## Review in 30 seconds
+A model can rank historical applicants well and still deteriorate in later periods.
+This project treats temporal generalization as an engineering requirement: relational
+feature construction, expanding-window validation, controlled ablations, probability
+diagnostics, resumable AWS workloads and verified inference all share an explicit
+artifact and evaluation contract.
 
-| Dimension | Project evidence |
+Built by [Alvaro Mendizabal](https://github.com/alvaromendizabal).
+
+## The project at a glance
+
+| Evidence | Observed scope |
 |---|---|
-| **Scale** | 1,526,659 labeled applications across 17 relational source groups |
-| **Feature system** | 2,508 initial candidates → 700-feature frozen core, plus controlled post-release research |
-| **Validation** | Five expanding temporal folds, later confirmation gates and a separately frozen 203,345-case future-period evaluation |
-| **Modeling** | LightGBM, XGBoost, CatBoost, logistic SGD, DenseLight, HistGradientBoosting and heterogeneous meta-models |
-| **Cloud / GPU** | AWS SageMaker, S3-backed checkpoints and NVIDIA L4 research workloads |
-| **Reliability** | Immutable manifests, content hashes, resumable fits, hardware checks, telemetry and fail-fast gates |
-| **Inference** | Portable offline bundle with raw-feature parity and byte-level prediction reproduction |
-| **Research discipline** | Negative results retained; earlier-window gains are rejected when later confirmation fails |
+| Data scale | **1,526,659 applications** across **17 relational source groups** |
+| Feature engineering | **2,508 initial candidates**, training-only screening, **700-feature frozen release** |
+| Model comparison | **Four model families × five temporal folds**, with 727,187 aligned out-of-fold cases |
+| Frozen future-period evaluation | **0.875759 ROC AUC**, **0.729674 weekly-Gini stability**, **203,345 applications** |
+| Probability diagnostics | **0.193755 average precision**, **0.019282 Brier**, **0.080695 log loss** on that same future-period evaluation |
+| Execution | AWS SageMaker, S3 recovery, content hashes, immutable manifests and CPU/GPU research |
+| Verification | Executed notebooks, native-model replay, schema/order checks and deterministic report reproduction |
 
-**Frozen future-period result:** 0.729674 weekly-Gini stability, 0.875759 ROC AUC
-on weeks 73–91. This is a local temporal evaluation of the development-trained release,
-not a leaderboard result.
+The future-period metrics belong to the development-trained frozen release. A separate
+all-label inference refit and subsequent development studies have different evaluation
+scopes. This is a research system; lending-policy impact and production fairness have
+not been validated. [Model card](MODEL_CARD.md).
 
-For the fastest employer-oriented walkthrough, see the
-[employer review guide](docs/employer_review.md) and the system architecture below.
+## Reproduce a public result in one command
 
-![Home Credit ML research system architecture](reports/portfolio/system_architecture.svg)
-
-## Review in five minutes
-
-1. [Feature engineering](notebooks/02_feature_engineering.ipynb): 2,508 candidates,
-   training-only screening, 700 retained features and measured feature-family value.
-2. [Model comparison](notebooks/05_benchmark_review.ipynb): four model families on
-   five expanding temporal folds.
-3. [Frozen future-period evaluation](notebooks/09_model_release.ipynb): the final
-   result, reliability, native model lineage and tested inference boundaries.
-
-For the full experimental trail, read the [feature ablations](reports/feature_ablation/06_feature_ablation.ipynb),
-[tuning](notebooks/07_model_tuning.ipynb) and [ensemble selection](notebooks/08_model_selection.ipynb).
-The later [feature study](notebooks/11_feature_research.ipynb) tests a wider budget,
-256 engineered additions and 96 raw-history additions. It includes SHAP, grouped
-permutation, redundancy diagnostics and an explicit event-date availability audit.
-The [calibration study](notebooks/12_calibration.ipynb) tests whether probability
-mappings transfer across development periods. Both retain unsuccessful comparisons.
-The post-release [categorical-identity frontier](notebooks/13_categorical_identity_frontier.ipynb)
-tests native LightGBM identity and identity+frequency representations under a frozen
-later-window gate; the candidate was rejected. Its compact
-[research report](reports/categorical_identity/README.md) preserves the decision,
-fold metrics, uncertainty and leading-solution reproduction matrix.
-The next [previous-application histogram frontier](reports/applprev_histogram/README.md)
-adds 39 frozen per-category count/share features. The registered standalone model was
-rejected on confirmation, while a clearly disclosed post-selection 25% histogram /
-75% champion blend improved stability on all five development folds and was prepared
-as an exploratory hidden-test transfer probe. The
-[DenseLight frontier](reports/denselight_frontier/README.md) was subsequently executed
-on GPU and extended to a multi-seed neural component. It passed the locked development
-confirmation gate and contributed to a later externally scored ensemble. The
-[October frontier report](reports/post_release_frontier/october_2026.md) records that
-result together with the later enriched-tree and sparse-recovery studies. The
-[frontier continuation](reports/post_release_frontier/october_2026_continuation.md)
-extends the record through broad temporal representations, relational modeling,
-distribution-shift diagnostics, reduced-sample XGBoost and learned heterogeneous
-stacking. The companion [research-engineering note](docs/research_engineering.md)
-documents the validation lifecycle, resumability, lineage, hardware checks and
-public/private reproducibility boundary. Private checkpoints and active competition
-recipes remain outside Git.
-The notebooks embed readable tables, interactive Plotly figures and static GitHub
-fallbacks. Reading the evidence requires no cloud account or borrower-level data.
-The [model card](MODEL_CARD.md) summarizes intended use, artifact distinctions and
-the observed limits relevant to interpreting the results.
-The [completion record](docs/completion.md) maps the finished work to its verification evidence.
-The [public reproducibility boundary](docs/public_reproducibility.md) explains exactly
-which layers a reviewer can reproduce from GitHub and which private AWS artifacts are
-intentionally withheld.
-
-### Recent research frontier
-
-The post-release program has now executed **100+ bounded predictive or adapter fits**
-across neural ensembles, learned historical representations, nonlinear numerical
-encodings, self-supervised objectives, retrieval-based models, source-robust training
-and categorical-information recovery. Several candidates produced convincing gains on
-earlier periods and were still rejected when those gains did not survive later temporal
-confirmation.
-
-That pattern is a core result of the project: under strong distribution shift, model
-selection quality depends as much on disciplined rejection and reproducibility as on
-finding a locally strong score. The public repository records aggregate mechanisms,
-controls and decisions; exact active feature identities, checkpoints and competitive
-runtime recipes remain private.
-
-For the current state and optional AWS monitoring, see [project status](docs/project_status.md).
-**The evaluated September release remains frozen and closed.** Post-release frontier
-research is tracked separately in [post-release research](docs/post_release_research.md);
-it does not rewrite the historical release or convert previously explored development
-windows into a new independent test. No cloud job needs to stay running to review
-the published evidence.
-
-![Development benchmark and controlled feature-block removal results](reports/portfolio/overview.svg)
-
-This figure is rebuilt from the accepted aggregate reports. The left panel compares
-model families; the right measures the stability lost after removing each feature
-block. Both use the five development folds, separate from the final evaluation below.
-
-## Final frozen evaluation
-
-| Diagnostic | Reserved weeks 73-91 |
-|---|---:|
-| Official weekly Gini stability | **0.729674** |
-| ROC AUC | **0.875759** |
-| Average precision | **0.193755** |
-| Raw Brier score | **0.019282** |
-| Log loss | **0.080695** |
-| Applications | **203,345** |
-
-The evaluated model is a 90% tuned / 10% original LightGBM blend, trained on
-**1,323,314 applications from weeks 0-72**. Before evaluation, the release froze
-features, weights, no calibration, seeds and development-derived iteration budgets.
-The immutable intent identifies the exact two models and encoders. No holdout early
-stopping or model selection was permitted.
-
-A **separate inference refit** used all **1,526,659 labeled applications**. The holdout
-score above belongs to the development-trained models, not to that all-label refit.
-It is a local temporal evaluation, not a Kaggle leaderboard score. Differences in
-period length and population mean it should not be read as a gain over development
-fold scores.
-
-## What the experiments show
-
-- **Features:** 2,508 candidates; 2,034 structurally eligible; 700 retained. Screening
-  used weeks 0-32, before model-validation weeks 33-72. Stored statistics account for
-  all 1,808 rejections, including 1,334 eligible features below the computation limit.
-- **Ablations:** removing credit bureau A, previous applications or depth-two history
-  reduced mean development stability by **0.093813**, **0.031440** and **0.015762**.
-  These are controlled removal comparisons, not individual-feature causal effects.
-- **Models:** LightGBM led XGBoost, CatBoost and a logistic SGD baseline across five
-  expanding folds. The accepted benchmark contains 20 model-fold evaluations and
-  aligned out-of-fold predictions for 727,187 cases.
-- **Tuning:** eight LightGBM candidates across five folds completed 40 new fits.
-  The selected trial improved mean stability from 0.585188 to 0.601238.
-- **Blending:** 15 fixed candidates reused saved predictions. The selected blend
-  reached 0.601899 mean development stability; its small gain of 0.000661 came with
-  a weaker worst fold. It is not evidence of statistical significance.
-- **Expanded feature research:** 4,617 additional hypotheses, 256 retained, 20 new
-  comparison fits. The full extension improved pooled AUC but reduced mean stability
-  by **0.025284**. Doubling the original budget to 1,400 gave a **0.001290** mean gain
-  and a weaker worst fold. These post-release development results did not change the release.
-- **Raw-history research:** 524 median, IQR, p90 and skew candidates; 96 retained;
-  ten new comparison fits. The 796-feature condition reaches 0.584195 mean stability
-  (-0.000994 vs the original control); removing its 13 skew features reaches
-  0.588678 (+0.003490). Both improve the weakest fold but win on only three of five
-  folds; their omission ranges cross zero. These modest, inconsistent development
-  changes preserve the already-evaluated release.
-- **Calibration:** eight past-fold sigmoid/isotonic fits evaluated 544,611 later
-  development cases. Neither improved pooled Brier score or log loss. This four-fold
-  comparison has a different population from the five-fold model-selection study.
-- **Post-release categorical identity:** 13 substantive fits compared frequency-only,
-  native categorical identity, identity+frequency and fixed blends. Folds 1–3 selected
-  `blend_native`, but frozen folds 4–5 improved mean stability by only **0.000062**
-  versus the saved champion, with one win and one loss. The promotion gate failed;
-  the candidate was not refit or submitted.
-- **Previous-application histograms:** 39 frozen count/share features were added to the
-  700-feature snapshot. The registered standalone model failed its folds 4–5 gate
-  (+0.000106 stability, -0.000378 AUC versus the champion). A pre-existing 25% blend,
-  chosen only after that failure and therefore labeled post-selection, improved
-  stability on **5/5** development folds with mean deltas of **+0.003966 stability**,
-  **+0.000449 AUC** and **+0.000943 mean Gini**. One all-label fit and portable
-  inference overlay were prepared for an exploratory external transfer measurement.
-- **Zero-fit heterogeneous audit:** 47 saved-prediction blends were evaluated with no
-  new fits. The strongest descriptive candidate remained 75% champion / 25% histogram;
-  XGBoost and CatBoost both received zero weight. The prequential diagnostic remained
-  positive (+0.004193 stability, +0.000447 AUC, +0.000956 Gini).
-- **DenseLight and later frontier:** the preregistered neural challenger was executed
-  on GPU, extended to a multi-seed component and combined with the tree/histogram
-  frontier. The resulting candidate reached **0.618940** mean development stability
-  and later scored **0.56035 public / 0.47652 private**. Subsequent enriched-tree and
-  sparse-recovery studies completed their bounded fit budgets but failed their frozen
-  confirmation gates; the negative results are retained in the
-  [October frontier report](reports/post_release_frontier/october_2026.md).
-- **Later robustness frontier:** the research program then tested a learned
-  heterogeneous Ridge stack, target-free stable-feature diversity, an independently
-  processed model family, learned payment-history representations and coherent GPU
-  ranking objectives. The Ridge stack produced a large earlier-window gain but failed
-  later confirmation; stable-feature diversity also reversed on confirmation. The
-  independent processor, learned chronology and pairwise-ranking studies all completed
-  their registered selection budgets without a promotable candidate. These results are
-  preserved in the [October frontier continuation](reports/post_release_frontier/october_2026_continuation.md)
-  because rejecting unstable or metric-misaligned gains is part of the project outcome.
-
-The official metric is:
-
-`mean weekly Gini + 88 * min(weekly slope, 0) - 0.5 * residual standard deviation`
-
-Gini is `2 * ROC AUC - 1`. Probability metrics and reliability complement the
-ranking metric. No calibrated production default-probability claim is made.
-
-## What this project demonstrates
-
-- **Temporal ML discipline:** expanding-window model selection, later-period confirmation,
-  and a hard boundary around the already-observed final holdout.
-- **Heterogeneous modeling:** LightGBM, CatBoost, reduced-sample XGBoost, DenseLight,
-  HistGradientBoosting and learned second-level ensembles.
-- **Research engineering:** hash-pinned artifacts, resumable checkpoints, immutable
-  run manifests, structured heartbeats, cost/resource telemetry and fail-fast gates.
-- **Shift-aware diagnosis:** explicit period-shift classification, stability-focused
-  feature studies and controlled negative-result retention.
-- **Portable inference:** isolated, validated inference dependencies and byte-level
-  parity checks before external evaluation.
-- **Evidence over cherry-picking:** promising selection-stage gains are rejected when
-  they fail the later confirmation contract.
-
-## Engineering and reproducibility
-
-The feature engine builds 34 train/test blocks from 17 relational groups. Saved
-artifacts bind raw-data, feature, validation, configuration, code and dependency
-identities. Global frequency maps are learned only on the relevant fit population.
-
-Expensive runs checkpoint to S3 with content hashes, conditional writer leases and
-verified read-back. Valid completed fits and prediction batches are reused. UTC logs
-include stage progress, stage/total elapsed time and heartbeats. Reviews do not
-retrain models. Native model reloads reproduce the saved probabilities.
-
-CI runs Ruff, strict mypy, tests with warnings treated as errors, real notebook
-execution, output reproduction and unchanged-notebook reuse. Generated exports are
-classified separately from authored Python and notebooks in GitHub language statistics.
-Canonical filenames are edited in place.
+From a clone of this repository, with **Python 3.12**:
 
 ```bash
-bash scripts/start_here.sh --require-persistent-storage
-uv run --locked python scripts/review_model_benchmark.py --force
-uv run --locked python scripts/review_model_tuning.py --force
-uv run --locked python scripts/review_model_selection.py --force
-uv run --locked python scripts/review_model_release.py --force
-uv run --locked python scripts/review_submission.py --force
-uv run --locked python scripts/review_feature_research.py --force
-uv run --locked python scripts/review_calibration.py --force
+python3 scripts/review_public_evidence.py --output artifacts/public-review
 ```
 
-The dependency lock uses Python 3.12.14. The [operating contract](AGENTS.md),
-[frozen release policy](configs/model_release.json) and
-[release runbook](docs/model_release.md) describe the validation boundaries.
-Do not rerun training merely to view results.
+Open `artifacts/public-review/index.html` for the standalone report, or inspect
+`artifacts/public-review/review.json` for machine-readable results. The command uses
+only Python's standard library and committed aggregate evidence. It requires no
+package installation, credentials, cloud account or model training.
 
-## Kaggle inference and submission
+It authenticates the input reports, recalculates stability from weekly Gini aggregates,
+checks comparison populations and reproduces the model/ablation review. It fails on
+changed or inconsistent evidence. It does not reconstruct borrower predictions or
+recompute AUC from unavailable private labels; the report labels those source metrics
+separately. The checked-in [public report](reports/public_review/index.html) and
+[JSON result](reports/public_review/review.json) are regenerated and compared in CI.
 
-**The frozen-release submission is complete.** The submitted artifact is
-[saved notebook version 1](https://www.kaggle.com/code/alvaromendizabal/home-credit-frozen-lightgbm-inference?scriptVersionId=348432382),
-which Kaggle reruns on hidden test data to generate `submission.csv`. One successful
-late submission is recorded for the evaluated release. A separate 25% histogram
-external-transfer probe has been trained and packaged; the committed repository
-evidence does not yet claim a second hidden-test score.
+[Reproducibility guide](docs/public_reproducibility.md) ·
+[Five-minute review](docs/employer_review.md) ·
+[Engineering case study](docs/case_study.md)
 
-[Notebook 10](notebooks/10_submission.ipynb) runs the frozen all-label model on the
-raw test files supplied by Kaggle. It discovers the attached model dataset, installs
-21 hash-locked inference wheels in an isolated offline environment, and writes a
-validated `submission.csv` with a lineage receipt. Outside Kaggle, CSV generation
-is disabled by default. [Submission runbook](docs/kaggle_submission.md).
+## Architecture
 
-Kaggle saved notebook **version 1** completed offline and matched both verified AWS
-exports byte for byte, with zero model fits. The ten public examples are an
-integration fixture. Kaggle completed the frozen-release hidden-test rerun with status
-**Succeeded (after deadline)** and reported **0.56062 public / 0.47429 private** on the
-[submissions page](https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/submissions).
-A later post-release ensemble, frozen after its development confirmation gate, was
-also submitted through the portable inference path and scored **0.56035 public /
-0.47652 private**. These leaderboard scores are external-transfer measurements of
-all-label inference artifacts; the project's observed local holdout metric remains
-separate evidence.
+![Data, modeling, validation and inference architecture](reports/portfolio/system_architecture.svg)
 
-## Research scope
+| Layer | Design choice | Why it matters |
+|---|---|---|
+| Relational features | Case-local aggregates and training-population encoders | Makes joins, availability assumptions and category fitting inspectable |
+| Evaluation | Expanding windows; frozen release choices before future-period evaluation | Separates model selection from the observed release evaluation |
+| Experiments | Matched controls, feature-family removals and explicit rejection decisions | Tests whether added complexity contributes transferable signal |
+| Execution | Hash-pinned manifests, checkpoint recovery and resource/cost telemetry | Reuses valid work and makes interrupted execution diagnosable |
+| Inference | Native model reload, feature/schema parity and exact case ordering | Tests the path from source records to a portable prediction artifact |
+| Public review | Aggregate reports, executable checks and a bounded disclosure policy | Lets reviewers verify published results without private data or runtime bundles |
 
-This is an evaluated, bounded research portfolio release. The expanded study tests
-ratios, dispersion, category interactions, recency, household comparisons,
-missingness and training-only peer statistics, with all rejections accounted for.
-The separate raw-history study computes within-applicant median, IQR, p90 and
-skew directly from verified source shards. Across the original and two added
-screens, 7,649 hypotheses are accounted for; the release still uses 700 features.
-A finite search does not establish exhaustive discovery. Thirty-three resolved
-date fields lack the field-level event/availability contract needed for verified
-chronological lags and trends, so that avenue is explicitly excluded. Numeric
-calendar parts are not proof of event ordering. Native categorical target statistics were evaluated through CatBoost. A later
-post-release LightGBM categorical-identity experiment was executed and rejected,
-followed by the previous-application histogram study described above. DenseLight was
-then executed under its preregistered temporal protocol, followed by bounded
-source-aware tree and sparse-recovery studies. Their aggregate evidence and negative
-confirmation decisions are published in the
-[October frontier report](reports/post_release_frontier/october_2026.md); private
-runtime matrices, checkpoints and active feature identities remain outside Git.
+## Three findings worth inspecting
 
-The original holdout is now observed and bound to the frozen release. Further feature
-or model exploration must use development data and be labeled accordingly; it cannot
-reuse this holdout as a new untouched test. Production deployment, lending-policy
-fairness validation and an operational monitoring service are outside the tested scope.
+**Feature families have measurable value.** Removing credit bureau A, previous
+applications or depth-two history reduced mean development stability by **0.093813**,
+**0.031440** and **0.015762**, respectively. These are controlled removal effects
+conditional on the tested model and feature set; they are not causal effects.
+[Feature ablation evidence](reports/feature_ablation/README.md).
+
+**More features did not automatically improve temporal performance.** A 256-feature
+extension improved pooled AUC but reduced mean stability by **0.025284**. The study
+retains this negative result and the corresponding feature-selection/accounting
+receipts. [Feature research](notebooks/11_feature_research.ipynb).
+
+**Selection gains need later-period confirmation.** Later model and representation
+studies include candidates that improved earlier development periods and weakened on
+later confirmation periods. Those candidates were rejected. This establishes the
+importance of the validation procedure within the tested studies; it does not turn
+repeatedly explored development folds into independent test data.
+[Research record](docs/post_release_research.md).
+
+![Model-family comparison and controlled feature removals](reports/portfolio/overview.svg)
+
+Both panels above use the five development folds. The future-period release metrics
+at the top of this page refer to a separate population and are not directly comparable.
+
+## Review the implementation
+
+| Question | Entry point |
+|---|---|
+| How were features screened and joined? | [Feature notebook](notebooks/02_feature_engineering.ipynb), [feature code](src/home_credit/features) |
+| How were models compared fairly? | [Executed benchmark](notebooks/05_benchmark_review.ipynb), [validation code](src/home_credit/validation) |
+| What was frozen before release evaluation? | [Release notebook](notebooks/09_model_release.ipynb), [model card](MODEL_CARD.md) |
+| How does work resume after interruption? | [Research engineering](docs/research_engineering.md), [runtime code](src/home_credit/runtime) |
+| What can be reproduced without private artifacts? | [Public review script](scripts/review_public_evidence.py), [reproducibility guide](docs/public_reproducibility.md) |
+| What did unsuccessful experiments teach? | [Calibration](notebooks/12_calibration.ipynb), [post-release research](docs/post_release_research.md) |
+
+## Full review environment
+
+The lightweight command above is sufficient to reproduce the public evidence report.
+For the broader authored source and executed notebook suite, use the pinned Python
+3.12.14 environment:
+
+```bash
+uv sync --locked --group dev
+uv run --locked python scripts/review_model_benchmark.py --force
+uv run --locked python scripts/review_model_release.py --force
+bash scripts/check.sh
+```
+
+The [CI workflow](.github/workflows/ci.yml) executes the complete review sequence,
+then checks Ruff, strict mypy, warnings-as-errors tests, notebook output reproduction
+and verified reuse. Reviewing published results does not retrain the private models.
+The [operating contract](AGENTS.md) and [release runbook](docs/model_release.md)
+describe the full validation and publication gates.
+
+## Public evidence and private research
+
+Published: aggregate metrics, temporal evaluation design, historical research code,
+executed reviews, architecture, data/model contracts and selected reproducibility
+checks. Private: borrower-level records, derived matrices, trained research checkpoints,
+active feature identities, current ensemble specifications and operational bundles.
+
+The public demo reproduces the review layer from already-published evidence. It is
+not a claim that the complete private training or serving environment can be rebuilt
+from GitHub. See the [precise boundary](docs/public_reproducibility.md).
+
+The evaluated release is preserved as a historical artifact. Further research is
+tracked separately and does not rewrite its evidence. No cloud workload needs to
+remain running to review this repository.
