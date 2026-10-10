@@ -5,6 +5,14 @@ carries the selected model into verified offline inference. It covers **1,526,65
 labeled applications from 17 relational source groups**. The public evidence is
 readable without AWS access, private data or model retraining.
 
+## Start with the interactive explanation
+
+Open the [temporal stability demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site) to explore the evaluation
+trade-off in the browser. Its weekly values are synthetic and labeled as such;
+changing a slider does not retrain a model. Then follow the actual evidence below.
+The distinction matters: an explanation should make the method understandable,
+while verified reports establish what the project measured.
+
 ## The review path
 
 | Time | Open | What to inspect |

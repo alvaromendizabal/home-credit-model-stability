@@ -12,6 +12,23 @@ artifact and evaluation contract.
 
 Built by [Alvaro Mendizabal](https://github.com/alvaromendizabal).
 
+**[Explore the interactive demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site)** ·
+[Read the case study](docs/case_study.md) ·
+[Verify the published evidence](docs/public_reproducibility.md) ·
+[Inspect the model card](MODEL_CARD.md)
+
+## Explore temporal stability
+
+The [interactive demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site) makes the model-evaluation problem tangible:
+adjust a synthetic weekly discrimination curve and inspect how its trend and
+volatility affect the stability score. The chart, component breakdown and comparison
+update together. It runs entirely in the browser, with no account or backend.
+
+The demo uses clearly labeled **synthetic weekly aggregates**. It neither predicts
+an applicant's risk nor represents a trained model, measured business impact or new
+research result. Actual observed results are linked below and reproduced separately
+by the evidence-review command.
+
 ## The project at a glance
 
 | Evidence | Observed scope |
@@ -128,9 +145,10 @@ executed reviews, architecture, data/model contracts and selected reproducibilit
 checks. Private: borrower-level records, derived matrices, trained research checkpoints,
 active feature identities, current ensemble specifications and operational bundles.
 
-The public demo reproduces the review layer from already-published evidence. It is
-not a claim that the complete private training or serving environment can be rebuilt
-from GitHub. See the [precise boundary](docs/public_reproducibility.md).
+The interactive demo illustrates the stability metric using synthetic data. The
+separate public evidence review reproduces supported calculations from published
+aggregates. The complete private training and serving environment requires assets
+outside GitHub. See the [precise boundary](docs/public_reproducibility.md).
 
 The evaluated release is preserved as a historical artifact. Further research is
 tracked separately and does not rewrite its evidence. No cloud workload needs to

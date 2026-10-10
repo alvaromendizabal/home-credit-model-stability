@@ -12,6 +12,29 @@ machine-readable form. Output is deterministic: repeated runs over the same veri
 inputs produce the same bytes, with no machine-specific path or current timestamp.
 The canonical example is [reports/public_review](../reports/public_review).
 
+## Interactive demo
+
+The [browser demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site) is a buildless, local-first explanation of
+temporal model evaluation. It uses a deterministic synthetic weekly curve, not
+borrower-level records or trained-model predictions. All controls and calculations
+run in the browser without a service, API key or analytics request.
+
+To serve the demo from a clone:
+
+```bash
+python3 -m http.server 8000 --bind 127.0.0.1 --directory demo
+```
+
+Open http://127.0.0.1:8000. The independent metric checks require only Node.js:
+
+```bash
+node demo/model.test.mjs
+```
+
+The synthetic explorer is not part of the observed evidence table. Its mathematical
+behavior is checked independently from the published aggregate report. The CI
+workflow runs both checks before the broader notebook and source gates.
+
 ## What that command verifies
 
 The script consumes only previously published aggregate reports:
@@ -35,6 +58,7 @@ of the original private experiment.
 
 | Layer | Available publicly | What can be verified |
 |---|---|---|
+| Interactive metric demo | Static HTML/CSS/JavaScript and deterministic synthetic fixtures | Metric behavior and interaction; no trained-model or lending-outcome claim |
 | Lightweight evidence review | Standard-library script, aggregate input reports, deterministic JSON/HTML | Input integrity, supported aggregate calculations and consistent evaluation scope |
 | Executed research reviews | Python source, lockfile, notebooks and published outputs | Full review execution, lint/type checks, tests and byte-for-byte output reproduction |
 | Temporal methodology | Fold definitions, historical release policy and decision records | Selection/evaluation separation and the documented use of confirmation periods |
