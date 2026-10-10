@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "scope": "latest_inspected_owner_return",
+  "version": "E97",
+  "run_id": "20261010T022535072312Z-ced3dd22",
+  "recorded_ended_utc": null,
+  "status": "STOPPED",
+  "stop_reason": "configured_available_memory_or_projected_rss_guard",
+  "progress": {
+    "completed_tasks": 13,
+    "total_tasks": 42,
+    "remaining_tasks": 29
+  },
+  "activity": {
+    "new_training_attempts": 0,
+    "new_completed_fits": 0,
+    "reused_fits": 0,
+    "new_submission_receipt": false
+  },
+  "scientific_outcome": null,
+  "submission_ready": false,
+  "leaderboard_score_changed": false,
+  "existing_external_scores": {
+    "public": 0.56035,
+    "private": 0.47652,
+    "source": "reports/post_release_frontier/october_2026_continuation_summary.json",
+    "independently_reverified_by_this_return": false
+  },
+  "reported_selftests": {
+    "status": "PASS",
+    "tests": 661,
+    "rerun_here": false
+  },
+  "reported_incumbent_parity": {
+    "status": "PASS",
+    "rows": 10,
+    "hidden_test_readiness_established": false,
+    "independently_replayed_here": false
+  },
+  "provenance": {
+    "source_zip_sha256": "12638274bd50bbc7d40d15e23d5a3a2cf3c25af4f7499b210e2c5b8be1dc7071",
+    "manifest_sha256": "913a6d37d185795d45125a476162dc16889c97eeca2fb0329ba7246c1c126e12",
+    "evidence_tar_sha256": "3f8eacc53aa0bae7817bb74dbdcdb310bbe2e443ac6f1cc90804cf148dff8905",
+    "stage_summary_sha256": "952f30497f7653558bee307a8387b73d367275a0fe70ea144eed82c84fc3fb4e",
+    "remote_pointer_sha256": "20fec7aadee159358d2aeedb9ec162beea66ea10a59feb242d881b58e6448e8f",
+    "execution_ledger_sha256": "20484fcf24088b916e08c22ef747fe53052196403c9f1f1e31dde4460ada368e",
+    "verified_zip_members": 2,
+    "verified_inner_members": 4
+  },
+  "evidence_scope": {
+    "local_archive_integrity_verified": true,
+    "remote_files_referenced": 9,
+    "remote_files_downloaded_by_reproducer": 0,
+    "private_predictions_independently_replayed": false,
+    "current_live_execution_state_verified": false
+  },
+  "limitations": [
+    "This return includes a stage overview; fuller evidence is referenced remotely.",
+    "Included bytes were verified. Reported execution was not independently replayed.",
+    "No end timestamp is recorded. The run ID is not an end time.",
+    "External scores retain their earlier evidence source. This run produced no new score.",
+    "This is the latest inspected owner return, not a live or global cloud inventory."
+  ]
+}

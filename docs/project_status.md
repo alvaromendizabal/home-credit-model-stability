@@ -6,7 +6,55 @@ studies are executed and verified, and the canonical notebooks expose the eviden
 A separate post-release frontier track now records later experiments without changing
 the historical release or reusing the observed holdout as a fresh test.
 
-## What is finished
+## Latest inspected AWS execution — E98
+
+A read-only inspection at **2026-10-10 04:09:38 UTC** found that E98 had completed
+**42 tasks and five scientific model fits**, with execution status **SUCCESS**.
+Its selected candidate was **REJECTED** at the predeclared later-period confirmation
+gate. Successful execution and a promotable model are different outcomes.
+
+| Comparison against the fixed control | Earlier selection | Later confirmation |
+|---|---:|---:|
+| Mean stability difference | +0.0133205 | −0.00320243 |
+| Folds with a stability improvement | 3 | 0 |
+| Worst confirmation-fold stability difference | — | −0.00415862 |
+| Mean confirmation AUC difference | — | +0.00133950 |
+
+The confirmation AUC increase did not offset the stability failure. The frozen
+selection choice was not reopened, **weeks 73–91 were not accessed in this run**,
+and the candidate remained ineligible for release or submission. No new external
+score was produced. The existing **0.56035 public / 0.47652 private** score remains
+sourced to the [accepted post-release ensemble report](../reports/post_release_frontier/october_2026.md).
+
+The [sanitized AWS snapshot](../reports/latest_execution/aws_snapshot.json) records
+the inspected metadata and evidence identities. Verify its public contract with
+`python tools/summarize_aws_snapshot.py --check`. The timestamp above is the
+inspection time, not an invented completion time. This read-only verification did
+not rerun the private fits or inspect the Studio filesystem. The earlier E97 archive
+below remains a separate, reproducible record of an interrupted execution.
+
+## Inspected owner-return archive — 10 October 2026
+
+The [sanitized E97 execution receipt](../reports/latest_execution/summary.json) has status **STOPPED** after **13 of 42 tasks**, with
+**29 tasks remaining**. The configured available-memory/projected-RSS guard stopped
+execution. The return records **zero new training attempts and zero completed or
+reused fits**, no scientific outcome, submission readiness false and no submission
+receipt. It does not establish a score improvement.
+
+This is a dated owner-return archive, not a complete inventory of live cloud
+files or a claim that every research task is finished. It contains compact local
+evidence and references to additional remote artifacts; those references are not
+independently replayed evidence. No precise completion time is inferred from the
+run identifier. Validate the committed summary with
+`python tools/summarize_execution.py --check`; this checks the published receipt,
+not a new model run.
+
+The existing **0.56035 public / 0.47652 private** result remains sourced to the
+[accepted post-release ensemble report](../reports/post_release_frontier/october_2026.md).
+E97 did not reconfirm those scores. The **0.729674** figure remains the frozen local
+future-period evaluation of a different artifact.
+
+## Completed release and historical studies
 
 | Work | Evidence |
 |---|---|
@@ -99,7 +147,7 @@ for the feature and calibration research and notebook 13 for the post-release
 frontier decision. No additional training is required to understand the published
 release or the rejected categorical-identity candidate.
 
-Further competitive research remains separately scoped from the frozen September
+Further model research remains separately scoped from the frozen September
 release. DenseLight has now been executed and externally scored, followed by bounded
 source-aware tree and sparse/categorical studies. The latter studies preserved their
 negative confirmation decisions rather than promoting unstable selection gains.
@@ -125,7 +173,7 @@ and categorical-information recovery. None of the newly tested recipes has displ
 the accepted post-release ensemble after the full selection/confirmation contract.
 
 The public record is intentionally mechanism-level and aggregate. Exact active feature
-identities, private checkpoints and current competitive runtime recipes remain outside
+identities, private checkpoints and current private runtime recipes remain outside
 Git. See [public reproducibility](public_reproducibility.md) for the review boundary.
 
 See [post-release frontier research](post_release_research.md), the historical
@@ -159,9 +207,9 @@ the LightGBM release uses training-only frequency maps.
 
 The [date-parsing comparison](../reports/kaggle_submission/date_parsing_verification.json)
 records the current-source cleanup separately from the accepted Kaggle evaluation.
-The accepted model bundle and submission remain frozen. The only account-side
-presentation cleanup is the About description described in the
-[completion record](completion.md); it requires GitHub's repository settings access.
+The accepted model bundle and submission remain frozen. The
+[completion record](completion.md) preserves the dated closeout and subsequent
+research decisions. Current repository presentation does not alter those receipts.
 
 Run from an existing, prepared checkout. Nothing needs to run to keep the saved
 results valid; there is no need to start a paid Studio instance just to monitor.

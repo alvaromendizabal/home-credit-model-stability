@@ -7,8 +7,8 @@ Registration does not claim that a fully nested study has run. See
 [current status](project_status.md) for the completed scope and optional monitoring.
 
 The project is an evaluated, bounded credit-risk research release. Its standard is
-reproducible evidence, clear decisions and honest limits; a subjective employer
-rating cannot be guaranteed. Start with the [README](../README.md) and notebooks
+reproducible evidence, clear decisions and explicit limits. Start with the
+[README](../README.md) and notebooks
 [02](../notebooks/02_feature_engineering.ipynb),
 [05](../notebooks/05_benchmark_review.ipynb) and
 [09](../notebooks/09_model_release.ipynb). The full research trail is linked there.
@@ -34,8 +34,6 @@ all account charges have stopped. The CI record above identifies the implementat
 revision checked at closeout. Subsequent documentation changes must pass their own
 exact-head CI and notebook gates before merge.
 
-The one known account-side presentation correction is the repository About text
-described at the end of this record. It does not block the research release.
 Additional robustness audits, fully nested promotion and production validation are
 separately scoped future work, not remaining completion gates.
 
@@ -135,10 +133,12 @@ gains but did not retain them on later confirmation periods. Those candidates we
 rejected under the predeclared gate. The public record retains these negative results
 because they demonstrate temporal decision discipline rather than post-hoc promotion.
 
-The current Ridge meta-model is the strongest still-active **selection-stage** result,
-at approximately **+0.01874 mean stability with 3/3 wins** and a positive worst-fold
-delta. Its confirmation has not yet completed, so it is not described as promoted.
-A stable-411 heterogeneous fallback is registered if confirmation fails.
+The Ridge meta-model recorded a historical **selection-stage** gain of approximately
+**+0.01874 mean stability with 3/3 wins** and a positive worst-fold delta. Confirmation
+subsequently completed at approximately **-0.00120 mean stability**, so the candidate
+was rejected. The registered stable-411 heterogeneous fallback was also evaluated
+and rejected on later confirmation. The [current status](project_status.md) records
+both decisions; neither candidate was promoted.
 
 See the
 [October frontier continuation](../reports/post_release_frontier/october_2026_continuation.md)
@@ -347,8 +347,9 @@ metric. A coherent GPU ranking-objective study then completed all nine model fit
 The project therefore preserves several scientifically useful negative results instead
 of converting selection-stage gains into release claims. Aggregate evidence is recorded
 in the [October frontier continuation](../reports/post_release_frontier/october_2026_continuation.md).
-The next neural representation batch is registered but not yet reported as a completed
-scientific result.
+At that historical snapshot, the next neural representation batch was registered
+but had not yet produced a completed result. The [current status](project_status.md)
+records its subsequent execution and later studies without changing this dated evidence.
 
 The current-source date-parsing cleanup is independently verified on the original
 public inputs: 93 file identities, 700 feature columns, identical encoded matrices
@@ -359,9 +360,13 @@ identifies the exact source and verifier. This check ran locally under locked
 Python 3.12.14 with zero model fits. It does not update the frozen Kaggle assets,
 erase their historical warnings or claim a new hidden-test evaluation.
 
-One account-side presentation edit remains: the repository's About description still
-mentions neural challengers and drift monitoring, which exceed the demonstrated
-scope. The connected repository tools do not expose an About editor, so that account
-setting remains an owner-side edit. In the repository's About gear, use:
+## Current publication and research boundary
 
-> Temporal credit-risk research: LightGBM, CatBoost, XGBoost, feature ablations, calibration studies, and verified SageMaker pipelines.
+The public demo and aggregate review harness make the existing release inspectable
+without private applicant data or cloud execution. Later neural challengers were
+executed, as recorded above; an operational drift-monitoring service remains outside
+the delivered scope.
+
+Subsequent runs and any incomplete work are recorded in [current status](project_status.md)
+with their own evidence scope. They do not retroactively reopen the completed
+September release or change its historical closeout receipts.

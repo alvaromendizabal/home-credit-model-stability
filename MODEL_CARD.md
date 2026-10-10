@@ -195,6 +195,10 @@ See the
 lists, borrower-level matrices, private checkpoints and competition runtime bundles
 remain outside Git.
 
+The [current status](docs/project_status.md) tracks subsequent execution evidence
+separately. New operational receipts do not update this frozen evaluation or
+independently reconfirm prior external scores.
+
 ## Reproduction and inference
 
 [Notebook 09](notebooks/09_model_release.ipynb) reproduces the release evidence
