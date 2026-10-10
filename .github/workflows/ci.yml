@@ -26,6 +26,8 @@ jobs:
         run: |
           python3 -W error scripts/review_public_evidence.py --output reports/public_review
           git diff --exit-code -- reports/public_review
+      - name: Check interactive stability demo
+        run: node demo/model.test.mjs
       - name: Sync locked environment
         run: uv sync --locked --group dev
       - name: Execute canonical tuning review

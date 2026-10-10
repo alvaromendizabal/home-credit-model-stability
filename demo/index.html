@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102c36">
+  <meta name="description" content="Explore temporal model evaluation with a transparent, interactive credit-risk stability demonstration by Alvaro Mendizabal. Synthetic data, reproducible metrics, and auditable engineering.">
+  <title>Home Credit · A study in model stability</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23102c36'/%3E%3Cpath d='M8 26l8-11 7 6 9-10' fill='none' stroke='%239fe3c6' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="#" aria-label="Home Credit stability, back to top"><span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 23 12 12l6 6 9-12"/></svg></span><span>HOME CREDIT<span class="wordmark-sub">MODEL STABILITY</span></span></a>
+    <nav aria-label="Main navigation"><a href="#explorer">Explore</a><a href="#method">Method</a><a class="nav-source" href="https://github.com/alvaromendizabal/home-credit-model-stability" target="_blank" rel="noopener noreferrer">View source <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="tiny-line"></span> AN APPLIED MACHINE LEARNING PROJECT</p>
+        <h1 id="hero-title">Credit models,<br>built for <em>change.</em></h1>
+        <p class="hero-description">A strong model should hold up as time moves forward. Explore how temporal drift and variability shape the way a credit-risk model is evaluated.</p>
+        <div class="hero-actions"><a class="button button-dark" href="#explorer">Explore stability <span aria-hidden="true">↓</span></a><a class="quiet-link" href="https://github.com/alvaromendizabal/home-credit-model-stability#reproduce-a-public-result-in-one-command" target="_blank" rel="noopener noreferrer">Reproduce the review <span aria-hidden="true">↗</span></a></div>
+        <p class="byline">ALVARO MENDIZABAL <span aria-hidden="true">/</span> ML ENGINEERING &amp; TEMPORAL VALIDATION</p>
+      </div>
+      <div class="hero-art" aria-label="Illustration of model performance tracked across successive time periods">
+        <div class="art-top"><span>THE LONGITUDINAL VIEW</span><span class="art-dot" aria-hidden="true"></span></div>
+        <svg class="hero-graphic" viewBox="0 0 440 215" role="img" aria-labelledby="art-title art-desc">
+          <title id="art-title">Performance through time</title><desc id="art-desc">Three illustrative performance paths: steady, declining, and variable. This graphic is conceptual, not a project result.</desc>
+          <defs><pattern id="heroGrid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity=".055"/></pattern></defs>
+          <rect width="440" height="215" fill="url(#heroGrid)"/>
+          <path d="M16 85 49 70 82 77 115 65 148 81 181 76 214 85 247 77 280 86 313 78 346 88 379 79 422 86" class="hero-line steady"/>
+          <path d="M16 92 49 90 82 91 115 102 148 104 181 117 214 120 247 129 280 142 313 147 346 158 379 167 422 178" class="hero-line fading"/>
+          <path d="M16 103 49 123 82 71 115 132 148 95 181 149 214 89 247 133 280 102 313 165 346 110 379 151 422 118" class="hero-line uneven"/>
+          <circle cx="422" cy="86" r="5" fill="#a6e9c9"/><circle cx="422" cy="86" r="12" fill="#a6e9c9" fill-opacity=".12"/>
+        </svg>
+        <div class="art-caption"><span>One metric.<br><strong>Three dimensions.</strong></span><span class="art-caption-small">Discrimination<br>Direction<br>Consistency</span></div>
+        <div class="art-footer">CONCEPTUAL PERFORMANCE PATHS <span>TIME →</span></div>
+      </div>
+    </section>
+
+    <section class="explorer-section" id="explorer" aria-labelledby="explorer-title">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="eyebrow">01 / INTERACTIVE EXPLORER</p><h2 id="explorer-title">Look beyond the average.</h2></div><p>Keep average performance fixed.<br>Change what happens over time.</p></div>
+        <div class="synthetic-notice"><span class="notice-mark" aria-hidden="true">i</span><p><strong>Synthetic demonstration.</strong> These 24 weekly Gini values are generated in your browser. They are not trained-model predictions, applicant records, or reported project results.</p></div>
+        <noscript><p class="noscript">JavaScript is required for the interactive explorer and exports. The method and source links remain available below.</p></noscript>
+        <div class="explorer-shell">
+          <div class="plot-area">
+            <div class="plot-header"><div><h3>Weekly discrimination</h3><p>Gini = 2 × ROC AUC − 1</p></div><div class="legend"><span><i class="legend-data"></i>Weekly Gini</span><span><i class="legend-trend"></i>Fitted trend</span></div></div>
+            <svg id="performance-chart" viewBox="0 0 720 310" role="img" aria-labelledby="chart-title chart-desc"><title id="chart-title">Synthetic weekly Gini, steady performance</title><desc id="chart-desc">A 24-week synthetic performance chart. The accessible data table follows the chart.</desc><g id="chart-content"></g></svg>
+            <div class="chart-bottom"><span>24 CONSECUTIVE WEEKS</span><span>Higher Gini = stronger discrimination</span></div>
+            <div class="metric-row" aria-live="polite" aria-atomic="true">
+              <div class="metric metric-total"><span>Stability score</span><strong id="score">0.5710</strong><small>Combined metric</small></div>
+              <div class="metric"><span>Mean Gini</span><strong id="mean">0.6000</strong><small>Held constant</small></div>
+              <div class="metric"><span>Trend adjustment</span><strong id="trend">−0.0220</strong><small>Penalizes decline</small></div>
+              <div class="metric"><span>Variation adjustment</span><strong id="noise">−0.0070</strong><small>Penalizes inconsistency</small></div>
+            </div>
+          </div>
+          <aside class="controls" aria-label="Scenario controls">
+            <div class="controls-heading"><h3>Shape the scenario</h3><button id="reset" class="reset" type="button" disabled>Reset <span aria-hidden="true">↺</span></button></div>
+            <fieldset class="scenario-fieldset"><legend>Start with a pattern</legend><div class="scenario-buttons"><button data-scenario="stable" aria-pressed="true" type="button" disabled>Steady</button><button data-scenario="drift" aria-pressed="false" type="button" disabled>Declining</button><button data-scenario="volatile" aria-pressed="false" type="button" disabled>Variable</button></div></fieldset>
+            <div class="range-control"><label for="decline">Weekly decline <output id="decline-value" for="decline">0.00025</output></label><input id="decline" type="range" min="0" max="0.003" step="0.00005" value="0.00025" disabled aria-describedby="decline-help"><div class="range-endpoints" aria-hidden="true"><span>No decline</span><span>0.003 / week</span></div><p id="decline-help">The downward change in fitted Gini per week.</p></div>
+            <div class="range-control"><label for="variation">Residual variation <output id="variation-value" for="variation">0.014</output></label><input id="variation" type="range" min="0" max="0.09" step="0.001" value="0.014" disabled aria-describedby="variation-help"><div class="range-endpoints" aria-hidden="true"><span>Consistent</span><span>0.090</span></div><p id="variation-help">The spread of weekly values around the fitted trend.</p></div>
+            <div class="interpretation"><span class="small-label">WHAT THIS SHOWS</span><p id="interpretation">A steady profile preserves most of the average discrimination. Small declines still reduce its stability score.</p></div>
+          </aside>
+        </div>
+        <div class="explorer-tools"><details class="data-details"><summary>Inspect the 24-week data <span aria-hidden="true">+</span></summary><div class="table-scroll"><table><caption>Synthetic weekly data and fitted trend</caption><thead><tr><th scope="col">Week</th><th scope="col">Weekly Gini</th><th scope="col">Fitted trend</th></tr></thead><tbody id="weekly-table"></tbody></table></div></details><div class="exports"><span>Take the example with you</span><button id="export-csv" type="button" disabled>CSV <span aria-hidden="true">↓</span></button><button id="export-json" type="button" disabled>JSON <span aria-hidden="true">↓</span></button><span id="export-status" class="sr-only" role="status"></span></div></div>
+        <div class="formula-block"><div><span class="small-label">THE PUBLIC STABILITY METRIC</span><p>Mean weekly Gini <span>+</span> 88 × min(0, slope) <span>−</span> 0.5 × residual standard deviation</p></div><details><summary>How it is calculated</summary><p>Fit a least-squares line to the 24 Gini values using week positions 0–23. Calculate population standard deviation around that fitted line. A negative slope receives a penalty; a positive slope receives no bonus. These public metric coefficients are fixed, not tunable controls. The sample retains a mean Gini of 0.6000 as the sliders change.</p></details></div>
+      </div>
+    </section>
+
+    <section class="review-section wrap" aria-labelledby="review-title">
+      <div class="review-copy"><p class="eyebrow">02 / THE REVIEW DECISION</p><h2 id="review-title">Evidence before<br>promotion.</h2><p>Evaluation should lead to an explicit decision. This example checks the same synthetic series against three simple, fixed thresholds.</p><p class="fine-print">Illustrative thresholds only. These are not the project’s release gates, lending criteria, or a credit decision.</p></div>
+      <div class="review-card"><div class="review-card-top"><div><span class="small-label">CURRENT SCENARIO</span><h3 id="review-status" aria-live="polite">Ready for review</h3></div><span id="review-icon" class="review-status-icon" aria-hidden="true">✓</span></div><div id="review-checks" class="review-checks"></div><p class="review-footnote">A passing example illustrates a review step; it does not establish model quality or approve deployment.</p></div>
+    </section>
+
+    <section class="method-section" id="method" aria-labelledby="method-title"><div class="wrap">
+      <div class="section-heading"><div><p class="eyebrow">03 / ENGINEERING THE EVIDENCE</p><h2 id="method-title">A model is one part of the system.</h2></div><p>The project connects temporal evaluation<br>with reproducible, inspectable execution.</p></div>
+      <div class="method-grid"><article><span class="step-number">01</span><h3>Prepare with provenance</h3><p>Preserve source identity and feature contracts. Fit learned transformations on training data before applying them to later observations.</p><span class="method-tag">DATA CONTRACTS</span></article><article><span class="step-number">02</span><h3>Validate forward in time</h3><p>Evaluate on later time periods. Examine weekly discrimination, drift, and variation alongside overall ranking quality.</p><span class="method-tag">TEMPORAL EVALUATION</span></article><article><span class="step-number">03</span><h3>Make a gated decision</h3><p>Compare candidates against fixed review criteria. Preserve negative results and verify inference behavior before promotion.</p><span class="method-tag">CONTROLLED RELEASE</span></article><article><span class="step-number">04</span><h3>Leave an audit trail</h3><p>Retain execution manifests, aggregate results, and resumable state. Make the public evidence checkable without exposing applicant data.</p><span class="method-tag">REPRODUCIBILITY</span></article></div>
+      <div class="timeline-panel"><div><h3>Time is part of the test.</h3><p>A conceptual forward validation split</p></div><div class="timeline"><div class="timeline-train"><strong>Train</strong><span>Fit transformations &amp; model</span></div><div class="timeline-validation"><strong>Validate</strong><span>Compare candidates</span></div><div class="timeline-confirm"><strong>Confirm</strong><span>Apply fixed criteria</span></div><span class="time-direction">Earlier observations <span aria-hidden="true">⟶</span> Later observations</span></div></div>
+    </div></section>
+    <section class="source-section wrap" aria-labelledby="source-title"><div><p class="eyebrow">04 / OPEN FOR REVIEW</p><h2 id="source-title">Follow the evidence.</h2><p>The repository includes a public review harness, aggregate evidence, tests, and documentation. This browser demo is fully deterministic and runs locally without an API.</p></div><a class="button button-dark" href="https://github.com/alvaromendizabal/home-credit-model-stability" target="_blank" rel="noopener noreferrer">Explore the repository <span aria-hidden="true">↗</span></a></section>
+  </main>
+  <footer class="site-footer"><div class="wrap"><div><strong>Alvaro Mendizabal</strong><span>Applied machine learning · Credit risk · Model validation</span></div><p>Independent portfolio project.<br>No applicant data is collected by this demo.</p><a href="https://github.com/alvaromendizabal" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div></footer>
+</body>
+</html>
