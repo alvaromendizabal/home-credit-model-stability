@@ -133,10 +133,12 @@ gains but did not retain them on later confirmation periods. Those candidates we
 rejected under the predeclared gate. The public record retains these negative results
 because they demonstrate temporal decision discipline rather than post-hoc promotion.
 
-The current Ridge meta-model is the strongest still-active **selection-stage** result,
-at approximately **+0.01874 mean stability with 3/3 wins** and a positive worst-fold
-delta. Its confirmation has not yet completed, so it is not described as promoted.
-A stable-411 heterogeneous fallback is registered if confirmation fails.
+The Ridge meta-model recorded a historical **selection-stage** gain of approximately
+**+0.01874 mean stability with 3/3 wins** and a positive worst-fold delta. Confirmation
+subsequently completed at approximately **-0.00120 mean stability**, so the candidate
+was rejected. The registered stable-411 heterogeneous fallback was also evaluated
+and rejected on later confirmation. The [current status](project_status.md) records
+both decisions; neither candidate was promoted.
 
 See the
 [October frontier continuation](../reports/post_release_frontier/october_2026_continuation.md)
