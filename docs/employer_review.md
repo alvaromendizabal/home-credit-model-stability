@@ -1,9 +1,14 @@
-# Five-minute technical review
+# Home Credit · Five-minute engineering review
+
+**Alvaro Mendizabal · Credit-risk modeling · Temporal validation · Reliable ML execution**
 
 I built the feature, evaluation and execution workflow to assess credit-risk models
-across changing application periods and carry a selected model into verified offline inference. It covers **1,526,659
-labeled applications from 17 relational source groups**. The public evidence is
-readable without AWS access, private data or model retraining.
+across changing application periods and carry a selected model into verified offline
+inference. It covers **1,526,659 labeled applications from 17 relational source
+groups**. My work connects relational feature construction, model comparison,
+controlled selection and recoverable inference through explicit data and artifact
+contracts. The public evidence is readable without AWS access, private data or model
+retraining.
 
 ## Start with the interactive explanation
 
@@ -77,5 +82,6 @@ production event-time availability, label maturity and operational decision thre
 require additional work. See the [model card](../MODEL_CARD.md).
 
 Public code and aggregate reports support technical review. Borrower-level matrices,
-private trained artifacts and current research recipes are intentionally withheld;
-review reproduction and full training reproduction have different requirements.
+private trained artifacts and current research recipes are intentionally withheld.
+Re-running the public evidence checks and retraining the complete research system
+have different requirements, documented in the [verification guide](public_reproducibility.md).
