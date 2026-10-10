@@ -1,7 +1,7 @@
 # Five-minute technical review
 
-This project evaluates credit-risk models across changing application periods and
-carries the selected model into verified offline inference. It covers **1,526,659
+I built the feature, evaluation and execution workflow to assess credit-risk models
+across changing application periods and carry a selected model into verified offline inference. It covers **1,526,659
 labeled applications from 17 relational source groups**. The public evidence is
 readable without AWS access, private data or model retraining.
 
@@ -9,7 +9,9 @@ readable without AWS access, private data or model retraining.
 
 Open the [temporal stability demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site) to explore the evaluation
 trade-off in the browser. Its weekly values are synthetic and labeled as such;
-changing a slider does not retrain a model. Then follow the actual evidence below.
+pin a baseline, change the candidate and inspect the paired weekly curves and
+score-component differences. Changing a slider does not retrain a model. Then follow
+the actual evidence below.
 The distinction matters: an explanation should make the method understandable,
 while verified reports establish what the project measured.
 
@@ -60,6 +62,12 @@ For further depth, review [model selection](../notebooks/08_model_selection.ipyn
 [research engineering](research_engineering.md) and the aggregate
 [post-release research record](post_release_research.md). These extend the evidence;
 they do not redefine the observed release evaluation as an untouched test.
+
+## Frozen evidence and ongoing research
+
+The [current status](project_status.md) separates the completed release from later
+experiments and incomplete executions. New operational receipts do not rewrite the
+frozen metrics above; promotion and an external score require their own evidence.
 
 ## Scope of the evidence
 

@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "scope": "inspected_aws_execution_snapshot",
+  "version": "E98",
+  "run_id": "20261010T030650590522Z-438c10fa",
+  "parent_run_id": "20261010T022535072312Z-ced3dd22",
+  "observed_at_utc": "2026-10-10T04:09:38.221796+00:00",
+  "execution_ended_utc": null,
+  "execution_status": "SUCCESS",
+  "completed_tasks_recorded_in_ledger": 42,
+  "new_completed_fits": 5,
+  "scientific_outcome": "CONFIRMATION_REJECTED",
+  "selection": {
+    "reported_mean_stability_delta": 0.013320499345895964,
+    "reported_stability_wins": 3
+  },
+  "confirmation": {
+    "passed": false,
+    "reported_mean_stability_delta": -0.0032024321890856133,
+    "reported_worst_stability_delta": -0.004158623513201065,
+    "reported_mean_auc_delta": 0.0013394978106975874,
+    "reported_stability_wins": 0,
+    "selection_reopened": false,
+    "weeks_73_91_accessed_in_this_run": false
+  },
+  "release_allowed": false,
+  "submission_ready": false,
+  "submission_attempted": false,
+  "score_improvement_claim": false,
+  "existing_external_scores": {
+    "public": 0.56035,
+    "private": 0.47652,
+    "source": "reports/post_release_frontier/october_2026_continuation_summary.json",
+    "independently_reverified_by_this_return": false
+  },
+  "reported_selftests": {
+    "status": "PASS",
+    "tests": 692,
+    "rerun_here": false
+  },
+  "verification": {
+    "remote_json_bodies_verified": 12,
+    "immutable_commit_target_bindings_verified": 5,
+    "read_only_inspection": true,
+    "private_models_or_predictions_downloaded": false,
+    "private_configuration_downloaded": false,
+    "private_predictions_replayed": false,
+    "live_studio_filesystem_read": false,
+    "complete_remote_inventory_claim": false
+  },
+  "provenance": [
+    {
+      "role": "evidence_commit",
+      "bytes": 4478,
+      "sha256": "8ecb0478004beba69204bf47f0048a6165e4426e1357c9da55ca38d5880ddeb8",
+      "source_last_modified_utc": "2026-10-10T03:56:26+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "ledger_commit",
+      "bytes": 639,
+      "sha256": "e6a9cd2797aba5d5953c537c0049544cba7f772d16305a5be3c7554526388f1d",
+      "source_last_modified_utc": "2026-10-10T03:56:26+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "return_commit",
+      "bytes": 3791,
+      "sha256": "cc1c8b54e02996a222a90d1fbbe5291d712571b9bcf368bfc7ef180a8d63659c",
+      "source_last_modified_utc": "2026-10-10T03:56:27+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "conditional_release",
+      "bytes": 210,
+      "sha256": "4407dae56bc46da5571146ec6f84e1f694f1cbfa82cd45628e662b2ed6360b8e",
+      "source_last_modified_utc": "2026-10-10T03:56:19+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "diagnostic",
+      "bytes": 1736,
+      "sha256": "9aa11bc4c90fc95f6b103174acfdc5c3bd9e4fa52fca1b156de0eaa2409b6945",
+      "source_last_modified_utc": "2026-10-10T03:56:27+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "execution_ledger",
+      "bytes": 40235,
+      "sha256": "482ed162b03f8a52f45fe306dabe853c1cd9c4c6bbae446ad85ee65b17776940",
+      "source_last_modified_utc": "2026-10-10T03:56:25+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "selftests",
+      "bytes": 119,
+      "sha256": "846e4de6feb33514f48c7de9cd860e6c3c04d9ceed0d9ea3f850480048480e46",
+      "source_last_modified_utc": "2026-10-10T03:09:06+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "selection_commit",
+      "bytes": 1167,
+      "sha256": "5ae42c086afcd5d9fdeb9e9aad3f68c7f8ee3acd757311f9390783b07b65fde6",
+      "source_last_modified_utc": "2026-10-10T03:38:28+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "confirmation_commit",
+      "bytes": 1166,
+      "sha256": "f1b0a1812107a951a419cfc680c9140bb1f4fcfe4fcd5fa846e264c727bb9889",
+      "source_last_modified_utc": "2026-10-10T03:56:17+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "selection",
+      "bytes": 1672,
+      "sha256": "7ec34e2f4ebff3a34e99a3242c43ff8b01c11fd5d2b2cfc1c3741e0024503140",
+      "source_last_modified_utc": "2026-10-10T03:38:28+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "confirmation",
+      "bytes": 959,
+      "sha256": "2f0073ff7fa3e03f234944612eef548c511a818f9fa8085012d987d75311f400",
+      "source_last_modified_utc": "2026-10-10T03:56:17+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "conditional_release_commit",
+      "bytes": 1166,
+      "sha256": "c48a50ee99b8fc2b28d8ea08d3bd9db0622b89555e78b7ad8bc866db0eb31ae4",
+      "source_last_modified_utc": "2026-10-10T03:56:19+00:00",
+      "kind": "remote_json"
+    },
+    {
+      "role": "inspection_receipt",
+      "bytes": 1050,
+      "sha256": "616f11866433b6347936946c344e9a3f3dd025350fbb45bc17eff0c2548af0ab",
+      "source_last_modified_utc": null,
+      "kind": "local_inspection_receipt"
+    }
+  ],
+  "limitations": [
+    "Execution success and scientific rejection are separate outcomes.",
+    "These metrics are receipt-derived aggregates, not independent prediction replay.",
+    "Object modification and inspection timestamps are not execution end timestamps.",
+    "This run did not reopen weeks 73-91; those weeks were already observed historically.",
+    "External scores retain their earlier source; no new submission was attempted.",
+    "This snapshot covers selected inspected records, not every cloud object or process."
+  ]
+}

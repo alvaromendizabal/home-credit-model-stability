@@ -19,23 +19,36 @@ temporal model evaluation. It uses a deterministic synthetic weekly curve, not
 borrower-level records or trained-model predictions. All controls and calculations
 run in the browser without a service, API key or analytics request.
 
+Pin the current scenario as a baseline, then change the candidate's decline or
+residual variation. Both use the same 24 ordinal weeks, mean Gini of 0.6 and
+deterministic residual pattern. The chart overlays the two curves, while the
+comparison shows candidate-minus-baseline stability and its additive mean, trend
+and variation components. These differences are arithmetic explanations, not
+evidence of a better lending model.
+
+Replace or clear the baseline explicitly. Reset restores the pinned baseline, or
+the steady preset when none is pinned. With a baseline pinned, CSV exports paired
+weekly rows and JSON also includes component differences and consistency checks.
+Without a baseline, exports retain the single synthetic fixture.
+
 To serve the demo from a clone:
 
 ```bash
 python3 -m http.server 8000 --bind 127.0.0.1 --directory demo
 ```
 
-Open http://127.0.0.1:8000. The independent metric checks require only Node.js:
+Open http://127.0.0.1:8000. The numerical checks and actual UI-handler tests require only Node.js:
 
 ```bash
 node demo/model.test.mjs
+node demo/app.test.mjs
 ```
 
 The synthetic explorer is not part of the observed evidence table. Its mathematical
-behavior is checked independently from the published aggregate report. The CI
-workflow runs both checks before the broader notebook and source gates.
+behavior is checked independently from the published aggregate report. The [Public demo workflow](../.github/workflows/public-demo.yml) runs both checks.
+The research CI separately preserves the broader notebook and source gates.
 
-## What that command verifies
+## What the evidence-review command verifies
 
 The script consumes only previously published aggregate reports:
 
@@ -53,6 +66,39 @@ recomputed without the underlying labels and predictions. The report distinguish
 recomputed aggregate statistics from source-reported metrics. Checksums establish
 which published bytes were reviewed; they do not independently establish the truth
 of the original private experiment.
+
+## Dated owner-return receipt
+
+The [E97 summary](../reports/latest_execution/summary.json) is a separate sanitized
+operational receipt. Verify its fixed identity and evidence contract with:
+
+```bash
+python tools/summarize_execution.py --check
+```
+
+It records a memory-guard stop, 13 of 42 tasks complete and no new fit or submission.
+Its original local archive integrity was verified; referenced remote artifacts and
+private predictions were not independently replayed. It does not update the frozen
+metrics or reverify the previously reported Kaggle scores. The [current status](project_status.md)
+explains the distinction. The source owner-return archive remains private.
+
+## Later AWS execution snapshot
+
+A separate [E98 snapshot](../reports/latest_execution/aws_snapshot.json) records a
+read-only inspection of the later completed run: 42 tasks and five fits, with the
+selected candidate rejected on later-period stability. It records no new submission
+or score. The snapshot preserves aggregate decisions and source identities; it does
+not distribute the private model, configuration or predictions. Its observation time
+is not the run's completion time. [Current status](project_status.md) explains the
+selection/confirmation distinction and keeps the E97 archive separate. Check this
+public snapshot without cloud access:
+
+```bash
+python tools/summarize_aws_snapshot.py --check
+```
+
+This validates the committed aggregate contract. Regenerating it from the original
+inspected receipt bytes additionally requires private evidence retained outside Git.
 
 ## Reproducibility matrix
 

@@ -7,8 +7,9 @@ weaken in the periods when it will be used. This project asks whether improvemen
 survive a move into later application periods, and whether the resulting model can
 be exported with the same features, predictions and artifact lineage.
 
-The work spans relational data processing, feature selection, temporal validation,
-model comparison, calibration research, AWS execution, recovery and offline inference.
+I built and integrated relational data processing, feature selection, temporal
+validation, model comparison, calibration studies, AWS execution, recovery and
+offline inference.
 The data contains **1,526,659 labeled applications across 17 relational source groups**.
 The historical release uses **700 selected features**. Later research is recorded
 separately so the original evaluation remains interpretable.
@@ -120,9 +121,16 @@ business outcome or an evaluation of the all-label inference refit. The period l
 and default prevalence differ from the development folds, so the holdout value should
 not be treated as a directly comparable improvement over their mean.
 
-The delivered work is a model evaluation and inference system with an inspectable
+I delivered a model evaluation and inference system with an inspectable
 experimental record: source-level feature evidence, temporal comparisons, failed
 hypotheses, native model lineage and offline execution verification.
+
+## Preserve the meaning of a release
+
+I keep the delivered release separate from subsequent experiments and incomplete
+executions. The [current status](project_status.md) and its linked receipts record
+that later work. An operational checkpoint or successful report does not, by itself,
+establish a new trained model, scientific result or submission score.
 
 ## What a reviewer can reproduce
 
