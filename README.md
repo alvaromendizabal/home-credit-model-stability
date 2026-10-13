@@ -46,7 +46,7 @@ From a clone with **Python 3.12**:
 python3 scripts/review_public_evidence.py --output artifacts/public-review
 ```
 
-Open `artifacts/public-review/index.html`, or inspect its `review.json`. This standard-library command authenticates committed aggregate reports, recalculates weekly-Gini stability, checks comparison populations and reproduces model/ablation summaries. It needs no credentials, cloud account, private data or training job.
+Open `artifacts/public-review/index.html`, or inspect its `review.json` and source-bound `manifest.json`. Repeating the command verifies and reuses the complete bundle without rewriting it. Add `--check` for verification only. This standard-library command authenticates committed aggregate reports, recalculates weekly-Gini stability, checks comparison populations and reproduces model/ablation summaries. It needs no credentials, cloud account, private data or training job.
 
 It does not reconstruct borrower predictions or recompute AUC from unavailable labels. Source-reported metrics and recomputed statistics are labeled separately. The checked-in [HTML report](reports/public_review/index.html) and [JSON result](reports/public_review/review.json) are reproduced in CI.
 

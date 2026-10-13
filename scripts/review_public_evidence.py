@@ -13,7 +13,9 @@ import hashlib
 import html
 import json
 import math
+import os
 import statistics
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -610,18 +612,109 @@ requests.</footer>
 """
 
 
+def build_bundle() -> dict[str, bytes]:
+    """Bind the exact renderer, five verified inputs and two deterministic outputs."""
+    payload = serialize(build_review())
+    # Render the normalized payload for stable output across supported Python platforms.
+    report = render_html(json.loads(payload)).encode()
+    files = {"review.json": payload, "index.html": report}
+    manifest = {
+        "schema": "home-credit-public-evidence-bundle-v1",
+        "evidence_scope": "Historical public aggregate replay; no borrower-level inference",
+        "generator": {
+            "path": "scripts/review_public_evidence.py",
+            "sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        },
+        "inputs": SOURCE_HASHES,
+        "outputs": {
+            name: {"bytes": len(content), "sha256": hashlib.sha256(content).hexdigest()}
+            for name, content in sorted(files.items())
+        },
+        "authentication_scope": "Byte consistency, not independent score authentication",
+    }
+    files["manifest.json"] = serialize(manifest)
+    return files
+
+
+def safe_output_path(output: Path) -> Path:
+    """Check lexical ancestors before resolving can conceal a symlink."""
+    require(".." not in output.parts, "output cannot contain parent traversal")
+    absolute = output.absolute()
+    for path in (*reversed(absolute.parents), absolute):
+        require(not path.is_symlink(), "output path contains a symlink")
+        require(not path.exists() or path.is_dir(), "output path is not a directory")
+    return absolute
+
+
+def verify_bundle(output: Path, expected: dict[str, bytes]) -> None:
+    """Require exact members and bytes; never adopt an existing unrelated directory."""
+    output = safe_output_path(output)
+    require(output.is_dir(), "review bundle is missing; generate it in a new directory")
+    members = list(output.iterdir())
+    require(
+        {path.name for path in members} == set(expected),
+        "review bundle members differ; preserve it and choose a new output directory",
+    )
+    for path in members:
+        require(not path.is_symlink() and path.is_file(), "review bundle member is not regular")
+        content = expected[path.name]
+        require(path.stat().st_size == len(content), f"review bundle size mismatch: {path.name}")
+        require(path.read_bytes() == content, f"review bundle byte mismatch: {path.name}")
+
+
+def publish_bundle(output: Path, *, check_only: bool = False) -> None:
+    """Stage a complete bundle on the same filesystem, then publish by directory rename.
+
+    An exclusive sibling lock serializes cooperating writers. This is a local
+    artifact contract, not a sandbox against hostile concurrent filesystem actors.
+    Existing output is only verified: no overwrite, migration or implicit repair.
+    """
+    output = safe_output_path(output)
+    expected = build_bundle()
+    if check_only:
+        verify_bundle(output, expected)
+        return
+    output.parent.mkdir(parents=True, exist_ok=True)
+    safe_output_path(output)
+    lock = output.with_name(f".{output.name}.review-lock")
+    try:
+        lock.mkdir()
+    except FileExistsError as exc:
+        raise ValueError(
+            "review output is locked; verify no writer is active before recovery"
+        ) from exc
+    try:
+        if output.exists():
+            verify_bundle(output, expected)
+            return
+        with tempfile.TemporaryDirectory(
+            prefix=f".{output.name}.review-stage-", dir=output.parent
+        ) as raw:
+            stage = Path(raw)
+            for name, content in expected.items():
+                with (stage / name).open("xb") as handle:
+                    handle.write(content)
+                    handle.flush()
+                    os.fsync(handle.fileno())
+            verify_bundle(stage, expected)
+            safe_output_path(output)
+            require(
+                not output.exists(), "output appeared during staging; preserving existing files"
+            )
+            stage.rename(output)
+    finally:
+        lock.rmdir()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=ROOT / "reports/public_review")
+    parser.add_argument("--output", type=Path, default=ROOT / "artifacts/public-review")
+    parser.add_argument(
+        "--check", action="store_true", help="Verify an existing bundle without writes"
+    )
     args = parser.parse_args()
     try:
-        review = build_review()
-        payload = serialize(review)
-        # Render the normalized payload so rerenders match across supported Python platforms.
-        report = render_html(json.loads(payload)).encode()
-        args.output.mkdir(parents=True, exist_ok=True)
-        (args.output / "review.json").write_bytes(payload)
-        (args.output / "index.html").write_bytes(report)
+        publish_bundle(args.output, check_only=args.check)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         parser.exit(1, f"PUBLIC_EVIDENCE_FAILED: {exc}\n")
     print(
@@ -630,6 +723,7 @@ def main() -> int:
     )
     print(f"REPORT={args.output / 'index.html'}")
     print(f"JSON={args.output / 'review.json'}")
+    print(f"MANIFEST={args.output / 'manifest.json'}")
     return 0
 
 

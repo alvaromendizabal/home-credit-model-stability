@@ -24,8 +24,18 @@ jobs:
           enable-cache: true
       - name: Reproduce credential-free public evidence
         run: |
-          python3 -W error scripts/review_public_evidence.py --output reports/public_review
+          python3 -W error scripts/review_public_evidence.py --output "$RUNNER_TEMP/public-review"
+          python3 -W error scripts/review_public_evidence.py --output "$RUNNER_TEMP/public-review" --check
+          cmp "$RUNNER_TEMP/public-review/review.json" reports/public_review/review.json
+          cmp "$RUNNER_TEMP/public-review/index.html" reports/public_review/index.html
           git diff --exit-code -- reports/public_review
+      - name: Retain the verified aggregate review bundle
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: public-evidence-bundle
+          path: ${{ runner.temp }}/public-review/
+          if-no-files-found: error
+          retention-days: 14
       - name: Check interactive stability demo
         run: node demo/model.test.mjs
       - name: Sync locked environment
