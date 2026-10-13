@@ -207,3 +207,193 @@ def test_json_with_duplicate_keys_is_rejected() -> None:
             '{"schema_version": 1, "schema_version": 2}',
             object_pairs_hook=MODULE.reject_duplicate_keys,
         )
+
+
+def test_bundle_manifest_binds_generator_inputs_and_both_outputs(tmp_path: Path) -> None:
+    import hashlib
+
+    output = tmp_path / "review"
+    MODULE.publish_bundle(output)
+    manifest = json.loads((output / "manifest.json").read_bytes())
+    assert manifest["generator"]["sha256"] == hashlib.sha256(SCRIPT.read_bytes()).hexdigest()
+    assert manifest["inputs"] == MODULE.SOURCE_HASHES
+    assert set(manifest["outputs"]) == {"index.html", "review.json"}
+    for name, entry in manifest["outputs"].items():
+        content = (output / name).read_bytes()
+        assert entry == {"bytes": len(content), "sha256": hashlib.sha256(content).hexdigest()}
+    assert (output / "review.json").read_bytes() == (
+        ROOT / "reports/public_review/review.json"
+    ).read_bytes()
+    assert (output / "index.html").read_bytes() == (
+        ROOT / "reports/public_review/index.html"
+    ).read_bytes()
+
+
+def test_valid_bundle_reuse_and_check_do_not_modify_any_file(tmp_path: Path) -> None:
+    output = tmp_path / "review"
+    MODULE.publish_bundle(output)
+    before = {path.name: (path.read_bytes(), path.stat().st_mtime_ns) for path in output.iterdir()}
+    MODULE.publish_bundle(output)
+    MODULE.publish_bundle(output, check_only=True)
+    after = {path.name: (path.read_bytes(), path.stat().st_mtime_ns) for path in output.iterdir()}
+    assert after == before
+    assert list(tmp_path.iterdir()) == [output]
+
+
+def test_verification_only_never_creates_missing_output(tmp_path: Path) -> None:
+    output = tmp_path / "absent-parent" / "review"
+    with pytest.raises(ValueError, match="missing"):
+        MODULE.publish_bundle(output, check_only=True)
+    assert not output.parent.exists()
+
+
+@pytest.mark.parametrize("name", ["index.html", "review.json", "manifest.json"])
+def test_modified_bundle_member_is_rejected_and_preserved(tmp_path: Path, name: str) -> None:
+    output = tmp_path / "review"
+    MODULE.publish_bundle(output)
+    path = output / name
+    tampered = path.read_bytes().replace(b"a", b"b", 1)
+    path.write_bytes(tampered)
+    for check_only in (True, False):
+        with pytest.raises(ValueError, match="mismatch"):
+            MODULE.publish_bundle(output, check_only=check_only)
+        assert path.read_bytes() == tampered
+    assert not output.with_name(".review.review-lock").exists()
+
+
+def test_unrelated_and_legacy_output_directories_are_not_adopted(tmp_path: Path) -> None:
+    for name in ("empty", "unrelated", "legacy"):
+        output = tmp_path / name
+        output.mkdir()
+        if name == "unrelated":
+            (output / "review.json").write_text("keep my report")
+        if name == "legacy":
+            for item in ("review.json", "index.html"):
+                (output / item).write_bytes((ROOT / "reports/public_review" / item).read_bytes())
+        before = {path.name: path.read_bytes() for path in output.iterdir()}
+        with pytest.raises(ValueError, match="members differ"):
+            MODULE.publish_bundle(output)
+        assert {path.name: path.read_bytes() for path in output.iterdir()} == before
+
+
+def test_unexpected_extra_file_prevents_bundle_reuse(tmp_path: Path) -> None:
+    output = tmp_path / "review"
+    MODULE.publish_bundle(output)
+    (output / "notes.txt").write_text("preserve")
+    with pytest.raises(ValueError, match="members differ"):
+        MODULE.publish_bundle(output)
+    assert (output / "notes.txt").read_text() == "preserve"
+
+
+@pytest.mark.parametrize("location", ["root", "ancestor", "member", "dangling-root"])
+def test_output_symlinks_never_overwrite_external_files(tmp_path: Path, location: str) -> None:
+    external = tmp_path / "external"
+    external.mkdir()
+    sentinel = external / "review.json"
+    sentinel.write_text("must survive")
+    output = tmp_path / "review"
+    if location == "root":
+        output.symlink_to(external, target_is_directory=True)
+    elif location == "ancestor":
+        output.symlink_to(external, target_is_directory=True)
+        output /= "nested"
+    elif location == "dangling-root":
+        output.symlink_to(external / "absent", target_is_directory=True)
+    else:
+        MODULE.publish_bundle(output)
+        (output / "review.json").unlink()
+        (output / "review.json").symlink_to(sentinel)
+    result = subprocess.run(
+        [sys.executable, "-I", str(SCRIPT), "--output", str(output)],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 1
+    assert "PUBLIC_EVIDENCE_FAILED" in result.stderr
+    assert sentinel.read_text() == "must survive"
+    assert not (external / "index.html").exists()
+    assert not (external / "nested").exists()
+
+
+def test_staging_failure_never_exposes_a_partial_bundle(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    calls = 0
+    real_fsync = MODULE.os.fsync
+
+    def fail_second_fsync(fd: int) -> None:
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            raise OSError("simulated disk failure")
+        real_fsync(fd)
+
+    monkeypatch.setattr(MODULE.os, "fsync", fail_second_fsync)
+    with pytest.raises(OSError, match="disk failure"):
+        MODULE.publish_bundle(tmp_path / "review")
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_cooperating_writer_lock_is_preserved_and_prevents_publication(tmp_path: Path) -> None:
+    lock = tmp_path / ".review.review-lock"
+    lock.mkdir()
+    with pytest.raises(ValueError, match="locked"):
+        MODULE.publish_bundle(tmp_path / "review")
+    assert lock.is_dir()
+    assert not (tmp_path / "review").exists()
+
+
+def test_publication_collision_preserves_competing_output(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    output = tmp_path / "review"
+    original = MODULE.verify_bundle
+
+    def create_competing_output(path: Path, expected: dict[str, bytes]) -> None:
+        original(path, expected)
+        output.mkdir()
+        (output / "other.txt").write_text("preserve competing work")
+
+    monkeypatch.setattr(MODULE, "verify_bundle", create_competing_output)
+    with pytest.raises(ValueError, match="appeared during staging"):
+        MODULE.publish_bundle(output)
+    assert (output / "other.txt").read_text() == "preserve competing work"
+    assert not (output / "review.json").exists()
+    assert list(tmp_path.iterdir()) == [output]
+
+
+def test_manifest_generator_change_fails_without_rewriting_outputs(tmp_path: Path) -> None:
+    output = tmp_path / "review"
+    MODULE.publish_bundle(output)
+    expected = MODULE.build_bundle()
+    manifest = json.loads(expected["manifest.json"])
+    manifest["generator"]["sha256"] = "0" * 64
+    expected["manifest.json"] = MODULE.serialize(manifest)
+    with pytest.raises(ValueError, match=r"manifest\.json"):
+        MODULE.verify_bundle(output, expected)
+    assert json.loads((output / "manifest.json").read_bytes())["generator"]["sha256"] != "0" * 64
+
+
+def test_check_cli_verifies_without_rewriting_the_existing_bundle(tmp_path: Path) -> None:
+    output = tmp_path / "review"
+    MODULE.publish_bundle(output)
+    before = {path.name: path.stat().st_mtime_ns for path in output.iterdir()}
+    result = subprocess.run(
+        [sys.executable, "-I", str(SCRIPT), "--output", str(output), "--check"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert "PUBLIC_EVIDENCE_VERIFIED" in result.stdout
+    assert before == {path.name: path.stat().st_mtime_ns for path in output.iterdir()}
+
+
+def test_cli_default_uses_ignored_artifacts_without_touching_committed_reports(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(MODULE, "ROOT", tmp_path)
+    monkeypatch.setattr(sys, "argv", [str(SCRIPT)])
+    assert MODULE.main() == 0
+    assert (tmp_path / "artifacts/public-review/manifest.json").is_file()
+    assert not (tmp_path / "reports").exists()

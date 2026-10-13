@@ -128,11 +128,13 @@ execution and reproduction sequence. It runs review generation before quality ga
 checks the exact proposed commit and compares canonical output bytes. Notebook
 execution reviews saved aggregate evidence; it does not start private training.
 
-To reproduce the lightweight checked-in report directly:
+To reproduce and compare the lightweight checked-in report without overwriting it:
 
 ```bash
-python3 scripts/review_public_evidence.py --output reports/public_review
-git diff --exit-code -- reports/public_review
+python3 scripts/review_public_evidence.py --output artifacts/public-review
+python3 scripts/review_public_evidence.py --output artifacts/public-review --check
+cmp artifacts/public-review/review.json reports/public_review/review.json
+cmp artifacts/public-review/index.html reports/public_review/index.html
 ```
 
 ## Disclosure boundary
@@ -163,3 +165,29 @@ operational monitoring service remain outside the validated scope.
 
 For a short tour, read the [employer review guide](employer_review.md),
 [case study](case_study.md) and [model card](../MODEL_CARD.md).
+
+## Verify and preserve a public review bundle
+
+The aggregate reviewer writes `index.html`, `review.json` and `manifest.json` as one
+complete directory. The manifest binds the five public input reports, exact reviewer
+source and both output files with SHA-256 identities. It records consistency, not
+independent authentication of historical scores.
+
+```bash
+python3 -I scripts/review_public_evidence.py --output artifacts/public-review
+python3 -I scripts/review_public_evidence.py --output artifacts/public-review --check
+```
+
+Use a new output path on the first run. An unchanged rerun validates the complete
+bundle and reuses it without writes. `--check` never creates or repairs outputs.
+Missing, extra, modified or symlinked members fail explicitly. Unrelated files and
+older two-file reports are preserved; choose a new directory after a source change
+or when reviewing a legacy export.
+
+Generation stages all three files beside the destination, validates them and
+publishes the directory with one rename. A failed write never exposes a partial
+success directory. A sibling `.NAME.review-lock` directory prevents concurrent
+cooperating writers. After an unclean process termination, verify that no writer
+is active before removing only that stale lock; abandoned staging directories are
+not valid review bundles. This local artifact contract does not claim protection
+from hostile concurrent filesystem changes or power-loss durability.
