@@ -1,0 +1,65 @@
+name: Prepare portfolio publication
+
+on:
+  push:
+    branches: [feat/employer-portfolio-closeout-20261017]
+    paths: [.github/workflows/portfolio-publication.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: portfolio-publication-20261017
+  cancel-in-progress: false
+
+jobs:
+  publish-reviewed-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
+        with:
+          version: "0.12.10"
+          python-version: "3.12.14"
+          enable-cache: true
+      - name: Apply bounded documentation migration to verified original files
+        run: python3 tools/publish_portfolio_docs.py
+      - name: Sync the existing locked public-review environment
+        run: uv sync --locked --group dev
+      - name: Format and type-check only the new publication modules
+        run: |
+          uv run --locked ruff check scripts/review_portfolio_brief.py tools/test_portfolio_brief.py --fix
+          uv run --locked ruff format scripts/review_portfolio_brief.py tools/test_portfolio_brief.py
+          uv run --locked ruff check scripts/review_portfolio_brief.py tools/test_portfolio_brief.py
+          uv run --locked mypy scripts/review_public_evidence.py scripts/review_portfolio_brief.py
+      - name: Generate new public outputs without replacing historical artifacts
+        run: |
+          test ! -e reports/portfolio/brief
+          uv run --locked python -W error scripts/review_portfolio_brief.py --output reports/portfolio/brief
+          uv run --locked python -W error scripts/review_portfolio_brief.py --output reports/portfolio/brief --check
+          uv run --locked python -W error -m unittest discover -s tools -p 'test_*.py'
+          node demo/model.test.mjs
+          node demo/app.test.mjs
+          uv run --locked pytest -W error -q tests/test_public_evidence.py
+      - name: Commit only reviewed publication paths and remove one-time helpers
+        env:
+          PUBLICATION_BRANCH: feat/employer-portfolio-closeout-20261017
+        run: |
+          git rm .github/workflows/portfolio-publication.yml tools/publish_portfolio_docs.py
+          git add .github/workflows/portfolio.yml MODEL_CARD.md Makefile README.md docs/case_study.md docs/completion.md docs/employer_review.md docs/portfolio_brief.html docs/project_status.md docs/public_reproducibility.md reports/portfolio/closeout.json reports/portfolio/brief scripts/check.sh scripts/review_portfolio_brief.py tools/test_portfolio_brief.py
+          git diff --cached --check
+          git diff --cached --stat
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'docs: publish native-verified employer portfolio and closeout evidence'
+          git push origin "HEAD:$PUBLICATION_BRANCH"
+          git archive HEAD --format=tar -o "$RUNNER_TEMP/portfolio-reviewed-source.tar"
+      - name: Retain the exact published source for final verification
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: portfolio-reviewed-source
+          path: ${{ runner.temp }}/portfolio-reviewed-source.tar
+          if-no-files-found: error
+          retention-days: 7
