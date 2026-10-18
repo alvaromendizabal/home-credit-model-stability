@@ -12,6 +12,47 @@ machine-readable form. Output is deterministic: repeated runs over the same veri
 inputs produce the same bytes, with no machine-specific path or current timestamp.
 The canonical example is [reports/public_review](../reports/public_review).
 
+## Portable engineering brief
+
+```bash
+python3 scripts/review_portfolio_brief.py
+python3 scripts/review_portfolio_brief.py --check
+```
+
+Open `artifacts/portfolio-brief/index.html`. The same directory contains an accessible
+`cover.svg`, the allowlisted `evidence.json` and a source/output `manifest.json`.
+There are no runtime assets, JavaScript, analytics, remote fonts or background
+requests. Source links open the corresponding published GitHub evidence only when
+selected. Native disclosure controls work without a script or web server.
+
+The brief **imports the established public metric engine**; it does not introduce
+another scoring implementation. It authenticates the original five aggregate inputs
+and two additional public files: the temporal protocol and original external
+execution receipt. Only approved population fields and external score/status fields
+are exported. The complete operational receipts, model settings and cloud paths are
+not copied into the brief.
+
+The generation command stages a complete bundle and publishes by directory rename.
+An existing destination is verified, never overwritten. A mismatch, extra member,
+unsafe path, missing source or changed source digest exits nonzero. `--check` performs
+no writes. Choose a new destination when deliberately reviewing a new source version;
+never delete accepted evidence just to clear a mismatch.
+
+The committed example can be checked with:
+
+```bash
+python3 scripts/review_portfolio_brief.py --output reports/portfolio/brief --check
+```
+
+[Portfolio CI](../.github/workflows/portfolio.yml) exercises the safety contracts and
+reproduces all four output files. The browser layout was additionally reviewed at
+desktop and mobile sizes; those local visual checks are separate from CI's automated
+source, HTML and numeric contract checks.
+
+The [closeout receipt](../reports/portfolio/closeout.json) is a separate owner-return
+attestation. It documents an exploratory run, not an independently reproduced public
+training result. No private return ZIP or training recipe is required or published.
+
 ## Interactive demo
 
 The [browser demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site) is a buildless, local-first explanation of

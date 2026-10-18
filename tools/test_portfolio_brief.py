@@ -66,9 +66,7 @@ class PortfolioBriefTests(unittest.TestCase):
 
     def test_preserves_metric_identity(self) -> None:
         c = self.doc["historical_release"]["stability_components"]
-        expected = (
-            c["mean_gini"] + 88 * min(0, c["temporal_slope"]) - 0.5 * c["residual_std"]
-        )
+        expected = c["mean_gini"] + 88 * min(0, c["temporal_slope"]) - 0.5 * c["residual_std"]
         self.assertAlmostEqual(c["stability_score"], expected, places=10)
 
     def test_deterministic_bundle(self) -> None:
@@ -193,9 +191,11 @@ class PortfolioBriefTests(unittest.TestCase):
     def test_failed_write_does_not_publish_partial_bundle(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "brief"
-            with patch.object(brief.os, "fsync", side_effect=OSError("disk failure")):
-                with self.assertRaises(OSError):
-                    brief.publish(output)
+            with (
+                patch.object(brief.os, "fsync", side_effect=OSError("disk failure")),
+                self.assertRaises(OSError),
+            ):
+                brief.publish(output)
             self.assertFalse(output.exists())
             self.assertEqual(list(Path(directory).iterdir()), [])
 

@@ -10,6 +10,19 @@ controlled selection and recoverable inference through explicit data and artifac
 contracts. The public evidence is readable without AWS access, private data or model
 retraining.
 
+## Pick a role-specific route
+
+| Reviewer | Inspect first | Evidence of ownership |
+|---|---|---|
+| ML engineer | [Checkpoint code](../src/home_credit/modeling/checkpoints.py), [inference tests](../tests/unit/test_inference.py) | Resumability, artifact identity, feature/inference parity and delivery safeguards |
+| Data scientist | [Benchmark](../notebooks/05_benchmark_review.ipynb), [ablations](../reports/feature_ablation/comparison.json) | Matched controls, temporal generalization, probability diagnostics and rejected hypotheses |
+| Applied AI engineer | [Pipeline case study](case_study.md), [runtime](../src/home_credit/runtime) | End-to-end model integration and operational reliability; this is tabular ML, not a claim of an LLM application |
+
+For a visual walkthrough, generate the [engineering brief](../reports/portfolio/brief/index.html)
+with `python3 scripts/review_portfolio_brief.py`. It reuses the established public
+metric verifier and needs only Python's standard library. The checked-in HTML is a
+portable document, not a newly deployed website.
+
 ## Start with the interactive explanation
 
 Open the [temporal stability demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site) to explore the evaluation
@@ -68,7 +81,7 @@ For further depth, review [model selection](../notebooks/08_model_selection.ipyn
 [post-release research record](post_release_research.md). These extend the evidence;
 they do not redefine the observed release evaluation as an untouched test.
 
-## Frozen evidence and ongoing research
+## Completed portfolio and separately scoped research
 
 The [current status](project_status.md) separates the completed release from later
 experiments and incomplete executions. New operational receipts do not rewrite the

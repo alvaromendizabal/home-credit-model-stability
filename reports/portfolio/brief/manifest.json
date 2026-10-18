@@ -1,0 +1,31 @@
+{
+  "aggregate_engine_sha256": "ffa636560eb7490608ad842fed4cff7926a59e5015260d20e3b1d13fa0ae02d1",
+  "authentication_scope": "Repository byte consistency; not independent training attestation",
+  "generator_sha256": "936e61dd1edb8cd6a8dcdd8b15fa33bd972412924b6d3c158a89ce3e81e82cc8",
+  "inputs": {
+    "configs/validation_protocol.json": "cea658652838e09ac57d27ec96d166781f5176036ef1e4bc2cd0fbc114c00c04",
+    "reports/benchmark/acceptance.json": "d76a0588901f07f80b94254348c7598545f35adb53ca1d5faae7d28314f99798",
+    "reports/benchmark/metrics.json": "e02e6d30c6559e029402e6b3d6180f759d7d2d5baeb60f1c09dbe377f237f9e3",
+    "reports/feature_ablation/comparison.json": "d035dc6993bf83dc9f386c23c7f6612275a13c47053758325e7ad1efcdd853ef",
+    "reports/kaggle_submission/execution.json": "72c401cdb21cc299b482c13dc7f5e92940292c13362a3e5e84935651ae33baa1",
+    "reports/model_release/evaluation.json": "42fbba1bfa0ee8b15991e85aa5a7b8171d5c69a3d8b29e53c19e24bf1bbf8152",
+    "reports/model_release/holdout_intent.json": "2c9b7101cae4602862009f0652fad9efc350c21f14e3bf61a68cf4060e90c5be"
+  },
+  "outputs": {
+    "cover.svg": {
+      "bytes": 2427,
+      "sha256": "0a2fcb4e9a6034f7cb0f43d898f0a26c60cf351b1cc49d940595b5f4f353162f"
+    },
+    "evidence.json": {
+      "bytes": 7090,
+      "sha256": "2c0ef56283719f27c3870c8ba6b84856b384d49140fa16fe61d747a021924f1f"
+    },
+    "index.html": {
+      "bytes": 24214,
+      "sha256": "17451c41808614d66607e2dbee84b30604e2c7b093bdd24bb583c23f9e00d64d"
+    }
+  },
+  "privacy": "No private paths, borrower rows, weights or active recipes exported",
+  "schema": "home-credit-employer-brief-v1",
+  "template_sha256": "a44d9d55d046e190268ffbec4098683a6d60b1222774bc83074d5816b0ce4147"
+}

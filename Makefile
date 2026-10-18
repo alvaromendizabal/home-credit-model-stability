@@ -1,4 +1,4 @@
-.PHONY: bootstrap check doctor smoke connectivity public-review
+.PHONY: bootstrap check doctor smoke connectivity public-review portfolio
 
 bootstrap:
 	bash scripts/start_here.sh
@@ -19,3 +19,6 @@ connectivity:
 
 public-review:
 	python3 scripts/review_public_evidence.py --output artifacts/public-review
+
+portfolio:
+	python3 scripts/review_portfolio_brief.py

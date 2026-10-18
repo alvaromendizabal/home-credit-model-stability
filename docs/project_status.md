@@ -1,4 +1,4 @@
-# Project status and optional monitoring
+# Portfolio release status
 
 **The evaluated employer-facing release was closed on 9 September 2026 and remains
 frozen.** The frozen model has a future-period evaluation, the original feature
@@ -6,7 +6,32 @@ studies are executed and verified, and the canonical notebooks expose the eviden
 A separate post-release frontier track now records later experiments without changing
 the historical release or reusing the observed holdout as a fresh test.
 
-## Latest inspected AWS execution — E98
+## Portfolio closeout — 17 October 2026
+
+**The public portfolio is closed within its research-and-inference scope.** The
+September release, later accepted external evaluation, executed notebooks, public
+metric verifier and interactive demo remain preserved. The employer-facing brief
+adds a seven-source, credential-free review path without replacing the scientific
+pipeline. No new training or submission is needed to demonstrate the completed work.
+
+The latest inspected owner-return archive completed **13/13 stages and one neural
+model fit**. Its comparison used a previously observed development fold, so the
+result remains exploratory. It did not promote a new champion or generate a new
+Kaggle submission. The [sanitized receipt](../reports/portfolio/closeout.json) binds
+this statement to the inspected archive digest. The source archive and model
+artifacts remain private; public checks do not independently rerun that training.
+
+The historical **0.56035 public / 0.47652 private** result remains sourced to the
+[accepted post-release report](../reports/post_release_frontier/october_2026.md).
+It was not reauthenticated through a new Kaggle execution during portfolio closeout.
+The frozen **0.729674** local stability still belongs to a different model artifact
+and population, and is not interchangeable with that external score.
+
+Further experiments and production-readiness studies are optional, separately
+scoped work. Presentation closeout does not certify production lending readiness,
+resolve all research questions or change any AWS resource's billing state.
+
+## Historical AWS inspection — E98 (10 October 2026)
 
 A read-only inspection at **2026-10-10 04:09:38 UTC** found that E98 had completed
 **42 tasks and five scientific model fits**, with execution status **SUCCESS**.

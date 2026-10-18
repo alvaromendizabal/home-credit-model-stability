@@ -144,7 +144,7 @@ FROZEN LATER-PERIOD EVALUATION</text>
 <text x="735" y="292" fill="#c8d7db" font-size="12">Week 73</text>
 <text x="1054" y="292" fill="#c8d7db" font-size="12">Week 91</text>
 <text x="735" y="331" fill="#c8d7db" font-size="13">
-Actual weekly Gini · {release['rows']:,} applications</text>
+Actual weekly Gini · {release["rows"]:,} applications</text>
 <text x="735" y="354" fill="#a3d8be" font-size="13">
 Public aggregates. Private training artifacts.</text>
 </g></svg>"""
@@ -190,7 +190,7 @@ def render(doc: dict[str, Any], template: str) -> str:
     )
     sources = "".join(
         f'<li><a href="{html.escape(source_link(path))}">{html.escape(SOURCE_NAMES[path])}'
-        f'</a><code>{html.escape(value)}</code></li>'
+        f"</a><code>{html.escape(value)}</code></li>"
         for path, value in sorted(doc["source_sha256"].items())
     )
     values = {
