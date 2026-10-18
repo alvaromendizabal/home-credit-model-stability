@@ -1,0 +1,41 @@
+name: Portfolio brief
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  portfolio-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out reviewed source
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: Set up credential-free checks
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.12.14"
+      - name: Test publication, source and disclosure contracts
+        run: python -W error -m unittest discover -s tools -p 'test_portfolio_brief.py'
+      - name: Reproduce committed presentation without writes
+        run: python -W error scripts/review_portfolio_brief.py --output reports/portfolio/brief --check
+      - name: Build a portable review and prove idempotent reuse
+        run: |
+          python -W error scripts/review_portfolio_brief.py --output "$RUNNER_TEMP/portfolio-brief"
+          python -W error scripts/review_portfolio_brief.py --output "$RUNNER_TEMP/portfolio-brief"
+          python -W error scripts/review_portfolio_brief.py --output "$RUNNER_TEMP/portfolio-brief" --check
+          diff -r reports/portfolio/brief "$RUNNER_TEMP/portfolio-brief"
+          git diff --exit-code
+      - name: Retain only the allowlisted public brief
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: portfolio-brief
+          path: ${{ runner.temp }}/portfolio-brief/
+          if-no-files-found: error
+          retention-days: 30
