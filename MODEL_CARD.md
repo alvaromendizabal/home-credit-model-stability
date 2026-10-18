@@ -1,5 +1,12 @@
 # Model card: frozen Home Credit research release
 
+
+> **Portfolio closeout: 17 October 2026.** Public presentation now includes a
+> [source-bound engineering brief](reports/portfolio/brief/index.html). This does
+> not change the evaluated model, establish a new external score or certify
+> production lending readiness. Later exploratory research did not promote a new
+> release; see [current status](docs/project_status.md).
+
 This project studies whether credit-risk ranking remains useful in later
 application periods. It is an evaluated research pipeline with a reproducible
 inference artifact. It has not been validated for real lending decisions.

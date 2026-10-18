@@ -141,6 +141,21 @@ results and reproducing the public review layer do not require starting a paid A
 instance. Private borrower-level artifacts and current research recipes remain outside
 the repository.
 
+## Delivery decisions and failure containment
+
+| Risk | Engineering decision | Public evidence |
+|---|---|---|
+| An interrupted run silently repeats expensive training | Reuse only hash-consistent accepted checkpoints; stop on incompatible identity | [Checkpoint implementation](../src/home_credit/modeling/checkpoints.py) and its tests |
+| An attractive mean conceals a weak period | Keep per-fold results, worst fold and stability components next to pooled AUC | [Executed benchmark](../notebooks/05_benchmark_review.ipynb) |
+| A presentation refresh mutates historical results | Reuse the accepted public verifier, pin source bytes and compare generated output exactly | [Brief renderer](../scripts/review_portfolio_brief.py), [contract tests](../tools/test_portfolio_brief.py) |
+| Publishing reproducibility exposes competitive assets | Export only allowlisted public aggregates; keep row-level data and active artifacts private | [Disclosure boundary](public_reproducibility.md#disclosure-boundary) |
+| A polished demo is mistaken for empirical evidence | Label synthetic interaction separately from actual source-bound experiments | [Interactive demo contract](public_reproducibility.md#interactive-demo) |
+
+The finished portfolio demonstrates evaluated modeling and reliable research
+engineering. Additional model experiments are not a dependency of its review path.
+The [visual brief](../reports/portfolio/brief/index.html) makes these decisions
+accessible before a reviewer opens the deeper implementation.
+
 ## Limits and production follow-through
 
 The project has not established production lending readiness. It has not measured

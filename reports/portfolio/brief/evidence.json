@@ -1,0 +1,232 @@
+{
+  "benchmark": [
+    {
+      "mean_fold_stability": 0.585188372392,
+      "model": "lightgbm",
+      "pooled_stability": 0.678868525474,
+      "recorded_prediction_metrics": {
+        "auc": 0.846894137492,
+        "brier_score": 0.032425458088,
+        "log_loss": 0.126804974615,
+        "pr_auc": 0.204524561645
+      },
+      "worst_fold_stability": 0.393682285871
+    },
+    {
+      "mean_fold_stability": 0.558891637862,
+      "model": "xgboost",
+      "pooled_stability": 0.678174768492,
+      "recorded_prediction_metrics": {
+        "auc": 0.846575785151,
+        "brier_score": 0.032440709462,
+        "log_loss": 0.126886764508,
+        "pr_auc": 0.204700646216
+      },
+      "worst_fold_stability": 0.343432435755
+    },
+    {
+      "mean_fold_stability": 0.546329557247,
+      "model": "catboost",
+      "pooled_stability": 0.6711616096,
+      "recorded_prediction_metrics": {
+        "auc": 0.842745252103,
+        "brier_score": 0.032512417412,
+        "log_loss": 0.12773980615,
+        "pr_auc": 0.201164202961
+      },
+      "worst_fold_stability": 0.29714895222
+    },
+    {
+      "mean_fold_stability": -0.120989760747,
+      "model": "linear_logistic",
+      "pooled_stability": 0.360776855639,
+      "recorded_prediction_metrics": {
+        "auc": 0.675620394047,
+        "brier_score": 0.03635357259,
+        "log_loss": 0.253833535812,
+        "pr_auc": 0.102616225938
+      },
+      "worst_fold_stability": -0.587616375958
+    }
+  ],
+  "disclosure": "Historical public aggregates only; no borrower rows or active recipes",
+  "evidence_commit": "1de46633c44071689915015c89a3eb42bd77e301",
+  "feature_ablation": [
+    {
+      "delta_vs_control": 0.0,
+      "experiment": "control",
+      "mean_fold_stability": 0.585188372392,
+      "worst_fold_stability": 0.393682285871
+    },
+    {
+      "delta_vs_control": -0.015762285914,
+      "experiment": "without_depth2",
+      "mean_fold_stability": 0.569426086479,
+      "worst_fold_stability": 0.35524702196
+    },
+    {
+      "delta_vs_control": -0.031440434438,
+      "experiment": "without_previous_applications",
+      "mean_fold_stability": 0.553747937955,
+      "worst_fold_stability": 0.292276753032
+    },
+    {
+      "delta_vs_control": -0.09381344905,
+      "experiment": "without_credit_bureau_a",
+      "mean_fold_stability": 0.491374923343,
+      "worst_fold_stability": 0.375419224156
+    }
+  ],
+  "historical_release": {
+    "evaluated_utc": "2026-09-08T03:04:22Z",
+    "evaluation_weeks": [
+      73,
+      91
+    ],
+    "fit_weeks": [
+      0,
+      72
+    ],
+    "recorded_prediction_metrics": {
+      "auc": 0.875759098066,
+      "brier_score": 0.019281576907,
+      "log_loss": 0.080695204114,
+      "pr_auc": 0.193754856315
+    },
+    "rows": 203345,
+    "stability_components": {
+      "mean_gini": 0.745257225738,
+      "residual_std": 0.031166862559,
+      "stability_score": 0.729673794459,
+      "temporal_slope": 0.001652826663
+    },
+    "weekly": [
+      {
+        "gini": 0.719163301418,
+        "week": 73
+      },
+      {
+        "gini": 0.755026937512,
+        "week": 74
+      },
+      {
+        "gini": 0.765280407828,
+        "week": 75
+      },
+      {
+        "gini": 0.726165869106,
+        "week": 76
+      },
+      {
+        "gini": 0.697289432798,
+        "week": 77
+      },
+      {
+        "gini": 0.783713156003,
+        "week": 78
+      },
+      {
+        "gini": 0.762931034483,
+        "week": 79
+      },
+      {
+        "gini": 0.714998911742,
+        "week": 80
+      },
+      {
+        "gini": 0.728792378727,
+        "week": 81
+      },
+      {
+        "gini": 0.671750767718,
+        "week": 82
+      },
+      {
+        "gini": 0.743657985569,
+        "week": 83
+      },
+      {
+        "gini": 0.720737623473,
+        "week": 84
+      },
+      {
+        "gini": 0.775000876344,
+        "week": 85
+      },
+      {
+        "gini": 0.803610390472,
+        "week": 86
+      },
+      {
+        "gini": 0.777822058694,
+        "week": 87
+      },
+      {
+        "gini": 0.768418749333,
+        "week": 88
+      },
+      {
+        "gini": 0.72695784845,
+        "week": 89
+      },
+      {
+        "gini": 0.742393612503,
+        "week": 90
+      },
+      {
+        "gini": 0.776175946858,
+        "week": 91
+      }
+    ]
+  },
+  "limitations": [
+    "Development folds informed early stopping and model selection; estimates are not unbiased nested validation.",
+    "The September 8, 2026 frozen release observed weeks 73-91. Those weeks are no longer an untouched holdout and must not be reused for model selection.",
+    "The historical release and development scores have different populations and must not be interpreted as a direct improvement comparison.",
+    "Linear logistic results use the published raw-rank correction; archived clipped aggregate summaries differ. This review uses the corrected metrics.",
+    "Hashes establish consistency with this repository snapshot, not independent verification of private training data, artifacts, or execution.",
+    "This review does not reproduce model fitting or prediction-level metrics."
+  ],
+  "metric_contract": {
+    "formula": "mean(weekly Gini) + 88 * min(0, slope) - 0.5 * residual_std",
+    "numeric_tolerance": 1e-10,
+    "prediction_policy": "unclipped prediction ranks for Gini, ROC AUC, and AP; raw Brier; log loss clips to [1e-7, 1-1e-7]",
+    "recomputed": "Weekly stability components, fold means, worst folds, ablation deltas.",
+    "recorded_only": "ROC AUC, average precision, Brier and log loss need row predictions.",
+    "residual_ddof": 0
+  },
+  "original_external_evaluation": {
+    "date": "2026-09-09",
+    "private": 0.47429,
+    "public": 0.56062,
+    "scope": "Separate all-label refit; recorded receipt, not rescored here",
+    "status": "Succeeded (after deadline)"
+  },
+  "population": {
+    "aligned_oof_rows": 727187,
+    "development_training_rows": 1323314,
+    "labeled_applications": 1526659,
+    "release_evaluation_rows": 203345
+  },
+  "schema_version": 1,
+  "source_sha256": {
+    "configs/validation_protocol.json": "cea658652838e09ac57d27ec96d166781f5176036ef1e4bc2cd0fbc114c00c04",
+    "reports/benchmark/acceptance.json": "d76a0588901f07f80b94254348c7598545f35adb53ca1d5faae7d28314f99798",
+    "reports/benchmark/metrics.json": "e02e6d30c6559e029402e6b3d6180f759d7d2d5baeb60f1c09dbe377f237f9e3",
+    "reports/feature_ablation/comparison.json": "d035dc6993bf83dc9f386c23c7f6612275a13c47053758325e7ad1efcdd853ef",
+    "reports/kaggle_submission/execution.json": "72c401cdb21cc299b482c13dc7f5e92940292c13362a3e5e84935651ae33baa1",
+    "reports/model_release/evaluation.json": "42fbba1bfa0ee8b15991e85aa5a7b8171d5c69a3d8b29e53c19e24bf1bbf8152",
+    "reports/model_release/holdout_intent.json": "2c9b7101cae4602862009f0652fad9efc350c21f14e3bf61a68cf4060e90c5be"
+  },
+  "verification": {
+    "ablation_component_checks": 20,
+    "benchmark_folds": 20,
+    "benchmark_models": 4,
+    "benchmark_weekly_records": 160,
+    "development_rows": 727187,
+    "input_files": 5,
+    "release_rows": 203345,
+    "release_weeks": 19,
+    "weekly_stability_recomputations": 25
+  }
+}

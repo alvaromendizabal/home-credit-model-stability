@@ -1,0 +1,26 @@
+{
+  "attestation_scope": "Sanitized owner-return archive inspection; not public retraining or independent score authentication",
+  "cloud_billing_state": "NOT_CHANGED_OR_CERTIFIED_BY_PORTFOLIO_PUBLICATION",
+  "future_work": "Optional, separately scoped research and production validation",
+  "latest_inspected_execution": {
+    "evaluation_scope": "Previously observed development fold; exploratory only",
+    "new_champion_promoted": false,
+    "new_external_score": false,
+    "new_model_fits": 1,
+    "stages_completed": 13,
+    "stages_total": 13,
+    "status": "SUCCESS",
+    "submission_readiness": "NO_BETTER_CHALLENGER"
+  },
+  "portfolio_status": "CLOSED_WITHIN_DOCUMENTED_RESEARCH_SCOPE",
+  "preservation": {
+    "borrower_rows_not_published": true,
+    "historical_release_unchanged": true,
+    "private_feature_recipes_not_published": true,
+    "private_models_not_published": true
+  },
+  "publication_date": "2026-10-17",
+  "schema_version": 1,
+  "source_archive_published": false,
+  "source_archive_sha256": "a0c455ce943ac9e7530c998a5f36f8183e7f3d3453ef38c184b444302ba6972f"
+}

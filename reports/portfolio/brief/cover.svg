@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430"
+role="img" aria-labelledby="title desc">
+<title id="title">Credit risk. Measured through time.</title>
+<desc id="desc">Alvaro Mendizabal's research and inference system. 1,526,659 labeled
+applications. The chart shows actual weekly Gini on the frozen historical evaluation,
+weeks 73 to 91. Stability 0.729674 is a local score, not a Kaggle result.</desc>
+<rect width="1200" height="430" rx="24" fill="#102a33"/>
+<g font-family="Arial,Helvetica,sans-serif">
+<text x="54" y="57" fill="#a3d8be" font-size="14" letter-spacing="3">
+ALVARO MENDIZABAL / ML ENGINEERING</text>
+<text x="54" y="134" fill="#f8f5eb" font-size="57" font-weight="700">Credit risk.</text>
+<text x="54" y="202" fill="#f8f5eb" font-size="57" font-weight="700">Measured through time.</text>
+<text x="57" y="248" fill="#c8d7db" font-size="19">
+Relational features. Temporal evidence. Recoverable inference.</text>
+<line x1="56" y1="292" x2="661" y2="292" stroke="#42616b"/>
+<text x="56" y="342" fill="#f8f5eb" font-size="32" font-weight="700">1,526,659</text>
+<text x="56" y="370" fill="#c8d7db" font-size="14">LABELED APPLICATIONS</text>
+<text x="365" y="342" fill="#f8f5eb" font-size="32" font-weight="700">5 temporal folds</text>
+<text x="365" y="370" fill="#c8d7db" font-size="14">MATCHED MODEL COMPARISONS</text>
+<rect x="707" y="81" width="440" height="298" rx="16" fill="#1b3b44"/>
+<text x="735" y="119" fill="#d3e6dc" font-size="13" letter-spacing="1">
+FROZEN LATER-PERIOD EVALUATION</text>
+<text x="735" y="165" fill="#f8f5eb" font-size="31" font-weight="700">0.729674</text>
+<text x="942" y="162" fill="#c8d7db" font-size="13">local stability</text>
+<path d="M735 186H1115 M735 225H1115 M735 269H1115" stroke="#35545d" fill="none"/>
+<polyline points="735.0,214.2 756.0,197.7 777.0,193.0 798.0,211.0 819.0,224.2 840.0,184.5 861.0,194.1 882.0,216.1 903.0,209.8 924.0,236.0 945.0,202.9 966.0,213.5 987.0,188.5 1008.0,175.3 1029.0,187.2 1050.0,191.5 1071.0,210.6 1092.0,203.5 1113.0,188.0" stroke="#a3d8be" fill="none" stroke-width="3"/>
+<text x="735" y="292" fill="#c8d7db" font-size="12">Week 73</text>
+<text x="1054" y="292" fill="#c8d7db" font-size="12">Week 91</text>
+<text x="735" y="331" fill="#c8d7db" font-size="13">
+Actual weekly Gini · 203,345 applications</text>
+<text x="735" y="354" fill="#a3d8be" font-size="13">
+Public aggregates. Private training artifacts.</text>
+</g></svg>

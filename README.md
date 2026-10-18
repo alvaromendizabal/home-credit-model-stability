@@ -1,5 +1,7 @@
 # Home Credit Model Stability
 
+![Credit-risk engineering: actual frozen weekly Gini, source-bound evidence and 1.53 million labeled applications](reports/portfolio/brief/cover.svg)
+
 [![CI](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/ci.yml/badge.svg)](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/ci.yml)
 [![Public demo](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/public-demo.yml/badge.svg)](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/public-demo.yml)
 
@@ -7,9 +9,24 @@
 
 A model can rank historical applicants well and still weaken in later periods. My work connects relational features, expanding-window evaluation, controlled experiments, resumable AWS execution and verified inference. The public review preserves both successful results and rejected ideas.
 
+**[Read the visual engineering brief](reports/portfolio/brief/index.html)** · [Verify its source-bound build](scripts/review_portfolio_brief.py)
+
 **[Explore the interactive demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site)** · [Five-minute review](docs/employer_review.md) · [Case study](docs/case_study.md) · [Model card](MODEL_CARD.md)
 
 Built by [Alvaro Mendizabal](https://github.com/alvaromendizabal).
+
+## Choose your review depth
+
+| Time | Review path | What you can verify |
+|---|---|---|
+| **30 seconds** | Architecture and measured results below | The problem, my ownership and the evidence scope |
+| **5 minutes** | [Visual brief](reports/portfolio/brief/index.html) · [Engineering review](docs/employer_review.md) | Design trade-offs, feature value, evaluation discipline and inference delivery |
+| **Hands-on** | `python3 scripts/review_portfolio_brief.py` | Seven pinned public inputs; the existing metric replay engine; deterministic HTML/SVG/JSON |
+| **Implementation depth** | [Case study](docs/case_study.md) · [Executed notebooks](notebooks) · [Source](src/home_credit) | Training-only encoders, temporal comparisons, checkpoint recovery and release contracts |
+
+The visual brief opens locally after generation. GitHub displays HTML as source;
+use the existing live demo for an immediate browser experience. No installation,
+account or private data is required for the standard-library review command.
 
 ## Three engineering results
 
@@ -66,7 +83,7 @@ Both panels use the five development folds. Their metrics are not directly compa
 
 ## Current research snapshot
 
-The latest inspected **E98 execution completed five model fits**, but its selected candidate failed later-period confirmation and was rejected. It produced no new submission or external score. The historical release remains frozen; [current status](docs/project_status.md) records the decision and separate evidence scopes.
+**Portfolio closeout — 17 October 2026.** The evaluated release, public evidence and interactive review are complete within the documented research scope. A subsequent matched-control neural study completed successfully but remained exploratory; it did not promote a new model or create a new external score. No further training is required to review this project. [Current status](docs/project_status.md) and the [sanitized closeout receipt](reports/portfolio/closeout.json) separate the delivered portfolio from optional future research.
 
 ## Review the implementation
 

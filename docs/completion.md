@@ -13,6 +13,31 @@ reproducible evidence, clear decisions and explicit limits. Start with the
 [05](../notebooks/05_benchmark_review.ipynb) and
 [09](../notebooks/09_model_release.ipynb). The full research trail is linked there.
 
+## Portfolio publication closeout — 17 October 2026
+
+The public portfolio now has a deterministic, self-contained engineering brief,
+source-linked metric scopes, an accessible README cover, role-specific review
+routes and a tested no-overwrite publication contract. These are presentation and
+public-evidence improvements, not a new model release or external evaluation.
+
+The original credential-free verifier, synthetic stability lab, training source,
+executed notebooks and accepted research artifacts are preserved. The brief reuses
+that verifier rather than introducing a competing score implementation.
+
+| Public review contract | How to inspect it |
+|---|---|
+| Rebuild the portable brief | `python3 scripts/review_portfolio_brief.py` |
+| Verify the same bundle without writes | Add `--check` |
+| Verify the committed publication | `python3 scripts/review_portfolio_brief.py --output reports/portfolio/brief --check` |
+| Test failure and disclosure boundaries | `python3 -m unittest discover -s tools -p 'test_portfolio_brief.py'` |
+| Inspect historical research quality gates | [Existing CI](../.github/workflows/ci.yml) |
+| Inspect presentation-specific CI | [Portfolio workflow](../.github/workflows/portfolio.yml) |
+
+The [current status](project_status.md) and [sanitized receipt](../reports/portfolio/closeout.json)
+record the last inspected exploratory run. No source winner-equivalence, new
+champion promotion, production adoption or financial lift is claimed.
+No further model training is required for this portfolio's completed public scope.
+
 ## Closeout checks — 9 September 2026
 
 This bounded research release is closed as of 9 September 2026. The accepted
