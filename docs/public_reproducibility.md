@@ -110,7 +110,7 @@ of the original private experiment.
 
 ## Dated owner-return receipt
 
-The [E97 summary](../reports/latest_execution/summary.json) is a separate sanitized
+The E97 summary is a separate sanitized
 operational receipt. Verify its fixed identity and evidence contract with:
 
 ```bash
@@ -120,17 +120,17 @@ python tools/summarize_execution.py --check
 It records a memory-guard stop, 13 of 42 tasks complete and no new fit or submission.
 Its original local archive integrity was verified; referenced remote artifacts and
 private predictions were not independently replayed. It does not update the frozen
-metrics or reverify the previously reported Kaggle scores. The [current status](project_status.md)
+metrics or reverify the previously reported Kaggle scores. The current status
 explains the distinction. The source owner-return archive remains private.
 
 ## Later AWS execution snapshot
 
-A separate [E98 snapshot](../reports/latest_execution/aws_snapshot.json) records a
+A separate E98 snapshot records a
 read-only inspection of the later completed run: 42 tasks and five fits, with the
 selected candidate rejected on later-period stability. It records no new submission
 or score. The snapshot preserves aggregate decisions and source identities; it does
 not distribute the private model, configuration or predictions. Its observation time
-is not the run's completion time. [Current status](project_status.md) explains the
+is not the run's completion time. Current status explains the
 selection/confirmation distinction and keeps the E97 archive separate. Check this
 public snapshot without cloud access:
 

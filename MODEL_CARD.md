@@ -5,7 +5,7 @@
 > [source-bound engineering brief](reports/portfolio/brief/index.html). This does
 > not change the evaluated model, establish a new external score or certify
 > production lending readiness. Later exploratory research did not promote a new
-> release; see [current status](docs/project_status.md).
+> release; see current status.
 
 This project studies whether credit-risk ranking remains useful in later
 application periods. It is an evaluated research pipeline with a reproducible
@@ -89,14 +89,6 @@ untouched test for subsequent work.
 Application periods define the folds; production event-time availability and label
 maturity have not been certified.
 
-The later [feature research](notebooks/11_feature_research.ipynb) tested 4,617 new
-hypotheses and completed 20 comparison fits. Its engineered condition improved
-pooled AUC while reducing temporal stability. It was not promoted. A separate
-raw-history study tested 524 median/IQR/p90/skew candidates, retained 96 and
-completed ten full comparisons. The 796-feature condition reaches 0.584195 mean
-stability (-0.000994 vs the original control); removing its 13 skew features
-reaches 0.588678 (+0.003490).
-
 Both history conditions improve the weakest fold but win on only three of five
 folds. Their fold-omission ranges cross zero; without skew, the range is
 -0.002966 to +0.007128. The modest mean benefit depends on which periods
@@ -112,22 +104,12 @@ not alter the released recipe. The history view has no raw-test feature contract
 The accompanying audit records 33 date fields across 14 sources and explicitly
 excludes chronological features without a verified availability contract.
 
-The [calibration research](notebooks/12_calibration.ipynb) uses development
-data only. Neither tested map improved pooled Brier or log loss; it does not
-change this frozen release. Further research requires its own promotion decision
-and independent evaluation population.
-
 ## Post-release frontier status
 
 Later research remains explicitly separate from this frozen model card. Native
 LightGBM categorical identity and the registered standalone histogram challenger were
 both rejected on their locked confirmation windows. The histogram mechanism remained
 useful as a complementary component and was carried into later development research.
-
-DenseLight was then executed under its preregistered temporal protocol and extended
-to a multi-seed neural component. A later tree + histogram + DenseLight ensemble
-reached **0.618940 mean development stability**, passed locked confirmation and was
-measured externally at **0.56035 public / 0.47652 private**.
 
 Subsequent source-aware tree and categorical/sparse frontiers completed bounded fit
 budgets but failed their confirmation gates. The most useful new evidence was:
@@ -146,7 +128,7 @@ their earlier development gains did not survive the later confirmation contract.
 
 Aggregate results are published in the
 [October frontier report](reports/post_release_frontier/october_2026.md) and
-[frontier continuation](reports/post_release_frontier/october_2026_continuation.md).
+frontier continuation.
 Exact active feature identities, borrower-level matrices, private checkpoints and
 portable competition runtime bundles remain outside Git. This keeps the portfolio
 scientifically auditable without publishing the full competition recipe.
@@ -196,13 +178,13 @@ promotion decisions rather than exact active feature identities or competitive r
 recipes.
 
 See the
-[frontier continuation](reports/post_release_frontier/october_2026_continuation.md),
+frontier continuation,
 [research engineering](docs/research_engineering.md) and
 [public reproducibility boundary](docs/public_reproducibility.md). Exact active feature
 lists, borrower-level matrices, private checkpoints and competition runtime bundles
 remain outside Git.
 
-The [current status](docs/project_status.md) tracks subsequent execution evidence
+The current status tracks subsequent execution evidence
 separately. New operational receipts do not update this frozen evaluation or
 independently reconfirm prior external scores.
 
@@ -219,7 +201,7 @@ finite probabilities. CSV generation is off by default. The owner enables and
 downloads a file explicitly; there is no automatic Kaggle upload.
 
 See the [release runbook](docs/model_release.md) for artifact lineage and commands,
-and [the project status](PROJECT_PLAN.md) for the completed research record.
+and the project status for the completed research record.
 
 The subsequent [date-parsing compatibility check](reports/kaggle_submission/date_parsing_verification.json)
 compares current-source features with the original frozen inference on ten public

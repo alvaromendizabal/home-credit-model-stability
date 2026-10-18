@@ -46,12 +46,6 @@ Avoidable failures become regression tests before the next expensive run.
 The active research instance is an NVIDIA L4-backed SageMaker environment. Performance
 choices are measured rather than assumed. Examples include:
 
-- DenseLight inference batch benchmarking and CPU/GPU probability parity;
-- CatBoost feed-thread benchmarking;
-- LightGBM thread-count benchmarking to avoid nested oversubscription;
-- explicit effective-device checks for XGBoost, rather than trusting a requested CUDA flag;
-- concurrent CPU fits only when host-memory and thread budgets make that safe.
-
 This makes resource telemetry part of correctness: a job that silently falls back to a
 different execution path is treated as a scientific and engineering issue, not merely a
 speed problem.
@@ -78,17 +72,6 @@ recovery recipes.
 
 The research program has exercised complementary model families and representations,
 including:
-
-- LightGBM with multiple feature systems and boosting modes;
-- CatBoost with recovered categorical identity;
-- reduced-sample XGBoost;
-- DenseLight-style neural modeling;
-- HistGradientBoosting;
-- fixed and learned heterogeneous ensembles;
-- relational, sparse, temporal, categorical and historical aggregation families.
-- nonlinear numerical encodings and training-only support representations;
-- contrastive/denoising pretraining, retrieval and learned retrieval adapters;
-- source-robust objectives and categorical-information recovery.
 
 The public repository records aggregate evidence and lifecycle decisions. Exact active
 feature lists, borrower-level matrices, private checkpoints and portable competition

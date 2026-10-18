@@ -57,10 +57,6 @@ reduced mean stability by **0.025284**, so it did not replace the evaluated rele
 That finding shaped the research process: compare additions against saved controls,
 inspect period-level effects and retain unsuccessful experiments.
 
-Evidence: [feature engineering](../notebooks/02_feature_engineering.ipynb),
-[controlled ablations](../reports/feature_ablation/comparison.json) and
-[expanded feature study](../notebooks/11_feature_research.ipynb).
-
 ### Separate model improvement from evidence strength
 
 The accepted tuning study completed **40 new model-fold fits** while reusing five
@@ -75,11 +71,6 @@ earlier development predictions transferred to later development periods. Neithe
 tested mapping improved pooled Brier score or log loss. It did not change the release.
 Later representation and neural studies have their own selection and confirmation
 records, without changing the meaning of that release result.
-
-Evidence: [tuning metrics](../reports/model_tuning/metrics.json),
-[selection notebook](../notebooks/08_model_selection.ipynb),
-[calibration notebook](../notebooks/12_calibration.ipynb) and
-[post-release research](post_release_research.md).
 
 ### Make recovery and inference part of the deliverable
 
@@ -128,7 +119,7 @@ hypotheses, native model lineage and offline execution verification.
 ## Preserve the meaning of a release
 
 I keep the delivered release separate from subsequent experiments and incomplete
-executions. The [current status](project_status.md) and its linked receipts record
+executions. The current status and its linked receipts record
 that later work. An operational checkpoint or successful report does not, by itself,
 establish a new trained model, scientific result or submission score.
 
