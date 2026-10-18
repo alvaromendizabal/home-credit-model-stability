@@ -28,12 +28,23 @@ jobs:
           enable-cache: true
       - name: Apply bounded documentation migration to verified original files
         run: python3 tools/publish_portfolio_docs.py
+      - name: Normalize the fault-test context without changing its behavior
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('tools/test_portfolio_brief.py')
+          s = p.read_text()
+          old = '            with patch.object(brief.os, "fsync", side_effect=OSError("disk failure")):\n                with self.assertRaises(OSError):\n                    brief.publish(output)'
+          new = '            with (\n                patch.object(brief.os, "fsync", side_effect=OSError("disk failure")),\n                self.assertRaises(OSError),\n            ):\n                brief.publish(output)'
+          assert s.count(old) == 1, 'Unexpected fault-test source'
+          p.write_text(s.replace(old, new))
+          PY
       - name: Sync the existing locked public-review environment
         run: uv sync --locked --group dev
       - name: Format and type-check only the new publication modules
         run: |
-          uv run --locked ruff check scripts/review_portfolio_brief.py tools/test_portfolio_brief.py --fix
           uv run --locked ruff format scripts/review_portfolio_brief.py tools/test_portfolio_brief.py
+          uv run --locked ruff check scripts/review_portfolio_brief.py tools/test_portfolio_brief.py --fix
           uv run --locked ruff check scripts/review_portfolio_brief.py tools/test_portfolio_brief.py
           uv run --locked mypy scripts/review_public_evidence.py scripts/review_portfolio_brief.py
       - name: Generate new public outputs without replacing historical artifacts
