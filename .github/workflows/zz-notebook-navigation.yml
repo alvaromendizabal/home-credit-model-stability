@@ -1,0 +1,63 @@
+name: Finish notebook navigation
+on:
+  push:
+    branches: [cleanup/review-closeout-20261019]
+    paths: [.github/workflows/zz-notebook-navigation.yml]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
+        with:
+          version: '0.12.10'
+          python-version: '3.12.14'
+          enable-cache: false
+      - name: Repair only inspected Markdown cells and stale historical wording
+        shell: python
+        run: |
+          import hashlib,json
+          from pathlib import Path
+          expected={'05_benchmark_review.ipynb':'87559ec6837372415c955fc110ee1d643317b59426f28a7cbffc015866053ebd','07_model_tuning.ipynb':'bc07ec186b74417d04ebeb585e42cc58fc5d98d2651074ba3cee0abb18f49955'}
+          for name,digest in expected.items():
+              p=Path('notebooks')/name
+              if hashlib.sha256(p.read_bytes()).hexdigest()!=digest:raise ValueError('Notebook changed: '+name)
+          p=Path('notebooks/05_benchmark_review.ipynb');n=json.loads(p.read_text());c=n['cells'][14]
+          c['source']=[s for s in ''.join(c['source']).splitlines(keepends=True) if '11_feature_research.ipynb' not in s and '12_calibration.ipynb' not in s]
+          p.write_text(json.dumps(n,indent=1,ensure_ascii=False)+'\n')
+          p=Path('notebooks/07_model_tuning.ipynb');n=json.loads(p.read_text());c=n['cells'][5];s=''.join(c['source'])
+          s=s[:s.index('Next, compare')]+'''The subsequent fixed OOF comparison and frozen release are complete. Inspect
+          [the selected blend](08_model_selection.ipynb) and [the frozen release](09_model_release.ipynb)
+          without restarting the historical training job. The public reviews use committed
+          aggregate evidence; the retired AWS workspace is not required.
+
+          The development-trained holdout model and its all-label inference refit remain
+          separate artifacts. The holdout is now observed. [Recorded external delivery](../docs/kaggle_submission.md)
+          has its own evidence and is not implied by these development results.
+          '''
+          c['source']=s.splitlines(keepends=True);p.write_text(json.dumps(n,indent=1,ensure_ascii=False)+'\n')
+          p=Path('docs/model_release.md');s=p.read_text().replace('The feature and release reviews run from committed aggregate evidence with no cloud\naccess. `scripts/verify_model_release.py --bucket ...` independently restores and','The feature and release reviews run from committed aggregate evidence with no cloud\naccess. With separately retained private artifacts, the historical verification\ninterface `scripts/verify_model_release.py --bucket ...` restores and')
+          s=s.replace('This verifies the ten-row\npublic example; hidden competition execution is still untested.','That verification covered the ten-row public example only. Subsequent external\nexecution and its scores are recorded separately in the [delivery evidence](kaggle_submission.md);\nthey must not be inferred from this earlier integration check.\n\nProject AWS spaces and buckets are retired. Historical job names and object counts\nabove identify completed work, not currently provisioned resources. The\n[public review](public_reproducibility.md) needs none of those cloud resources.');p.write_text(s)
+          p=Path('docs/kaggle_submission.md');s=p.read_text().replace('## Current delivery status','## Recorded delivery status · September 9, 2026');s=s[:s.index('## Optional status check')].rstrip()+'\n\n## Archived infrastructure\n\nThe project AWS spaces and buckets have been retired. Historical job names,\npackage versions and receipts document completed execution; they are not a\ncurrent availability check or instructions to recreate the old workspace. Use the\n[credential-free review](public_reproducibility.md) to inspect the retained evidence.\nA full private inference rerun additionally requires the original licensed inputs\nand separately retained fitted bundle.\n';p.write_text(s)
+      - name: Re-execute both real notebooks without private input or training
+        run: |
+          uv sync --locked --group dev
+          uv run --locked python scripts/review_model_benchmark.py --force
+          uv run --locked python scripts/review_model_tuning.py --force
+          python3 -S scripts/source_check.py
+      - name: Commit only the repaired reviews and documentation
+        run: |
+          git add docs/model_release.md docs/kaggle_submission.md notebooks/05_benchmark_review.ipynb notebooks/07_model_tuning.ipynb
+          git diff --cached --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Remove retired study links and publish verified completed-release notebook navigation'
+          git push origin HEAD:cleanup/review-closeout-20261019
