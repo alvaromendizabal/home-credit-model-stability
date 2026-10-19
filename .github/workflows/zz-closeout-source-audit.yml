@@ -1,4 +1,4 @@
-name: Temporary public source audit
+name: Verify eight final main branches
 on:
   push:
     branches: [cleanup/public-surface-20261018]
@@ -6,42 +6,66 @@ on:
 permissions:
   contents: read
 jobs:
-  source:
+  final-audit:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 6
     steps:
-      - name: Read only the eight authorized public repositories
+      - name: Verify the eight authorized merged commits and download only their public source
         shell: python
         run: |
-          import concurrent.futures, hashlib, json, os, pathlib, urllib.request
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'audit-sources'
+          import concurrent.futures, datetime, hashlib, json, os, pathlib, time, urllib.request
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'final-sources'
           out.mkdir()
-          specs={
-            'home-credit-model-stability':'213e6eea9636b50f66b1bc8fbf15b1a623f2f4aa',
-            'nfl-player-trajectory':'06f9888568de2b0681690462593b85842a4bc324',
+          expected={
+            'home-credit-model-stability':'6075943862563f24971b64a33e6c2f1fb715007a',
+            'nfl-player-trajectory':'e9a607ec17766431c2a988570e59cf02e0881aa8',
             'jigsaw-rule-classifier':'59b5b3da302e41318447042f6326694dd879c866',
-            'commodity-prediction':'154c0937e86f17139ddeff2ac2110eeedf8a08bb',
+            'commodity-prediction':'d6c447c901134f0644c921daee324a913e180c27',
             'kaggriculture':'006a2dc529472d0dd221fb76b90bb07a8f147ee2',
             'lava-aws-multilingual-docvqa':'b9b5cc853bb1b32c3876c6fe3829fa92eedb2148',
             'biohub-cell-tracking-during-development':'075b9541dedf46c105c6a967d59b7f2fe37b6bb1',
-            'rsna-knee-abnormality-detection':'080f5e5dfcc70439a2e95aafa7cabf9dfb42dd30'}
+            'rsna-knee-abnormality-detection':'72badf5430d430c14326eeff44521f04c4b6bede'}
           def get(url):
               request=urllib.request.Request(url,headers={'User-Agent':'public-portfolio-closeout','Accept':'application/vnd.github+json'})
               with urllib.request.urlopen(request,timeout=90) as response:return response.read()
           def read(item):
               name,sha=item
+              api=f'https://api.github.com/repos/alvaromendizabal/{name}'
+              head=json.loads(get(api+'/git/ref/heads/main'))['object']['sha']
+              if head!=sha:raise RuntimeError(name+': main changed; reconcile before claiming completion')
+              commit=json.loads(get(api+'/git/commits/'+sha))
+              for attempt in range(5):
+                  runs=json.loads(get(api+f'/actions/runs?head_sha={sha}&event=push&per_page=100'))
+                  if runs['total_count']>len(runs['workflow_runs']):raise RuntimeError('Incomplete workflow listing')
+                  values=runs['workflow_runs']
+                  if values and all(r['status']=='completed' for r in values):break
+                  time.sleep(20)
+              if not values or any(r['conclusion']!='success' for r in values):
+                  raise RuntimeError(name+': final main workflows are not all successful')
+              prs=json.loads(get(api+'/pulls?state=all&per_page=100'))
+              matching=[p for p in prs if p.get('merge_commit_sha')==sha and p.get('merged_at')]
+              if len(matching)!=1:raise RuntimeError(name+': expected one verified merged pull request')
+              pr=matching[0]
+              open_prs=[{'number':p['number'],'title':p['title'],'url':p['html_url']} for p in prs if p['state']=='open']
               data=get(f'https://codeload.github.com/alvaromendizabal/{name}/zip/{sha}')
               (out/(name+'.zip')).write_bytes(data)
-              info=json.loads(get(f'https://api.github.com/repos/alvaromendizabal/{name}/git/commits/{sha}'))
-              runs=json.loads(get(f'https://api.github.com/repos/alvaromendizabal/{name}/actions/runs?head_sha={sha}&per_page=100'))
-              (out/(name+'.json')).write_text(json.dumps({'commit':info,'runs':runs},indent=2))
-              return {'repository':name,'sha':sha,'tree':info['tree']['sha'],'zip_sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
-          with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool: records=list(pool.map(read,specs.items()))
-          (out/'manifest.json').write_text(json.dumps(records,indent=2))
-          print(json.dumps(records,indent=2))
+              record={'repository':name,'sha':sha,'tree':commit['tree']['sha'],
+                  'zip_sha256':hashlib.sha256(data).hexdigest(),'archive_bytes':len(data),
+                  'pr':{'number':pr['number'],'url':pr['html_url'],'title':pr['title'],
+                        'head_sha':pr['head']['sha'],'merge_sha':pr['merge_commit_sha'],'merged_at':pr['merged_at']},
+                  'open_pull_requests':open_prs,
+                  'main_workflows':[{'id':r['id'],'name':r['name'],'path':r['path'],'status':r['status'],
+                       'conclusion':r['conclusion'],'url':r['html_url'],'head_sha':r['head_sha']} for r in values]}
+              (out/(name+'.json')).write_text(json.dumps(record,indent=2))
+              return record
+          with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:records=list(pool.map(read,expected.items()))
+          result={'verified_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  'repositories':records,'successful_final_main_workflows':sum(len(r['main_workflows']) for r in records)}
+          (out/'manifest.json').write_text(json.dumps(result,indent=2))
+          print(json.dumps(result,indent=2))
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: eight-repository-source-audit
-          path: ${{ runner.temp }}/audit-sources/
+          name: final-eight-repository-audit
+          path: ${{ runner.temp }}/final-sources/
           if-no-files-found: error
           retention-days: 3
