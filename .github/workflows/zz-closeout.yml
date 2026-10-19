@@ -1,0 +1,43 @@
+name: Finish selected release curation
+on:
+  push:
+    branches: [cleanup/final-project-20261018]
+    paths: [.github/workflows/zz-closeout.yml]
+permissions:
+  contents: write
+jobs:
+  curate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - name: Apply the locally tested final documentation and tooling scope
+        shell: python
+        run: |
+          from pathlib import Path
+          import subprocess
+          r=Path.cwd()
+          subprocess.run(['git','diff','--exit-code','213e6eea9636b50f66b1bc8fbf15b1a623f2f4aa','HEAD','--','.',':(exclude).github/workflows'],check=True)
+          retired=['tools/summarize_execution.py','tools/test_execution_summary.py','tools/summarize_aws_snapshot.py','tools/test_aws_snapshot.py','reports/portfolio/closeout.json','scripts/git_setup.sh','scripts/connectivity_check.sh','tests/unit/test_git_setup_contract.py','configs/future_promotion.json','configs/research_gate.json']
+          for name in retired:(r/name).unlink()
+          p=r/'scripts/source_check.py';p.write_text(p.read_text().replace('    "scripts/git_setup.sh",\n',''))
+          p=r/'Makefile';p.write_text(p.read_text().replace(' smoke connectivity public-review',' smoke public-review').replace('connectivity:\n\tbash scripts/connectivity_check.sh\n\n',''))
+          p=r/'tools/test_portfolio_brief.py';s=p.read_text();a=s.index('    def test_closeout_receipt_does_not_claim_promotion');b=s.index('    def test_committed_bundle_matches_generator',a);p.write_text(s[:a]+s[b:])
+          p=r/'docs/public_reproducibility.md';s=p.read_text();a=s.index('The [closeout receipt]');b=s.index('## Interactive demo',a);s=s[:a]+s[b:];a=s.index('## Dated owner-return receipt');b=s.index('## Reproducibility matrix',a);s=s[:a]+s[b:];s=s.replace('Benchmark, feature removals, calibration and later aggregate outcomes','Benchmark, selected feature removals and release outcomes').replace('| Active research | Mechanism-level summaries after reconciliation | Published aggregate findings; exact active recipes and checkpoints are not distributed |\n','');p.write_text(s)
+          p=r/'MODEL_CARD.md';s=p.read_text();a=s.index('> **Portfolio closeout:');b=s.index('This project studies',a);s=s[:a]+s[b:];a=s.index('Both history conditions improve');s=s[:a].rstrip()+'''\n\n## Reproduce and inspect\n\nThe public [engineering brief](reports/portfolio/brief/index.html) binds its claims\nto the original evaluation reports. The [reproduction guide](docs/public_reproducibility.md)\nprovides credential-free aggregate replay, executed notebook checks, and a separate\nsynthetic weekly-metric explorer. The explorer is not a lending model.\n\nThe retained source implements training-only encoding, relational feature construction,\ntemporal model selection, checkpoint recovery, and native inference. Full historical\ntraining additionally requires the authorized competition data and original fitted\nartifacts. Public review execution does not download borrower records, retrain the\nprivate model, or submit anything to Kaggle.\n\nThe original all-label integration export is checked by the saved date-parsing and\nprediction-order contracts. Those integration checks establish computational identity\non the recorded examples, not new generalization evidence. The later externally\nscored ensemble is documented as a separate artifact; it is not substituted into\nthe frozen holdout table above.\n''';p.write_text(s)
+          p=r/'docs/research_engineering.md';s=p.read_text();a=s.index('## Model and representation diversity');b=s.index('## Publication boundary',a);p.write_text(s[:a]+s[b:])
+      - name: Verify public source and evidence before publishing the branch
+        run: |
+          python3 -S scripts/source_check.py
+          python3 -S -m unittest discover -s tools -p test_portfolio_brief.py -q
+          python3 -S scripts/review_public_evidence.py --output "$RUNNER_TEMP/review"
+          python3 -S scripts/review_public_evidence.py --output "$RUNNER_TEMP/review" --check
+          git add -A
+          git diff --cached --check
+          if git diff --cached --name-only | grep '^.github/workflows/'; then exit 1; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Remove retired operator tooling and focus the model card on the released system'
+          git push origin HEAD:cleanup/final-project-20261018
