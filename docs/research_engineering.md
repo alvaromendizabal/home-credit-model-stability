@@ -68,28 +68,6 @@ These controls are private-runtime engineering details. Public Git records the s
 contract and aggregate outcomes, not the active competition checkpoints or exact
 recovery recipes.
 
-## Model and representation diversity
-
-The research program has exercised complementary model families and representations,
-including:
-
-The public repository records aggregate evidence and lifecycle decisions. Exact active
-feature lists, borrower-level matrices, private checkpoints and portable competition
-runtime bundles remain in private AWS artifacts.
-
-## Temporal-shift diagnostics
-
-The research repeatedly tests whether apparent development gains survive later periods.
-An adversarial early-vs-late period classifier reached approximately **0.998 AUC**,
-quantifying substantial covariate shift. That diagnostic motivated controlled experiments
-with recency weighting, stability-aware training, adversarial feature pruning and
-heterogeneous stacking.
-
-Several of those experiments produced strong early-period gains and were still rejected
-because the gains did not persist on confirmation periods. Retaining those negative
-results is intentional: the repository demonstrates decision quality and reproducible
-evidence, not only successful model runs.
-
 ## Publication boundary
 
 Public:
