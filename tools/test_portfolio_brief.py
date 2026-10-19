@@ -211,18 +211,6 @@ class PortfolioBriefTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "SHA256 mismatch"):
                 brief.evidence(root)
 
-    def test_closeout_receipt_does_not_claim_promotion(self) -> None:
-        doc = json.loads((brief.ROOT / "reports/portfolio/closeout.json").read_bytes())
-        run = doc["latest_inspected_execution"]
-        self.assertEqual(run["status"], "SUCCESS")
-        self.assertEqual(run["stages_completed"], run["stages_total"])
-        self.assertFalse(run["new_champion_promoted"])
-        self.assertFalse(run["new_external_score"])
-        self.assertFalse(doc["source_archive_published"])
-        self.assertEqual(run["submission_readiness"], "NO_BETTER_CHALLENGER")
-        self.assertEqual(len(doc["source_archive_sha256"]), 64)
-        self.assertIn("exploratory", run["evaluation_scope"])
-
     def test_committed_bundle_matches_generator(self) -> None:
         brief.verify_bundle(brief.ROOT / "reports/portfolio/brief", self.bundle)
 

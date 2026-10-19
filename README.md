@@ -1,99 +1,60 @@
-# Home Credit Model Stability
+# Home Credit · Temporal risk modeling
 
-![Credit-risk engineering: actual frozen weekly Gini, source-bound evidence and 1.53 million labeled applications](reports/portfolio/brief/cover.svg)
+![Actual frozen weekly Gini and source-linked credit-risk evidence](reports/portfolio/brief/cover.svg)
+
+**Alvaro Mendizabal · ML engineering · Relational data · Temporal validation**
 
 [![CI](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/ci.yml/badge.svg)](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/ci.yml)
 [![Public demo](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/public-demo.yml/badge.svg)](https://github.com/alvaromendizabal/home-credit-model-stability/actions/workflows/public-demo.yml)
 
-**I built a credit-risk research and inference system that evaluates performance across time and makes its evidence reproducible.**
+I built a credit-risk research and inference system that joins relational histories, selects features using training data only, compares models across time and verifies the complete prediction handoff. The maintained release shows the selected pipeline and its necessary controls—not unpromoted follow-on studies.
 
-A model can rank historical applicants well and still weaken in later periods. My work connects relational features, expanding-window evaluation, controlled experiments, resumable AWS execution and verified inference. The public review preserves both successful results and rejected ideas.
+[**Explore Stability Lab ↗**](https://home-credit-stability-lab.tartmacaw2.chatgpt.site) · [Visual engineering brief](reports/portfolio/brief/index.html) · [Case study](docs/case_study.md) · [Model card](MODEL_CARD.md)
 
-**[Read the visual engineering brief](reports/portfolio/brief/index.html)** · [Verify its source-bound build](scripts/review_portfolio_brief.py)
+## Scale and engineering
 
-**[Explore the interactive demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site)** · [Five-minute review](docs/employer_review.md) · [Case study](docs/case_study.md) · [Model card](MODEL_CARD.md)
-
-Built by [Alvaro Mendizabal](https://github.com/alvaromendizabal).
-
-## Choose your review depth
-
-| Time | Review path | What you can verify |
+| Scope | Recorded result | Implementation |
 |---|---|---|
-| **30 seconds** | Architecture and measured results below | The problem, my ownership and the evidence scope |
-| **5 minutes** | [Visual brief](reports/portfolio/brief/index.html) · [Engineering review](docs/employer_review.md) | Design trade-offs, feature value, evaluation discipline and inference delivery |
-| **Hands-on** | `python3 scripts/review_portfolio_brief.py` | Seven pinned public inputs; the existing metric replay engine; deterministic HTML/SVG/JSON |
-| **Implementation depth** | [Case study](docs/case_study.md) · [Executed notebooks](notebooks) · [Source](src/home_credit) | Training-only encoders, temporal comparisons, checkpoint recovery and release contracts |
-
-The visual brief opens locally after generation. GitHub displays HTML as source;
-use the existing live demo for an immediate browser experience. No installation,
-account or private data is required for the standard-library review command.
-
-## Three engineering results
-
-- **A documented feature pipeline at application scale:** **1,526,659 applications**, **17 relational source groups**, **2,508 initial feature candidates** and a **700-feature frozen release**. Training-only screening and explicit rejection accounting make the representation inspectable.
-- **Temporal evaluation with meaningful controls:** **four model families × five expanding folds**, aligned on **727,187 out-of-fold cases**. Feature removals, tuning and later-period confirmation separate useful signal from complexity that does not transfer.
-- **Verified inference and recoverable work:** native-model reload, raw-feature parity, exact case ordering, immutable manifests and S3 checkpoint recovery. A saved offline notebook reproduced the verified export on ten supplied examples with zero fits; that is an integration check, not population-wide equivalence.
+| Relational data | **1,526,659 applications · 17 source groups** | [Schema and joins](src/home_credit/data) |
+| Selected representation | **2,508 candidates → 700 features** | [Feature construction](src/home_credit/features), [training-only screening](src/home_credit/modeling/screening.py) |
+| Controlled benchmark | **Four model families × five expanding folds · 727,187 OOF cases** | [Temporal protocol](src/home_credit/validation), [model runner](src/home_credit/modeling/runner.py) |
+| Release delivery | Native-model reload, exact case order and verified reuse | [Release workflow](src/home_credit/modeling/release_workflow.py), [inference](src/home_credit/modeling/inference.py) |
 
 ![Data, modeling, validation and inference architecture](reports/portfolio/system_architecture.svg)
 
-## Measured results, separate populations
+## Final measured results
 
-| Evidence | Result | Evaluation scope |
-|---|---|---|
-| Frozen release ranking and stability | **0.875759 ROC AUC · 0.729674 weekly-Gini stability** | 203,345 later-period applications; development-trained release |
-| Same release probability diagnostics | **0.193755 average precision · 0.019282 Brier · 0.080695 log loss** | Same 203,345 applications |
-| Original all-label inference refit | **0.56062 public · 0.47429 private** | Separate late Kaggle evaluation |
-| Later tree + histogram + neural ensemble | **0.56035 public · 0.47652 private** | Separate post-release, all-label Kaggle evaluation |
+| Artifact and population | Recorded metrics |
+|---|---|
+| Original frozen release · 203,345 later-period applications | **0.875759 ROC AUC · 0.729674 weekly-Gini stability** |
+| Same population · probability diagnostics | **0.193755 average precision · 0.019282 Brier · 0.080695 log loss** |
+| Original all-label inference refit · external evaluation | **0.56062 public · 0.47429 private** |
+| Later tree + histogram + neural ensemble · separate external evaluation | **0.56035 public · 0.47652 private** |
 
-**0.729674 is a local future-period stability score, not a Kaggle score.** Weeks 73–91 were opened only after the original release choices were frozen; they are now observed and cannot become a fresh test for later research. The all-label refits are different artifacts. These results do not establish production lending readiness.
+The local **0.729674** stability result is not an external competition score. The later all-label ensemble is a different private artifact, not an identical rerun of the original public reference. Weeks 73–91 were opened after the original selection and are now observed; later development cannot treat them as a fresh holdout. [Original release](reports/model_release/evaluation.json) · [Original external receipt](reports/kaggle_submission/execution.json) · [Later final result](reports/post_release_frontier/october_2026.md)
 
-[Release evidence](reports/model_release/evaluation.json) · [Original external receipt](reports/kaggle_submission/execution.json) · [Later external result](reports/post_release_frontier/october_2026.md) · [Evaluation limits](MODEL_CARD.md)
+## Evidence for the selected features
 
-## Explore stability in the browser
+Removing bureau A, previous applications or depth-two history reduced mean development stability by **0.093813**, **0.031440** and **0.015762**, respectively. These are predictive removal effects, not causal effects on borrowers. [Controlled ablations](reports/feature_ablation/README.md)
 
-The [interactive demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site) lets you change a synthetic weekly discrimination curve and inspect how decline and variability affect the score. Pin a baseline, change the candidate and inspect both on the same 24 weeks, with signed score-component differences and paired exports. Calculations run in the browser without an account or backend.
+![Matched model-family and feature-removal comparisons](reports/portfolio/overview.svg)
 
-These are **synthetic weekly aggregates**, not applicant predictions, a trained model or a new research result. The [demo instructions](docs/public_reproducibility.md#interactive-demo) explain local launch and numerical checks. Actual experiment evidence is reviewed separately below.
+## Run a public review
 
-## Reproduce a public result in one command
-
-From a clone with **Python 3.12**:
+With Python 3.12, no credentials or private data:
 
 ```bash
 python3 scripts/review_public_evidence.py --output artifacts/public-review
+python3 scripts/review_public_evidence.py --output artifacts/public-review --check
+python3 scripts/review_portfolio_brief.py
 ```
 
-Open `artifacts/public-review/index.html`, or inspect its `review.json` and source-bound `manifest.json`. Repeating the command verifies and reuses the complete bundle without rewriting it. Add `--check` for verification only. This standard-library command authenticates committed aggregate reports, recalculates weekly-Gini stability, checks comparison populations and reproduces model/ablation summaries. It needs no credentials, cloud account, private data or training job.
+Open `artifacts/public-review/index.html`. The standard-library implementation checks pinned original inputs, recalculates weekly-Gini stability and distinguishes source-reported AUC from recomputed aggregate statistics. Repeating a completed run checks its outputs before reuse. It does not claim to reconstruct unavailable borrower predictions.
 
-It does not reconstruct borrower predictions or recompute AUC from unavailable labels. Source-reported metrics and recomputed statistics are labeled separately. The checked-in [HTML report](reports/public_review/index.html) and [JSON result](reports/public_review/review.json) are reproduced in CI.
+The locked environment also exercises real small-data model fits, train-only encoders, temporal leakage tests, checkpoint corruption/recovery, exact-ID inference and canonical executed benchmark, selection and release notebooks. [Full commands](docs/public_reproducibility.md)
 
-[Full reproducibility guide](docs/public_reproducibility.md) · [Executed benchmark](notebooks/05_benchmark_review.ipynb) · [Frozen release notebook](notebooks/09_model_release.ipynb)
+## A focused publication
 
-## What the experiments taught me
+The retained project includes the feature pipeline, necessary model controls, frozen selection/release/inference code, original result records, six canonical notebooks and an interactive stability explanation. Unpromoted calibration, categorical/history extensions, proposed neural experiments, their launchers and redundant notebooks are retired.
 
-**Feature families earned their place.** Removing credit bureau A, previous applications or depth-two history reduced mean development stability by **0.093813**, **0.031440** and **0.015762**. These are controlled predictive removal effects, not causal effects on borrowers. [Ablation evidence](reports/feature_ablation/README.md).
-
-**More features could make the objective worse.** A 256-feature extension improved pooled AUC but reduced mean stability by **0.025284**. I retained the negative result and its selection receipts. [Feature study](notebooks/11_feature_research.ipynb).
-
-**Selection gains needed later confirmation.** Several later model and representation studies improved earlier development periods and weakened on later confirmation. Those candidates were rejected. Repeatedly explored development folds remain development evidence. [Research record](docs/post_release_research.md).
-
-![Model-family comparison and controlled feature removals](reports/portfolio/overview.svg)
-
-Both panels use the five development folds. Their metrics are not directly comparable with the separate future-period release evaluation.
-
-## Current research snapshot
-
-**Portfolio closeout — 17 October 2026.** The evaluated release, public evidence and interactive review are complete within the documented research scope. A subsequent matched-control neural study completed successfully but remained exploratory; it did not promote a new model or create a new external score. No further training is required to review this project. [Current status](docs/project_status.md) and the [sanitized closeout receipt](reports/portfolio/closeout.json) separate the delivered portfolio from optional future research.
-
-## Review the implementation
-
-| Question | Entry point |
-|---|---|
-| How were features screened and joined? | [Feature notebook](notebooks/02_feature_engineering.ipynb), [feature code](src/home_credit/features) |
-| How were models compared fairly? | [Benchmark](notebooks/05_benchmark_review.ipynb), [validation code](src/home_credit/validation) |
-| How does interrupted work resume? | [Research engineering](docs/research_engineering.md), [runtime code](src/home_credit/runtime) |
-| What do the quality gates execute? | [Locked review commands](docs/public_reproducibility.md#full-notebook-and-source-checks), [CI](.github/workflows/ci.yml) |
-
-Published: historical research code, aggregate metrics, executed reviews, contracts and reproducibility checks. Private: borrower records, derived matrices, trained research artifacts, active feature identities, current ensemble specifications and operational bundles. Existing source credits and licenses remain in force. [Precise disclosure boundary](docs/public_reproducibility.md#disclosure-boundary).
-
-No cloud workload needs to remain running to review this repository. Lending-policy impact, event-time availability and production fairness remain unvalidated.
+Private borrower records, fitted research weights, active feature identities and current ensemble specifications are not distributed. The browser operates on explicitly synthetic weekly aggregates; it is not a deployed credit decision system. No lending-policy impact, fairness certification or production readiness is claimed. [Disclosure](docs/public_reproducibility.md#disclosure-boundary)

@@ -62,28 +62,14 @@ release. It does not evaluate the separate model refit on all labels.
 
 ## Three decisions worth discussing
 
-- **Optimize for temporal reliability.** Tuning improved mean fold stability from
-  **0.585188 to 0.601238**, but only three of five folds improved. The
-  [tuning record](../reports/model_tuning/metrics.json) makes that concentration
-  visible rather than presenting the mean as a universal gain.
-- **Measure feature value.** Removing the credit-bureau-A source reduced mean
-  development stability by **0.093813**. The controlled
-  [ablation results](../reports/feature_ablation/comparison.json) connect data
-  engineering work to predictive value; they do not establish causal effects.
-- **Keep negative results.** An expanded feature representation improved pooled
-  AUC while reducing mean stability by **0.025284**. The
-  [feature study](../notebooks/11_feature_research.ipynb) explains why it was not
-  promoted. The [calibration study](../notebooks/12_calibration.ipynb) similarly
-  preserves unsuccessful probability-mapping comparisons.
-
 For further depth, review [model selection](../notebooks/08_model_selection.ipynb),
 [research engineering](research_engineering.md) and the aggregate
-[post-release research record](post_release_research.md). These extend the evidence;
+post-release research record. These extend the evidence;
 they do not redefine the observed release evaluation as an untouched test.
 
 ## Completed portfolio and separately scoped research
 
-The [current status](project_status.md) separates the completed release from later
+The current status separates the completed release from later
 experiments and incomplete executions. New operational receipts do not rewrite the
 frozen metrics above; promotion and an external score require their own evidence.
 

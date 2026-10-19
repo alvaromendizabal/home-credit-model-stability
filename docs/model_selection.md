@@ -131,7 +131,7 @@ The full-data blend comparison and subsequent frozen release have completed; do 
 restart tuning or model fits merely to view them. The release froze no calibration
 before evaluating weeks 73-91. Its reliability and raw probability metrics remain
 explicit diagnostics, without a production probability claim. The subsequent
-[calibration study](calibration.md) fitted earlier development folds and evaluated
+calibration study fitted earlier development folds and evaluated
 later folds. Neither tested map improved pooled Brier or log loss, and neither
 used the observed holdout or changed the release. Neural modeling was outside the
 accepted four-family benchmark and is evaluated separately in later post-release research.

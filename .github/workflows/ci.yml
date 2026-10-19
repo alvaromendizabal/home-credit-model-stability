@@ -1,78 +1,50 @@
 name: ci
-
 on:
   push:
   pull_request:
-
 permissions:
   contents: read
-
 jobs:
   quality:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
-    permissions:
-      contents: write
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      HOME_CREDIT_NOTEBOOK_INTEGRATION: '1'
     steps:
-      - name: Configure Git default branch
-        run: git config --global init.defaultBranch main
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+      - run: git config --global init.defaultBranch main
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
-          version: "0.12.10"
-          python-version: "3.12.14"
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
+        with:
+          version: '0.12.10'
+          python-version: '3.12.14'
           enable-cache: true
-      - name: Reproduce credential-free public evidence
+      - name: Independently reproduce the committed public evidence
         run: |
           python3 -W error scripts/review_public_evidence.py --output "$RUNNER_TEMP/public-review"
           python3 -W error scripts/review_public_evidence.py --output "$RUNNER_TEMP/public-review" --check
           cmp "$RUNNER_TEMP/public-review/review.json" reports/public_review/review.json
           cmp "$RUNNER_TEMP/public-review/index.html" reports/public_review/index.html
-          git diff --exit-code -- reports/public_review
-      - name: Retain the verified aggregate review bundle
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: public-evidence-bundle
-          path: ${{ runner.temp }}/public-review/
-          if-no-files-found: error
-          retention-days: 14
-      - name: Check interactive stability demo
-        run: node demo/model.test.mjs
-      - name: Sync locked environment
-        run: uv sync --locked --group dev
-      - name: Execute canonical tuning review
-        run: uv run --locked python scripts/review_model_tuning.py --force
-      - name: Execute selection review before linting generated notebook code
-        run: uv run --locked python scripts/review_model_selection.py --force
-      - name: Execute feature, frozen release and submission reviews
+      - run: uv sync --locked --group dev
+      - name: Execute every retained selected-model review
         run: |
+          uv run --locked python scripts/review_model_tuning.py --force
+          uv run --locked python scripts/review_model_selection.py --force
           uv run --locked python scripts/review_model_release.py --force
           uv run --locked python scripts/review_submission.py --force
-      - name: Execute calibration research review before linting
-        run: uv run --locked python scripts/review_calibration.py --force
-      - name: Execute benchmark review notebook
-        run: uv run --locked python scripts/review_model_benchmark.py --force
-      - name: Execute expanded feature research before linting
-        run: uv run --locked python scripts/review_feature_research.py --force
-      - name: Verify project status without cloud access
-        run: uv run --locked python scripts/project_status.py --json
-      - name: Run quality gates
-        env:
-          HOME_CREDIT_NOTEBOOK_INTEGRATION: "1"
+          uv run --locked python scripts/review_model_benchmark.py --force
+      - name: Test all retained code, types and failure paths
         run: bash scripts/check.sh
-      - name: Reproduce the employer overview
+      - name: Reproduce the selected feature evidence and overview
         run: |
           uv run --locked python -W error scripts/review_portfolio_overview.py
           uv run --locked mypy scripts/review_portfolio_overview.py
-          git diff --exit-code -- reports/portfolio/overview.svg
-      - name: Verify published benchmark is reproducible
-        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
-        run: git diff --exit-code -- notebooks/05_benchmark_review.ipynb reports/benchmark/review.json
-      - name: Reproduce accepted ablation figure
-        run: |
           uv run --locked python scripts/review_feature_ablation.py
-          git diff --exit-code -- reports/feature_ablation/overview.svg
-      - name: Execute accepted ablation notebook without replacing historical evidence
+          git diff --exit-code -- reports/portfolio/overview.svg reports/feature_ablation/overview.svg
+      - name: Execute original ablation notebook without rewriting its evidence
         run: |
           uv run --locked python - <<'PY'
           import shutil
@@ -80,105 +52,36 @@ jobs:
           from home_credit.observability.logging import RunLogger
           from home_credit.runtime.notebooks import execute_notebook
           root = Path.cwd()
-          directory = root / "artifacts/ci/feature_ablation"
+          directory = root / 'artifacts/ci/feature_ablation'
           directory.mkdir(parents=True, exist_ok=True)
-          for name in ("06_feature_ablation.ipynb", "comparison.json"):
-              shutil.copy2(root / "reports/feature_ablation" / name, directory / name)
-          execute_notebook(
-              root, directory / "06_feature_ablation.ipynb",
-              RunLogger("ablation-review-ci", root / "logs"),
-              dependencies=[directory / "comparison.json", root / "uv.lock"],
-              receipt_path=directory / "receipt.json", execution_root=directory,
-          )
+          for name in ('06_feature_ablation.ipynb', 'comparison.json'):
+              shutil.copy2(root / 'reports/feature_ablation' / name, directory / name)
+          execute_notebook(root, directory / '06_feature_ablation.ipynb',
+              RunLogger('ablation-review-ci', root / 'logs'),
+              dependencies=[directory / 'comparison.json', root / 'uv.lock'],
+              receipt_path=directory / 'receipt.json', execution_root=directory)
           PY
-      - name: Prove verified selection review resume
+      - name: Prove unchanged notebook reuse and byte identity
         run: |
           uv run --locked python - <<'PY'
           from pathlib import Path
-          from scripts.review_model_selection import review
-          if not review(Path.cwd()):
-              raise RuntimeError("Unchanged selection notebook was not reused")
-          print("MODEL_SELECTION_REVIEW_REUSE_VERIFIED")
-          PY
-      - name: Verify published selection is reproducible
-        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
-        run: git diff --exit-code -- notebooks/08_model_selection.ipynb reports/model_selection
-      - name: Verify published release is reproducible
-        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
-        run: git diff --exit-code -- notebooks/02_feature_engineering.ipynb notebooks/09_model_release.ipynb notebooks/10_submission.ipynb reports/model_release/publication.json
-      - name: Verify published calibration is reproducible
-        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
-        run: git diff --exit-code -- notebooks/12_calibration.ipynb reports/calibration/publication.json
-      - name: Verify published feature research is reproducible
-        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
-        run: git diff --exit-code -- notebooks/11_feature_research.ipynb reports/feature_research/publication.json
-      - name: Prove unchanged feature research review resumes
-        run: |
-          uv run --locked python - <<'PYCODE'
-          from pathlib import Path
-          from home_credit.modeling.feature_research_report import review
-          assert review(Path.cwd())
-          print("FEATURE_RESEARCH_NOTEBOOK_REUSE_VERIFIED")
-          PYCODE
-      - name: Prove unchanged calibration review resumes
-        run: |
-          uv run --locked python - <<'PY'
-          from pathlib import Path
-          from home_credit.modeling.calibration_report import review
-          assert review(Path.cwd())
-          print("CALIBRATION_NOTEBOOK_REUSE_VERIFIED")
-          PY
-      - name: Prove unchanged portfolio reviews resume
-        run: |
-          uv run --locked python - <<'PY'
-          from pathlib import Path
+          from scripts.review_model_selection import review as selection
           from home_credit.modeling.portfolio_report import review_portfolio
-          from scripts.review_submission import review
-          assert all(review_portfolio(Path.cwd()).values())
-          assert review(Path.cwd())
-          print("PORTFOLIO_NOTEBOOK_REUSE_VERIFIED")
+          from scripts.review_submission import review as submission
+          root = Path.cwd()
+          if not selection(root) or not all(review_portfolio(root).values()) or not submission(root):
+              raise RuntimeError('Unchanged notebook did not reuse verified outputs')
+          print('RETAINED_NOTEBOOK_REUSE_VERIFIED')
           PY
-      - name: Preserve executed reviews
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+          git diff --exit-code -- notebooks/05_benchmark_review.ipynb notebooks/08_model_selection.ipynb notebooks/02_feature_engineering.ipynb notebooks/09_model_release.ipynb notebooks/10_submission.ipynb reports/benchmark/review.json reports/model_selection reports/model_release/publication.json reports/public_review
+      - name: Retain the executed public review artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: portfolio-reviews
+          name: selected-model-reviews
           path: |
-            notebooks/05_benchmark_review.ipynb
-            notebooks/07_model_tuning.ipynb
-            notebooks/08_model_selection.ipynb
-            notebooks/02_feature_engineering.ipynb
-            notebooks/09_model_release.ipynb
-            notebooks/10_submission.ipynb
-            notebooks/12_calibration.ipynb
-            notebooks/11_feature_research.ipynb
+            notebooks/*.ipynb
             artifacts/ci/feature_ablation/06_feature_ablation.ipynb
-            reports/benchmark/review.json
-            reports/public_review
-            reports/model_selection
-            reports/model_release
-            reports/calibration
-            reports/feature_research
-            reports/history_research
-            logs/*review*.jsonl
+            reports/public_review/
+            reports/model_release/publication.json
           if-no-files-found: error
-      - name: Publish executed reviews on feature branches
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feat/')
-        env:
-          REVIEW_BRANCH: ${{ github.ref_name }}
-        run: |
-          git add notebooks reports/model_selection reports/model_release/publication.json reports/calibration/publication.json reports/feature_research/publication.json
-          if ! git diff --cached --quiet; then
-            git -c user.name='github-actions[bot]' \
-                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-                commit -m 'docs: publish executed portfolio and research reviews'
-            git push origin "HEAD:$REVIEW_BRANCH"
-          fi
-      - name: Archive tested source
-        run: git archive HEAD --format=tar -o repository-source.tar
-      - name: Preserve reproducibility source
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: repository-source
-          path: repository-source.tar
-          if-no-files-found: error
-          retention-days: 7
+          retention-days: 14

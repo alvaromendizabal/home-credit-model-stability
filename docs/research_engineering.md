@@ -46,12 +46,6 @@ Avoidable failures become regression tests before the next expensive run.
 The active research instance is an NVIDIA L4-backed SageMaker environment. Performance
 choices are measured rather than assumed. Examples include:
 
-- DenseLight inference batch benchmarking and CPU/GPU probability parity;
-- CatBoost feed-thread benchmarking;
-- LightGBM thread-count benchmarking to avoid nested oversubscription;
-- explicit effective-device checks for XGBoost, rather than trusting a requested CUDA flag;
-- concurrent CPU fits only when host-memory and thread budgets make that safe.
-
 This makes resource telemetry part of correctness: a job that silently falls back to a
 different execution path is treated as a scientific and engineering issue, not merely a
 speed problem.
@@ -73,39 +67,6 @@ model state.
 These controls are private-runtime engineering details. Public Git records the system
 contract and aggregate outcomes, not the active competition checkpoints or exact
 recovery recipes.
-
-## Model and representation diversity
-
-The research program has exercised complementary model families and representations,
-including:
-
-- LightGBM with multiple feature systems and boosting modes;
-- CatBoost with recovered categorical identity;
-- reduced-sample XGBoost;
-- DenseLight-style neural modeling;
-- HistGradientBoosting;
-- fixed and learned heterogeneous ensembles;
-- relational, sparse, temporal, categorical and historical aggregation families.
-- nonlinear numerical encodings and training-only support representations;
-- contrastive/denoising pretraining, retrieval and learned retrieval adapters;
-- source-robust objectives and categorical-information recovery.
-
-The public repository records aggregate evidence and lifecycle decisions. Exact active
-feature lists, borrower-level matrices, private checkpoints and portable competition
-runtime bundles remain in private AWS artifacts.
-
-## Temporal-shift diagnostics
-
-The research repeatedly tests whether apparent development gains survive later periods.
-An adversarial early-vs-late period classifier reached approximately **0.998 AUC**,
-quantifying substantial covariate shift. That diagnostic motivated controlled experiments
-with recency weighting, stability-aware training, adversarial feature pruning and
-heterogeneous stacking.
-
-Several of those experiments produced strong early-period gains and were still rejected
-because the gains did not persist on confirmation periods. Retaining those negative
-results is intentional: the repository demonstrates decision quality and reproducible
-evidence, not only successful model runs.
 
 ## Publication boundary
 

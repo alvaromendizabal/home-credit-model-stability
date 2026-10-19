@@ -49,10 +49,6 @@ reproduces all four output files. The browser layout was additionally reviewed a
 desktop and mobile sizes; those local visual checks are separate from CI's automated
 source, HTML and numeric contract checks.
 
-The [closeout receipt](../reports/portfolio/closeout.json) is a separate owner-return
-attestation. It documents an exploratory run, not an independently reproduced public
-training result. No private return ZIP or training recipe is required or published.
-
 ## Interactive demo
 
 The [browser demo](https://home-credit-stability-lab.tartmacaw2.chatgpt.site) is a buildless, local-first explanation of
@@ -108,39 +104,6 @@ recomputed aggregate statistics from source-reported metrics. Checksums establis
 which published bytes were reviewed; they do not independently establish the truth
 of the original private experiment.
 
-## Dated owner-return receipt
-
-The [E97 summary](../reports/latest_execution/summary.json) is a separate sanitized
-operational receipt. Verify its fixed identity and evidence contract with:
-
-```bash
-python tools/summarize_execution.py --check
-```
-
-It records a memory-guard stop, 13 of 42 tasks complete and no new fit or submission.
-Its original local archive integrity was verified; referenced remote artifacts and
-private predictions were not independently replayed. It does not update the frozen
-metrics or reverify the previously reported Kaggle scores. The [current status](project_status.md)
-explains the distinction. The source owner-return archive remains private.
-
-## Later AWS execution snapshot
-
-A separate [E98 snapshot](../reports/latest_execution/aws_snapshot.json) records a
-read-only inspection of the later completed run: 42 tasks and five fits, with the
-selected candidate rejected on later-period stability. It records no new submission
-or score. The snapshot preserves aggregate decisions and source identities; it does
-not distribute the private model, configuration or predictions. Its observation time
-is not the run's completion time. [Current status](project_status.md) explains the
-selection/confirmation distinction and keeps the E97 archive separate. Check this
-public snapshot without cloud access:
-
-```bash
-python tools/summarize_aws_snapshot.py --check
-```
-
-This validates the committed aggregate contract. Regenerating it from the original
-inspected receipt bytes additionally requires private evidence retained outside Git.
-
 ## Reproducibility matrix
 
 | Layer | Available publicly | What can be verified |
@@ -149,9 +112,8 @@ inspected receipt bytes additionally requires private evidence retained outside 
 | Lightweight evidence review | Standard-library script, aggregate input reports, deterministic JSON/HTML | Input integrity, supported aggregate calculations and consistent evaluation scope |
 | Executed research reviews | Python source, lockfile, notebooks and published outputs | Full review execution, lint/type checks, tests and byte-for-byte output reproduction |
 | Temporal methodology | Fold definitions, historical release policy and decision records | Selection/evaluation separation and the documented use of confirmation periods |
-| Historical model research | Benchmark, feature removals, calibration and later aggregate outcomes | Published comparisons and both acceptance and rejection decisions |
+| Historical model research | Benchmark, selected feature removals and release outcomes | Published comparisons and both acceptance and rejection decisions |
 | Raw training and full inference | Historical implementation and artifact contracts | Implementation inspection; exact replay additionally requires restricted data and model artifacts |
-| Active research | Mechanism-level summaries after reconciliation | Published aggregate findings; exact active recipes and checkpoints are not distributed |
 
 ## Full notebook and source checks
 

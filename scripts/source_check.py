@@ -34,7 +34,6 @@ REQUIRED_PATHS = (
     "scripts/start_here.sh",
     "scripts/bootstrap.sh",
     "scripts/check.sh",
-    "scripts/git_setup.sh",
     "src/home_credit/cli.py",
     "src/home_credit/data/__init__.py",
     "src/home_credit/data/manifest.py",

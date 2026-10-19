@@ -127,8 +127,8 @@ measures sensitivity, not a causal explanation of drift.
 
 The subsequent [LightGBM tuning](../notebooks/07_model_tuning.ipynb),
 [ensemble selection](../notebooks/08_model_selection.ipynb),
-[expanded feature study](../notebooks/11_feature_research.ipynb) and
-[temporal calibration](../notebooks/12_calibration.ipynb) are complete. The latter
+expanded feature study and
+temporal calibration are complete. The latter
 two are explicitly post-release development studies. XGBoost retuning and neural
 modeling were outside this archived ablation study; later project phases evaluate those
 capabilities separately and should not be read back into this experiment.

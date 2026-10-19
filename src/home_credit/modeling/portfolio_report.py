@@ -242,20 +242,19 @@ display_charts(evidence, "features")
     ),
     (
         "markdown",
-        """
-    ## Training-only selection and its limits
-
-    Screening fits on weeks 0-24, uses weeks 25-32 for early stopping and temporal
-    drift diagnostics, and finishes before the five model-validation folds begin
-    at week 33. It rejects extreme missingness, constants and high-cardinality
-    categoricals, then ranks training-window predictive gain with a drift penalty.
-
-    The 1,334 eligible features below the 700-feature limit are **not proven useless**.
-    The limit is a computation budget. The later study in notebook 11 directly tests
-    1,400 original features: a small mean gain accompanies a weaker worst fold.
-    The near-perfect early-versus-later drift classifier makes temporal testing essential.
-    Feature gain is associative and is not a causal explanation or a substitute for ablation.
-    """,
+        (
+            "\n"
+            "    ## Training-only selection and its limits\n"
+            "\n"
+            "    Screening fits on weeks 0-24, uses weeks 25-32 for early stoppin"
+            "g and temporal\n"
+            "    drift diagnostics, and finishes before the five model-validation"
+            " folds begin\n"
+            "    at week 33. It rejects extreme missingness, constants and high-c"
+            "ardinality\n"
+            "    categoricals, then ranks training-window predictive gain with a "
+            "drift penalty."
+        ),
     ),
     (
         "code",
@@ -289,32 +288,30 @@ display(pd.DataFrame(evidence["ablation"]["rows"])[[
     ),
     (
         "markdown",
-        """
-    ## Explicit research boundary
-
-    [Notebook 11](11_feature_research.ipynb) completes a separate post-release study:
-    4,617 additional hypotheses, 256 retained additions, 20 comparison fits and
-    five-fold SHAP, grouped permutation and redundancy diagnostics. It tests ratios,
-    dispersion, category interactions, peer statistics and the original feature cap.
-    Better pooled metrics did not translate into better temporal stability, so the
-    frozen release remains unchanged. The observed holdout was not reused.
-
-    Notebook 11 also contains a separately registered raw-history study: within-applicant
-    medians, interquartile ranges, upper-tail quantiles and skew, tested against the same
-    control and with a skew-removal ablation. Its catalog, five-fold comparison and
-    independent native-model replay retain their own identities.
-
-    The raw schema audit excludes chronological trends without verified event and
-    availability semantics. Peer quantiles describe training populations. CatBoost's native
-    target statistics were evaluated in the original model benchmark; online
-    default-rate histories would require outcome-availability controls. No finite
-    candidate catalog establishes exhaustive discovery.
-
-    The full aggregate feature catalog is `reports/feature_ablation/feature_screen.json`;
-    each entry records provenance, dtype, missingness, cardinality and both model gains.
-    Rejection reasons here are reconstructed from that immutable record and its original
-    rules. The feature/model lineage is checked before any results are displayed.
-    """,
+        (
+            "\n"
+            "    ## Explicit research boundary\n"
+            "\n"
+            "    The raw schema audit excludes chronological trends without verif"
+            "ied event and\n"
+            "    availability semantics. Peer quantiles describe training populat"
+            "ions. CatBoost's native\n"
+            "    target statistics were evaluated in the original model benchmark"
+            "; online\n"
+            "    default-rate histories would require outcome-availability contro"
+            "ls. No finite\n"
+            "    candidate catalog establishes exhaustive discovery.\n"
+            "\n"
+            "    The full aggregate feature catalog is `reports/feature_ablation/"
+            "feature_screen.json`;\n"
+            "    each entry records provenance, dtype, missingness, cardinality a"
+            "nd both model gains.\n"
+            "    Rejection reasons here are reconstructed from that immutable rec"
+            "ord and its original\n"
+            "    rules. The feature/model lineage is checked before any results a"
+            "re displayed.\n"
+            "    "
+        ),
     ),
 ]
 
@@ -347,20 +344,17 @@ print("Frozen evaluation completed (UTC):", evaluation["evaluated_utc"])
     ),
     (
         "markdown",
-        """
-    ## Stability and probability quality
-
-    The official formula is mean weekly Gini + 88 x min(weekly slope, 0) - 0.5 x
-    residual standard deviation. Here the slope is positive, so its penalty is zero.
-    The weekly plot shows the variation that the overall AUC alone would hide.
-
-    Raw probability calibration remains imperfect. The reliability plot is descriptive;
-    no calibrator is applied to this frozen model. The later development-only study in
-    notebook 12 neither accesses this holdout nor changes the released bundle. The
-    holdout base rate differs from development periods, so the lower Brier score alone
-    is not a model-improvement claim.
-    A Kaggle leaderboard result has not been obtained.
-    """,
+        (
+            "\n"
+            "    ## Stability and probability quality\n"
+            "\n"
+            "    The official formula is mean weekly Gini + 88 x min(weekly slope"
+            ", 0) - 0.5 x\n"
+            "    residual standard deviation. Here the slope is positive, so its "
+            "penalty is zero.\n"
+            "    The weekly plot shows the variation that the overall AUC alone w"
+            "ould hide."
+        ),
     ),
     (
         "code",
@@ -404,25 +398,29 @@ print("Public example parity cases:", stages["raw_parity"]["rows"])
     ),
     (
         "markdown",
-        """
-    ## What is deployable and what has been tested
-
-    The portable bundle contains native LightGBM models, frozen frequency maps,
-    feature specifications, raw schema and matching inference source. It rebuilds
-    features from the test files supplied to the run, fingerprints inputs, validates
-    case coverage and reuses verified prediction batches.
-
-    Full raw-to-feature parity was checked on the competition's ten public example
-    cases. That is an integration fixture, not a hidden-test evaluation or proof of
-    performance at hidden-test scale. Synthetic tests cover additional missingness,
-    shard and corruption cases. Notebook 10 gives the owner explicit controls to
-    generate, validate, save and download a submission; no automatic upload occurs.
-
-    This is an evaluated research portfolio release. Production lending use, calibrated
-    deployment probabilities, fairness assessment and operational monitoring are outside
-    the validated scope. Completed development feature research and its limits are
-    documented in [notebook 11](11_feature_research.ipynb).
-    """,
+        (
+            "\n"
+            "    ## What is deployable and what has been tested\n"
+            "\n"
+            "    The portable bundle contains native LightGBM models, frozen freq"
+            "uency maps,\n"
+            "    feature specifications, raw schema and matching inference source"
+            ". It rebuilds\n"
+            "    features from the test files supplied to the run, fingerprints i"
+            "nputs, validates\n"
+            "    case coverage and reuses verified prediction batches.\n"
+            "\n"
+            "    Full raw-to-feature parity was checked on the competition's ten "
+            "public example\n"
+            "    cases. That is an integration fixture, not a hidden-test evaluat"
+            "ion or proof of\n"
+            "    performance at hidden-test scale. Synthetic tests cover addition"
+            "al missingness,\n"
+            "    shard and corruption cases. Notebook 10 gives the owner explicit"
+            " controls to\n"
+            "    generate, validate, save and download a submission; no automatic"
+            " upload occurs."
+        ),
     ),
 ]
 
