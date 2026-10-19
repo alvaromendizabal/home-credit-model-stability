@@ -52,7 +52,8 @@ examples, and a complete rerun reused the saved holdout, models and prediction b
 The raw-data examples are not hidden-test execution evidence.
 
 The feature and release reviews run from committed aggregate evidence with no cloud
-access. `scripts/verify_model_release.py --bucket ...` independently restores and
+access. With separately retained private artifacts, the historical verification
+interface `scripts/verify_model_release.py --bucket ...` restores and
 hash-checks all release members, recomputes saved prediction metrics, runs packaged
 raw inference and executes notebook 10 with export disabled. It never refits a model.
 
@@ -72,5 +73,10 @@ On 8 September 2026, SageMaker job
 203,345 saved predictions, all 36 public test shards checked, and four prediction
 batches reused unchanged. The canonical submission notebook executed end to end
 against the raw public example with export disabled. There were zero new model
-fits, no generated submission CSV, and no Kaggle upload. This verifies the ten-row
-public example; hidden competition execution is still untested.
+fits, no generated submission CSV, and no Kaggle upload. That verification covered the ten-row public example only. Subsequent external
+execution and its scores are recorded separately in the [delivery evidence](kaggle_submission.md);
+they must not be inferred from this earlier integration check.
+
+Project AWS spaces and buckets are retired. Historical job names and object counts
+above identify completed work, not currently provisioned resources. The
+[public review](public_reproducibility.md) needs none of those cloud resources.
