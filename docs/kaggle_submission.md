@@ -10,7 +10,7 @@ checked on 9 September 2026: notebook submissions were available, with direct
 file upload disabled. A downloaded ten-row example CSV is not the hidden-test
 submission. Kaggle must rerun the saved notebook on its supplied evaluation data.
 
-## Current delivery status
+## Recorded delivery status · September 9, 2026
 
 | Submission identity | Recorded value |
 |---|---|
@@ -131,20 +131,11 @@ the existing native archive; it never downloads new training data or fits a mode
 The dataset contains model assets, source and dependency wheels, without raw
 borrower records. Wheel files retain their distribution metadata and license files.
 
-## Optional status check
+## Archived infrastructure
 
-From the configured SageMaker terminal, this read-only command reports the completed
-package-verification job without launching work:
-
-```bash
-aws sagemaker describe-processing-job \
-  --region us-west-2 \
-  --processing-job-name home-credit-kaggle-offline-20260909-0314 \
-  --query '{Status:ProcessingJobStatus,Failure:FailureReason,Started:ProcessingStartTime,Ended:ProcessingEndTime}' \
-  --output json
-```
-
-Expected status is `Completed`, with no failure reason. Listing only `InProgress`
-jobs and receiving `[]` proves that no matching job is running; it does not establish
-that an export or Kaggle submission succeeded. The terminal Kaggle status and scores
-are recorded above from the competition's submissions page.
+The project AWS spaces and buckets have been retired. Historical job names,
+package versions and receipts document completed execution; they are not a
+current availability check or instructions to recreate the old workspace. Use the
+[credential-free review](public_reproducibility.md) to inspect the retained evidence.
+A full private inference rerun additionally requires the original licensed inputs
+and separately retained fitted bundle.
