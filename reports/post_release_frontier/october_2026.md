@@ -1,4 +1,4 @@
-# October 2026 post-release frontier
+# Final externally evaluated ensemble
 
 This report records the post-release work completed after the 23 September publication.
 It is intentionally **employer-facing and aggregate-only**: validation design, model
@@ -27,7 +27,7 @@ The later candidate improved the private score by **0.00223** while changing the
 public score by -0.00027. This is useful external-transfer evidence, but it does not
 turn the previously observed local holdout into a new independent test.
 
-## DenseLight frontier
+## Retained neural component
 
 The preregistered DenseLight direction was executed on GPU and then extended to a
 three-seed bagged neural component. The final internal candidate used a robust
@@ -46,90 +46,18 @@ The later Kaggle result above shows that the large internal stability gain trans
 only modestly to the private leaderboard. The exact DenseLight architecture/weights
 and private checkpoints remain runtime artifacts rather than public competition code.
 
-## Enriched tree frontier
+## Public reproduction boundary
 
-A subsequent controlled tree study added a source-aware feature expansion and compared
-fresh LightGBM/CatBoost variants under the same temporal protocol.
+This page documents the later externally evaluated ensemble, not unpromoted
+follow-on experiments or a plan for new research. The original frozen release
+and this later ensemble remain separate artifacts with separate evidence.
 
-The unweighted expanded LightGBM improved over its same-family control on the
-selection folds by:
+The [public reproduction guide](../../docs/public_reproducibility.md) exposes the
+original feature, validation, inference and aggregate-review contracts. It does
+not restore the private fitted ensemble or require an AWS workspace. Exact private
+weights, feature identities and ensemble settings are not distributed.
 
-- **+0.009229 mean stability**;
-- **+0.001354 mean AUC**.
-
-A recency-weighted/stability-filtered variant reduced mean stability by **0.014187**
-relative to the unweighted expansion, so that weighting direction was closed.
-
-The selected blend passed folds 1-3 but failed the frozen folds 4-5 confirmation
-gate. All 14 planned fits completed and no model was promoted.
-
-## Categorical and sparse ceiling-escape study
-
-The next bounded study independently recreated several public-solution mechanisms,
-including a larger categorical representation, depth-two payment-history summaries,
-a competition risk-assessment field and an early-screened sparse-feature family.
-
-The direct payment/risk feature branch underperformed the prior expanded LightGBM:
-
-- **-0.031755 mean stability**;
-- **-0.002055 mean AUC**.
-
-The sparse recovery branch was the strongest new signal. Relative to that direct
-LightGBM it improved selection by:
-
-- **+0.037661 mean stability**;
-- **+0.001951 mean AUC**.
-
-Recovered categorical representation also materially improved CatBoost relative to
-the earlier CatBoost representation, but neither the selected blend nor the
-unweighted expanded-LightGBM rescue passed the locked confirmation gate.
-
-The selected sparse-enhanced blend reached **+0.011655 mean stability** with 3/3
-selection wins, then failed confirmation with **-0.000577 mean stability** and 1/2
-wins. It was correctly rejected. All 14 substantive fits completed.
-
-## Current frontier
-
-The next registered research direction is deliberately different from another
-near-duplicate tree sweep. It combines four missing capabilities in one shared
-experiment:
-
-1. temporally stable sparse-feature recovery;
-2. explicit max-minus-min range features inspired by strong public aggregation
-   strategies;
-3. a fresh XGBoost challenger on the sparse/range representation;
-4. recovered categorical features for CatBoost without the rejected direct-feature
-   branch.
-
-This frontier is **planned, not yet reported as executed** in this publication.
-
-## Reproducibility boundary
-
-The public repository preserves:
-
-- experiment decisions;
-- validation boundaries;
-- aggregate fold-level outcomes;
-- rejection/promotion decisions;
-- model-family and representation descriptions;
-- reproducibility contracts.
-
-Private AWS runtime artifacts preserve:
-
-- raw competition matrices;
-- exact recovered feature lists;
-- model checkpoints;
-- portable Kaggle runtime bundles;
-- active frontier implementation details.
-
-This split keeps the portfolio reviewable and scientifically auditable without
-publishing the full competition recipe.
-
-## Later continuation
-
-This file remains the historical snapshot published with PR #18. Later October work
-extended the research into clean sparse recovery, broad relational and temporal
-representations, distribution-shift diagnostics, reduced-sample XGBoost and learned
-heterogeneous stacking. Those results are recorded separately in the
-[October frontier continuation](october_2026_continuation.md), preserving this
-snapshot's original evidence boundary.
+The numerical results above are unchanged from the historical record; this edit
+removes the unrelated follow-on experiment catalogue and its obsolete continuation
+link. The earlier version remains in Git history. No new training or score is
+claimed by this publication.

@@ -39,3 +39,6 @@ repository-source.zip
 *.pyz
 *_return_*.zip
 /home-credit-*-publication/
+
+# Generated raster duplicates the maintained vector preview.
+/reports/feature_ablation/overview.png
