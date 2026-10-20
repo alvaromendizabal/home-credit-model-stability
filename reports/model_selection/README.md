@@ -10,8 +10,9 @@ interactive Plotly charts with static GitHub fallbacks. Download and open
 The mean official fold stability objective selects 90% tuned LightGBM and 10%
 original LightGBM: **0.6018988903**, compared with **0.6012378499** for the tuned
 single model. Four folds improve, but worst-fold stability falls from **0.4791999815**
-to **0.4725135463**. The gain of **0.0006610403** is small and has not been confirmed
-on the locked holdout. No claim of statistical significance or leaderboard standing
+to **0.4725135463**. The gain of **0.0006610403** is a small development comparison. The subsequent
+[frozen holdout evaluation](../../docs/model_release.md) assessed the selected
+release, not an independent replication of that blend-versus-single-model gain. No claim of statistical significance or leaderboard standing
 is made. Weights chosen using earlier folds alone select the tuned single model for
 folds 2-4 and the 90/10 blend for fold 5; base-model tuning is not nested.
 
@@ -57,8 +58,16 @@ holdout contamination or incomplete population support. Unexpected cell errors
 preserve the previous canonical notebook. CI checks this review under the locked
 environment and retains the executed outputs.
 
-Calibration fitting, final holdout evaluation, final model refit, train/test feature
-parity and competition inference remain separate, unfinished release work. No CSV
-submission is created here. The final submission must be generated, validated,
-saved and downloaded by the owner inside the final notebook, never automatically
-uploaded to Kaggle.
+## Completed downstream release
+
+The frozen holdout evaluation, all-label inference refit, feature-parity checks,
+and subsequent external delivery are complete and documented separately in the
+[release evaluation](../../docs/model_release.md) and
+[delivery evidence](../../docs/kaggle_submission.md). The selected release used no
+calibration map. This selection review itself performs no new fits and produces
+no competition submission.
+
+The original selection JSON and its HTML preserve the historical decision-time
+record. Their `outer_holdout_touched: false` and `kaggle_submitted: false` fields
+refer to this zero-fit selection stage, not the later delivery status. Public
+review execution requires neither a retired AWS workspace nor private borrower data.

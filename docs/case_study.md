@@ -8,8 +8,7 @@ survive a move into later application periods, and whether the resulting model c
 be exported with the same features, predictions and artifact lineage.
 
 I built and integrated relational data processing, feature selection, temporal
-validation, model comparison, calibration studies, AWS execution, recovery and
-offline inference.
+validation, model comparison, AWS execution, recovery and offline inference.
 The data contains **1,526,659 labeled applications across 17 relational source groups**.
 The historical release uses **700 selected features**. Later research is recorded
 separately so the original evaluation remains interpretable.
@@ -51,12 +50,6 @@ removing previous applications reduced it by **0.031440**; removing depth-two
 history reduced it by **0.015762**. These are matched predictive comparisons, not
 causal estimates about borrowers or the underlying data sources.
 
-More features did not consistently improve the objective. A later extension screened
-**4,617 additional hypotheses** and retained **256**. It improved pooled AUC but
-reduced mean stability by **0.025284**, so it did not replace the evaluated release.
-That finding shaped the research process: compare additions against saved controls,
-inspect period-level effects and retain unsuccessful experiments.
-
 ### Separate model improvement from evidence strength
 
 The accepted tuning study completed **40 new model-fold fits** while reusing five
@@ -66,11 +59,9 @@ came from the earliest fold; the complete fold table remains available.
 
 Subsequent selection reused saved predictions rather than fitting models again.
 The release froze its model choices and used no calibration before the historical
-evaluation. Post-release calibration research then tested whether mappings fitted on
-earlier development predictions transferred to later development periods. Neither
-tested mapping improved pooled Brier score or log loss. It did not change the release.
-Later representation and neural studies have their own selection and confirmation
-records, without changing the meaning of that release result.
+holdout evaluation. The [later externally evaluated ensemble](../reports/post_release_frontier/october_2026.md)
+is a separate recorded artifact; it does not change the features, labels or
+validation scope of the original frozen release.
 
 ### Make recovery and inference part of the deliverable
 
@@ -113,8 +104,8 @@ and default prevalence differ from the development folds, so the holdout value s
 not be treated as a directly comparable improvement over their mean.
 
 I delivered a model evaluation and inference system with an inspectable
-experimental record: source-level feature evidence, temporal comparisons, failed
-hypotheses, native model lineage and offline execution verification.
+experimental record: source-level feature evidence, temporal comparisons, native
+model lineage and offline execution verification.
 
 ## Preserve the meaning of a release
 
